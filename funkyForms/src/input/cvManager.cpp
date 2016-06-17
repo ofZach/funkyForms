@@ -10,7 +10,7 @@ void cvManager::setup(){
     contourFinder.setSortBySize(true);
     contourFinder.setInvert(true);
     contourFinder.getTracker().setPersistence(15);
-    contourFinder.getTracker().setMaximumDistance(32);
+    contourFinder.getTracker().setMaximumDistance(100);
     
 }
 
