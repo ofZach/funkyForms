@@ -215,14 +215,14 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
-				72797DB41D1D9CD9003BA265 /* limb.cpp */,
 				72797DB51D1D9CD9003BA265 /* limb.hpp */,
-				CDC6145596FB56F3C078D46D /* Skeleton.cpp */,
 				B7F1DEFA2D125C22DBE00708 /* Skeleton.hpp */,
-				72797DB71D1D9D44003BA265 /* Shape.cpp */,
 				72797DB81D1D9D44003BA265 /* Shape.hpp */,
-				72797DB11D1D9C8C003BA265 /* Character.cpp */,
 				72797DB21D1D9C8C003BA265 /* Character.hpp */,
+				72797DB41D1D9CD9003BA265 /* limb.cpp */,
+				CDC6145596FB56F3C078D46D /* Skeleton.cpp */,
+				72797DB71D1D9D44003BA265 /* Shape.cpp */,
+				72797DB11D1D9C8C003BA265 /* Character.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

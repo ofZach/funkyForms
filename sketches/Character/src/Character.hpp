@@ -18,9 +18,12 @@ public:
     Skeleton skeleton;
     TriangleShape trShape;
     EllipseShape elShape;
+    EllipseShape torso;
+    
     void setup(){
-        skeleton.addLimb(ofVec2f(-100, 0), 45, 4, 120,  &skeleton.torso);
-        skeleton.addLimb(ofVec2f(100, 0), -90, 4, 120, &skeleton.torso);
+        skeleton.addLimb(ofVec2f(-100, 0), 45, 2, 120,  &skeleton.torso);
+        skeleton.setPivot(0, 0, ofVec2f(100, 0));
+        skeleton.addLimb(ofVec2f(100, 0), -90, 2, 120, &skeleton.torso);
         skeleton.addLimb(ofVec2f(-70, 0), 0, 3, 150, &skeleton.root);
         skeleton.addLimb(ofVec2f(70, 0), 0, 3, 150, &skeleton.root);
         trShape.setup(50, skeleton.getLimb(0), 0);
@@ -34,6 +37,7 @@ public:
         skeleton.draw();
         trShape.draw();
         elShape.draw();
+//        torso.draw();
     }
 };
 #endif /* Character_hpp */

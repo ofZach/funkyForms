@@ -19,6 +19,10 @@ public:
     limb *limb;
     int jointId;
     float width;
+    float angle;
+    ofVec2f pos;
+    bool isNode = false;
+    ofNode pivot;
     
     void setup(int _width, class limb *_limb, int _jointId){
         width = _width;
@@ -28,10 +32,11 @@ public:
         rect.set(-width/2, 0, width, height);
     }
     void update(){
+        pos = limb->getPivotPos(jointId);
+        angle = limb->getAngle(jointId);
         float height = limb->getPos(jointId).distance(limb->getPos(jointId+1));
         rect.set(-width/2, 0, width, height);
     }
-    
 };
 class TriangleShape: public ShapeBase{
 public:
@@ -39,8 +44,8 @@ public:
     void draw(){
         path.clear();
         path.triangle(rect.getTopLeft(), rect.getTopRight(), ofPoint(rect.getTopLeft().x+width/2, rect.getBottom()));
-        path.rotate(limb->getAngle(jointId), ofVec3f(0, 0, 1));
-        path.translate(limb->getPos(jointId));
+        path.rotate(angle, ofVec3f(0, 0, 1));
+        path.translate(pos);
         path.setFillColor(ofColor::lightBlue);
         path.draw();
     }
@@ -50,8 +55,8 @@ public:
     ofPath path;
     void draw(){
         ofPushMatrix();
-        ofTranslate(limb->getPos(jointId));
-        ofRotate(limb->getAngle(jointId));
+        ofTranslate(pos);
+        ofRotate(angle);
         ofSetColor(ofColor::yellow);
         ofDrawEllipse(rect.getCenter(), rect.getWidth(), rect.getHeight());
         ofPopMatrix();

@@ -22,10 +22,15 @@ class Skeleton{
 public:
     ofNode root;
     ofNode torso;
+    ofNode torsoCenterNode;
+    ofVec2f torsoCenter;
     
     vector<limb> limbs;
     vector<head> heads;
     vector<ofNode *> parentNodes;
+    
+    float torsoHeight = 200;
+    float torsoAngle;
     
     void addLimb(ofVec2f pos, float angle, int count, int length, ofNode *parentNode){
         limb l;
@@ -38,17 +43,19 @@ public:
         parentNodes.push_back(parentNode);
         limbs.push_back(l);
     }
+    ofVec2f getTorsoCenter(){
+        return torsoCenter;
+    }
+    void setPivot(int limbId, int jointId, ofVec2f _pos){
+        if(limbId < limbs.size())
+            limbs[limbId].setPivot(jointId, _pos);
+    }
+    float getTorsoAngle(){
+        return torsoAngle;
+    }
     limb *getLimb(int id){
         if(id<limbs.size()){
             return &limbs[id];
-        }else{
-            ofLog() << "limbId out of bounds!";
-            return;
-        }
-    }
-    ofNode *getLimbNode(int limbId, int nodeId ){
-        if(limbId<limbs.size()){
-            return limbs[limbId].getNodeAt(nodeId);
         }else{
             ofLog() << "limbId out of bounds!";
             return;
@@ -63,11 +70,15 @@ public:
     void draw(){
         ofNode torsoRoot;
         torsoRoot.setParent(root);
-        float a = ofMap(ofGetMouseX(), 0, ofGetWidth(), -90, 90);
-        torsoRoot.setOrientation(ofVec3f(0, 0, a));
+        torsoCenterNode.setParent(root);
+        torsoAngle = ofMap(ofGetMouseX(), 0, ofGetWidth(), -90, 90);
+        torsoRoot.setOrientation(ofVec3f(0, 0, torsoAngle));
 
         torso.setParent(torsoRoot);
-        torso.setPosition(0, -200, 0);
+        torso.setPosition(0, -torsoHeight, 0);
+        torsoCenterNode.setPosition(0, -torsoHeight/2, 0);
+
+        torsoCenter = torso.getGlobalPosition();
         
         ofNode left;
         ofNode right;
@@ -76,7 +87,6 @@ public:
         right.setPosition(100, 0, 0);
         left.setParent(torso);
         right.setParent(torso);
-        
         
         ofVec2f rootPos(ofGetMouseX(), 500);
         root.setPosition(rootPos);

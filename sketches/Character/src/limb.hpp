@@ -16,6 +16,8 @@ private:
 public:
     vector<ofNode> nodes;
     vector<ofVec2f> nodePos;
+    vector<ofNode> pivots;
+    vector<ofVec2f> pivotPos;
     vector<float> nodeAngle;
     ofVec2f pos;
     float angle;
@@ -26,18 +28,35 @@ public:
         for (int i = 0; i < count; i++) {
             ofNode node;
             nodes.push_back(node);
+            ofNode n;
+            node.setPosition(0, 0, 0);
+            pivots.push_back(n);
+            
             nodePos.push_back(ofVec2f(0, 0));
+            pivotPos.push_back(ofVec2f(0, 0));
             nodeAngle.push_back(0);
         }
         setPos(0, pos);
     }
     void update(){
         for (int i = 0; i < nodes.size(); i++) {
-            if(i>0)
+            if(i>0){
                 nodes[i].setParent(nodes[i-1]);
-            float angle = quatToEuler(nodes[i].getGlobalOrientation()).z;
+                pivots[i].setParent(nodes[i-1]);
+            }else{
+                pivots[i].setParent(nodes[i]);
+            }
+            float angle = quatToEuler(pivots[i].getGlobalOrientation()).z;
             nodeAngle[i] = ofRadToDeg( angle);
             nodePos[i] = nodes[i].getGlobalPosition();
+            pivotPos[i] = pivots[i].getGlobalPosition();
+        }
+    }
+    void setPivot(int id, ofVec2f _pos){
+        if(id<nodes.size()){
+            pivots[id].setPosition(_pos);
+        }else{
+            ofLog() << "out of bounds!";
         }
     }
     ofVec3f quatToEuler(const ofQuaternion & rotation) {
@@ -114,6 +133,15 @@ public:
             return ofVec2f(0, 0);
         }
     }
+    ofVec2f getPivotPos(int id){
+        if(id<nodes.size()){
+            connect();
+            return pivotPos[id];
+        }else{
+            ofLog() << "out of bounds!";
+            return ofVec2f(0, 0);
+        }
+    }
     float getAngle(int id){
         if(id<nodes.size()){
             connect();
@@ -126,10 +154,10 @@ public:
     int getChainCount(){
         return nodes.size();
     }
-    ofNode *getNodeAt(int id){
+    ofNode getNodeAt(int id){
         if(id<nodes.size()){
             connect();
-            return &nodes[id];
+            return nodes[id];
         }else{
             ofLog() << "out of bounds!";
             return;
