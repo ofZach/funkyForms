@@ -2,17 +2,26 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetFrameRate(60);
+    ofBackground(0);
     character.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    float smooth = 0.9;
+    ofVec2f m(mouseX, mouseY);
+    velocity = smooth*velocity + (smooth-1)*m.distance(pMouse);
+    ofLog() << velocity;
+    
     character.update();
+    
+    pMouse.set(mouseX, mouseY);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    character.draw();
+    character.draw(velocity);
 }
 
 //--------------------------------------------------------------

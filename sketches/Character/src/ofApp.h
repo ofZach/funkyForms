@@ -23,4 +23,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
     Character character;
+    float velocity = 0;
+    
+    ofVec2f pMouse;
 };

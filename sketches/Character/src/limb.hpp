@@ -19,17 +19,17 @@ public:
     vector<ofNode> pivots;
     vector<ofVec2f> pivotPos;
     vector<float> nodeAngle;
+    float limbAngle;
     ofVec2f pos;
-    float angle;
     
     void setup(int count, ofVec2f _pos, float _angle){
-        angle = _angle;
+        limbAngle = _angle;
         pos = _pos;
         for (int i = 0; i < count; i++) {
             ofNode node;
             nodes.push_back(node);
             ofNode n;
-            node.setPosition(0, 0, 0);
+            n.setPosition(0, 0, 0);
             pivots.push_back(n);
             
             nodePos.push_back(ofVec2f(0, 0));
@@ -42,7 +42,7 @@ public:
         for (int i = 0; i < nodes.size(); i++) {
             if(i>0){
                 nodes[i].setParent(nodes[i-1]);
-                pivots[i].setParent(nodes[i-1]);
+                pivots[i].setParent(nodes[i]);
             }else{
                 pivots[i].setParent(nodes[i]);
             }
@@ -97,7 +97,7 @@ public:
         }
     }
     void setChainAngle(float _angle){
-        _angle += angle;
+        _angle += limbAngle;
         for (int i = 0; i < nodes.size(); i++) {
             _angle *= 0.5;
             
@@ -111,17 +111,13 @@ public:
             ofLog() << "out of bounds!";
         }
     }
+    float getLimbAngle(int id){
+        return limbAngle;
+    }
     void connect(){
         for (int i = 0; i < nodes.size(); i++) {
             if(i>0)
                 nodes[i].setParent(nodes[i-1]);
-        }
-    }
-    void getLengthAt(int id){
-        if(id<nodes.size()){
-            nodes[id].setOrientation(ofVec3f(0, 0, angle));
-        }else{
-            ofLog() << "out of bounds!";
         }
     }
     ofVec2f getPos(int id){
@@ -154,10 +150,10 @@ public:
     int getChainCount(){
         return nodes.size();
     }
-    ofNode getNodeAt(int id){
+    ofNode *getNodeAt(int id){
         if(id<nodes.size()){
             connect();
-            return nodes[id];
+            return &nodes[id];
         }else{
             ofLog() << "out of bounds!";
             return;

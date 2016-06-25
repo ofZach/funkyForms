@@ -11,9 +11,6 @@
 		28DCB9949680410908EFD4D5 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AED12DBC5DC04739E95CD26 /* tinyxmlerror.cpp */; };
 		40755491CDDD7249B25A1F2D /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA80450995764F8FABAB1604 /* ofxXmlSettings.cpp */; };
 		413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B37C8367EB4811EEF8E78D /* ofxSliderGroup.cpp */; };
-		72797DB31D1D9C8C003BA265 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72797DB11D1D9C8C003BA265 /* Character.cpp */; };
-		72797DB61D1D9CD9003BA265 /* limb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72797DB41D1D9CD9003BA265 /* limb.cpp */; };
-		72797DB91D1D9D44003BA265 /* Shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72797DB71D1D9D44003BA265 /* Shape.cpp */; };
 		81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73799D65360CD587DCAE90A0 /* ofxLabel.cpp */; };
 		8AAF2BA4AFCBEC334841B989 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FB861B0D843DF212503B18 /* tinyxmlparser.cpp */; };
 		A2953313263AE1234930247E /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA7CD14AC4CC1AF68D59D19 /* ofxSlider.cpp */; };
@@ -25,7 +22,6 @@
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
-		EB6B1320B12B7AAC05F2C775 /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDC6145596FB56F3C078D46D /* Skeleton.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,11 +61,8 @@
 		4EBE44F173B46F539D0F4741 /* ofxPanel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxPanel.h; path = ../../../../addons/ofxGui/src/ofxPanel.h; sourceTree = SOURCE_ROOT; };
 		607FCA3A979EBCF02F0B00FC /* ofxGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGui.h; path = ../../../../addons/ofxGui/src/ofxGui.h; sourceTree = SOURCE_ROOT; };
 		6A7153E0F5EFF5622F1EB21F /* ofxXmlSettings.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxXmlSettings.h; path = ../../../../addons/ofxXmlSettings/src/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
-		72797DB11D1D9C8C003BA265 /* Character.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		72797DB21D1D9C8C003BA265 /* Character.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Character.hpp; sourceTree = "<group>"; };
-		72797DB41D1D9CD9003BA265 /* limb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = limb.cpp; sourceTree = "<group>"; };
 		72797DB51D1D9CD9003BA265 /* limb.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = limb.hpp; sourceTree = "<group>"; };
-		72797DB71D1D9D44003BA265 /* Shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shape.cpp; sourceTree = "<group>"; };
 		72797DB81D1D9D44003BA265 /* Shape.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shape.hpp; sourceTree = "<group>"; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		78F524ADA8DDC5DF3F460FA5 /* ofxToggle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxToggle.h; path = ../../../../addons/ofxGui/src/ofxToggle.h; sourceTree = SOURCE_ROOT; };
@@ -84,7 +77,6 @@
 		BA80450995764F8FABAB1604 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxXmlSettings.cpp; path = ../../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
 		BD6A6ADD1A79B85E833FBDF1 /* ofxGuiGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxGuiGroup.cpp; path = ../../../../addons/ofxGui/src/ofxGuiGroup.cpp; sourceTree = SOURCE_ROOT; };
 		CC050FCE6035B4BAFB0D11B1 /* ofxSliderGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSliderGroup.h; path = ../../../../addons/ofxGui/src/ofxSliderGroup.h; sourceTree = SOURCE_ROOT; };
-		CDC6145596FB56F3C078D46D /* Skeleton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Skeleton.cpp; path = src/Skeleton.cpp; sourceTree = SOURCE_ROOT; };
 		D41FA502010DB4C51A4C1390 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSlider.h; path = ../../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
 		E118568A6BABFFADB75DB858 /* ofxToggle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxToggle.cpp; path = ../../../../addons/ofxGui/src/ofxToggle.cpp; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -219,10 +211,6 @@
 				B7F1DEFA2D125C22DBE00708 /* Skeleton.hpp */,
 				72797DB81D1D9D44003BA265 /* Shape.hpp */,
 				72797DB21D1D9C8C003BA265 /* Character.hpp */,
-				72797DB41D1D9CD9003BA265 /* limb.cpp */,
-				CDC6145596FB56F3C078D46D /* Skeleton.cpp */,
-				72797DB71D1D9D44003BA265 /* Shape.cpp */,
-				72797DB11D1D9C8C003BA265 /* Character.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -325,7 +313,6 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				EB6B1320B12B7AAC05F2C775 /* Skeleton.cpp in Sources */,
 				106B9A6182DF98E835C09B47 /* ofxBaseGui.cpp in Sources */,
 				A61B54CA66E926867C59D2C6 /* ofxButton.cpp in Sources */,
 				CFFFBA144E8160ECC1C97982 /* ofxGuiGroup.cpp in Sources */,
@@ -333,14 +320,11 @@
 				CE6F136678038366969711AB /* ofxPanel.cpp in Sources */,
 				A2953313263AE1234930247E /* ofxSlider.cpp in Sources */,
 				413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */,
-				72797DB61D1D9CD9003BA265 /* limb.cpp in Sources */,
 				B07D6C52C2FE371D2B91739E /* ofxToggle.cpp in Sources */,
-				72797DB31D1D9C8C003BA265 /* Character.cpp in Sources */,
 				40755491CDDD7249B25A1F2D /* ofxXmlSettings.cpp in Sources */,
 				B8A4986AE3CFD44755D311C7 /* tinyxml.cpp in Sources */,
 				28DCB9949680410908EFD4D5 /* tinyxmlerror.cpp in Sources */,
 				8AAF2BA4AFCBEC334841B989 /* tinyxmlparser.cpp in Sources */,
-				72797DB91D1D9D44003BA265 /* Shape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
