@@ -22,15 +22,13 @@ class Skeleton{
 public:
     ofNode root;
     
-    vector<limb> limbs;
-    vector<head> heads;
-    vector<string> names;
-    vector<ofNode *> parentNodes;
+    std::map <string, limb> limbs;
+    std::map <string, ofNode *> parentNodes;
     
     float torsoHeight = 200;
     float torsoAngle;
-    
-    void addLimb(ofVec2f pos, float angle, int count, int length, ofNode *parentNode){
+
+    void addLimb(ofVec2f pos, float angle, int count, int length, string name,  ofNode *parent){
         limb l;
         l.setup(count, pos, angle);
         for (int i = 0; i < count; i++) {
@@ -43,23 +41,15 @@ public:
             }
         }
         l.update();
-        parentNodes.push_back(parentNode);
-        limbs.push_back(l);
+        limbs[name] = l;
+        parentNodes[name] = parent;
+        parentNodes["torso"] = &root;
     }
-    void setPivot(int limbId, int jointId, ofVec2f _pos){
-        if(limbId < limbs.size())
-            limbs[limbId].setPivot(jointId, _pos);
+    limb *getLimb(string name){
+        return &limbs[name];
     }
-    limb *getLimb(int id){
-        if(id<limbs.size()){
-            return &limbs[id];
-        }else{
-            ofLog() << "limbId out of bounds!";
-            return;
-        }
-    }
-    void addHead(ofVec2f pos, float angle){
-        
+    void setPivot(string name, int jointId, ofVec2f _pos){
+        limbs[name].setPivot(jointId, _pos);
     }
     void setup(){
 
@@ -67,27 +57,29 @@ public:
     void draw(float velocity){
         ofVec2f rootPos(ofGetMouseX(), ofGetMouseY());
         root.setPosition(rootPos);
+        ofSetColor(ofColor::white);
 
-        ofSetColor(ofColor::fireBrick);
-        ofDrawCircle(rootPos, 10);
-        
         // body parts
-        for (int i = 0; i < limbs.size(); i++) {
-            limbs[i].update();
-            limbs[i].getRootNode()->setParent(*parentNodes[i]);
-            
+        for (auto &pair: limbs) {
+            limb *limb = &pair.second;
+            limb->update();
+            limb->getRootNode()->setParent(*parentNodes[pair.first]);
+        
             // body part joints
-            for (int j = 0; j < limbs[i].getChainCount(); j++) {
+            for (int j = 0; j < limb->getChainCount(); j++) {
                 float speed = 3;
-                float rotation = cos(ofGetFrameNum()/speed+j*100)*velocity ;
+                float smooth = 0.9;
+                float rotation = cos(ofGetFrameNum()/5.)*velocity ;
                 if(j==0)
-                    rotation += limbs[i].getLimbAngle(j);
-                limbs[i].setAngle(j, rotation);
+                    rotation += limb->getLimbAngle(j);
+               
+                limb->setAngle(j,rotation);
+                
                 ofSetColor(ofColor::white);
-                ofDrawCircle(limbs[i].getPos(j), 10);
+                ofDrawCircle(limb->getPos(j), 10);
                 ofSetColor(ofColor::white);
                 if(j>0)
-                    ofDrawLine(limbs[i].getPos(j-1), limbs[i].getPos(j));
+                    ofDrawLine(limb->getPos(j-1), limb->getPos(j));
             }
         }
     }

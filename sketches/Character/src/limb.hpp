@@ -19,6 +19,7 @@ public:
     vector<ofNode> pivots;
     vector<ofVec2f> pivotPos;
     vector<float> nodeAngle;
+    string name;
     float limbAngle;
     ofVec2f pos;
     

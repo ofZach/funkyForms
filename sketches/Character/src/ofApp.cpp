@@ -11,8 +11,11 @@ void ofApp::setup(){
 void ofApp::update(){
     float smooth = 0.9;
     ofVec2f m(mouseX, mouseY);
-    velocity = smooth*velocity + (smooth-1)*m.distance(pMouse);
-    ofLog() << velocity;
+    ofVec2f zero(0, 1);
+    ofVec2f norm = m - pMouse;
+    
+    velocity = smooth*velocity + (smooth-1)*norm.x;
+    ofLog() << "norm: " << norm;
     
     character.update();
     
@@ -21,7 +24,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    character.draw(velocity);
+    character.draw(-velocity);
 }
 
 //--------------------------------------------------------------
