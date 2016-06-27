@@ -78,9 +78,7 @@ public:
         ofTranslate(pos);
         ofRotate(angle);
         ofSetColor(color);
-        for (int i = 0; i < 10; i++) {
-            ofDrawRectangle(rect.getTopLeft().x, rect.getTopLeft().y+i*10, rect.getWidth(), rect.getHeight()/10-10);
-        }
+        ofDrawRectangle(rect.getTopLeft(), rect.getWidth(), rect.getHeight()*2);
         ofPopMatrix();
     }
 };

@@ -19,6 +19,9 @@ public:
     vector<ofNode> pivots;
     vector<ofVec2f> pivotPos;
     vector<float> nodeAngle;
+    vector<float> initAngle;
+    vector<float> angleRange;
+    vector<float> randomNumbers;
     string name;
     float limbAngle;
     ofVec2f pos;
@@ -36,8 +39,36 @@ public:
             nodePos.push_back(ofVec2f(0, 0));
             pivotPos.push_back(ofVec2f(0, 0));
             nodeAngle.push_back(0);
+            initAngle.push_back(0);
+            angleRange.push_back(20);
+            randomNumbers.push_back(ofRandom(-1, 1));
         }
         setPos(0, pos);
+    }
+    float getRandomNum(int id){
+        return randomNumbers[id];
+    }
+    float getAngleRange(int id){
+        return angleRange[id];
+    }
+    void setAngleRange(int id, float range){
+        angleRange[id] = range;
+    }
+    void setInitAngle(int id, float _angle){
+        initAngle[id] = _angle;
+    }
+    void initAngles(){
+        for (int i = 0; i < nodes.size(); i++) {
+            initAngle[i] = nodeAngle[i];
+        }
+    }
+    float getInitAngle(int id){
+        if(id<nodes.size()){
+            return initAngle[id];
+        }else{
+            ofLog() << "out of bounds!";
+            return NULL;
+        }
     }
     void update(){
         for (int i = 0; i < nodes.size(); i++) {
@@ -47,8 +78,8 @@ public:
             }else{
                 pivots[i].setParent(nodes[i]);
             }
-            float angle = quatToEuler(pivots[i].getGlobalOrientation()).z;
-            nodeAngle[i] = ofRadToDeg( angle);
+            nodes[i].setOrientation(ofVec3f(0, 0, nodeAngle[i]+initAngle[i]));
+//            float angle = quatToEuler(nodes[i].getOrientationQuat()).z;
             nodePos[i] = nodes[i].getGlobalPosition();
             pivotPos[i] = pivots[i].getGlobalPosition();
         }
@@ -107,7 +138,7 @@ public:
     }
     void setAngle(int id, float angle){
         if(id<nodes.size()){
-            nodes[id].setOrientation(ofVec3f(0, 0, angle));
+            nodeAngle[id] = angle;
         }else{
             ofLog() << "out of bounds!";
         }
@@ -141,7 +172,6 @@ public:
     }
     float getAngle(int id){
         if(id<nodes.size()){
-            connect();
             return nodeAngle[id];
         }else{
             ofLog() << "out of bounds!";

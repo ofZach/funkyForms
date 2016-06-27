@@ -24,7 +24,6 @@ public:
     
     std::map <string, limb> limbs;
     std::map <string, ofNode *> parentNodes;
-    
     float torsoHeight = 200;
     float torsoAngle;
 
@@ -40,10 +39,13 @@ public:
                 l.setPos(i, ofVec3f(0, length, 0));
             }
         }
+        l.setInitAngle(0, angle);
         l.update();
         limbs[name] = l;
         parentNodes[name] = parent;
         parentNodes["torso"] = &root;
+    }
+    void initAngles(){
     }
     limb *getLimb(string name){
         return &limbs[name];
@@ -69,11 +71,20 @@ public:
             for (int j = 0; j < limb->getChainCount(); j++) {
                 float speed = 3;
                 float smooth = 0.9;
-                float rotation = cos(ofGetFrameNum()/5.)*velocity ;
-                if(j==0)
-                    rotation += limb->getLimbAngle(j);
-               
-                limb->setAngle(j,rotation);
+                float rotation = velocity*cos(j*4.0)*limb->getRandomNum(j);
+                float min = limb->getInitAngle(j) - limb->getAngleRange(j)*(j+1);
+                float max = limb->getInitAngle(j) + limb->getAngleRange(j)*(j+1);
+
+//                float angle = limb->getAngle(j) + velocity;
+//                limb->getNodeAt(j)->rotate(velocity, ofVec3f(0, 0, 1));
+//                limb->getNodeAt(j)->rotate(velocity, ofVec3f(0, 0, 1));
+                limb->setAngle(j, limb->getAngle(j)+rotation);
+                if(limb->getAngle(j) < min){
+                    limb->setAngle(j, min);
+                }
+                if(limb->getAngle(j) > max){
+                    limb->setAngle(j, max);
+                }
                 
                 ofSetColor(ofColor::white);
                 ofDrawCircle(limb->getPos(j), 10);

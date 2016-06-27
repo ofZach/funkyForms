@@ -15,7 +15,6 @@ void ofApp::update(){
     ofVec2f norm = m - pMouse;
     
     velocity = smooth*velocity + (smooth-1)*norm.x;
-    ofLog() << "norm: " << norm;
     
     character.update();
     
