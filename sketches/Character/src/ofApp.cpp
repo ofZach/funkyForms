@@ -11,10 +11,9 @@ void ofApp::setup(){
 void ofApp::update(){
     float smooth = 0.9;
     ofVec2f m(mouseX, mouseY);
-    ofVec2f zero(0, 1);
-    ofVec2f norm = m - pMouse;
+    ofVec2f dir = m - pMouse;
     
-    velocity = smooth*velocity + (smooth-1)*norm.x;
+    velocity = smooth*velocity + (smooth-1)*dir.x;
     
     character.update();
     
