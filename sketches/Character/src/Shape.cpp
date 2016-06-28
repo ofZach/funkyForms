@@ -7,3 +7,20 @@
 //
 
 #include "Shape.hpp"
+ShapeBase* ShapeFactory(enum shapeType type)
+{
+    switch(type)
+    {
+        case shape_triangle:
+            return new TriangleShape();
+            break;
+        case shape_ellipse:
+            return new EllipseShape();
+            break;
+        case shape_rectangle:
+            return new RectShape();
+            break;
+        default:
+            break;
+    }
+}

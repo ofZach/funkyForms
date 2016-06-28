@@ -12,8 +12,10 @@
 #include "ofMain.h"
 #include "limb.hpp"
 
+
 class ShapeBase {
 public:
+    virtual ~ShapeBase(){}
     ofRectangle rect;
     
     limb *limb;
@@ -25,7 +27,7 @@ public:
     ofNode pivot;
     ofColor color;
     int extraHeight;
-    
+    virtual void draw() = 0;
     void setup( int _width, int _extraHeight, class limb *_limb, int _jointId){
         extraHeight = _extraHeight;
         color = ofColor::lightGreen;
@@ -45,6 +47,16 @@ public:
         color = col;
     }
 };
+
+enum shapeType {
+    shape_triangle,
+    shape_ellipse,
+    shape_rectangle,
+    shape_last,
+};
+
+ShapeBase* ShapeFactory(enum shapeType type);
+
 class TriangleShape: public ShapeBase{
 public:
     ofPath path;
@@ -131,4 +143,6 @@ public:
         ofPopMatrix();
     }
 };
+
+
 #endif /* Shape_hpp */

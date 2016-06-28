@@ -27,7 +27,11 @@ public:
     
     float torsoHeight = 200;
     float torsoAngle;
-
+    vector<limb> _limbs;
+    
+    map <string, limb> *getLimbs(){
+        return &limbs;
+    }
     void addLimb(ofVec2f pos, float angle, int count, int length, string name,  ofNode *parent){
         limb l;
         l.setup(count, pos, angle);
