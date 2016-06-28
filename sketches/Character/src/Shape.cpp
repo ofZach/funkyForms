@@ -20,6 +20,9 @@ ShapeBase* ShapeFactory(enum shapeType type)
         case shape_rectangle:
             return new RectShape();
             break;
+        case shape_claw:
+            return new ClawShape();
+            break;
         default:
             break;
     }

@@ -17,7 +17,7 @@ class ShapeBase {
 public:
     virtual ~ShapeBase(){}
     ofRectangle rect;
-    
+
     limb *limb;
     int jointId;
     float width;
@@ -52,6 +52,7 @@ enum shapeType {
     shape_triangle,
     shape_ellipse,
     shape_rectangle,
+    shape_claw,
     shape_last,
 };
 
@@ -89,25 +90,18 @@ public:
         ofTranslate(pos);
         ofRotate(angle);
         ofSetColor(color);
-        ofDrawRectangle(rect.getTopLeft(), rect.getWidth(), rect.getHeight());
+        
+        //ofDrawRectangle(rect.getTopLeft(), rect.getWidth(), rect.getHeight());
+
+        
+        
+//        ofPath temp;
+//        temp.moveTo(rect.getTopLeft());
+//        
         ofPopMatrix();
     }
 };
-class HeadEyeShape: public ShapeBase{
-public:
-    ofPath path;
-    void draw(){
-        ofPushMatrix();
-        ofTranslate(pos);
-        ofRotate(angle);
-        ofSetColor(color);
-        ofDrawRectangle(rect.getTopLeft(), rect.getWidth(), rect.getHeight());
-        ofSetColor(0);
-        ofDrawCircle(rect.getCenter()-ofVec2f(rect.getWidth()/4, 0), rect.getWidth()/8);
-        ofDrawCircle(rect.getCenter()+ofVec2f(rect.getWidth()/4, 0), rect.getWidth()/8);
-        ofPopMatrix();
-    }
-};
+
 class ClawShape: public ShapeBase{
 public:
     ofPath path;
