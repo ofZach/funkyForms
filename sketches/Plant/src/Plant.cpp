@@ -8,27 +8,68 @@
 
 #include "Plant.hpp"
 void Plant::setup(){
-    for (int i = 0; i < 10; i++) {
-        SvgPlant svgplant;
-        svgplant.setup("shape.svg", 74.769, 42.134);
-        svgplants.push_back(svgplant);
-    }
+
+    randomize();
 }
 void Plant::update(){
-    for(auto svgplant: svgplants){
-        svgplant.update();
-    }
+
 }
 void Plant::draw(){
     int i = 0;
-    ofPushMatrix();
-    ofTranslate(100, 500);
-    for (int i = 0; i < svgplants.size(); i++) {
+    for (int i = 0; i < mainBranch.size(); i++) {
+        branchSettings s;
+        s.pos.set(500, 500);
+        s.leftRect.set(100/(i+1), 30/(i+1)+ofNoise(ofGetElapsedTimef()+i*500)*30);
+        s.topRect.set(30/(i+1), 100/(i+1));
+        s.radius = 30+ofNoise(ofGetElapsedTimef()+i*100)*30;
+        s.isLeft = true;
+        
         if(i>0){
-            svgplants[i].draw(0, 200*i);
-        }else{
-            svgplants[i].draw(0, 0);
+            branchSettings b;
+            b.leftRect.set(100/(i+1), 30/(i+1));
+            b.topRect.set(30/(i+1)+ofNoise(ofGetElapsedTimef()+i*20)*30, 100/(i+1));
+            b.radius = +ofNoise(ofGetElapsedTimef()+i*100)*30;
+            
+            ofRectangle *r = &mainBranch[i-1].rect5;
+            
+            if (mainBranch[i].isLeft) {
+                s.pos = r->getTopLeft();
+                branches[i-1].isLeft = false;
+                b.pos = r->getTopRight() + ofVec2f(0, r->getHeight()/(i+1));
+            }else{
+                s.pos = r->getTopRight();
+                branches[i-1].isLeft  = true;
+                b.pos = r->getTopLeft() + ofVec2f(0, r->getHeight()/(i+1));
+            }
+            branches[i-1].update(b.pos, b.leftRect, b.topRect, b.radius);
+            branches[i-1].draw();
         }
+
+        mainBranch[i].update(s.pos, s.leftRect, s.topRect, s.radius);
+        mainBranch[i].draw();
+        ofSetColor(ofColor::red);
+        ofDrawCircle(500, 500, 10);
     }
-    ofPopMatrix();
+}
+void Plant::randomize(){
+    mainBranch.clear();
+    branches.clear();
+    mainBranchCount = (int)ofRandom(3, 6);
+    for (int i = 0; i < mainBranchCount; i++) {
+        SvgPlant svgplant;
+        svgplant.color = ofColor::lightGreen;
+        svgplant.isLeft = (int)ofRandom(2);
+        mainBranch.push_back(svgplant);
+    }
+    for (int i = 0; i < mainBranchCount-1; i++) {
+        SvgPlant svgplant;
+        svgplant.isCap = true;
+        svgplant.color = ofColor::lightGreen;
+        branches.push_back(svgplant);
+    }
+    for (int i = 0; i < mainBranch.size(); i++) {
+    }
+    for (int i = 0; i < branches.size(); i++) {
+        branches[i].isLeft = (int)ofRandom(2);
+    }
 }
