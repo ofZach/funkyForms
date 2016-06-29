@@ -45,16 +45,6 @@ public:
     map <string, vector<jointSettings>> limbSettings;
 
     void setup(){
-        jointSettings a;
-        vector<jointSettings> b;
-        b.push_back(a);
-        limbSettings["test"] = b;
-        
-        if ( limbSettings.find("test") == limbSettings.end() ) {
-            // not found
-        } else {
-            // found
-        }
         skeleton.addLimb(ofVec2f(0, 0), 180, 2, 80, torsoName, &skeleton.root); // torso 0
         ofNode *torso = skeleton.getLimb(torsoName)->getNodeAt(1);
         skeleton.getLimb(torsoName)->setPivot(0, ofVec2f(0, -10));
@@ -75,7 +65,7 @@ public:
         shapes.clear();
         limbSettings.clear();
         for (auto &pair: *skeleton.getLimbs()) {
-            limb *limb = &pair.second;
+            limb *limb = pair.second;
             string name = pair.first;
             string partName = name.substr(0, name.find("_", 0)); // get full name: `eye_l` to `eye`
             
@@ -166,7 +156,6 @@ public:
         }
     }
     void draw(float velocity){
-        ofLog() << "______";
         for(auto &pair: shapes){
             pair.second->draw();
         }

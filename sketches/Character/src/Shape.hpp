@@ -27,7 +27,9 @@ public:
     ofNode pivot;
     ofColor color;
     int extraHeight;
+    
     virtual void draw() = 0;
+    
     void setup( int _width, int _extraHeight, class limb *_limb, int _jointId){
         extraHeight = _extraHeight;
         color = ofColor::lightGreen;
@@ -91,7 +93,7 @@ public:
         ofRotate(angle);
         ofSetColor(color);
         
-        //ofDrawRectangle(rect.getTopLeft(), rect.getWidth(), rect.getHeight());
+        ofDrawRectangle(rect.getTopLeft(), rect.getWidth(), rect.getHeight());
 
         
         

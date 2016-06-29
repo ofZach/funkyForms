@@ -22,38 +22,37 @@ class Skeleton{
 public:
     ofNode root;
     
-    std::map <string, limb> limbs;
+    std::map <string, limb *> limbs;
     std::map <string, ofNode *> parentNodes;
     
     float torsoHeight = 200;
     float torsoAngle;
     vector<limb> _limbs;
     
-    map <string, limb> *getLimbs(){
+    map <string, limb *> *getLimbs(){
         return &limbs;
     }
     void addLimb(ofVec2f pos, float angle, int count, int length, string name,  ofNode *parent){
-        limb l;
-        l.setup(count, pos, angle);
+        limbs[name] = new limb();
+        limb *l = limbs[name];
+        l->setup(count, pos, angle);
         for (int i = 0; i < count; i++) {
             float _length = length - i*5.5;
             if(i == 0){
-                l.setPos(0, pos);
-                l.setAngle(0, angle);
+                l->setPos(0, pos);
+                l->setAngle(0, angle);
             }else{
-                l.setPos(i, ofVec3f(0, length, 0));
+                l->setPos(i, ofVec3f(0, length, 0));
             }
         }
-        l.update();
-        limbs[name] = l;
+        l->update();
         parentNodes[name] = parent;
-        parentNodes["torso"] = &root;
     }
     limb *getLimb(string name){
-        return &limbs[name];
+        return limbs[name];
     }
     void setPivot(string name, int jointId, ofVec2f _pos){
-        limbs[name].setPivot(jointId, _pos);
+        limbs[name]->setPivot(jointId, _pos);
     }
     void setup(){
 
@@ -65,7 +64,7 @@ public:
 
         // body parts
         for (auto &pair: limbs) {
-            limb *limb = &pair.second;
+            limb *limb = pair.second;
             limb->update();
             limb->getRootNode()->setParent(*parentNodes[pair.first]);
         
