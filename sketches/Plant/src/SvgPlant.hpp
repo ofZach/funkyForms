@@ -25,6 +25,7 @@ public:
     float w, h;
     bool isLeft;
     bool isCap = false;
+    bool isTopRound = false;
     ofColor color;
     
     ofRectangle rect1;
@@ -32,6 +33,7 @@ public:
     ofRectangle rect3;
     ofRectangle rect4;
     ofRectangle rect5;
+    ofRectangle rect6;
     
     void setup(string file, int l_size, int r_size);
     void update(ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius);
