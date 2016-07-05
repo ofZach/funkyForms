@@ -23,4 +23,5 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     Plant plant;
     
+    ofVec2f velocity;
 };

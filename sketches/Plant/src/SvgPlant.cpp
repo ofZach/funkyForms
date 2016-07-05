@@ -7,23 +7,8 @@
 //
 
 #include "SvgPlant.hpp"
-void SvgPlant::setup(string file, int l_size, int r_size){
-    leftRectH = l_size;
-    topRectW = r_size;
-    svg.load(file);
-    w = svg.getWidth();
-    h = svg.getHeight();
-    for (int i = 0; i < svg.getNumPath(); i++){
-        ofPath p = svg.getPathAt(i);
-        // svg defaults to non zero winding which doesn't look so good as contours
-        p.setPolyWindingMode(OF_POLY_WINDING_ODD);
-        vector<ofPolyline>& lines = const_cast<vector<ofPolyline>&>(p.getOutline());
-        for(int j=0; j<(int)lines.size();j++){
-            ofLog() << lines.size() ;
-            outlines.push_back(lines[j].getResampledBySpacing(1));
-        }
-    }
-    tess.tessellateToMesh(outlines, OF_POLY_WINDING_ODD, mesh);
+void SvgPlant::setup(){
+    ofAddListener(*onTrigger, this, &SvgPlant::impulse);
 }
 void SvgPlant::drawDebug(){
     ofSetColor(color);
@@ -36,6 +21,43 @@ void SvgPlant::drawDebug(){
     ofDrawRectangle(rect4);
     ofSetColor(ofColor::lightYellow);
     ofDrawRectangle(rect5);
+}
+void SvgPlant::drawCenterLine(){
+    ofPoint p1, p2, p3, p4, p5, p6, p7;
+    centerLine.clear();
+    if(isLeft){
+        p1.set(rect6.getCenter().x, rect6.getBottom());
+        p2.set(rect6.getCenter());
+        p3.set(rect1.getRight(), rect1.getCenter().y);
+        p4.set(rect2.getRight(), rect2.getCenter().y);
+        p5.set(rect3.getCenter());
+        p6.set(rect4.getCenter().x, rect4.getTop());
+        p7.set(rect5.getCenter().x, rect5.getTop());
+    }else{
+        p1.set(rect6.getCenter().x, rect6.getBottom());
+        p2.set(rect6.getCenter());
+        p3.set(rect1.getLeft(), rect1.getCenter().y);
+        p4.set(rect2.getLeft(), rect2.getCenter().y);
+        p5.set(rect3.getCenter());
+        p6.set(rect4.getCenter().x, rect4.getTop());
+        p7.set(rect5.getCenter().x, rect5.getTop());
+    }
+    centerLine.lineTo(p1);
+    centerLine.bezierTo(p1, p2, p3);
+    centerLine.lineTo(p3);
+    centerLine.lineTo(p4);
+    centerLine.bezierTo(p4, p5, p6);
+    centerLine.lineTo(p7);
+    ofSetColor(ofColor::white);
+    centerLine.draw();
+    float r = 3;
+//    ofDrawCircle(p1, r);
+//    ofDrawCircle(p2, r);
+//    ofDrawCircle(p3, r);
+//    ofDrawCircle(p4, r);
+//    ofDrawCircle(p5, r);
+//    ofDrawCircle(p6, r);
+//    ofDrawCircle(p7, r);
 }
 void SvgPlant::draw(){
 
@@ -79,8 +101,26 @@ void SvgPlant::draw(){
     if(isCap && !isTopRound){
         ofDrawCircle(rect5.getCenter().x, rect5.getTop(), rect5.getWidth()/2);
     }
+    if(isImpulse){
+        ofSetColor(ofColor::white);
+        ofDrawCircle(centerLine.getPointAtPercent(impulsePercent), rect2.getHeight());
+    }
+
+}
+void SvgPlant::impulse( bool &b){
+    isImpulse = true;
+    ofLog() << "notify";
+    
 }
 void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
+    if(isImpulse){
+        impulsePercent +=0.05;
+    }
+    if(impulsePercent > 1){
+        impulsePercent = 0;
+        isImpulse = false;
+        ofNotifyEvent(onImpulseFinished, isImpulse);
+    }
     float topRectWidth = topRectSize.x;
     float topRectHeight = topRectSize.y;
     float leftRectWidth = leftRectSize.x;

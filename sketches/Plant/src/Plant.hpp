@@ -17,6 +17,9 @@ public:
     vector<SvgPlant> mainBranch;
     vector<SvgPlant> branches;
     float mainBranchCount = 4;
+    ofVec2f velocity;
+    ofVec2f pos;
+    float size = 1;
     struct branchSettings{
         ofVec2f pos;
         ofVec2f leftRect;
@@ -24,9 +27,11 @@ public:
         float radius;
         bool isLeft;
     };
+    void smooth(ofVec2f *val, ofVec2f newVal);
+    branchSettings mainBSettings(int counter);
     void setup();
-    void update();
-    void draw();
+    void update(ofVec2f _velocity);
+    void draw(int x, int y);
     void randomize();
 };
 

@@ -35,9 +35,19 @@ public:
     ofRectangle rect5;
     ofRectangle rect6;
     
-    void setup(string file, int l_size, int r_size);
+    ofEvent<bool> onImpulseFinished;
+    ofEvent<bool> *onTrigger;
+    
+    ofPolyline centerLine;
+    float impulsePercent = 0;
+    bool isImpulse = false;
+    bool isImpulseFinished = false;
+    
+    void setup();
     void update(ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius);
     void drawDebug();
+    void drawCenterLine();
+    void impulse(bool &b);
     void draw();
 };
 

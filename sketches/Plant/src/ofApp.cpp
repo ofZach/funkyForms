@@ -9,12 +9,18 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    plant.update();
+    ofVec2f mouse;
+    mouse.set(mouseX, mouseY);
+    static ofVec2f pMouse;
+    velocity = mouse-pMouse;
+    pMouse = mouse;
+    plant.update(velocity);
+//    ofLog() << velocity;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    plant.draw();
+    plant.draw(mouseX, mouseY);
 }
 
 //--------------------------------------------------------------
