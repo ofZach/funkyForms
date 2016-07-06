@@ -51,6 +51,21 @@ public:
     void drawCenterLine();
     void impulse(bool &b);
     void draw();
+    
+    struct RangeColor{
+        ofColor color;
+        float start;
+        float end;
+    };
+//    vector<RangeColor> colors;
+    ofColor colors[4] = {
+        ofColor::pink,
+        ofColor::lightGreen,
+        ofColor::magenta,
+        ofColor::yellow
+    };
+    ofColor currColor;
+    ofColor prevColor;
 };
 
 #endif /* SvgPlant_hpp */

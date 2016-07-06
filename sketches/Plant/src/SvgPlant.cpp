@@ -26,16 +26,8 @@ void SvgPlant::drawCenterLine(){
     ofSetColor(ofColor::white);
     centerLine.draw();
     float r = 3;
-//    ofDrawCircle(p1, r);
-//    ofDrawCircle(p2, r);
-//    ofDrawCircle(p3, r);
-//    ofDrawCircle(p4, r);
-//    ofDrawCircle(p5, r);
-//    ofDrawCircle(p6, r);
-//    ofDrawCircle(p7, r);
 }
 void SvgPlant::draw(){
-
     ofPath path;
     ofPath path2;
     path.setColor(color);
@@ -135,25 +127,27 @@ void SvgPlant::draw(){
     ofMesh mesh;
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     for (float i = 0; i < 1; i+=0.02) {
-        ofFloatColor col = ofColor::darkSeaGreen;
-        float range = 0.06;
+        ofFloatColor col = prevColor;
+//        float range = 0.06;
         if(isImpulse){
-            if(i < impulsePercent+range && i > impulsePercent-range){
-                col = ofColor::white;
+            if(i < impulsePercent){
+                col = currColor;
             }
         }
 //        col.setBrightness(i);
 //        col.setHueAngle(i*180);
         mesh.addVertex(stroke1.getPointAtPercent(i));
-        mesh.addColor(col);
+        mesh.addColor(currColor);
         mesh.addVertex(stroke2.getPointAtPercent(i));
-        mesh.addColor(col);
+        mesh.addColor(currColor);
     }
     mesh.draw();
 
 }
 void SvgPlant::impulse( bool &b){
-    isImpulse = true;    
+    isImpulse = true;
+    prevColor = currColor;
+    currColor = colors[(int)ofRandom(4)];
 }
 void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
     
