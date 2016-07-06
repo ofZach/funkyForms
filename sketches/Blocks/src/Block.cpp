@@ -7,7 +7,7 @@
 //
 
 #include "Block.hpp"
-void Block::setup(ofVec2f _pos){
+void Block::setup(ofVec2f _pos, int _w, int _h){
     pos = _pos;
     for (int i = 0; i < 4; i++) {
         ofPolyline line;
@@ -19,21 +19,34 @@ void Block::setup(ofVec2f _pos){
         faces.push_back(p);
     }
     rectBackColor = colors[(int)ofRandom(10)];
-    rectFrontColor = colors[(int)ofRandom(10)];
+    rectFrontColor = ofColor::lightYellow;
+    rectFrontW = _w;
+    rectFrontH = _h;
 }
 void Block::update(int x, int y){
     // calculate size
     ofVec2f pointer(x, y);
     float smooth = 0.9;
     float dist = pointer.distance(pos);
-    if ( dist < 300 ) {
+    if ( dist < maxDist ) {
         rectDistance = smooth*rectDistance + (1-smooth)*dist;
     }else{
-        rectDistance = smooth*rectDistance + (1-smooth)*300;
+        rectDistance = smooth*rectDistance + (1-smooth)*maxDist;
     }
     
+    // set front block brightness
+    float brightness = ofMap(rectDistance, 0, maxDist, 0, 255);
+    ofClamp(brightness, 0, 255);
+    rectFrontColor.setBrightness(brightness);
+
     // setup rectangles
-    rectFront.setPosition((pos-rectDistance));
+    ofVec2f rectPos;
+    if(isLeft){
+        rectPos = pos-rectDistance;
+    }else{
+        rectPos = (pos+ofVec2f(rectDistance, -rectDistance));
+    }
+    rectFront.setPosition(rectPos);
     rectBack.setPosition(pos);
     
     rectFront.setWidth(rectFrontW);
@@ -84,6 +97,9 @@ void Block::update(int x, int y){
             face.mesh.addVertex(point);
             if(i<2){
                 col.setBrightness(255.0/(distance/5.0));
+//                col.a = 0;
+            }else{
+                col.setBrightness(brightness);
             }
             face.mesh.addColor(col);
             i++;
@@ -92,11 +108,11 @@ void Block::update(int x, int y){
     
     // calculate distance
     distance = rectFront.getCenter().distance(rectBack.getCenter());
-    ofLog() << distance;
 }
 void Block::draw(){
     ofVec2f curDir = rectFront.getCenter() - rectBack.getCenter();
     int i = 0;
+    ofSetColor(ofColor::white);
     for(auto &face: faces){
         ofSetColor(colors[i]);
         float dot = curDir.dot(face.dir);
@@ -105,9 +121,6 @@ void Block::draw(){
         }
         i++;
     }
-    ofSetColor(colors[4]);
+    ofSetColor(rectFrontColor);
     ofDrawRectangle(rectFront);
-    ofSetColor(colors[5]);
-    ofDrawCircle(curDir, 20);
-//    ofDrawRectangle(rectBack);
 }

@@ -2,7 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    block.setup(ofVec2f(500, 500));
+    int step = 200;
+    for (int y = 0; y < ofGetHeight()+step; y+= step) {
+        for (int x = 0; x < ofGetWidth()+step; x+=step) {
+            
+            Block block;
+            
+            y % 3 == 0 ? block.isLeft = true : block.isLeft = false;
+            block.maxDist = ofRandom(300, 300);
+            block.setup(ofVec2f(x, y), ofRandom(10, 200), ofRandom(10, 200));
+            blocks.push_back(block);
+        }
+    }
     ofBackground(0);
     ofSetFrameRate(60);
 }
@@ -12,12 +23,16 @@ void ofApp::update(){
 //    ofVec2f down(0, -1);
 //    ofVec2f m(mouseX, mouseY);
 //    ofLog() << m.dot(down);
-    block.update(mouseX, mouseY);
+    for(auto &block: blocks){
+        block.update(mouseX, mouseY);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    block.draw();
+    for(auto &block: blocks){
+        block.draw();
+    }
 }
 
 //--------------------------------------------------------------

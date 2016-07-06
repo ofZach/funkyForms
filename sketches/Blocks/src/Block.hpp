@@ -20,14 +20,16 @@ public:
         ofPolyline line;
         ofMesh mesh;
     };
-
+    bool isLeft = false;
     vector<Face> faces;
     
     float rectFrontW  = 100;
     float rectFrontH = 200;
     float rectBackW = 50;
     float rectBackH = 20;
+    float maxDist = 300;
     ofVec2f pos;
+    
     ofColor rectFrontColor, rectBackColor;
     ofColor colors[10] = {
         ofColor::lightCoral,
@@ -43,7 +45,7 @@ public:
     };
     float distance;
     float rectDistance;
-    void setup(ofVec2f _pos);
+    void setup(ofVec2f _pos, int _w, int _h);
     void update(int x, int y);
     void draw();
     ofVec2f getPos(){return pos;}
