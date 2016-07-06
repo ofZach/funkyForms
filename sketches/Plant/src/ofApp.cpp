@@ -25,7 +25,11 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    plant.randomize();
+    if(key == ' ')  plant.randomize();
+    if(key == '1')  plant.impulse(0);
+    if(key == '2')  plant.impulse(1);
+    if(key == '3')  plant.impulse(2);
+    if(key == '4')  plant.impulse(3);
 }
 
 //--------------------------------------------------------------

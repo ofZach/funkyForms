@@ -8,7 +8,6 @@
 
 #include "Plant.hpp"
 void Plant::setup(){
-
     randomize();
 }
 void Plant::update(ofVec2f _velocity){
@@ -40,22 +39,27 @@ Plant::branchSettings Plant::mainBSettings(int i){
     s.isLeft = true;
     return s;
 }
+void Plant::impulse(int colNum){
+    ofNotifyEvent(onImpulse, colors[colNum]);
+}
 void Plant::draw(int x, int y){
     int i = 0;
     int limit = 3;
-    if (velocity.x < -limit || velocity.x > limit ) {
-        bool b = true;
-        ofNotifyEvent(onImpulse, b);
-    }
+//    if (velocity.x < -limit || velocity.x > limit ) {
+//        if(timer>10){
+//            timer = 0;
+//            impulse();
+//        }
+//    }
+    timer++;
     for (int i = 0; i < mainBranch.size(); i++) {
         branchSettings s = mainBSettings(i);
         s.pos.set(x, y);
 
         if(i>0){
-            
             branchSettings b;
             b.radius = (30+ofNoise(ofGetElapsedTimef()+i*100)*30)*size;
-            
+
             float top_wMin = 60/(i+1) ;
             float top_wVel = velocity.x*(20.0/(i+1)) +ofNoise(ofGetElapsedTimef()+i*20)*30;
             float top_w = top_wMin + max( top_wVel*1.0, top_wMin/5.0); //
@@ -81,8 +85,11 @@ void Plant::draw(int x, int y){
                 branches[i-1].isLeft  = true;
                 b.pos = r5->getCenter(); //+ ofVec2f(0, r5->getHeight()/(i+1));
             }
+            
             branches[i-1].update(b.pos, b.leftRect, b.topRect, b.radius);
             branches[i-1].draw();
+//            branches[i-1].currColor = mainBranch[i-1].currColor;
+//            mainBranch[i].currColor = mainBranch[i-1].currColor;
 //            branches[i-1].drawDebug();
 //            branches[i-1].drawCenterLine();
         }
@@ -108,10 +115,8 @@ void Plant::randomize(){
         svgplant.isTopRound = (int)ofRandom(2);
         mainBranch.push_back(svgplant);
         if (i>0) {
-//            mainBranch[i].onTrigger = &;
             mainBranch[i].setup(&mainBranch[i-1].onImpulseFinished);
         }else{
-//            mainBranch[i].onTrigger = &onImpulse;
             mainBranch[i].setup(&onImpulse);
         }
     }
@@ -120,7 +125,6 @@ void Plant::randomize(){
         svgplant.isCap = (int)ofRandom(2);
         svgplant.color = ofColor::lightGreen;
         branches.push_back(svgplant);
-//        branches[i].onTrigger = &;
         branches[i].setup(&mainBranch[i].onImpulseFinished);
     }
     for (int i = 0; i < mainBranch.size(); i++) {

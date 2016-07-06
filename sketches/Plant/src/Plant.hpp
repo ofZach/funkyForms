@@ -20,7 +20,7 @@ public:
     ofVec2f velocity;
     ofVec2f pos;
     float size = 1;
-    ofEvent<bool> onImpulse;
+    ofEvent<ofColor> onImpulse;
     struct branchSettings{
         ofVec2f pos;
         ofVec2f leftRect;
@@ -34,6 +34,15 @@ public:
     void update(ofVec2f _velocity);
     void draw(int x, int y);
     void randomize();
+    void impulse(int colNum);
+    int timer = 0;
+    ofColor colors[4] = {
+        ofColor::violet,
+        ofColor::black,
+        ofColor::lightGreen,
+        ofColor::yellow
+    };
+    
 };
 
 #endif /* Plant_hpp */

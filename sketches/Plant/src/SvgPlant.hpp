@@ -37,19 +37,19 @@ public:
     ofRectangle rect5;
     ofRectangle rect6;
     
-    ofEvent<bool> onImpulseFinished;
-    ofEvent<bool> *onTrigger;
+    ofEvent<ofColor> onImpulseFinished;
+    ofEvent<ofColor> *onTrigger;
     
     ofPolyline centerLine;
     float impulsePercent = 0;
     bool isImpulse = false;
     bool isImpulseFinished = false;
     
-    void setup(ofEvent<bool> *event);
+    void setup(ofEvent<ofColor> *event);
     void update(ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius);
     void drawDebug();
     void drawCenterLine();
-    void impulse(bool &b);
+    void impulse(ofColor &color);
     void draw();
     
     struct RangeColor{
@@ -58,12 +58,7 @@ public:
         float end;
     };
 //    vector<RangeColor> colors;
-    ofColor colors[4] = {
-        ofColor::pink,
-        ofColor::lightGreen,
-        ofColor::magenta,
-        ofColor::yellow
-    };
+
     ofColor currColor;
     ofColor prevColor;
 };

@@ -7,7 +7,7 @@
 //
 
 #include "SvgPlant.hpp"
-void SvgPlant::setup(ofEvent<bool> *event){
+void SvgPlant::setup(ofEvent<ofColor> *event){
     ofAddListener(*event, this, &SvgPlant::impulse);
 }
 void SvgPlant::drawDebug(){
@@ -137,17 +137,16 @@ void SvgPlant::draw(){
 //        col.setBrightness(i);
 //        col.setHueAngle(i*180);
         mesh.addVertex(stroke1.getPointAtPercent(i));
-        mesh.addColor(currColor);
+        mesh.addColor(col);
         mesh.addVertex(stroke2.getPointAtPercent(i));
-        mesh.addColor(currColor);
+        mesh.addColor(col);
     }
     mesh.draw();
 
 }
-void SvgPlant::impulse( bool &b){
+void SvgPlant::impulse( ofColor &color){
     isImpulse = true;
-    prevColor = currColor;
-    currColor = colors[(int)ofRandom(4)];
+    currColor = color;
 }
 void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
     
@@ -180,12 +179,13 @@ void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, f
 
     //--------------- impulse
     if(isImpulse){
-        impulsePercent +=0.05;
+        impulsePercent +=0.02;
     }
     if(impulsePercent > 1){
+        prevColor = currColor;
         impulsePercent = 0;
         isImpulse = false;
-        ofNotifyEvent(onImpulseFinished, isImpulse);
+        ofNotifyEvent(onImpulseFinished, currColor);
     }
     
     //--------------- rectangle update
