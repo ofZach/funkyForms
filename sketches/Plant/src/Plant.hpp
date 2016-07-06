@@ -20,6 +20,7 @@ public:
     ofVec2f velocity;
     ofVec2f pos;
     float size = 1;
+    ofEvent<bool> onImpulse;
     struct branchSettings{
         ofVec2f pos;
         ofVec2f leftRect;

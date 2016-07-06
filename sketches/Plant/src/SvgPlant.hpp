@@ -13,6 +13,7 @@
 #include "ofxSvg.h"
 class SvgPlant{
 public:
+    ofPoint points[14];
     ofxSVG svg;
     ofTessellator tess;
     vector<ofPolyline> outlines;
@@ -27,6 +28,7 @@ public:
     bool isCap = false;
     bool isTopRound = false;
     ofColor color;
+    ofPolyline stroke1, stroke2;
     
     ofRectangle rect1;
     ofRectangle rect2;
@@ -43,7 +45,7 @@ public:
     bool isImpulse = false;
     bool isImpulseFinished = false;
     
-    void setup();
+    void setup(ofEvent<bool> *event);
     void update(ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius);
     void drawDebug();
     void drawCenterLine();

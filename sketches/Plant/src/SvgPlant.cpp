@@ -7,8 +7,8 @@
 //
 
 #include "SvgPlant.hpp"
-void SvgPlant::setup(){
-    ofAddListener(*onTrigger, this, &SvgPlant::impulse);
+void SvgPlant::setup(ofEvent<bool> *event){
+    ofAddListener(*event, this, &SvgPlant::impulse);
 }
 void SvgPlant::drawDebug(){
     ofSetColor(color);
@@ -23,6 +23,141 @@ void SvgPlant::drawDebug(){
     ofDrawRectangle(rect5);
 }
 void SvgPlant::drawCenterLine(){
+    ofSetColor(ofColor::white);
+    centerLine.draw();
+    float r = 3;
+//    ofDrawCircle(p1, r);
+//    ofDrawCircle(p2, r);
+//    ofDrawCircle(p3, r);
+//    ofDrawCircle(p4, r);
+//    ofDrawCircle(p5, r);
+//    ofDrawCircle(p6, r);
+//    ofDrawCircle(p7, r);
+}
+void SvgPlant::draw(){
+
+    ofPath path;
+    ofPath path2;
+    path.setColor(color);
+    path2.setColor(color);
+    
+    if(isLeft){
+        points[0] = rect6.getBottomRight();
+        points[1] = rect6.getTopRight();
+        points[2] = rect1.getTopRight();
+        points[3] = rect2.getTopRight();
+        points[4] = rect3.getTopRight();
+        points[5] = rect4.getTopRight();
+        points[6] = rect5.getTopRight();
+        points[7] = rect5.getTopLeft();
+        points[8] = rect4.getTopLeft();
+        points[9] = rect3.getTopLeft();
+        points[10] = rect3.getBottomLeft();
+        points[11] = rect2.getBottomLeft();
+        points[12] = rect1.getBottomLeft();
+        points[13] = rect6.getBottomLeft();
+    }else{
+        points[0] = rect6.getBottomLeft();
+        points[1] = rect6.getTopLeft();
+        points[2] = rect1.getTopLeft();
+        points[3] = rect2.getTopLeft();
+        points[4] = rect3.getTopLeft();
+        points[5] = rect4.getTopLeft();
+        points[6] = rect5.getTopLeft();
+        points[7] = rect5.getTopRight();
+        points[8] = rect4.getTopRight();
+        points[9] = rect3.getTopRight();
+        points[10] = rect3.getBottomRight();
+        points[11] = rect2.getBottomRight();
+        points[12] = rect1.getBottomRight();
+        points[13] = rect6.getBottomRight();
+    }
+    stroke1.clear();
+    stroke2.clear();
+    
+    if(isTopRound){
+        stroke1.lineTo(points[0]);
+        stroke1.bezierTo(points[0], points[1], points[2]);
+    }else{
+        stroke1.lineTo(points[0]);
+        stroke1.lineTo(points[1]);
+    }
+    
+    stroke1.lineTo(points[2]);
+    stroke1.lineTo(points[3]);
+    stroke1.bezierTo(points[3], points[4], points[5]);
+    stroke1.lineTo(points[5]);
+    stroke1.lineTo(points[6]);
+    
+    stroke2.lineTo(points[0]);
+    stroke2.lineTo(points[13]);
+    stroke2.lineTo(points[12]);
+    stroke2.bezierTo(points[12], points[10], points[8]);
+    stroke2.lineTo(points[8]);
+    stroke2.lineTo(points[7]);
+
+    float y = rect5.getTop()-rect5.getWidth()/2;
+
+    if(isCap && !isTopRound){
+        ofPoint p1, p2, p3;
+        if (isLeft) {
+            p1.set(rect5.getTopRight());
+            p2.set(rect5.getTopRight().x, y);
+            p3.set(rect5.getCenter().x, y);
+        }else{
+            p1.set(rect5.getTopLeft());
+            p2.set(rect5.getTopLeft().x, y);
+            p3.set(rect5.getCenter().x, y);
+        }
+        stroke1.bezierTo(p1, p2, p3);
+    }else{
+        stroke1.lineTo(rect5.getCenter().x, rect5.getTop());
+    }
+    if(isCap && !isTopRound){
+        ofPoint p1, p2, p3;
+        if (isLeft) {
+            p1.set(rect5.getTopLeft());
+            p2.set(rect5.getTopLeft().x, y);
+            p3.set(rect5.getCenter().x, y);
+        }else{
+            p1.set(rect5.getTopRight());
+            p2.set(rect5.getTopRight().x, y);
+            p3.set(rect5.getCenter().x, y);
+        }
+        stroke2.bezierTo(p1, p2, p3);
+    }else{
+        stroke2.lineTo(rect5.getCenter().x, rect5.getTop());
+    }
+    
+//    stroke1.draw();
+//    stroke2.draw();
+    
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    for (float i = 0; i < 1; i+=0.02) {
+        ofFloatColor col = ofColor::darkSeaGreen;
+        float range = 0.06;
+        if(isImpulse){
+            if(i < impulsePercent+range && i > impulsePercent-range){
+                col = ofColor::white;
+            }
+        }
+//        col.setBrightness(i);
+//        col.setHueAngle(i*180);
+        mesh.addVertex(stroke1.getPointAtPercent(i));
+        mesh.addColor(col);
+        mesh.addVertex(stroke2.getPointAtPercent(i));
+        mesh.addColor(col);
+    }
+    mesh.draw();
+
+}
+void SvgPlant::impulse( bool &b){
+    isImpulse = true;    
+}
+void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
+    
+    //--------------- centerline
     ofPoint p1, p2, p3, p4, p5, p6, p7;
     centerLine.clear();
     if(isLeft){
@@ -48,71 +183,8 @@ void SvgPlant::drawCenterLine(){
     centerLine.lineTo(p4);
     centerLine.bezierTo(p4, p5, p6);
     centerLine.lineTo(p7);
-    ofSetColor(ofColor::white);
-    centerLine.draw();
-    float r = 3;
-//    ofDrawCircle(p1, r);
-//    ofDrawCircle(p2, r);
-//    ofDrawCircle(p3, r);
-//    ofDrawCircle(p4, r);
-//    ofDrawCircle(p5, r);
-//    ofDrawCircle(p6, r);
-//    ofDrawCircle(p7, r);
-}
-void SvgPlant::draw(){
 
-    ofPath path;
-    ofPath path2;
-    path.setColor(color);
-    path2.setColor(color);
-    
-    if(isLeft){
-        path.lineTo(rect2.getBottomRight());
-        path.bezierTo(rect2.getBottomRight(), rect3.getBottomLeft() , rect4.getTopLeft() );
-        path.lineTo(rect4.getTopRight());
-        path.bezierTo(rect4.getTopRight(), rect4.getBottomRight(), rect2.getTopRight());
-        if (isTopRound) {
-            path2.lineTo(rect6.getTopLeft());
-            path2.bezierTo(rect6.getTopLeft(), rect6.getTopRight(), rect6.getBottomRight());
-            path2.lineTo(rect6.getBottomLeft());
-        }else{
-            path2.rectangle(rect6);
-        }
-    }else{
-        path.lineTo(rect2.getBottomLeft());
-        path.bezierTo(rect2.getBottomLeft(), rect3.getBottomRight() , rect4.getTopRight() );
-        path.lineTo(rect4.getTopLeft());
-        path.bezierTo(rect4.getTopLeft(), rect4.getBottomLeft(), rect2.getTopLeft());
-        if (isTopRound) {
-            path2.lineTo(rect6.getTopRight());
-            path2.bezierTo(rect6.getTopRight(), rect6.getTopLeft(), rect6.getBottomLeft());
-            path2.lineTo(rect6.getBottomRight());
-        }else{
-            path2.rectangle(rect6);
-        }
-    }
-    
-    path.draw();
-    path2.draw();
-    ofSetColor(color);
-    ofDrawRectangle(rect1);
-    ofDrawRectangle(rect5);
-    
-    if(isCap && !isTopRound){
-        ofDrawCircle(rect5.getCenter().x, rect5.getTop(), rect5.getWidth()/2);
-    }
-    if(isImpulse){
-        ofSetColor(ofColor::white);
-        ofDrawCircle(centerLine.getPointAtPercent(impulsePercent), rect2.getHeight());
-    }
-
-}
-void SvgPlant::impulse( bool &b){
-    isImpulse = true;
-    ofLog() << "notify";
-    
-}
-void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
+    //--------------- impulse
     if(isImpulse){
         impulsePercent +=0.05;
     }
@@ -121,6 +193,8 @@ void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, f
         isImpulse = false;
         ofNotifyEvent(onImpulseFinished, isImpulse);
     }
+    
+    //--------------- rectangle update
     float topRectWidth = topRectSize.x;
     float topRectHeight = topRectSize.y;
     float leftRectWidth = leftRectSize.x;

@@ -22,12 +22,19 @@ void Plant::smooth(ofVec2f *vec , ofVec2f newVec){
 }
 Plant::branchSettings Plant::mainBSettings(int i){
     branchSettings s;
+    float left_wMin = 100/(i+1);
+    float left_wVel = velocity.x*(20.0/(i+1));
+    float left_w = left_wMin + min( left_wVel*1.0, left_wMin*1.0 );
+    float left_h = 30/(i+1)*size;
+    float top_w = 30/(i+1)*size;
+    float top_h = 100/(i+1)-velocity.y*20;
     if (mainBranch[i].isLeft) {
-        s.leftRect.set(100/(i+1)+min(velocity.x*(20.0/(i+1)), (100.0+1)/(i+1)), 30/(i+1)*size);
-        s.topRect.set(30/(i+1)*size, 100/(i+1)-velocity.y*20);
+        s.leftRect.set(left_w, left_h);
+        s.topRect.set(top_w, top_h);
     }else{
-        s.leftRect.set(100/(i+1)-min(velocity.x*(20.0/(i+1)), (100.0+1)/(i+1)), 30/(i+1)*size);
-        s.topRect.set(30/(i+1)*size, 100/(i+1)-velocity.y*20);
+        left_w = left_wMin - min( left_wVel*1.0, left_wMin*1.0 );
+        s.leftRect.set(left_w, left_h);
+        s.topRect.set(top_w, top_h);
     }
     s.radius = (30+ofNoise(ofGetElapsedTimef()+i*100)*30)*size;
     s.isLeft = true;
@@ -35,52 +42,56 @@ Plant::branchSettings Plant::mainBSettings(int i){
 }
 void Plant::draw(int x, int y){
     int i = 0;
-    if(mainBranch.size()>0){
-        int limit = 3;
-        if (velocity.x < -limit || velocity.x>limit ) {
-//            ofLog() << "impulse";
-            bool b = true;
-            mainBranch[0].impulse(b);
-        }
+    int limit = 3;
+    if (velocity.x < -limit || velocity.x > limit ) {
+        bool b = true;
+        ofNotifyEvent(onImpulse, b);
     }
     for (int i = 0; i < mainBranch.size(); i++) {
         branchSettings s = mainBSettings(i);
         s.pos.set(x, y);
 
         if(i>0){
-            if(mainBranch[i-1].impulsePercent>1){
-//                mainBranch[i].impulse();
-            }
+            
             branchSettings b;
             b.radius = (30+ofNoise(ofGetElapsedTimef()+i*100)*30)*size;
+            
+            float top_wMin = 60/(i+1) ;
+            float top_wVel = velocity.x*(20.0/(i+1)) +ofNoise(ofGetElapsedTimef()+i*20)*30;
+            float top_w = top_wMin + max( top_wVel*1.0, top_wMin/5.0); //
+            float top_h = 100/(i+1)*size;
+            float left_w = 100/(i+1);
+            float left_h = 30/(i+1)*size;
             
             ofRectangle *r5 = &mainBranch[i-1].rect5;
             ofRectangle *r6 = &mainBranch[i-1].rect6;
             
             if (mainBranch[i].isLeft) {
-                b.leftRect.set(100/(i+1), 30/(i+1)*size);
-                b.topRect.set(30/(i+1)+ofNoise(ofGetElapsedTimef()+i*20)*30-min(velocity.x*(20.0/(i+1)), (100.0+1)/(i+1)), 100/(i+1)*size);
+                b.leftRect.set(left_w, left_h);
+                b.topRect.set(top_w, top_h);
                 s.pos = r5->getTopRight();
                 branches[i-1].isLeft = false;
-                b.pos = r5->getTopRight() + ofVec2f(0, r5->getHeight()/(i+1));
+                b.pos = r5->getCenter() ; //+ ofVec2f(0, r5->getHeight()/(i+1));
             }else{
-                b.leftRect.set(100/(i+1), 30/(i+1)*size);
-                b.topRect.set(30/(i+1)+ofNoise(ofGetElapsedTimef()+i*20)*30+min(velocity.x*(20.0/(i+1)), (100.0+1)/(i+1)), 100/(i+1)*size);
+                float top_w = top_wMin - min( top_wVel*1.0, top_wMin/5.0); //+ofNoise(ofGetElapsedTimef()+i*20)*30
+
+                b.leftRect.set(left_w, left_h);
+                b.topRect.set(top_w, top_h);
                 s.pos = r5->getTopLeft();
                 branches[i-1].isLeft  = true;
-                b.pos = r5->getTopLeft() + ofVec2f(0, r5->getHeight()/(i+1));
+                b.pos = r5->getCenter(); //+ ofVec2f(0, r5->getHeight()/(i+1));
             }
             branches[i-1].update(b.pos, b.leftRect, b.topRect, b.radius);
             branches[i-1].draw();
 //            branches[i-1].drawDebug();
-            branches[i-1].drawCenterLine();
+//            branches[i-1].drawCenterLine();
         }
 
         mainBranch[i].update(s.pos, s.leftRect, s.topRect, s.radius);
         
         mainBranch[i].draw();
 //        mainBranch[i].drawDebug();
-        mainBranch[i].drawCenterLine();
+//        mainBranch[i].drawCenterLine();
         ofSetColor(ofColor::red);
     }
 }
@@ -88,6 +99,7 @@ void Plant::randomize(){
     mainBranch.clear();
     branches.clear();
     mainBranchCount = (int)ofRandom(3, 6);
+    
     for (int i = 0; i < mainBranchCount; i++) {
         SvgPlant svgplant;
         svgplant.color = ofColor::lightGreen;
@@ -96,8 +108,11 @@ void Plant::randomize(){
         svgplant.isTopRound = (int)ofRandom(2);
         mainBranch.push_back(svgplant);
         if (i>0) {
-            mainBranch[i].onTrigger = &mainBranch[i-1].onImpulseFinished;
-            mainBranch[i].setup();
+//            mainBranch[i].onTrigger = &;
+            mainBranch[i].setup(&mainBranch[i-1].onImpulseFinished);
+        }else{
+//            mainBranch[i].onTrigger = &onImpulse;
+            mainBranch[i].setup(&onImpulse);
         }
     }
     for (int i = 0; i < mainBranchCount-1; i++) {
@@ -105,8 +120,8 @@ void Plant::randomize(){
         svgplant.isCap = (int)ofRandom(2);
         svgplant.color = ofColor::lightGreen;
         branches.push_back(svgplant);
-        branches[i].onTrigger = &mainBranch[i].onImpulseFinished;
-        branches[i].setup();
+//        branches[i].onTrigger = &;
+        branches[i].setup(&mainBranch[i].onImpulseFinished);
     }
     for (int i = 0; i < mainBranch.size(); i++) {
         
