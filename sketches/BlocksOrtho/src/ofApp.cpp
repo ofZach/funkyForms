@@ -2,35 +2,64 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int step = 200;
-    for (int y = 0; y < ofGetHeight()+step; y+= step) {
-        for (int x = 0; x < ofGetWidth()+step; x+=step) {
+    cam.enableOrtho();
+    light.setDiffuseColor(ofColor::green);
+    light.setSpecularColor(ofColor::white);
+    ofBackground(0);
+//    light.setup();
+//    int hMax = 10;
+//    int wMax = 20;
+    int row = 20;
+    int column = 20;
+    int stepX = ofGetWidth()/row;
+    int stepY = ofGetHeight()/column;
+    
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            int x = i*stepX;
+            int y = j*stepY;
             Block block;
-            y % 3 == 0 ? block.isLeft = true : block.isLeft = false;
-            block.maxDist = ofRandom(300, 300);
-            block.setup(ofVec2f(x, y), ofRandom(10, 200), ofRandom(10, 200));
+            float size = 100;
+            block.maxDist = ofRandom(20,100);
+            block.maxRadius = 300;
+//            block.lightRadius = ofRandom(100, 600);
+            block.setup(ofVec2f(x, y), ofRandom(0.3, 0.8) * stepX, ofRandom(0.3, 0.8) * stepY);
+            
+            if(j%(int)ofRandom(1, 5) == 0){
+                block.direction = Block::RIGHT;
+            }
+            if(j%(int)ofRandom(1, 5) == 0){
+                block.direction = Block::TOPRIGHT;
+            }
+            if(j%(int)ofRandom(1, 5) == 0){
+                block.direction = Block::LEFT;
+            }
+            if(j%(int)ofRandom(1, 5) == 0){
+                block.direction = Block::TOPLEFT;
+            }
             blocks.push_back(block);
         }
     }
-    ofBackground(0);
-    ofSetFrameRate(60);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-//    ofVec2f down(0, -1);
-//    ofVec2f m(mouseX, mouseY);
-//    ofLog() << m.dot(down);
+    cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 2000);
     for(auto &block: blocks){
-        block.update(mouseX, mouseY);
+        block.update(mouseX, ofGetHeight()-mouseY);
     }
+    light.setPosition(mouseX, ofGetHeight()-mouseY, 300);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    cam.begin();
+    ofEnableDepthTest();
     for(auto &block: blocks){
         block.draw();
     }
+    ofDisableDepthTest();
+    cam.end();
 }
 
 //--------------------------------------------------------------
