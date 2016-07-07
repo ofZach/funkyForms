@@ -20,7 +20,7 @@ void Block::setup(ofVec2f _pos, int _w, int _h){
         ofMesh m;
         face.line = line;
         face.mesh = m;
-        face.color = colors[(int)ofRandom(10)];
+        face.color = colors[i+2];
         faces.push_back(face);
     }
     rectDistance = maxDist;
@@ -67,7 +67,7 @@ void Block::update(int x, int y){
     if ( dist < maxRadius ) {
         finDist = maxDist + 50 * sin(ofGetElapsedTimef() + randomOffset);
     }else{
-        finDist = 50 * sin(ofGetElapsedTimef() + randomOffset);
+        finDist = 5 + 4 * sin(ofGetElapsedTimef() + randomOffset);
     }
     float brightness = ofMap(dist, 0, lightRadius, 255, 0);
     rectDistance = smooth*rectDistance + (1-smooth)*finDist;

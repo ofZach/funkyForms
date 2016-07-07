@@ -39,7 +39,7 @@ public:
         ofColor::lightSkyBlue,
         ofColor::lightGoldenRodYellow,
         ofColor::pink,
-        ofColor::yellow,
+        ofColor::peachPuff,
         ofColor::sandyBrown,
         ofColor::seaShell,
         ofColor::gainsboro

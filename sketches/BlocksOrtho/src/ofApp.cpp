@@ -9,8 +9,8 @@ void ofApp::setup(){
 //    light.setup();
 //    int hMax = 10;
 //    int wMax = 20;
-    int row = 20;
-    int column = 20;
+    int row = 10;
+    int column = 10;
     int stepX = ofGetWidth()/row;
     int stepY = ofGetHeight()/column;
     
@@ -20,11 +20,11 @@ void ofApp::setup(){
             int y = j*stepY;
             Block block;
             float size = 100;
-            block.maxDist = ofRandom(20,100);
+            block.maxDist = ofRandom(100,400);
             block.maxRadius = 300;
 //            block.lightRadius = ofRandom(100, 600);
-            float width = ofRandom(20,40);
-            float height = ofRandom(20,40);
+            float width = ofRandom(30,90);
+            float height = ofRandom(30,90);
             
             block.setup(ofVec2f(x-width/2, y-height/2), width, height);
             
