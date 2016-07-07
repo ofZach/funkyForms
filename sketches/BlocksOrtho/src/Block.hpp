@@ -44,12 +44,13 @@ public:
         ofColor::seaShell,
         ofColor::gainsboro
     };
+    float randomOffset;
     float rectDistance;
     int w, h;
     ofVec3f pos;
     float maxDist = 200;
     float maxRadius = 200;
-    float lightRadius = 500;
+    float lightRadius = 200;
     ofMesh mesh;
     void setup(ofVec2f _pos, int _w, int _h);
     void update(int x, int y);

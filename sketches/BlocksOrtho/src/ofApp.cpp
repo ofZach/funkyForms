@@ -23,7 +23,10 @@ void ofApp::setup(){
             block.maxDist = ofRandom(20,100);
             block.maxRadius = 300;
 //            block.lightRadius = ofRandom(100, 600);
-            block.setup(ofVec2f(x, y), ofRandom(0.3, 0.8) * stepX, ofRandom(0.3, 0.8) * stepY);
+            float width = ofRandom(20,40);
+            float height = ofRandom(20,40);
+            
+            block.setup(ofVec2f(x-width/2, y-height/2), width, height);
             
             if(j%(int)ofRandom(1, 5) == 0){
                 block.direction = Block::RIGHT;

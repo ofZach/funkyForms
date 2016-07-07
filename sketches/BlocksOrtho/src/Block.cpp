@@ -9,6 +9,7 @@
 
 #include "Block.hpp"
 void Block::setup(ofVec2f _pos, int _w, int _h){
+    randomOffset = ofRandom(0,100);
     pos = _pos;
     w = _w;
     h = _h;
@@ -63,10 +64,10 @@ void Block::update(int x, int y){
     float dist = pointer.distance(pos);
     
     float finDist = 0;
-    if ( dist > maxRadius ) {
-        finDist = maxDist;
+    if ( dist < maxRadius ) {
+        finDist = maxDist + 50 * sin(ofGetElapsedTimef() + randomOffset);
     }else{
-        finDist = -0.02;
+        finDist = 50 * sin(ofGetElapsedTimef() + randomOffset);
     }
     float brightness = ofMap(dist, 0, lightRadius, 255, 0);
     rectDistance = smooth*rectDistance + (1-smooth)*finDist;
@@ -131,10 +132,12 @@ void Block::update(int x, int y){
                 col.setBrightness(255);
             }
             if(i==4){
+                
                 col = face.color;
+//                col.setBrightness(brightness);
             }
             if(i==5){ // front and back face
-                col = ofColor::black;
+                col = face.color;
 //                if(j>1){
 //                    col.setBrightness(200);
 //                }
