@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    icolor.setup(50, ofColor::lightBlue);
     cam.enableOrtho();
     light.setDiffuseColor(ofColor::green);
     light.setSpecularColor(ofColor::white);
@@ -21,25 +22,14 @@ void ofApp::setup(){
             Block block;
             float size = 100;
             block.maxDist = ofRandom(100,400);
-            block.maxRadius = 300;
-//            block.lightRadius = ofRandom(100, 600);
-            float width = ofRandom(30,90);
-            float height = ofRandom(30,90);
+            block.maxRadius = 200;
+            float width = ofRandom(30,70);
+            float height =ofRandom(30,70);
             
-            block.setup(ofVec2f(x-width/2, y-height/2), width, height);
-            
-            if(j%(int)ofRandom(1, 5) == 0){
-                block.direction = Block::RIGHT;
-            }
-            if(j%(int)ofRandom(1, 5) == 0){
-                block.direction = Block::TOPRIGHT;
-            }
-            if(j%(int)ofRandom(1, 5) == 0){
-                block.direction = Block::LEFT;
-            }
-            if(j%(int)ofRandom(1, 5) == 0){
-                block.direction = Block::TOPLEFT;
-            }
+            block.setup(ofVec2f(x+ofRandom(5), y+ofRandom(5)), width, height);
+            block.direction = Block::TOPRIGHT ;
+//            j % 2 == 0 ? block.direction = Block::TOPRIGHT :  block.direction = Block::LEFT;
+ 
             blocks.push_back(block);
         }
     }
@@ -47,11 +37,11 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
     cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 2000);
     for(auto &block: blocks){
         block.update(mouseX, ofGetHeight()-mouseY);
     }
-    light.setPosition(mouseX, ofGetHeight()-mouseY, 300);
 }
 
 //--------------------------------------------------------------
@@ -63,11 +53,27 @@ void ofApp::draw(){
     }
     ofDisableDepthTest();
     cam.end();
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), 30, 30);
+
+//    ofMesh mesh;
+//    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+//    for (int i = 0; i < 50; i++) {
+//        ofVec2f t(5*i, 0);
+//        ofVec2f b(5*i, 20);
+//        mesh.addVertex(t);
+//        ofColor col(icolor.getColorAt(i));
+//        mesh.addColor(col);
+//        mesh.addVertex(b);
+//        mesh.addColor(col);
+//    }
+//    mesh.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    
+    if(key == ' ') icolor.grow();
+    if (key == 'c') icolor.colapse();
 }
 
 //--------------------------------------------------------------

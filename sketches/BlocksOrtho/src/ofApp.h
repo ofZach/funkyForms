@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "Block.hpp"
+#include "iColor.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -25,4 +26,5 @@ class ofApp : public ofBaseApp{
     vector<Block> blocks;
     ofEasyCam cam;
     ofLight light;
+    iColor icolor;
 };

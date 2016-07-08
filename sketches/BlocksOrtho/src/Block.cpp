@@ -9,18 +9,26 @@
 
 #include "Block.hpp"
 void Block::setup(ofVec2f _pos, int _w, int _h){
+    icolor.setup(faceResolution, colors[(int)ofRandom(9)]);
     randomOffset = ofRandom(0,100);
     pos = _pos;
     w = _w;
     h = _h;
-    direction = LEFT;
     for (int i = 0; i < 6; i++) {
         Face face;
-        ofPolyline line;
+        ofPolyline lT, lB;
         ofMesh m;
-        face.line = line;
+        face.lineT = lT;
+        face.lineB = lB;
         face.mesh = m;
-        face.color = colors[i+2];
+        face.color = colors[0];
+        if(i%3==0){
+            float satRange = 10;
+            face.color.setSaturation(face.color.getSaturation()+ofRandom(-satRange, satRange) );
+            face.color.setBrightness(ofRandom(200, 255));
+        }
+        float hangle = face.color.getHueAngle();
+        face.color.setHueAngle(hangle+i*10.);
         faces.push_back(face);
     }
     rectDistance = maxDist;
@@ -42,41 +50,51 @@ void Block::update(int x, int y){
             distPos = pos+ofVec2f(maxDist, -maxDist);
             break;
         case TOPLEFT:
-            rectPos = pos+rectDistance;
-            distPos = pos+maxDist;
-            break;
-        case TOPRIGHT:
             rectPos = pos+ofVec2f(-rectDistance, rectDistance);
             distPos = pos+ofVec2f(-maxDist, maxDist);
+            break;
+        case TOPRIGHT:
+            rectPos = pos+rectDistance;
+            distPos = pos+maxDist;
             break;
         default:
             rectPos = pos-rectDistance;
             distPos = pos-maxDist;
             break;
     };
-//    if(isLeft){
-//        rectPos = pos-rectDistance;
-//        distPos = pos-maxDist;
-//    }else{
-//        rectPos = (pos+ofVec2f(rectDistance, -rectDistance));
-//        distPos = (pos+ofVec2f(maxDist, -maxDist));
-//    }
     float dist = pointer.distance(pos);
     
     float finDist = 0;
+
     if ( dist < maxRadius ) {
+        isOver = true;
+        if(runOnce){ // over
+            ofLog() << "over";
+            runOnce = false;
+            icolor.grow();
+        }
         finDist = maxDist + 50 * sin(ofGetElapsedTimef() + randomOffset);
     }else{
+        isOver = false;
+        if(runOnce){ // out
+            ofLog() << "out";
+            runOnce = false;
+            icolor.colapse();
+        }
         finDist = 5 + 4 * sin(ofGetElapsedTimef() + randomOffset);
     }
+    if(isOverPast != isOver){
+        runOnce = true;
+    }
+    isOverPast = isOver;
     float brightness = ofMap(dist, 0, lightRadius, 255, 0);
     rectDistance = smooth*rectDistance + (1-smooth)*finDist;
     
-    // rectangle setup
 
     // set front block brightness
     ofClamp(brightness, 0, 255);
 
+    // rectangle setup
     rectFront.setPosition(rectPos);
     rectBack.setPosition(pos);
     
@@ -118,35 +136,49 @@ void Block::update(int x, int y){
     faces[5].points[2] = ofVec3f(rectBack.getBottomRight().x, rectBack.getBottomRight().y, 0) ;
     faces[5].points[3] = ofVec3f(rectBack.getBottomLeft().x, rectBack.getBottomLeft().y, 0) ;
     
-    // build mesh
+    // build polyline
     int i = 0;
     for(auto &face: faces){
-        face.mesh.clear();
-        face.mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
-        int j = 0;
-        for (auto &point: face.points) {
-            ofColor col = face.color;
-            if(j<2){ //
-                col.setBrightness(120);
-            }else{
-                col.setBrightness(255);
-            }
-            if(i==4){
-                
-                col = face.color;
-//                col.setBrightness(brightness);
-            }
-            if(i==5){ // front and back face
-                col = face.color;
-//                if(j>1){
-//                    col.setBrightness(200);
-//                }
-            }
-            face.mesh.addVertex(point);
-            face.mesh.addColor(col);
-            j++;
+        if(i < 4){
+            face.lineT.clear();
+            face.lineB.clear();
+            face.lineT.lineTo(face.points[3]);
+            face.lineT.lineTo(face.points[0]);
+            face.lineB.lineTo(face.points[2]);
+            face.lineB.lineTo(face.points[1]);
         }
         i++;
+    }
+    
+    // update Colors
+    icolor.update();
+    
+    // build mesh
+    int curFaceNum = 0;
+    for(auto &face: faces){
+        face.mesh.clear();
+        if (curFaceNum<4) { // build linked faces
+            face.mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+            for (int i = 0; i<faceResolution; i++) {
+                float percent = ofMap(i, 0, faceResolution-1, 0, 1);
+                ofColor col = icolor.getColorAt(i);
+                if(curFaceNum%3==0){
+                    col.setBrightness(col.getBrightness()-70);
+                }
+                face.mesh.addVertex(face.lineT.getPointAtPercent(percent));
+                face.mesh.addColor(col);
+                face.mesh.addVertex(face.lineB.getPointAtPercent(percent));
+                face.mesh.addColor(col);
+            }
+        }else{ // build main faces
+            face.mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+            for (auto &point: face.points) {
+                ofColor col = face.color;
+                face.mesh.addVertex(point);
+                face.mesh.addColor(icolor.getColorAt(0));
+            }
+        }
+        curFaceNum++;
     }
 }
 void Block::draw(){
@@ -156,4 +188,5 @@ void Block::draw(){
         face.mesh.draw();
         i++;
     }
+
 }

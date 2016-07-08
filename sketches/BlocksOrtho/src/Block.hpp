@@ -10,13 +10,17 @@
 #define Block_hpp
 
 #include "ofMain.h"
+#include "iColor.hpp"
+
 class Block{
 public:
+    iColor icolor;
     ofRectangle rectFront;
     ofRectangle rectBack;
     struct Face{
         ofColor color;
-        ofPolyline line;
+        ofPolyline lineT;
+        ofPolyline lineB;
         ofMesh mesh;
         ofVec3f points[4];
     };
@@ -29,23 +33,25 @@ public:
         TOPRIGHT
     };
     
-    Direction direction;
+    Direction direction = LEFT;
     bool isLeft = true;
-    
-    ofColor colors[10] = {
-        ofColor::lightCoral,
-        ofColor::magenta,
-        ofColor::lightCyan,
-        ofColor::lightSkyBlue,
-        ofColor::lightGoldenRodYellow,
-        ofColor::pink,
-        ofColor::peachPuff,
-        ofColor::sandyBrown,
-        ofColor::seaShell,
-        ofColor::gainsboro
+    bool runOnce = true;
+    ofColor colors[9] = {
+        ofColor(251,49,1),
+        ofColor(190,130,19),
+        ofColor(247,198,11),
+        ofColor(36,202,144),
+        ofColor(164,208,240),
+        ofColor(42,137,222),
+        ofColor(105,133,166),
+        ofColor(3,82,221),
+        ofColor(170,178,170)
     };
+    bool isOver = false;
+    bool isOverPast = false;
     float randomOffset;
     float rectDistance;
+    float faceResolution = 100;
     int w, h;
     ofVec3f pos;
     float maxDist = 200;
