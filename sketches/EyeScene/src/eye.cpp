@@ -10,6 +10,10 @@
 void eye::setup(ofVec2f _pos, float _width, float _height){
     width = _width;
     height = _height;
+    
+    initWidth = _width;
+    initHeight = _height;
+    
     pos = _pos;
     lids.setup(width, height);
     movePos.set(0, 0);
@@ -17,7 +21,7 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
 void eye::draw(){
     lids.lidHole.draw();
     
-    ball.setFillColor(ofColor::darkRed);
+    ball.setFillColor(eyeColor);
     ball.draw();
     
     pupil.setFillColor(ofColor::black);
@@ -25,10 +29,13 @@ void eye::draw(){
 }
 void eye::update(ofVec2f _pos){
     pos = _pos;
+    width = initWidth*scale;
+    height = initHeight*scale;
     
     ball.clear();
     pupil.clear();
     
+    lids.setSize(width, height);
     lids.update();
     
     if(ofGetFrameNum()%(int)ofRandom(50, 200)==0){
@@ -63,5 +70,13 @@ void eye::update(ofVec2f _pos){
     ball.circle(ballPos, radius);
     ball.setPolyWindingMode(OF_POLY_WINDING_ABS_GEQ_TWO );
     ball.append(lids.lidHole);
-
+}
+void eye::addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxScale){
+    if(pos.distance(_pos) < _radius){
+        scale += _speed;
+        scale = MIN(scale, _maxScale);
+    }else{
+        scale -= _speed;
+        scale = MAX(scale, 1.0);
+    }
 }

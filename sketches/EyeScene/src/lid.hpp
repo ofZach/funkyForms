@@ -48,6 +48,7 @@ public:
     void update();
     void close(){}
     void open(){}
+    void setSize(float _w, float _h){width = _w; height = _h;}
 };
 
 #endif /* lid_hpp */

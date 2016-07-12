@@ -30,6 +30,7 @@ public:
     void bounceOffWalls();
     
     ofVec2f getPos(){return pos;}
+    ofVec2f getVel(){return vel;}
     float damping;
     
 protected:

@@ -20,17 +20,28 @@ private:
     ofMesh sclera;
     float width;
     float height;
+    float initWidth;
+    float initHeight;
     bool isMove;
     ofVec2f movePos;
     int moveCounter;
     ofPath ball;
     ofPath pupil;
+    float scale = 1.0;
+    ofColor eyeColor;
 public:
     void setup(ofVec2f _pos, float _width, float _height);
     void update(ofVec2f _pos);
     void draw();
+    
     float getWidth(){return width;}
     float getHeight(){return height;}
+    ofVec2f getPos(){return pos;}
+    
+    void addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxScale);
+
+    float setScale(float _scale){scale = _scale;}
+    void setEyeColor(ofColor color){eyeColor = color;};
 };
 
 #endif /* eye_hpp */
