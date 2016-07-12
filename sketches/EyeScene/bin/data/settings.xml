@@ -2,9 +2,9 @@
 	<attractionForce>0.5</attractionForce>
 	<repulsionForce>3.9061</repulsionForce>
 	<attractionRadius>1134.35</attractionRadius>
-	<scaleSpeed>0.02615</scaleSpeed>
+	<scaleSpeed>0.05845</scaleSpeed>
 	<scaleMax>4.57</scaleMax>
-	<scaleRadius>200</scaleRadius>
+	<scaleRadius>99.55</scaleRadius>
 <group/>
 <repulsionRadius>2.075</repulsionRadius>
 </group>

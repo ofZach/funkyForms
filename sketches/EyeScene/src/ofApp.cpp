@@ -14,6 +14,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     eyeManager.draw();
+    ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 }
 

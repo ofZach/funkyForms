@@ -21,8 +21,10 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
     lids.setup(width, height);
     movePos.set(0, 0);
     
-    ball.setCircleResolution(8);
-    pupil.setCircleResolution(8);
+    int resolution = ofMap(width, 10, 500, 2, 40, true);
+    ball.setCircleResolution(resolution);
+    pupil.setCircleResolution(resolution);
+    lids.lidHole.setCurveResolution(resolution);
     //((ofApp *)ofGetAppPtr())->keyPressed('z');
     
 }
@@ -41,6 +43,12 @@ void eye::blink(){
     lids.blinkSpeed = blinkSpeed;
 }
 void eye::update(ofVec2f _pos){
+    // set resolution
+    int resolution = ofMap(width, 10, 500, 2, 40, true);
+    ball.setCircleResolution(resolution);
+    pupil.setCircleResolution(resolution);
+    lids.lidHole.setCurveResolution(resolution);
+    
     pos = _pos;
     width = initWidth*scale;
     height = initHeight*scale;

@@ -39,6 +39,7 @@ public:
     void update(ofVec2f _pos);
     void draw();
     void blink();
+
     void lookAt(ofVec2f _pos){lookAtPos = _pos;};
     
     float getWidth(){return width;}
@@ -48,7 +49,8 @@ public:
     
     void addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxScale);
 
-    float setScale(float _scale){scale = _scale;}
+    void setAngle(float _angle){lids.setAngle(_angle);}
+    void setScale(float _scale){scale = _scale;}
     void setEyeColor(ofColor color){eyeColor = color;};
 };
 

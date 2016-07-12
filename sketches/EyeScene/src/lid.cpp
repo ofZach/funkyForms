@@ -11,31 +11,9 @@ void lid::setup(int _width, int _height){
     width = _width;
     height = _height;
     
-    topHeight = height;
-    bottomHeight = height/2;
-    
-    int c = width;
-    while(c%step!=0){
-        c++;
-    }
-    count = c;
-    
-    topHeight2 = -height;
-    bottomHeight2 = -height/2;
-    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    mesh2.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    sclera.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    lidHole.setCurveResolution(9);
-}
-void lid::drawLids(){
-    path.setFillColor(ofColor::red);
-    path.draw();
-    
-    lidHole.setFillColor(ofColor::green);
-    lidHole.draw();
+    lidHole.setCurveResolution(6);
 }
 void lid::update(){
-    path.clear();
     lidHole.clear();
 
     if(isBlink){
@@ -54,7 +32,7 @@ void lid::update(){
         }
     }
     
-    // create rig for points
+    // create rig
     ofPoint p0(-width/2, 0);
     ofPoint p1(0, -height/2);
     ofPoint p2(width/2, 0);
@@ -65,7 +43,6 @@ void lid::update(){
     lidHole.lineTo(p2);
     lidHole.bezierTo(p2, p3, p0);
     
-    lidHole.append(path);
     lidHole.scale(scaleX, scaleY);
-//    lidHole.translate(p);
+    lidHole.rotate(angle, ofVec3f(0, 0, 1));
 }

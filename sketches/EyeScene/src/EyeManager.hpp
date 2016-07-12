@@ -21,6 +21,8 @@ private:
     
     ofxPanel gui;
     ofParameterGroup parameters;
+    ofParameter<float> count;
+    ofParameter<bool> initButton;
     ofParameter<float> repulsionForce;
     ofParameter<float> repulsionRadius;
     ofParameter<float> attractionForce;
@@ -32,6 +34,8 @@ public:
     void setup();
     void update(float x, float y);
     void draw();
+    void init();
+    void reset(bool &i);
 };
 
 #endif /* EyeManager_hpp */

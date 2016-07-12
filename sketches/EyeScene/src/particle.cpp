@@ -12,7 +12,21 @@ void particle::resetForce(){
     // we reset the forces every frame
     frc.set(0,0);
 }
-
+float particle::getAngle(){
+    ofVec2f zero(1, 0);
+    float diffX = zero.x - vel.x;
+    float diffY = zero.y - vel.y;
+    
+    float angleTo = atan2(diffY, diffX);
+    
+    float diffAngle = (angleTo - angle);
+    if (diffAngle < -PI) diffAngle += TWO_PI;
+    if (diffAngle > PI) diffAngle -= TWO_PI;
+    
+    angle  += 0.03 * diffAngle;
+    
+    return angle;
+}
 //------------------------------------------------------------
 void particle::addForce(float x, float y){
     // add in a force in X and Y for this frame.

@@ -7,6 +7,7 @@ class particle
 public:
     ofVec2f pos;
     ofVec2f vel;
+    float angle = 0;
     ofVec2f frc;   // frc is also know as acceleration (newton says "f=ma")
     float prtRadius;
     particle();
@@ -32,6 +33,7 @@ public:
     bool isCollidePrev;
     
     ofVec2f getPos(){return pos;}
+    float getAngle();
     ofVec2f getVel(){return vel;}
     float damping;
     
