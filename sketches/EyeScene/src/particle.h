@@ -2,7 +2,6 @@
 #define PARTICLE_H
 
 #include "ofMain.h"
-
 class particle
 {
 public:
@@ -13,6 +12,7 @@ public:
     particle();
     virtual ~particle(){};
     
+
     void resetForce();
     void addForce(float x, float y);
     void addRepulsionForce(float x, float y, float radius, float scale);
@@ -28,6 +28,8 @@ public:
     void draw();
     
     void bounceOffWalls();
+    bool isCollide;
+    bool isCollidePrev;
     
     ofVec2f getPos(){return pos;}
     ofVec2f getVel(){return vel;}

@@ -25,6 +25,7 @@ void lid::setup(int _width, int _height){
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     mesh2.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     sclera.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    lidHole.setCurveResolution(9);
 }
 void lid::drawLids(){
     path.setFillColor(ofColor::red);

@@ -101,10 +101,12 @@ void particle::addRepulsionForce(particle &p, float radius, float scale){
 	bool bAmCloseEnough = true;
     if (radius > 0){
         if (length > radius){
+            isCollide = true;
             bAmCloseEnough = false;
         }
     }
-	
+    
+    
 	// ----------- (4) if so, update force
     
 	if (bAmCloseEnough == true){
@@ -135,9 +137,11 @@ void particle::addAttractionForce(particle & p, float radius, float scale){
     if (radius > 0){
         if (length > radius){
             bAmCloseEnough = false;
+            isCollide = true;
         }
     }
-	
+
+
 	// ----------- (4) if so, update force
     
 	if (bAmCloseEnough == true){

@@ -7,7 +7,10 @@
 //
 
 #include "eye.hpp"
+#include "ofApp.h"
+
 void eye::setup(ofVec2f _pos, float _width, float _height){
+    lookAtPos.set(ofGetWidth()/2, ofGetHeight()/2);
     width = _width;
     height = _height;
     
@@ -17,6 +20,11 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
     pos = _pos;
     lids.setup(width, height);
     movePos.set(0, 0);
+    
+    ball.setCircleResolution(8);
+    pupil.setCircleResolution(8);
+    //((ofApp *)ofGetAppPtr())->keyPressed('z');
+    
 }
 void eye::draw(){
     lids.lidHole.draw();
@@ -26,6 +34,11 @@ void eye::draw(){
     
     pupil.setFillColor(ofColor::black);
     pupil.draw();
+}
+void eye::blink(){
+    lids.isBlink = true;
+    float blinkSpeed = ofRandom(1.2, 5);
+    lids.blinkSpeed = blinkSpeed;
 }
 void eye::update(ofVec2f _pos){
     pos = _pos;
@@ -38,7 +51,7 @@ void eye::update(ofVec2f _pos){
     lids.setSize(width, height);
     lids.update();
     
-    if(ofGetFrameNum()%(int)ofRandom(50, 200)==0){
+    if(ofGetFrameNum()%(int)ofRandom(50, 170)==0){
         lids.isBlink = true;
         float blinkSpeed = ofRandom(1.2, 5);
         lids.blinkSpeed = blinkSpeed;
@@ -57,8 +70,19 @@ void eye::update(ofVec2f _pos){
     ofVec2f offsetPos(ofMap(movePos.x, 0, 1, -width/2., width/2.),
                       ofMap(movePos.y, 0, 1, -height/2., height/2.)
                       );
-    ofVec2f ballPos = pos+offsetPos;
     
+    float eyeMaxRadius = width/5.;
+    float diffX = lookAtPos.x - pos.x;
+    float diffY = lookAtPos.y - pos.y;
+    float angleTo = atan2(diffY, diffX);
+    
+    ofVec2f ballPos;
+    if(pos.distance(lookAtPos)<eyeMaxRadius){
+        ballPos.set(lookAtPos.x, lookAtPos.y);
+    }else{
+        ballPos.set(pos.x + eyeMaxRadius * cos(angleTo), pos.y + eyeMaxRadius * sin(angleTo) );
+    }
+        
     lids.lidHole.translate(pos);
     
     float radius = height/5.6;

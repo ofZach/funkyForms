@@ -1,0 +1,10 @@
+<group>
+	<attractionForce>0.5</attractionForce>
+	<repulsionForce>3.9061</repulsionForce>
+	<attractionRadius>1134.35</attractionRadius>
+	<scaleSpeed>0.02615</scaleSpeed>
+	<scaleMax>4.57</scaleMax>
+	<scaleRadius>200</scaleRadius>
+<group/>
+<repulsionRadius>2.075</repulsionRadius>
+</group>
