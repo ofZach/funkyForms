@@ -9,7 +9,7 @@
 
 #include "Block.hpp"
 void Block::setup(ofVec2f _pos, int _w, int _h){
-    icolor.setup(faceResolution, colors[(int)ofRandom(9)]);
+    icolor.setup(1, colors[(int)ofRandom(9)]);
     randomOffset = ofRandom(0,100);
     pos = _pos;
     w = _w;
@@ -30,6 +30,15 @@ void Block::setup(ofVec2f _pos, int _w, int _h){
         float hangle = face.color.getHueAngle();
         face.color.setHueAngle(hangle+i*10.);
         faces.push_back(face);
+    }
+    for (int i = 0; i < 5; i++) {
+        Box box;
+        for (int i = 0; i < 6; i++) {
+            ofMesh m;
+            m.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+            box.meshes[i] = m;
+        }
+        boxes.push_back(box);
     }
     rectDistance = maxDist;
 }
@@ -69,19 +78,17 @@ void Block::update(int x, int y){
     if ( dist < maxRadius ) {
         isOver = true;
         if(runOnce){ // over
-            ofLog() << "over";
             runOnce = false;
             icolor.grow();
         }
-        finDist = maxDist + 50 * sin(ofGetElapsedTimef() + randomOffset);
+        finDist = maxDist; // + 50 * sin(ofGetElapsedTimef() + randomOffset);
     }else{
         isOver = false;
         if(runOnce){ // out
-            ofLog() << "out";
             runOnce = false;
             icolor.colapse();
         }
-        finDist = 5 + 4 * sin(ofGetElapsedTimef() + randomOffset);
+        finDist = 0;// 5 + 4 * sin(ofGetElapsedTimef() + randomOffset);
     }
     if(isOverPast != isOver){
         runOnce = true;
@@ -142,10 +149,10 @@ void Block::update(int x, int y){
         if(i < 4){
             face.lineT.clear();
             face.lineB.clear();
-            face.lineT.lineTo(face.points[3]);
             face.lineT.lineTo(face.points[0]);
-            face.lineB.lineTo(face.points[2]);
+            face.lineT.lineTo(face.points[3]);
             face.lineB.lineTo(face.points[1]);
+            face.lineB.lineTo(face.points[2]);
         }
         i++;
     }
@@ -154,38 +161,61 @@ void Block::update(int x, int y){
     icolor.update();
     
     // build mesh
-    int curFaceNum = 0;
-    for(auto &face: faces){
-        face.mesh.clear();
-        if (curFaceNum<4) { // build linked faces
-            face.mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-            for (int i = 0; i<faceResolution; i++) {
-                float percent = ofMap(i, 0, faceResolution-1, 0, 1);
-                ofColor col = icolor.getColorAt(i);
-                if(curFaceNum%3==0){
-                    col.setBrightness(col.getBrightness()-70);
+    for (int i = 0; i < icolor.getColorCount(); i++) { // i - box count
+        boxes[i].color = icolor.getColor(i)->color;
+        ofPoint p(i, i, 1);
+        boxes[i].pos = p+randomOffset*cos(ofGetFrameNum()/20.0+i*10);
+        for (int j = 0; j < 6; j++) {
+            boxes[i].meshes[j].clear();
+            ofColor col = icolor.getColor(i)->color;
+            if(j<4){ // linked faces
+                if(j%3==0){
+                    col.setBrightness(col.getBrightness()-50);
+                }else{
+                    col.setBrightness(col.getBrightness()-10);
                 }
-                face.mesh.addVertex(face.lineT.getPointAtPercent(percent));
-                face.mesh.addColor(col);
-                face.mesh.addVertex(face.lineB.getPointAtPercent(percent));
-                face.mesh.addColor(col);
-            }
-        }else{ // build main faces
-            face.mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
-            for (auto &point: face.points) {
-                ofColor col = face.color;
-                face.mesh.addVertex(point);
-                face.mesh.addColor(icolor.getColorAt(0));
+                if(icolor.getColor(i)->rect.getWidth()>0){
+                    boxes[i].meshes[j].addVertex(faces[j].lineT.getPointAtPercent(icolor.getColor(i)->start+0.01));
+                    boxes[i].meshes[j].addColor(col);
+                    boxes[i].meshes[j].addVertex(faces[j].lineB.getPointAtPercent(icolor.getColor(i)->start+0.01));
+                    boxes[i].meshes[j].addColor(col);
+                    boxes[i].meshes[j].addVertex(faces[j].lineT.getPointAtPercent(icolor.getColor(i)->end));
+                    boxes[i].meshes[j].addColor(col);
+                    boxes[i].meshes[j].addVertex(faces[j].lineB.getPointAtPercent(icolor.getColor(i)->end));
+                    boxes[i].meshes[j].addColor(col);
+                }
+            }else{ // caps
+                if(icolor.getColor(i)->rect.getWidth()>0){
+                    boxes[i].meshes[j].addVertex(faces[0].lineT.getPointAtPercent(icolor.getColor(i)->start+0.01));
+                    boxes[i].meshes[j].addColor(col);
+                    boxes[i].meshes[j].addVertex(faces[0].lineB.getPointAtPercent(icolor.getColor(i)->start+0.01));
+                    boxes[i].meshes[j].addColor(col);
+                    boxes[i].meshes[j].addVertex(faces[3].lineT.getPointAtPercent(icolor.getColor(i)->end));
+                    boxes[i].meshes[j].addColor(col);
+                    boxes[i].meshes[j].addVertex(faces[3].lineB.getPointAtPercent(icolor.getColor(i)->end));
+                    boxes[i].meshes[j].addColor(col);
+                }
             }
         }
-        curFaceNum++;
     }
 }
 void Block::draw(){
     int i = 0;
+    int j = 0;
     ofSetColor(ofColor::white);
-    for(auto &face: faces){
-        face.mesh.draw();
+    for(auto &box: boxes){
+//        ofSetColor(box.color);
+        ofPushMatrix();
+        ofTranslate(box.pos);
+//        if(isCrazy){
+//            if(isOver){
+//            }
+//        }
+        for (auto &mesh: box.meshes){
+            mesh.draw();
+            j++;
+        }
+        ofPopMatrix();
         i++;
     }
 

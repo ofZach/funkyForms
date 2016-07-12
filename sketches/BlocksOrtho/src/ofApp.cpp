@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    icolor.setup(50, ofColor::lightBlue);
+    icolor.setup(1, ofColor::lightBlue);
     cam.enableOrtho();
     light.setDiffuseColor(ofColor::green);
     light.setSpecularColor(ofColor::white);
@@ -24,11 +24,11 @@ void ofApp::setup(){
             block.maxDist = ofRandom(100,400);
             block.maxRadius = 200;
             float width = ofRandom(30,70);
-            float height =ofRandom(30,70);
+            float height = ofRandom(30,70);
             
             block.setup(ofVec2f(x+ofRandom(5), y+ofRandom(5)), width, height);
-            block.direction = Block::TOPRIGHT ;
-//            j % 2 == 0 ? block.direction = Block::TOPRIGHT :  block.direction = Block::LEFT;
+//            block.direction = Block::TOPRIGHT ;
+            j % 2 == 0 ? block.direction = Block::TOPRIGHT :  block.direction = Block::TOPLEFT;
  
             blocks.push_back(block);
         }
@@ -54,7 +54,9 @@ void ofApp::draw(){
     ofDisableDepthTest();
     cam.end();
     ofDrawBitmapString(ofToString(ofGetFrameRate()), 30, 30);
-
+    icolor.update();
+    
+//    icolor.draw();
 //    ofMesh mesh;
 //    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 //    for (int i = 0; i < 50; i++) {
@@ -74,6 +76,11 @@ void ofApp::keyPressed(int key){
     
     if(key == ' ') icolor.grow();
     if (key == 'c') icolor.colapse();
+    if(key == '1'){
+        for(auto &block: blocks){
+            block.isCrazy ^= true;
+        }
+    }
 }
 
 //--------------------------------------------------------------

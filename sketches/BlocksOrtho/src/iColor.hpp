@@ -12,35 +12,49 @@
 #include "ofMain.h"
 class iColor{
 private:
+
+    
+    int timeCounter = 0;
+    float indexCount = 0;
+    ofColor pallete[4] = {
+        ofColor::grey,
+        ofColor::lightGrey,
+        ofColor::lightYellow,
+        ofColor::lightGreen
+    };
+//    ofColor pallete[9] = {
+//        ofColor(251,49,1),
+//        ofColor(190,130,19),
+//        ofColor(247,198,11),
+//        ofColor(36,202,144),
+//        ofColor(164,208,240),
+//        ofColor(42,137,222),
+//        ofColor(105,133,166),
+//        ofColor(3,82,221),
+//        ofColor(170,178,170)
+//    };
+    bool isGrow = false;
+    bool isCollapse = false;
+    ofColor baseColor;
+    int colorCounts = 5;
     struct Color{
+        ofRectangle rect;
         int delay;
-        int start;
-        int end;
-        int min;
-        int speed;
+        float start;
+        float end;
+        float min;
+        float speed;
+        float width;
+        bool isFinished = false;
         bool isGrow = false;
         ofColor color;
     };
     vector<Color> colors;
-    int colorCounts = 5;
-    int timeCounter = 0;
-    int indexCount = 0;
-    ofColor pallete[9] = {
-        ofColor(251,49,1),
-        ofColor(190,130,19),
-        ofColor(247,198,11),
-        ofColor(36,202,144),
-        ofColor(164,208,240),
-        ofColor(42,137,222),
-        ofColor(105,133,166),
-        ofColor(3,82,221),
-        ofColor(170,178,170)
-    };
-    bool isGrow = false;
-    bool isCollapse = false;
-    ofColor baseColor;
+    float length;
 public:
-    void setup(int _indexCount, ofColor _baseColor);
+    void setup(float _indexCount, ofColor _baseColor);
+    int getColorCount(){return colorCounts;}
+    Color *getColor(int index){return &colors[index];}
     void grow();
     void colapse();
     void update();

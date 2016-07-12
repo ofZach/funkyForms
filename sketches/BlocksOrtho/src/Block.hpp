@@ -14,9 +14,11 @@
 
 class Block{
 public:
+    bool isCrazy = false;
     iColor icolor;
     ofRectangle rectFront;
     ofRectangle rectBack;
+    
     struct Face{
         ofColor color;
         ofPolyline lineT;
@@ -24,7 +26,15 @@ public:
         ofMesh mesh;
         ofVec3f points[4];
     };
+    
+    struct Box{
+        ofMesh meshes[6];
+        ofPoint pos;
+        ofColor color;
+    };
+    
     vector<Face> faces;
+    vector<Box> boxes;
     
     enum Direction{
         LEFT,
