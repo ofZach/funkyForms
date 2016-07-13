@@ -112,3 +112,8 @@ void eye::addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxSca
         scale = MAX(scale, 1.0);
     }
 }
+void eye::lookAtNear(ofVec2f _pos){
+    if(pos.distance(_pos) < 100){
+        lookAtPos = _pos;
+    }
+}

@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "EyeManager.hpp"
+#include "ofxXmlSettings.h"
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -21,5 +23,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     EyeManager eyeManager;
+    
+    ofxXmlSettings settings;
+    bool isRecord;
+    int counter = 0;
 };
 

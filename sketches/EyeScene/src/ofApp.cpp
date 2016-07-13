@@ -16,11 +16,30 @@ void ofApp::draw(){
     eyeManager.draw();
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
+
+    if(isRecord){
+        settings.addTag("pos");
+        settings.pushTag("pos", counter);
+        settings.addValue("x", mouseX);
+        settings.addValue("y", mouseY);
+        settings.popTag();
+        
+        counter++;
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if(key == '1'){
+        settings.addTag("data");
+        settings.pushTag("data");
+        isRecord = true;
+    }
+    if(key == '2'){
+        settings.popTag();
+        settings.saveFile("data.xml");
+        isRecord = false;
+    }
 }
 
 //--------------------------------------------------------------

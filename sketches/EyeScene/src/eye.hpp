@@ -41,6 +41,7 @@ public:
     void blink();
 
     void lookAt(ofVec2f _pos){lookAtPos = _pos;};
+    void lookAtNear(ofVec2f _pos);
     
     float getWidth(){return width;}
     float getHeight(){return height;}
