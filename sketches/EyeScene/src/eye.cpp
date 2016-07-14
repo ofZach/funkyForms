@@ -95,26 +95,41 @@ void eye::close(){
     delay = ofRandom(0, 120);
     delayCounter = 0;
 }
-void eye::update(ofVec2f _pos){
-    // set resolution
-    int resolution = ofMap(width, 10, 500, 2, 40, true);
-    ball.setCircleResolution(resolution);
-    pupil.setCircleResolution(resolution);
-    lids.lidHole.setCurveResolution(resolution);
-    
-    pos = _pos;
-    width = initWidth*scale;
-    height = initHeight*scale;
-    
+void eye::createEyeball(){
     ball.clear();
     pupil.clear();
-    
-    lids.setSize(width, height);
-    lids.update();
-    
 
-    blinking();
+    lids.lidHole.translate(pos);
+
+    float radius = height/5.6;
     
+    pupil.circle(eyeballPos, radius/2);
+    pupil.setPolyWindingMode(OF_POLY_WINDING_ABS_GEQ_TWO );
+    pupil.append(lids.lidHole);
+    
+    ball.circle(eyeballPos, radius);
+    ball.setPolyWindingMode(OF_POLY_WINDING_ABS_GEQ_TWO );
+    ball.append(lids.lidHole);
+}
+void eye::calcEyeballPos(){
+    float eyeMaxRadius = width/5.;
+    float diffX = lookAtPos.x - pos.x;
+    float diffY = lookAtPos.y - pos.y;
+    float angleTo = atan2(diffY, diffX);
+    
+    float r = width/10.;
+    ofVec2f offsetPos(ofMap(movePos.x, 0, 1, -r, r),
+                      ofMap(movePos.y, 0, 1, -r, r)
+                      );
+    
+    if(pos.distance(lookAtPos)<eyeMaxRadius){
+        eyeballPos.set(lookAtPos.x+offsetPos.x, lookAtPos.y);
+    }else{
+        eyeballPos.set(pos.x + eyeMaxRadius * cos(angleTo)+offsetPos.x,
+                       pos.y + eyeMaxRadius * sin(angleTo)+offsetPos.y );
+    }
+}
+void eye::calcEyeballMovements(){
     if(ofGetFrameNum()%(int)ofRandom(50, 170)==0){
         isMove = true;
     }
@@ -125,35 +140,29 @@ void eye::update(ofVec2f _pos){
     if(moveCounter%(int)ofRandom(2, 10)==0){
         isMove = false;
     }
-    float r = width/10.;
-    ofVec2f offsetPos(ofMap(movePos.x, 0, 1, -r, r),
-                      ofMap(movePos.y, 0, 1, -r, r)
-                      );
-    
-    float eyeMaxRadius = width/5.;
-    float diffX = lookAtPos.x - pos.x;
-    float diffY = lookAtPos.y - pos.y;
-    float angleTo = atan2(diffY, diffX);
-    
-    ofVec2f ballPos;
-    if(pos.distance(lookAtPos)<eyeMaxRadius){
-        ballPos.set(lookAtPos.x, lookAtPos.y);
-    }else{
-        ballPos.set(pos.x + eyeMaxRadius * cos(angleTo)+offsetPos.x, pos.y + eyeMaxRadius * sin(angleTo)+offsetPos.y );
-    }
-        
-    lids.lidHole.translate(pos);
-    
-    float radius = height/5.6;
-    
-    pupil.circle(ballPos, radius/2);
-    pupil.setPolyWindingMode(OF_POLY_WINDING_ABS_GEQ_TWO );
-    pupil.append(lids.lidHole);
-    
-    ball.circle(ballPos, radius);
-    ball.setPolyWindingMode(OF_POLY_WINDING_ABS_GEQ_TWO );
-    ball.append(lids.lidHole);
 }
+void eye::update(ofVec2f _pos){
+    // set resolution
+    int resolution = ofMap(width, 10, 500, 2, 40, true);
+    ball.setCircleResolution(resolution);
+    pupil.setCircleResolution(resolution);
+    lids.lidHole.setCurveResolution(resolution);
+    
+    // update parameters
+    pos = _pos;
+    width = initWidth*scale;
+    height = initHeight*scale;
+    lids.setSize(width, height);
+    lids.update();
+    lids.updateScaleForce();
+    
+    blinking();
+    
+    // eyeBall
+    calcEyeballMovements();
+    calcEyeballPos();
+    createEyeball();
+ }
 void eye::addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxScale){
     if(pos.distance(_pos) < _radius){
         scale += _speed;

@@ -4,7 +4,7 @@
 void ofApp::setup(){
     ofBackground(0);
     eyeManager.setup();
-    eyeManager.targets = &targets.targets;
+    eyeManager.setTargets(&targets.targets);
     targets.setup();
 }
 

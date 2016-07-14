@@ -45,10 +45,12 @@ public:
     void open();
     void close();
     void update();
+    void updateScaleForce();
     
     void setSize(float _w, float _h){width = _w; height = _h;}
     void setAngle(float _angle){angle = _angle;}
     void setScaleSpeed(float speed){scaleSpeed = speed;}
+    
 };
 
 #endif /* lid_hpp */

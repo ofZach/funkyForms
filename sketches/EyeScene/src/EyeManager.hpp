@@ -18,8 +18,6 @@
 
 class EyeManager{
 public:
-    vector<Targets::Target> *targets;
-    
     enum Behavior{
         B_ATTACK,
         B_WAIT,
@@ -40,7 +38,10 @@ public:
     void behaveAttack();
     void behaveRandom();
     
+    void setTargets( vector<Targets::Target> *t){ targets = t; }
+    
 private:
+    vector<Targets::Target> *targets;
     vector<particle> particles;
     vector<eye> eyes;
     

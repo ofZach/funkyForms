@@ -21,15 +21,16 @@ void lid::open(){
 void lid::close(){
     scaleVel = -scaleSpeed;
 }
-void lid::update(){
-    lidHole.clear();
-
+void lid::updateScaleForce(){
     // open/close eye
     scaleY += scaleVel;
     if(scaleY > 1.) isEyeOpen = true;
     if(scaleY < 0.) isEyeOpen = false;
     scaleY = ofClamp(scaleY, 0, 1);
-    
+}
+void lid::update(){
+    lidHole.clear();
+
     // create rig
     ofPoint p0(-width/2, 0);
     ofPoint p1(0, -height/2);

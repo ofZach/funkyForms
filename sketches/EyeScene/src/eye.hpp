@@ -16,6 +16,7 @@
 class eye {
 private:
     ofVec2f pos;
+    ofVec2f eyeballPos;
     ofVec2f lookAtPos;
     
     float width;
@@ -30,6 +31,7 @@ private:
     ofPath ball;
     ofPath pupil;
     lid lids;
+ 
     
     float scale = 1.0;
     
@@ -47,6 +49,9 @@ private:
     void closeEye();
     void openEye();
     void blinking();
+    void createEyeball();
+    void calcEyeballPos();
+    void calcEyeballMovements();
 public:
     
     void setup(ofVec2f _pos, float _width, float _height);
