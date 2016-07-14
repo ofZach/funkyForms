@@ -34,9 +34,25 @@ private:
     float scale = 1.0;
     
     ofColor eyeColor;
+    void randomBlink();
+    bool isBlinking = false;
+    bool isEyeOpening = true;
+    bool isEyeClosing = false;
+    bool isEyeOpen = false;
+    bool isEyeClose = false;
+    int blinkCounter = 0;
+    int delayCounter = 0;
+    int delay;
+    
+    void closeEye();
+    void openEye();
+    void blinking();
 public:
+    
     void setup(ofVec2f _pos, float _width, float _height);
     void update(ofVec2f _pos);
+    void open();
+    void close();
     void draw();
     void blink();
 
@@ -47,7 +63,8 @@ public:
     float getHeight(){return height;}
     ofVec2f getPos(){return pos;}
     float getScale(){return scale;};
-    
+    bool getEyeOpen(){return lids.isEyeOpen;}
+
     void addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxScale);
 
     void setAngle(float _angle){lids.setAngle(_angle);}

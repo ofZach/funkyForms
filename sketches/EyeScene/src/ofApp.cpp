@@ -40,6 +40,21 @@ void ofApp::keyPressed(int key){
         settings.saveFile("data.xml");
         isRecord = false;
     }
+    if(key == 'w'){
+        eyeManager.setBehavior(EyeManager::B_WAIT);
+    }
+    if(key == 'a'){
+        eyeManager.setBehavior(EyeManager::B_ATTACK);
+    }
+    if(key == 'r'){
+        eyeManager.setBehavior(EyeManager::B_RANDOM);
+    }
+    if(key == 'o'){
+        eyeManager.open();
+    }
+    if(key == 'c'){
+        eyeManager.close();
+    }
 }
 
 //--------------------------------------------------------------

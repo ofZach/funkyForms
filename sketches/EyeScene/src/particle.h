@@ -2,9 +2,24 @@
 #define PARTICLE_H
 
 #include "ofMain.h"
+
+class flockingForce {
+	public:
+	
+	int			count;
+	ofVec2f	sum;
+	float		distance;
+	float		strength;
+	
+};
+
 class particle
 {
 public:
+    flockingForce cohesion;
+    flockingForce seperation;
+    flockingForce alignment;
+    
     ofVec2f pos;
     ofVec2f vel;
     float angle = 0;
@@ -20,6 +35,9 @@ public:
     void addAttractionForce(float x, float y, float radius, float scale);
     void addRepulsionForce(particle &p, float radius, float scale);
     void addAttractionForce(particle &p, float radius, float scale);
+    
+    void addForFlocking(particle &p);
+    void addFlockingForce();
     
     void addDampingForce();
     

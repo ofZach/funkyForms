@@ -27,6 +27,8 @@ void EyeManager::setup(){
     dataCount = settings.getNumTags("pos");
     settings.popTag();
     
+    behavior = B_ATTACK;
+    
     init();
 }
 void EyeManager::reset(bool &b){
@@ -35,6 +37,7 @@ void EyeManager::reset(bool &b){
 void EyeManager::init(){
     eyes.clear();
     particles.clear();
+    targets.clear();
     for (int i = 0; i < count; i++){
         particle myParticle;
         float x = ofRandom(0,ofGetWidth());
@@ -54,33 +57,19 @@ void EyeManager::init(){
 }
 void EyeManager::update(float x, float y){
     ofVec2f mPos(x, y);
-    
-    for (int i = 0; i < particles.size(); i++){
-        for(auto &t: targets){
-            eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
-            eyes[i].lookAtNear(t.pos);
-        }
-        eyes[i].update(particles[i].getPos());
-        eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
-        particles[i].resetForce();
+    switch (behavior) {
+        case B_ATTACK:
+            behaveAttack();
+            break;
+        case B_WAIT:
+            behaveWait();
+            break;
+        case B_RANDOM:
+            behaveRandom();
+            break;
+        default:
+            break;
     }
-    for (int i = 0; i < particles.size(); i++){
-        float radius = eyes[i].getWidth()/repulsionRadius;
-        for (int j = 0; j < i; j++){
-            float radius2 = eyes[j].getWidth()/repulsionRadius;
-            particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
-        }
-        for(auto &t: targets){
-            particles[i].addAttractionForce(t.pos.x, t.pos.y, 1000, ofMap(t.vel.x, -20, 20, 0, 1, true));
-        }
-        
-    }
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].addDampingForce();
-        particles[i].update();
-    }
-
-    updateTargets();
 }
 void EyeManager::updateTargets(){
     for(auto &t: targets){
@@ -104,13 +93,118 @@ void EyeManager::updateTargets(){
         t.counter+=t.counterVel;
     }
 }
+void EyeManager::open(){
+    for(auto &eye: eyes){
+        eye.open();
+    }
+}
+void EyeManager::close(){
+    for(auto &eye: eyes){
+        eye.close();
+    }
+}
+// ---------------------------------- Behavior
+void EyeManager::behaveRandom(){
+    for (int i = 0; i < particles.size(); i++){
+        eyes[i].update(particles[i].getPos());
+        eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
+        particles[i].resetForce();
+    }
+    for (int i = 0; i < particles.size(); i++){
+        
+        float radius = eyes[i].getWidth()/repulsionRadius;
+        for (int j = 0; j < i; j++){
+            if (i != j){
+                particles[i].addForFlocking(particles[j]);
+            }
+            float radius2 = eyes[j].getWidth()/repulsionRadius;
+        }
+    }
+    for(auto &t: targets){
+        for (int i = 0; i < particles.size(); i++){
+            eyes[i].lookAtNear(t.pos);
+            eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
+        }
+    }
+    for (int i = 0; i < particles.size(); i++){
+        particles[i].addDampingForce();
+        particles[i].addFlockingForce();
+        particles[i].update();
+        
+        ofVec2f pos = particles[i].pos;
+        if (pos.x < 0) pos.x = ofGetWidth();
+        if (pos.x > ofGetWidth()) pos.x = 0;
+        if (pos.y < 0) pos.y = ofGetHeight();
+        if (pos.y > ofGetHeight()) pos.y = 0;
+        particles[i].pos = pos;
+    }
+    updateTargets();
+}
+void EyeManager::behaveWait(){
+    for (int i = 0; i < particles.size(); i++){
+        for(auto &t: targets){
+            eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
+            eyes[i].lookAtNear(t.pos);
+        }
+        eyes[i].update(particles[i].getPos());
+        eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
+        particles[i].resetForce();
+    }
+    for (int i = 0; i < particles.size(); i++){
+        float radius = eyes[i].getWidth()/repulsionRadius;
+        for (int j = 0; j < i; j++){
+            float radius2 = eyes[j].getWidth()/repulsionRadius;
+            particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
+        }
+        for(auto &t: targets){
+            particles[i].addRepulsionForce(t.pos.x, t.pos.y, 100, ofMap(t.vel.x, -10, 10, 0, 0.2, true));
+        }
+    }
+    for (int i = 0; i < particles.size(); i++){
+        particles[i].addDampingForce();
+        particles[i].update();
+    }
+    
+    updateTargets();
+}
+void EyeManager::behaveAttack(){
+    for (int i = 0; i < particles.size(); i++){
+        for(auto &t: targets){
+            eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
+            eyes[i].lookAtNear(t.pos);
+        }
+        eyes[i].update(particles[i].getPos());
+        eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
+        particles[i].resetForce();
+    }
+    for (int i = 0; i < particles.size(); i++){
+        float radius = eyes[i].getWidth()/repulsionRadius;
+        for (int j = 0; j < i; j++){
+            float radius2 = eyes[j].getWidth()/repulsionRadius;
+            particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
+        }
+        for(auto &t: targets){
+            particles[i].addAttractionForce(t.pos.x, t.pos.y, 1000, ofMap(t.vel.x, -10, 10, 0, 1, true));
+        }
+        
+        
+    }
+    for (int i = 0; i < particles.size(); i++){
+        particles[i].addDampingForce();
+        
+        particles[i].update();
+    }
+    
+    updateTargets();
+}
+
+// ---------------------------------- Draw
 void EyeManager::drawTargets(){
     for(auto &t: targets){
         ofDrawRectangle(t.pos, 50, 100);
     }
 }
 void EyeManager::draw(){
-    //    ofNoFill();
     ofSetColor(ofColor::lightBlue);
     drawTargets();
     for (int i = 0; i < particles.size(); i++){

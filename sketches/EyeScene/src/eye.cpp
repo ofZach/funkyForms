@@ -25,7 +25,10 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
     ball.setCircleResolution(resolution);
     pupil.setCircleResolution(resolution);
     lids.lidHole.setCurveResolution(resolution);
+
+    open();
     //((ofApp *)ofGetAppPtr())->keyPressed('z');
+    delay = ofRandom(0, 120);
     
 }
 void eye::draw(){
@@ -38,9 +41,59 @@ void eye::draw(){
     pupil.draw();
 }
 void eye::blink(){
-    lids.isBlink = true;
+    lids.isBlinking = true;
     float blinkSpeed = ofRandom(1.2, 5);
     lids.blinkSpeed = blinkSpeed;
+}
+void eye::randomBlink(){
+    if(lids.isEyeOpen && ofGetFrameNum()%(int)ofRandom(50, 170)==0){
+        lids.setScaleSpeed(ofRandom(0.1, 0.5));
+        lids.close();
+    }
+    if(!lids.isEyeOpen){
+        lids.open();
+    }
+}
+void eye::openEye(){
+    lids.setScaleSpeed(ofRandom(0.02, 0.05));
+    lids.open();
+    isBlinking = false;
+    blinkCounter = 0;
+    isEyeClosing = false;
+}
+void eye::closeEye(){
+    lids.setScaleSpeed(ofRandom(0.02, 0.05));
+    lids.close();
+    isEyeClosing = true;
+    isBlinking = false;
+}
+void eye::blinking(){
+    if(isEyeOpen && delayCounter == delay){
+        openEye();
+        isEyeOpen = false;
+    }
+    if(isEyeClose && delayCounter == delay) {
+        closeEye();
+        isEyeClose = false;
+    }
+    delayCounter++;
+    if(isBlinking){
+        randomBlink();
+    }
+    if(blinkCounter>60 && !isEyeClosing){
+        isBlinking = true;
+    }
+    blinkCounter++;
+}
+void eye::open(){
+    isEyeOpen = true;
+    delay = ofRandom(0, 120);
+    delayCounter = 0;
+}
+void eye::close(){
+    isEyeClose = true;
+    delay = ofRandom(0, 120);
+    delayCounter = 0;
 }
 void eye::update(ofVec2f _pos){
     // set resolution
@@ -59,11 +112,9 @@ void eye::update(ofVec2f _pos){
     lids.setSize(width, height);
     lids.update();
     
-    if(ofGetFrameNum()%(int)ofRandom(50, 170)==0){
-        lids.isBlink = true;
-        float blinkSpeed = ofRandom(1.2, 5);
-        lids.blinkSpeed = blinkSpeed;
-    }
+
+    blinking();
+    
     if(ofGetFrameNum()%(int)ofRandom(50, 170)==0){
         isMove = true;
     }
@@ -74,9 +125,9 @@ void eye::update(ofVec2f _pos){
     if(moveCounter%(int)ofRandom(2, 10)==0){
         isMove = false;
     }
-    
-    ofVec2f offsetPos(ofMap(movePos.x, 0, 1, -width/2., width/2.),
-                      ofMap(movePos.y, 0, 1, -height/2., height/2.)
+    float r = width/10.;
+    ofVec2f offsetPos(ofMap(movePos.x, 0, 1, -r, r),
+                      ofMap(movePos.y, 0, 1, -r, r)
                       );
     
     float eyeMaxRadius = width/5.;
@@ -88,7 +139,7 @@ void eye::update(ofVec2f _pos){
     if(pos.distance(lookAtPos)<eyeMaxRadius){
         ballPos.set(lookAtPos.x, lookAtPos.y);
     }else{
-        ballPos.set(pos.x + eyeMaxRadius * cos(angleTo), pos.y + eyeMaxRadius * sin(angleTo) );
+        ballPos.set(pos.x + eyeMaxRadius * cos(angleTo)+offsetPos.x, pos.y + eyeMaxRadius * sin(angleTo)+offsetPos.y );
     }
         
     lids.lidHole.translate(pos);

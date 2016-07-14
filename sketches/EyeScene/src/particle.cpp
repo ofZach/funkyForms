@@ -3,6 +3,14 @@
 
 //------------------------------------------------------------
 particle::particle(){
+    seperation.distance		= 20;
+    alignment.distance		= 80;
+    cohesion.distance		= 40;
+    
+    seperation.strength		= .03;
+    alignment.strength		= .015;
+    cohesion.strength		= .015;
+    
 	setInitialCondition(0,0,0,0);
 	damping = 0.08f;
 }
@@ -199,6 +207,58 @@ void particle::draw(){
     ofCircle(pos.x, pos.y, 3);
 }
 
+void particle::addFlockingForce(){
+    
+    
+    
+    // seperation
+    if(seperation.count > 0){							// let's add seperation :)
+        seperation.sum /= (float)seperation.count;
+        float sepFrc 	= seperation.strength;
+        frc -= (seperation.sum.normalized()		    * sepFrc);
+    }
+    
+    // alignment
+    if(alignment.count > 0){
+        alignment.sum /= (float)alignment.count;
+        float alignFrc 	= alignment.strength;
+        frc += (alignment.sum		* alignFrc);		// don't normalize the allignment, just use the average
+    }
+    
+    // cohesion
+    if(cohesion.count > 0){
+        cohesion.sum /= (float)cohesion.count;
+        cohesion.sum -= pos;
+        float cohFrc 	= cohesion.strength;
+        frc += (cohesion.sum.normalized()			* cohFrc);
+    }
+    
+}
+void particle::addForFlocking(particle &p){
+    
+    ofVec3f diff, diffNormalized;
+    float distance;
+    
+    diff			= p.pos - pos;
+    distance		= diff.length();
+    diffNormalized	= diff;
+    diffNormalized.normalize();
+    
+    if( distance > 0 && distance < seperation.distance ){
+        seperation.sum += diffNormalized;
+        seperation.count++;
+    }
+    
+    if( distance > 0 && distance < alignment.distance ){
+        alignment.sum += p.vel.getNormalized();
+        alignment.count++;
+    }
+    
+    if( distance > 0 && distance < cohesion.distance ){
+        cohesion.sum += p.pos;
+        cohesion.count++;
+    }
+}
 
 //------------------------------------------------------------
 void particle::bounceOffWalls(){

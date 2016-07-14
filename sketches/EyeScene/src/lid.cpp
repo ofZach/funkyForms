@@ -12,25 +12,23 @@ void lid::setup(int _width, int _height){
     height = _height;
     
     lidHole.setCurveResolution(6);
+    scaleY = 0; // eye closed
+    randomDelay = (int) ofRandom(0, 120);
+}
+void lid::open(){
+    scaleVel = scaleSpeed;
+}
+void lid::close(){
+    scaleVel = -scaleSpeed;
 }
 void lid::update(){
     lidHole.clear();
 
-    if(isBlink){
-        int maxCount = 2*pi*blinkSpeed;
-        float sine = (-cos(blinkCounter*1.0/blinkSpeed+pi)+1)/2.0;
-        float sine2 = (-cos(blinkCounter*1.0/blinkSpeed+pi)+1)/2.0;
-        scaleY = sine*scale;
-        
-        if(blinkCounter > maxCount){
-            scaleY = scale;
-            blinkCounter = 0;
-            isBlink = false;
-            
-        }else{
-            blinkCounter++;
-        }
-    }
+    // open/close eye
+    scaleY += scaleVel;
+    if(scaleY > 1.) isEyeOpen = true;
+    if(scaleY < 0.) isEyeOpen = false;
+    scaleY = ofClamp(scaleY, 0, 1);
     
     // create rig
     ofPoint p0(-width/2, 0);

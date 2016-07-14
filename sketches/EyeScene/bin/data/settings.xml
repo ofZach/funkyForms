@@ -1,12 +1,12 @@
 <group>
 	<attractionForce>0.5</attractionForce>
 	<repulsionForce>3.9061</repulsionForce>
-	<attractionRadius>825.9</attractionRadius>
-	<scaleSpeed>0.03375</scaleSpeed>
-	<scaleMax>4.57</scaleMax>
-	<scaleRadius>99.55</scaleRadius>
+	<attractionRadius>517.45</attractionRadius>
+	<scaleSpeed>0.0309</scaleSpeed>
+	<scaleMax>1.75</scaleMax>
+	<scaleRadius>129.4</scaleRadius>
 <group/>
-<repulsionRadius>1.4225</repulsionRadius>
-<count>50</count>
-	<initButton>1</initButton>
+<repulsionRadius>1.535</repulsionRadius>
+<count>1</count>
+	<initButton>0</initButton>
 </group>

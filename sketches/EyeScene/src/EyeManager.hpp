@@ -16,6 +16,31 @@
 #include "ofxXmlSettings.h"
 
 class EyeManager{
+public:
+    enum Behavior{
+        B_ATTACK,
+        B_WAIT,
+        B_RANDOM,
+    };
+    
+    void setup();
+    void update(float x, float y);
+    void updateTargets();
+    
+    void draw();
+    void drawTargets();
+    
+    void init();
+    
+    void reset(bool &i);
+    void setBehavior(Behavior b){behavior = b;};
+    void close(); // close all eyes
+    void open(); // open all eyes
+
+    void behaveWait();
+    void behaveAttack();
+    void behaveRandom();
+    
 private:
     vector<particle> particles;
     vector<eye> eyes;
@@ -36,22 +61,17 @@ private:
         ofVec2f pos;
         ofVec2f prevPos;
         ofVec2f vel;
+        ofColor col;
         int counter = 0;
         int counterVel = 1;
     };
     vector<Target> targets;
-
+    
     ofxXmlSettings settings;
+    
     int dataCount;
     
-public:
-    void setup();
-    void update(float x, float y);
-    void draw();
-    void drawTargets();
-    void updateTargets();
-    void init();
-    void reset(bool &i);
+    Behavior behavior;
 };
 
 #endif /* EyeManager_hpp */
