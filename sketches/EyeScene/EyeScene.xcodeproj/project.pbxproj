@@ -37,6 +37,8 @@
 		72BBAA4A1D3687D600DDC68B /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72BBA9711D3687D600DDC68B /* ofxCvImage.cpp */; };
 		72BBAA4B1D3687D600DDC68B /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72BBA9731D3687D600DDC68B /* ofxCvShortImage.cpp */; };
 		72BBAA4C1D3687D600DDC68B /* opencv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BBAA421D3687D600DDC68B /* opencv.a */; };
+		72BBAA591D37FF6000DDC68B /* EyeLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72BBAA571D37FF6000DDC68B /* EyeLinker.cpp */; };
+		72BBAA5C1D37FF9600DDC68B /* Targets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72BBAA5A1D37FF9600DDC68B /* Targets.cpp */; };
 		81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73799D65360CD587DCAE90A0 /* ofxLabel.cpp */; };
 		8AAF2BA4AFCBEC334841B989 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FB861B0D843DF212503B18 /* tinyxmlparser.cpp */; };
 		A2953313263AE1234930247E /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA7CD14AC4CC1AF68D59D19 /* ofxSlider.cpp */; };
@@ -306,6 +308,10 @@
 		72BBAA2E1D3687D600DDC68B /* videostab.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = videostab.hpp; sourceTree = "<group>"; };
 		72BBAA421D3687D600DDC68B /* opencv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = opencv.a; sourceTree = "<group>"; };
 		72BBAA441D3687D600DDC68B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		72BBAA571D37FF6000DDC68B /* EyeLinker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EyeLinker.cpp; sourceTree = "<group>"; };
+		72BBAA581D37FF6000DDC68B /* EyeLinker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EyeLinker.hpp; sourceTree = "<group>"; };
+		72BBAA5A1D37FF9600DDC68B /* Targets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Targets.cpp; sourceTree = "<group>"; };
+		72BBAA5B1D37FF9600DDC68B /* Targets.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Targets.hpp; sourceTree = "<group>"; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		78F524ADA8DDC5DF3F460FA5 /* ofxToggle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxToggle.h; path = ../../../../addons/ofxGui/src/ofxToggle.h; sourceTree = SOURCE_ROOT; };
 		8AED12DBC5DC04739E95CD26 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
@@ -1001,6 +1007,10 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				72BBAA5A1D37FF9600DDC68B /* Targets.cpp */,
+				72BBAA5B1D37FF9600DDC68B /* Targets.hpp */,
+				72BBAA571D37FF6000DDC68B /* EyeLinker.cpp */,
+				72BBAA581D37FF6000DDC68B /* EyeLinker.hpp */,
 				7283E46A1D35381600C4A29B /* EyeManager.cpp */,
 				7283E46B1D35381600C4A29B /* EyeManager.hpp */,
 				7283E4641D3537D500C4A29B /* eye.cpp */,
@@ -1139,11 +1149,13 @@
 				A2953313263AE1234930247E /* ofxSlider.cpp in Sources */,
 				72BBAA4A1D3687D600DDC68B /* ofxCvImage.cpp in Sources */,
 				413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */,
+				72BBAA5C1D37FF9600DDC68B /* Targets.cpp in Sources */,
 				72BBA9561D3687D100DDC68B /* fdog.cpp in Sources */,
 				B07D6C52C2FE371D2B91739E /* ofxToggle.cpp in Sources */,
 				72BBAA491D3687D600DDC68B /* ofxCvHaarFinder.cpp in Sources */,
 				40755491CDDD7249B25A1F2D /* ofxXmlSettings.cpp in Sources */,
 				B8A4986AE3CFD44755D311C7 /* tinyxml.cpp in Sources */,
+				72BBAA591D37FF6000DDC68B /* EyeLinker.cpp in Sources */,
 				28DCB9949680410908EFD4D5 /* tinyxmlerror.cpp in Sources */,
 				8AAF2BA4AFCBEC334841B989 /* tinyxmlparser.cpp in Sources */,
 				72BBA9551D3687D100DDC68B /* ETF.cpp in Sources */,

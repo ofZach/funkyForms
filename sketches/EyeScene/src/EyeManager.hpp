@@ -14,9 +14,12 @@
 #include "particle.h"
 #include "ofxGui.h"
 #include "ofxXmlSettings.h"
+#include "Targets.hpp"
 
 class EyeManager{
 public:
+    vector<Targets::Target> *targets;
+    
     enum Behavior{
         B_ATTACK,
         B_WAIT,
@@ -25,11 +28,7 @@ public:
     
     void setup();
     void update(float x, float y);
-    void updateTargets();
-    
     void draw();
-    void drawTargets();
-    
     void init();
     
     void reset(bool &i);
@@ -56,21 +55,9 @@ private:
     ofParameter<float> scaleSpeed;
     ofParameter<float> scaleMax;
     ofParameter<float> scaleRadius;
+
     
-    struct Target{
-        ofVec2f pos;
-        ofVec2f prevPos;
-        ofVec2f vel;
-        ofColor col;
-        int counter = 0;
-        int counterVel = 1;
-    };
-    vector<Target> targets;
-    
-    ofxXmlSettings settings;
-    
-    int dataCount;
-    
+
     Behavior behavior;
 };
 

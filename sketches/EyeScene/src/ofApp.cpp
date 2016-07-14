@@ -4,16 +4,21 @@
 void ofApp::setup(){
     ofBackground(0);
     eyeManager.setup();
+    eyeManager.targets = &targets.targets;
+    targets.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    targets.update();
     eyeManager.update(mouseX, mouseY);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    targets.draw();
     eyeManager.draw();
+    
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 
@@ -23,7 +28,6 @@ void ofApp::draw(){
         settings.addValue("x", mouseX);
         settings.addValue("y", mouseY);
         settings.popTag();
-        
         counter++;
     }
 }

@@ -21,11 +21,7 @@ void EyeManager::setup(){
     gui.setup(parameters);
     gui.loadFromFile("settings.xml");
 
-    settings.loadFile("data.xml");
-    
-    settings.pushTag("data");
-    dataCount = settings.getNumTags("pos");
-    settings.popTag();
+
     
     behavior = B_ATTACK;
     
@@ -37,7 +33,6 @@ void EyeManager::reset(bool &b){
 void EyeManager::init(){
     eyes.clear();
     particles.clear();
-    targets.clear();
     for (int i = 0; i < count; i++){
         particle myParticle;
         float x = ofRandom(0,ofGetWidth());
@@ -48,11 +43,6 @@ void EyeManager::init(){
         eyes[i].setup(ofVec2f(x, y), 50, 50);
         eyes[i].setEyeColor(ofColor::darkGray);
         eyes[i].setScale(ofRandom(1, 2));
-    }
-    for (int i = 0; i < 4; i++) {
-        Target t;
-        t.counter = (int)ofRandom(0, dataCount-1);
-        targets.push_back(t);
     }
 }
 void EyeManager::update(float x, float y){
@@ -71,28 +61,7 @@ void EyeManager::update(float x, float y){
             break;
     }
 }
-void EyeManager::updateTargets(){
-    for(auto &t: targets){
-        settings.pushTag("data");
-        settings.pushTag("pos", t.counter);
-        t.pos.x = settings.getValue("x", 0.0);
-        t.pos.y = settings.getValue("y", 0.0);
-        settings.popTag();
-        settings.popTag();
-        
-        t.vel = t.pos - t.prevPos;
-        
-        t.prevPos = t.pos;
-        
-        if(t.counter == dataCount-1){
-            t.counterVel = -1;
-        }
-        if(t.counter == 0){
-            t.counterVel = 1;
-        }
-        t.counter+=t.counterVel;
-    }
-}
+
 void EyeManager::open(){
     for(auto &eye: eyes){
         eye.open();
@@ -120,7 +89,7 @@ void EyeManager::behaveRandom(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
         }
     }
-    for(auto &t: targets){
+    for(auto &t: *targets){
         for (int i = 0; i < particles.size(); i++){
             eyes[i].lookAtNear(t.pos);
             eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
@@ -138,11 +107,10 @@ void EyeManager::behaveRandom(){
         if (pos.y > ofGetHeight()) pos.y = 0;
         particles[i].pos = pos;
     }
-    updateTargets();
 }
 void EyeManager::behaveWait(){
     for (int i = 0; i < particles.size(); i++){
-        for(auto &t: targets){
+        for(auto &t: *targets){
             eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
             eyes[i].lookAtNear(t.pos);
         }
@@ -156,7 +124,7 @@ void EyeManager::behaveWait(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
-        for(auto &t: targets){
+        for(auto &t: *targets){
             particles[i].addRepulsionForce(t.pos.x, t.pos.y, 100, ofMap(t.vel.x, -10, 10, 0, 0.2, true));
         }
     }
@@ -165,11 +133,10 @@ void EyeManager::behaveWait(){
         particles[i].update();
     }
     
-    updateTargets();
 }
 void EyeManager::behaveAttack(){
     for (int i = 0; i < particles.size(); i++){
-        for(auto &t: targets){
+        for(auto &t: *targets){
             eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
             eyes[i].lookAtNear(t.pos);
         }
@@ -183,30 +150,20 @@ void EyeManager::behaveAttack(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
-        for(auto &t: targets){
+        for(auto &t: *targets){
             particles[i].addAttractionForce(t.pos.x, t.pos.y, 1000, ofMap(t.vel.x, -10, 10, 0, 1, true));
         }
-        
         
     }
     for (int i = 0; i < particles.size(); i++){
         particles[i].addDampingForce();
-        
         particles[i].update();
     }
-    
-    updateTargets();
 }
 
 // ---------------------------------- Draw
-void EyeManager::drawTargets(){
-    for(auto &t: targets){
-        ofDrawRectangle(t.pos, 50, 100);
-    }
-}
 void EyeManager::draw(){
     ofSetColor(ofColor::lightBlue);
-    drawTargets();
     for (int i = 0; i < particles.size(); i++){
         eyes[i].draw();
     }
