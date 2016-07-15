@@ -4,20 +4,29 @@
 void ofApp::setup(){
     ofBackground(0);
     eyeManager.setup();
+    eyeLinker.setup();
     eyeManager.setTargets(&targets.targets);
     targets.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    ofVec2f m(mouseX, mouseY);
+    ofVec2f vel = m - prevPos;
+    prevPos = m;
+    
     targets.update();
+    eyeLinker.setVel(vel);
+    
+    eyeLinker.update(ofVec2f(mouseX, mouseY));
     eyeManager.update(mouseX, mouseY);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    targets.draw();
-    eyeManager.draw();
+//    targets.draw();
+//    eyeManager.draw();
+    eyeLinker.draw();
     
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);

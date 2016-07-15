@@ -14,6 +14,7 @@ void lid::setup(int _width, int _height){
     lidHole.setCurveResolution(6);
     scaleY = 0; // eye closed
     randomDelay = (int) ofRandom(0, 120);
+    topLidPos = -height/2;
 }
 void lid::open(){
     scaleVel = scaleSpeed;
@@ -33,7 +34,7 @@ void lid::update(){
 
     // create rig
     ofPoint p0(-width/2, 0);
-    ofPoint p1(0, -height/2);
+    ofPoint p1(0, topLidPos);
     ofPoint p2(width/2, 0);
     ofPoint p3(0, height/2);
     
@@ -44,4 +45,7 @@ void lid::update(){
     
     lidHole.scale(scaleX, scaleY);
     lidHole.rotate(angle, ofVec3f(0, 0, 1));
+}
+void lid::setTopLidPos(float percent){
+    topLidPos = ofMap(percent, 0, 1, -height/2, height/2);
 }

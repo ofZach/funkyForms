@@ -30,6 +30,7 @@ private:
     int randomDelay;
     float scaleVel = 0.2;
     float scaleSpeed = 0.2;
+    float topLidPos;
 public:
     int blinkSpeed = 2;
     ofVec2f pos;
@@ -47,10 +48,15 @@ public:
     void update();
     void updateScaleForce();
     
+    float getTopLidPos(){return topLidPos;}
+    float getHeight(){return height;}
+    float getWidth(){return width;}
+    
     void setSize(float _w, float _h){width = _w; height = _h;}
     void setAngle(float _angle){angle = _angle;}
     void setScaleSpeed(float speed){scaleSpeed = speed;}
-    
+    void setScale(float _scale){scaleY = _scale;}
+    void setTopLidPos(float percent);
 };
 
 #endif /* lid_hpp */

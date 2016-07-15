@@ -52,6 +52,8 @@ private:
     void createEyeball();
     void calcEyeballPos();
     void calcEyeballMovements();
+    bool isUpdateBlink = true;
+    float topLidPercent = 0;
 public:
     
     void setup(ofVec2f _pos, float _width, float _height);
@@ -69,11 +71,14 @@ public:
     ofVec2f getPos(){return pos;}
     float getScale(){return scale;};
     bool getEyeOpen(){return lids.isEyeOpen;}
-
+    lid *getLids(){return &lids;}
+    void setUpdateBlink(bool b){isUpdateBlink = b;}
     void addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxScale);
+    void addAngryForce(bool isClose, float speed, float max);
 
     void setAngle(float _angle){lids.setAngle(_angle);}
     void setScale(float _scale){scale = _scale;}
+    void setEyeLidScale(float _scale){lids.setScale(_scale);}
     void setEyeColor(ofColor color){eyeColor = color;};
 };
 

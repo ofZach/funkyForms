@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "EyeManager.hpp"
+#include "EyeLinker.hpp"
 #include "ofxXmlSettings.h"
 #include "Targets.hpp"
 
@@ -23,11 +24,14 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
     EyeManager eyeManager;
+    EyeLinker eyeLinker;
     Targets targets;
     
     ofxXmlSettings settings;
     bool isRecord;
     int counter = 0;
+    ofVec2f prevPos;
 };
 

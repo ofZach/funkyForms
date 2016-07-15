@@ -29,7 +29,6 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
     open();
     //((ofApp *)ofGetAppPtr())->keyPressed('z');
     delay = ofRandom(0, 120);
-    
 }
 void eye::draw(){
     lids.lidHole.draw();
@@ -123,7 +122,7 @@ void eye::calcEyeballPos(){
                       );
     
     if(pos.distance(lookAtPos)<eyeMaxRadius){
-        eyeballPos.set(lookAtPos.x+offsetPos.x, lookAtPos.y);
+        eyeballPos.set(lookAtPos.x+offsetPos.x, lookAtPos.y+offsetPos.y);
     }else{
         eyeballPos.set(pos.x + eyeMaxRadius * cos(angleTo)+offsetPos.x,
                        pos.y + eyeMaxRadius * sin(angleTo)+offsetPos.y );
@@ -154,7 +153,7 @@ void eye::update(ofVec2f _pos){
     height = initHeight*scale;
     lids.setSize(width, height);
     lids.update();
-    lids.updateScaleForce();
+    if(isUpdateBlink) lids.updateScaleForce();
     
     blinking();
     
@@ -176,4 +175,10 @@ void eye::lookAtNear(ofVec2f _pos){
     if(pos.distance(_pos) < 100){
         lookAtPos = _pos;
     }
+}
+void eye::addAngryForce(bool isClose, float speed, float max){
+    float s = speed;
+    isClose? topLidPercent += s : topLidPercent -= s;
+    topLidPercent = ofClamp(topLidPercent, 0, max);
+    lids.setTopLidPos(topLidPercent);
 }
