@@ -13,7 +13,7 @@
 		413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B37C8367EB4811EEF8E78D /* ofxSliderGroup.cpp */; };
 		7283E4661D3537D500C4A29B /* eye.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7283E4641D3537D500C4A29B /* eye.cpp */; };
 		7283E4691D3537F400C4A29B /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7283E4671D3537F400C4A29B /* particle.cpp */; };
-		7283E46C1D35381600C4A29B /* EyeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7283E46A1D35381600C4A29B /* EyeManager.cpp */; };
+		7283E46C1D35381600C4A29B /* EyeParticles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7283E46A1D35381600C4A29B /* EyeParticles.cpp */; };
 		7283E46F1D35392700C4A29B /* lid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7283E46D1D35392700C4A29B /* lid.cpp */; };
 		72BBA9551D3687D100DDC68B /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72BBA9371D3687D100DDC68B /* ETF.cpp */; };
 		72BBA9561D3687D100DDC68B /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72BBA9381D3687D100DDC68B /* fdog.cpp */; };
@@ -94,8 +94,8 @@
 		7283E4651D3537D500C4A29B /* eye.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eye.hpp; sourceTree = "<group>"; };
 		7283E4671D3537F400C4A29B /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
 		7283E4681D3537F400C4A29B /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
-		7283E46A1D35381600C4A29B /* EyeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EyeManager.cpp; sourceTree = "<group>"; };
-		7283E46B1D35381600C4A29B /* EyeManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EyeManager.hpp; sourceTree = "<group>"; };
+		7283E46A1D35381600C4A29B /* EyeParticles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = EyeParticles.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		7283E46B1D35381600C4A29B /* EyeParticles.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = EyeParticles.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		7283E46D1D35392700C4A29B /* lid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lid.cpp; sourceTree = "<group>"; };
 		7283E46E1D35392700C4A29B /* lid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lid.hpp; sourceTree = "<group>"; };
 		72BBA92B1D3687D100DDC68B /* ofxCv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCv.h; sourceTree = "<group>"; };
@@ -332,8 +332,8 @@
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* EyeSceneDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeSceneDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
+		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; lineEnding = 0; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
@@ -1014,8 +1014,8 @@
 				72BBAA5B1D37FF9600DDC68B /* Targets.hpp */,
 				72BBAA571D37FF6000DDC68B /* EyeLinker.cpp */,
 				72BBAA581D37FF6000DDC68B /* EyeLinker.hpp */,
-				7283E46A1D35381600C4A29B /* EyeManager.cpp */,
-				7283E46B1D35381600C4A29B /* EyeManager.hpp */,
+				7283E46A1D35381600C4A29B /* EyeParticles.cpp */,
+				7283E46B1D35381600C4A29B /* EyeParticles.hpp */,
 				7283E4641D3537D500C4A29B /* eye.cpp */,
 				7283E4651D3537D500C4A29B /* eye.hpp */,
 				7283E46D1D35392700C4A29B /* lid.cpp */,
@@ -1125,7 +1125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-				7283E46C1D35381600C4A29B /* EyeManager.cpp in Sources */,
+				7283E46C1D35381600C4A29B /* EyeParticles.cpp in Sources */,
 				72BBAA481D3687D600DDC68B /* ofxCvGrayscaleImage.cpp in Sources */,
 				72BBA9581D3687D100DDC68B /* ContourFinder.cpp in Sources */,
 				72BBA95F1D3687D100DDC68B /* Tracker.cpp in Sources */,

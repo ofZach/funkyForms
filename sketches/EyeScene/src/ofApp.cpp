@@ -3,9 +3,9 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofBackground(0);
-    eyeManager.setup();
+    eyeParticles.setup();
     eyeLinker.setup();
-    eyeManager.setTargets(&targets.targets);
+    eyeParticles.setTargets(&targets.targets);
     targets.setup();
 }
 
@@ -19,13 +19,13 @@ void ofApp::update(){
     eyeLinker.setVel(vel);
     
     eyeLinker.update(ofVec2f(mouseX, mouseY));
-    eyeManager.update(mouseX, mouseY);
+    eyeParticles.update(mouseX, mouseY);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 //    targets.draw();
-//    eyeManager.draw();
+//    eyeParticles.draw();
     eyeLinker.draw();
     
     ofSetColor(255);
@@ -54,19 +54,19 @@ void ofApp::keyPressed(int key){
         isRecord = false;
     }
     if(key == 'w'){
-        eyeManager.setBehavior(EyeManager::B_WAIT);
+        eyeParticles.setBehavior(EyeParticles::B_WAIT);
     }
     if(key == 'a'){
-        eyeManager.setBehavior(EyeManager::B_ATTACK);
+        eyeParticles.setBehavior(EyeParticles::B_ATTACK);
     }
     if(key == 'r'){
-        eyeManager.setBehavior(EyeManager::B_RANDOM);
+        eyeParticles.setBehavior(EyeParticles::B_RANDOM);
     }
     if(key == 'o'){
-        eyeManager.open();
+        eyeParticles.open();
     }
     if(key == 'c'){
-        eyeManager.close();
+        eyeParticles.close();
     }
 }
 

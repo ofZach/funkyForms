@@ -1,13 +1,13 @@
 //
-//  EyeManager.hpp
+//  EyeParticles.hpp
 //  EyeScene
 //
 //  Created by Zerc on 7/12/16.
 //
 //
 
-#ifndef EyeManager_hpp
-#define EyeManager_hpp
+#ifndef EyeParticles_hpp
+#define EyeParticles_hpp
 
 #include "ofMain.h"
 #include "eye.hpp"
@@ -16,7 +16,7 @@
 #include "ofxXmlSettings.h"
 #include "Targets.hpp"
 
-class EyeManager{
+class EyeParticles{
 public:
     enum Behavior{
         B_ATTACK,
@@ -62,4 +62,4 @@ private:
     Behavior behavior;
 };
 
-#endif /* EyeManager_hpp */
+#endif /* EyeParticles_hpp */

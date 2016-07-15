@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "EyeManager.hpp"
+#include "EyeParticles.hpp"
 #include "EyeLinker.hpp"
 #include "ofxXmlSettings.h"
 #include "Targets.hpp"
@@ -25,7 +25,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    EyeManager eyeManager;
+    EyeParticles eyeParticles;
     EyeLinker eyeLinker;
     Targets targets;
     
