@@ -33,6 +33,7 @@ void lid::update(){
     lidHole.clear();
 
     // create rig
+    topLidPos = ofMap(topLidPercent, 0, 1, -height/2, height/2, true);
     ofPoint p0(-width/2, 0);
     ofPoint p1(0, topLidPos);
     ofPoint p2(width/2, 0);
@@ -47,5 +48,5 @@ void lid::update(){
     lidHole.rotate(angle, ofVec3f(0, 0, 1));
 }
 void lid::setTopLidPos(float percent){
-    topLidPos = ofMap(percent, 0, 1, -height/2, height/2);
+    topLidPercent = percent;
 }

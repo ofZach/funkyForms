@@ -3,34 +3,48 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofBackground(0);
+    
+    eyePair.setup();
     eyeParticles.setup();
     eyeLinker.setup();
+    
     eyeParticles.setTargets(&targets.targets);
+    eyePair.setTargetManager(&targets);
+    eyePair.setTargets(&targets.targets);
+    
     targets.setup();
+    IM.setup();
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    IM.update();
+    targets.update(mouseX, mouseY);
+
     ofVec2f m(mouseX, mouseY);
     ofVec2f vel = m - prevPos;
     prevPos = m;
     
-    targets.update();
     eyeLinker.setVel(vel);
-    
+    eyePair.update(IM.getAveragePos()+ofVec2f(0, -300));
+    eyePair.lookAtSmart(IM.getFastestPos());
     eyeLinker.update(ofVec2f(mouseX, mouseY));
     eyeParticles.update(mouseX, mouseY);
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-//    targets.draw();
 //    eyeParticles.draw();
-    eyeLinker.draw();
+//    eyeLinker.draw();
+    eyePair.draw();
     
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 
+    IM.draw();
+    
     if(isRecord){
         settings.addTag("pos");
         settings.pushTag("pos", counter);
@@ -39,6 +53,8 @@ void ofApp::draw(){
         settings.popTag();
         counter++;
     }
+    ofSetColor(ofColor::red);
+    ofDrawRectangle(IM.getFastestPos(), 10, 10);
 }
 
 //--------------------------------------------------------------
@@ -68,11 +84,16 @@ void ofApp::keyPressed(int key){
     if(key == 'c'){
         eyeParticles.close();
     }
+    if(key == 'h'){
+        eyePair.hitStart();
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+    if(key == 'h'){
+        eyePair.hitEnd();
+    }
 }
 
 //--------------------------------------------------------------

@@ -59,7 +59,6 @@ void EyeLinker::update(ofVec2f _pos){
             eyes[i].setUpdateBlink(false);
             eyes[i].addAngryForce(true, 0.2, 0.6);
             eyes[i].lookAt(pos+ofVec2f(0, 100));
-            ofLog() << "idle";
         }else{
             if(isSleep){
                 eyes[i].setUpdateBlink(false);
@@ -99,6 +98,5 @@ void EyeLinker::setVel(ofVec2f _vel){
     if(idleCounter>120){
         isSleep = true;
     }
-    ofLog() << idleCounter;
     velPrev = vel;
 }

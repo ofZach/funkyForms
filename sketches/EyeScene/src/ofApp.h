@@ -5,6 +5,9 @@
 #include "EyeLinker.hpp"
 #include "ofxXmlSettings.h"
 #include "Targets.hpp"
+#include "EyePair.hpp"
+#include "inputManager.h"
+
 
 class ofApp : public ofBaseApp{
 
@@ -28,6 +31,9 @@ class ofApp : public ofBaseApp{
     EyeParticles eyeParticles;
     EyeLinker eyeLinker;
     Targets targets;
+    EyePair eyePair;
+    
+    inputManager IM;
     
     ofxXmlSettings settings;
     bool isRecord;

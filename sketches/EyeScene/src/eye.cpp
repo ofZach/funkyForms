@@ -45,8 +45,16 @@ void eye::blink(){
     lids.blinkSpeed = blinkSpeed;
 }
 void eye::randomBlink(){
-    if(lids.isEyeOpen && ofGetFrameNum()%(int)ofRandom(50, 170)==0){
-        lids.setScaleSpeed(ofRandom(0.1, 0.5));
+    if (isSynced){
+        scaleSpeed = eyeTarget->scaleSpeed;
+        blinkInterval = eyeTarget->blinkInterval;
+    }else{
+        scaleSpeed = ofRandom(0.1, 0.5);
+        blinkInterval = (int)ofRandom(50, 170);
+    }
+    
+    if(lids.isEyeOpen && ofGetFrameNum()%blinkInterval==0){
+        lids.setScaleSpeed(scaleSpeed);
         lids.close();
     }
     if(!lids.isEyeOpen){
@@ -102,7 +110,7 @@ void eye::createEyeball(){
 
     float radius = height/5.6;
     
-    pupil.circle(eyeballPos, radius/2);
+    pupil.circle(eyeballPos, radius/2*pupilScale);
     pupil.setPolyWindingMode(OF_POLY_WINDING_ABS_GEQ_TWO );
     pupil.append(lids.lidHole);
     
@@ -115,7 +123,7 @@ void eye::calcEyeballPos(){
     float diffX = lookAtPos.x - pos.x;
     float diffY = lookAtPos.y - pos.y;
     float angleTo = atan2(diffY, diffX);
-    
+    if(isSynced) movePos = eyeTarget->movePos;
     float r = width/10.;
     ofVec2f offsetPos(ofMap(movePos.x, 0, 1, -r, r),
                       ofMap(movePos.y, 0, 1, -r, r)
@@ -174,6 +182,16 @@ void eye::addScaleForce(ofVec2f _pos, float _radius, float _speed, float _maxSca
 void eye::lookAtNear(ofVec2f _pos){
     if(pos.distance(_pos) < 100){
         lookAtPos = _pos;
+    }
+}
+void eye::lookAtSmart(ofVec2f _pos){
+    if(isSynced){
+        lookAtPos = eyeTarget->lookAtPos;
+    }else{
+        if(ofGetFrameNum()%(int)ofRandom(5, 20) == 0){
+            LookAtSmartPos = _pos;
+        }
+        lookAtPos.interpolate(LookAtSmartPos, 0.6);
     }
 }
 void eye::addAngryForce(bool isClose, float speed, float max){

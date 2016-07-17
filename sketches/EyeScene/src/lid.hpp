@@ -31,6 +31,7 @@ private:
     float scaleVel = 0.2;
     float scaleSpeed = 0.2;
     float topLidPos;
+    float topLidPercent = 0;
 public:
     int blinkSpeed = 2;
     ofVec2f pos;
@@ -51,6 +52,8 @@ public:
     float getTopLidPos(){return topLidPos;}
     float getHeight(){return height;}
     float getWidth(){return width;}
+    
+    ofPath getPath(){return lidHole;}
     
     void setSize(float _w, float _h){width = _w; height = _h;}
     void setAngle(float _angle){angle = _angle;}
