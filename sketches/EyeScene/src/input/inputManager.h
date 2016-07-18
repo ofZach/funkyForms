@@ -6,16 +6,10 @@
 
 class inputManager {
 private:
-    
     cvManager CVM;
-    
     ofVideoPlayer player;
-    
     vector < cv::Point2f > inputQuad;
-    
     ofImage blah;
-    
-    
     
 public:
     ofVec2f pos;
@@ -24,6 +18,8 @@ public:
     struct Target{
         ofVec2f pos;
         ofVec2f vel;
+        ofRectangle rect;
+        float age = 0;
     };
     vector<Target> targets;
     
@@ -34,8 +30,9 @@ public:
     void draw();
     Target *getFastestTarget();
     
-    ofVec2f getAveragePos(){return averagePos;}
-    ofVec2f getFastestPos(){
+    ofVec2f getAveragePos (){ return averagePos;}
+    ofVec2f getClosesetPosTo ( ofVec2f _pos);
+    ofVec2f getFastestPos (){
         if(targets.size()>0){
             return getFastestTarget()->pos;
         }else{

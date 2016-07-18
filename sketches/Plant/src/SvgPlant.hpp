@@ -10,13 +10,10 @@
 #define SvgPlant_hpp
 
 #include "ofMain.h"
-#include "ofxSvg.h"
 class SvgPlant{
 public:
     ofPoint points[14];
-    ofxSVG svg;
-    ofTessellator tess;
-    vector<ofPolyline> outlines;
+
     ofPolyline polyLeft;
     ofPolyline polyTop;
     ofMesh mesh;

@@ -10,8 +10,8 @@
 void Plant::setup(){
     randomize();
 }
-void Plant::update(ofVec2f _velocity){
-    smooth(&velocity, _velocity);
+void Plant::update(){
+    
 }
 void Plant::smooth(ofVec2f *vec , ofVec2f newVec){
     float smoothVal = 0.97;
@@ -42,7 +42,7 @@ Plant::branchSettings Plant::mainBSettings(int i){
 void Plant::impulse(int colNum){
     ofNotifyEvent(onImpulse, colors[colNum]);
 }
-void Plant::draw(int x, int y){
+void Plant::draw(){
     int i = 0;
     int limit = 3;
 //    if (velocity.x < -limit || velocity.x > limit ) {
@@ -54,18 +54,18 @@ void Plant::draw(int x, int y){
     timer++;
     for (int i = 0; i < mainBranch.size(); i++) {
         branchSettings s = mainBSettings(i);
-        s.pos.set(x, y);
+        s.pos = pos;
 
         if(i>0){
             branchSettings b;
             b.radius = (30+ofNoise(ofGetElapsedTimef()+i*100)*30)*size;
 
             float top_wMin = 60/(i+1) ;
-            float top_wVel = velocity.x*(20.0/(i+1)) +ofNoise(ofGetElapsedTimef()+i*20)*30;
-            float top_w = top_wMin + max( top_wVel*1.0, top_wMin/5.0); //
-            float top_h = 100/(i+1)*size;
-            float left_w = 100/(i+1);
-            float left_h = 30/(i+1)*size;
+            float top_wVel = (velocity.x*(20.0/(i+1)) +ofNoise(ofGetElapsedTimef()+i*20)*30)*scale;
+            float top_w = (top_wMin + max( top_wVel*1.0, top_wMin/5.0))*scale; //
+            float top_h = 100/(i+1)*scale;
+            float left_w = 100/(i+1)*scale;
+            float left_h = 30/(i+1)*scale;
             
             ofRectangle *r5 = &mainBranch[i-1].rect5;
             ofRectangle *r6 = &mainBranch[i-1].rect6;
@@ -88,17 +88,11 @@ void Plant::draw(int x, int y){
             
             branches[i-1].update(b.pos, b.leftRect, b.topRect, b.radius);
             branches[i-1].draw();
-//            branches[i-1].currColor = mainBranch[i-1].currColor;
-//            mainBranch[i].currColor = mainBranch[i-1].currColor;
-//            branches[i-1].drawDebug();
-//            branches[i-1].drawCenterLine();
         }
 
         mainBranch[i].update(s.pos, s.leftRect, s.topRect, s.radius);
         
         mainBranch[i].draw();
-//        mainBranch[i].drawDebug();
-//        mainBranch[i].drawCenterLine();
         ofSetColor(ofColor::red);
     }
 }

@@ -18,7 +18,9 @@ void cvManager::update(ofPixels & pixels){
     
         contourFinder.setThreshold(115);
         contourFinder.findContours(pixels);
+  
     
+   
     
 }
 
