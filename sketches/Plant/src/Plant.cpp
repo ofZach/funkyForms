@@ -102,12 +102,12 @@ void Plant::randomize(){
     mainBranchCount = (int)ofRandom(3, 6);
     
     for (int i = 0; i < mainBranchCount; i++) {
-        SvgPlant svgplant;
-        svgplant.color = ofColor::lightGreen;
-        svgplant.isLeft = (int)ofRandom(2);
-        svgplant.isCap = (int)ofRandom(2);
-        svgplant.isTopRound = (int)ofRandom(2);
-        mainBranch.push_back(svgplant);
+        Branch Branch;
+        Branch.color = ofColor::lightGreen;
+        Branch.isLeft = (int)ofRandom(2);
+        Branch.isCap = (int)ofRandom(2);
+        Branch.isTopRound = (int)ofRandom(2);
+        mainBranch.push_back(Branch);
         if (i>0) {
             mainBranch[i].setup(&mainBranch[i-1].onImpulseFinished);
         }else{
@@ -115,10 +115,10 @@ void Plant::randomize(){
         }
     }
     for (int i = 0; i < mainBranchCount-1; i++) {
-        SvgPlant svgplant;
-        svgplant.isCap = (int)ofRandom(2);
-        svgplant.color = ofColor::lightGreen;
-        branches.push_back(svgplant);
+        Branch Branch;
+        Branch.isCap = (int)ofRandom(2);
+        Branch.color = ofColor::lightGreen;
+        branches.push_back(Branch);
         branches[i].setup(&mainBranch[i].onImpulseFinished);
     }
     for (int i = 0; i < mainBranch.size(); i++) {

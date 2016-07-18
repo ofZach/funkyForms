@@ -36,7 +36,7 @@
 		72DF723E1D3D2D1C00284EC3 /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF71661D3D2D1C00284EC3 /* ofxCvShortImage.cpp */; };
 		72DF723F1D3D2D1C00284EC3 /* opencv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72DF72351D3D2D1C00284EC3 /* opencv.a */; };
 		72DF72441D3D30E700284EC3 /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF72401D3D30E700284EC3 /* Plant.cpp */; };
-		72DF72451D3D30E700284EC3 /* SvgPlant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF72421D3D30E700284EC3 /* SvgPlant.cpp */; };
+		72DF72451D3D30E700284EC3 /* Branch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF72421D3D30E700284EC3 /* Branch.cpp */; };
 		72DF72491D3D317000284EC3 /* PlantManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF72471D3D317000284EC3 /* PlantManager.cpp */; };
 		81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73799D65360CD587DCAE90A0 /* ofxLabel.cpp */; };
 		8AAF2BA4AFCBEC334841B989 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FB861B0D843DF212503B18 /* tinyxmlparser.cpp */; };
@@ -305,8 +305,8 @@
 		72DF72371D3D2D1C00284EC3 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		72DF72401D3D30E700284EC3 /* Plant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Plant.cpp; path = ../../Plant/src/Plant.cpp; sourceTree = "<group>"; };
 		72DF72411D3D30E700284EC3 /* Plant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Plant.hpp; path = ../../Plant/src/Plant.hpp; sourceTree = "<group>"; };
-		72DF72421D3D30E700284EC3 /* SvgPlant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SvgPlant.cpp; path = ../../Plant/src/SvgPlant.cpp; sourceTree = "<group>"; };
-		72DF72431D3D30E700284EC3 /* SvgPlant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SvgPlant.hpp; path = ../../Plant/src/SvgPlant.hpp; sourceTree = "<group>"; };
+		72DF72421D3D30E700284EC3 /* Branch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Branch.cpp; path = ../../Plant/src/Branch.cpp; sourceTree = "<group>"; };
+		72DF72431D3D30E700284EC3 /* Branch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Branch.hpp; path = ../../Plant/src/Branch.hpp; sourceTree = "<group>"; };
 		72DF72471D3D317000284EC3 /* PlantManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlantManager.cpp; sourceTree = "<group>"; };
 		72DF72481D3D317000284EC3 /* PlantManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlantManager.hpp; sourceTree = "<group>"; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1020,8 +1020,8 @@
 				72DF72481D3D317000284EC3 /* PlantManager.hpp */,
 				72DF72401D3D30E700284EC3 /* Plant.cpp */,
 				72DF72411D3D30E700284EC3 /* Plant.hpp */,
-				72DF72421D3D30E700284EC3 /* SvgPlant.cpp */,
-				72DF72431D3D30E700284EC3 /* SvgPlant.hpp */,
+				72DF72421D3D30E700284EC3 /* Branch.cpp */,
+				72DF72431D3D30E700284EC3 /* Branch.hpp */,
 				72DF71151D3D2CC200284EC3 /* input */,
 			);
 			path = src;
@@ -1140,7 +1140,7 @@
 				72DF723D1D3D2D1C00284EC3 /* ofxCvImage.cpp in Sources */,
 				CFFFBA144E8160ECC1C97982 /* ofxGuiGroup.cpp in Sources */,
 				72DF714F1D3D2D1600284EC3 /* Kalman.cpp in Sources */,
-				72DF72451D3D30E700284EC3 /* SvgPlant.cpp in Sources */,
+				72DF72451D3D30E700284EC3 /* Branch.cpp in Sources */,
 				72DF714A1D3D2D1600284EC3 /* Calibration.cpp in Sources */,
 				72DF711A1D3D2CC200284EC3 /* cvManager.cpp in Sources */,
 				81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */,

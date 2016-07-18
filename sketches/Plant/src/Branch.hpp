@@ -1,16 +1,16 @@
 //
-//  SvgPlant.hpp
+//  Branch.hpp
 //  Plant
 //
 //  Created by Zerc on 6/28/16.
 //
 //
 
-#ifndef SvgPlant_hpp
-#define SvgPlant_hpp
+#ifndef Branch_hpp
+#define Branch_hpp
 
 #include "ofMain.h"
-class SvgPlant{
+class Branch{
 public:
     ofPoint points[14];
 
@@ -54,10 +54,9 @@ public:
         float start;
         float end;
     };
-//    vector<RangeColor> colors;
-
+    
     ofColor currColor;
     ofColor prevColor;
 };
 
-#endif /* SvgPlant_hpp */
+#endif /* Branch_hpp */

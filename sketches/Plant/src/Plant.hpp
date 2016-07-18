@@ -10,12 +10,12 @@
 #define Plant_hpp
 
 #include "ofMain.h"
-#include "SvgPlant.hpp"
+#include "Branch.hpp"
 
 class Plant{
 public:
-    vector<SvgPlant> mainBranch;
-    vector<SvgPlant> branches;
+    vector<Branch> mainBranch;
+    vector<Branch> branches;
     float mainBranchCount = 4;
     ofVec2f pos;
     ofVec2f velocity;

@@ -1,16 +1,16 @@
 //
-//  SvgPlant.cpp
+//  Branch.cpp
 //  Plant
 //
 //  Created by Zerc on 6/28/16.
 //
 //
 
-#include "SvgPlant.hpp"
-void SvgPlant::setup(ofEvent<ofColor> *event){
-    ofAddListener(*event, this, &SvgPlant::impulse);
+#include "Branch.hpp"
+void Branch::setup(ofEvent<ofColor> *event){
+    ofAddListener(*event, this, &Branch::impulse);
 }
-void SvgPlant::drawDebug(){
+void Branch::drawDebug(){
     ofSetColor(color);
     ofDrawRectangle(rect1);
     ofSetColor(ofColor::lightCyan);
@@ -22,12 +22,12 @@ void SvgPlant::drawDebug(){
     ofSetColor(ofColor::lightYellow);
     ofDrawRectangle(rect5);
 }
-void SvgPlant::drawCenterLine(){
+void Branch::drawCenterLine(){
     ofSetColor(ofColor::white);
     centerLine.draw();
     float r = 3;
 }
-void SvgPlant::draw(){
+void Branch::draw(){
     ofPath path;
     ofPath path2;
     path.setColor(color);
@@ -144,11 +144,11 @@ void SvgPlant::draw(){
     mesh.draw();
 
 }
-void SvgPlant::impulse( ofColor &color){
+void Branch::impulse( ofColor &color){
     isImpulse = true;
     currColor = color;
 }
-void SvgPlant::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
+void Branch::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
     
     //--------------- centerline
     ofPoint p1, p2, p3, p4, p5, p6, p7;
