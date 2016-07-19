@@ -24,6 +24,7 @@ public:
         ofVec2f vel;
         ofVec2f topVel;
         ofRectangle rect;
+        bool isBusy = false;
         float age = 0;
     };
     

@@ -103,7 +103,7 @@ void Plant::draw(){
 void Plant::randomize(){
     mainBranch.clear();
     branches.clear();
-    mainBranchCount = (int)ofRandom(3, 6);
+    mainBranchCount = (int)ofRandom(3, 7);
     
     for (int i = 0; i < mainBranchCount; i++) {
         Branch Branch;

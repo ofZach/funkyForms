@@ -26,7 +26,17 @@ void cvManager::update(ofPixels & pixels){
 
 void cvManager::draw(){
     ofSetColor(ofColor::grey);
-    contourFinder.draw();
+//    contourFinder.draw();
+    for (int i = 0; i < contourFinder.getPolylines().size(); i++) {
+        ofPolyline &l = contourFinder.getPolyline(i);
+        ofPath path;
+        int res = ofMap(l.getPerimeter(), 0, 1900, 1, 200);
+        for (float i = 0; i < 1.; i += 1.0/res) {
+            path.lineTo(l.getPointAtPercent(i));
+        }
+        path.setFillColor(ofColor::gray);
+        path.draw();
+    }
     
     ofxCv::RectTracker& tracker = contourFinder.getTracker();
 

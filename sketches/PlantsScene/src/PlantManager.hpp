@@ -14,16 +14,17 @@
 #include "Plant.hpp"
 class PlantManager{
 public:
-    class Anchor{
+    struct Anchor{
         ofVec2f pos;
-        vector<Plant> plants;
+        Plant plant;
     };
 
-    vector<Plant> plants;
+    vector<Anchor> plants;
     inputManager *IM;
     void setup(inputManager *_IM);
     void onNewTarget();
     void update();
+    void addPlant(ofVec2f _pos);
     void draw();
 };
 

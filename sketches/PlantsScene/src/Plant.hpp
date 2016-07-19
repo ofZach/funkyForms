@@ -46,6 +46,7 @@ public:
     void setSmoothPosition ( ofVec2f _pos , float _speed){ smooth(&pos, _pos, _speed);}
     void setPosition ( ofVec2f _pos ){ pos = _pos;}
     void setScale (float _scale){ scale = _scale;};
+    void setSmoothScale (float _scale, float _speed){ scale = scale*_speed + (1-_speed)*_scale;}
     
     ofVec2f getPosition(){return pos;}
     ofVec2f getVelocity(){return velocity;}
