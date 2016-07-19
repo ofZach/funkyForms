@@ -89,6 +89,7 @@ Plant::branchSettings Plant::mainBSettings(int i){
     return s;
 }
 void Plant::impulse(int colNum){
+    mainBranch[0].impulse(colors[(int)ofRandom(4)]);
 }
 void Plant::draw(){
     for(auto b: branches){
@@ -104,20 +105,27 @@ void Plant::randomize(){
     mainBranchCount = (int)ofRandom(3, 6);
     
     for (int i = 0; i < mainBranchCount; i++) {
-        Branch Branch;
-        Branch.color = ofColor::lightGreen;
-        Branch.isLeft = (int)ofRandom(2);
-        Branch.isCap = (int)ofRandom(2);
-        Branch.isTopRound = (int)ofRandom(2);
-        mainBranch.push_back(Branch);
+        Branch *b = new Branch();
+        b->color = ofColor::lightGreen;
+        b->isLeft = (int)ofRandom(2);
+        b->isCap = (int)ofRandom(2);
+        b->isTopRound = (int)ofRandom(2);
+        mainBranch.push_back(*b);
         mainBranch[i].setup();
+
     }
     for (int i = 0; i < mainBranchCount-1; i++) {
-        Branch Branch;
-        Branch.isCap = (int)ofRandom(2);
-        Branch.color = ofColor::lightGreen;
-        branches.push_back(Branch);
+        Branch *b = new Branch();
+        b->isCap = (int)ofRandom(2);
+        b->color = ofColor::lightGreen;
+        branches.push_back(*b);
         branches[i].setup();
+    }
+    for (int i = 0; i < mainBranchCount; i++) {
+        if(i < mainBranchCount-1){
+            mainBranch[i].setNextBranch( &mainBranch[i+1] );
+            mainBranch[i].setNextBranch( &branches[i] );
+        }
     }
     for (int i = 0; i < branches.size(); i++) {
         branches[i].isLeft = (int)ofRandom(2);

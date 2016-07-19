@@ -6,23 +6,27 @@ void ofApp::setup(){
     ofBackground(0);
     inputManager.setup();
     plantManager.setup(&inputManager);
+//    plant.setup();
+    plant.setPosition(ofVec2f(300, ofGetHeight()));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     inputManager.update();
     plantManager.update();
+    plant.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     inputManager.draw();
     plantManager.draw();
+    plant.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    plant.impulse(0);
 }
 
 //--------------------------------------------------------------

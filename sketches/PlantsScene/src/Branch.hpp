@@ -38,12 +38,15 @@ public:
     float impulsePercent = 0;
     bool isImpulse = false;
     bool isImpulseFinished = false;
+    vector <Branch *> nextBranches;
     
     void setup();
     void update(ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius);
+    void setNextBranch(Branch *_nextBranch){ nextBranches.push_back(_nextBranch); }
     void drawDebug();
     void drawCenterLine();
     void impulse(ofColor &color);
+    void onImpulseFinished();
     void draw();
     
     struct RangeColor{

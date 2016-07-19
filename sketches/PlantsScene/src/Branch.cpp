@@ -8,8 +8,8 @@
 
 #include "Branch.hpp"
 void Branch::setup(){
-    currColor = ofColor(pallete[(int)ofRandom(9)]);
-    prevColor = ofColor(pallete[(int)ofRandom(9)]);
+//    currColor = ofColor(pallete[(int)ofRandom(9)]);
+//    prevColor = ofColor(pallete[(int)ofRandom(9)]);
 }
 void Branch::drawDebug(){
     ofSetColor(color);
@@ -189,6 +189,10 @@ void Branch::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, flo
         prevColor = currColor;
         impulsePercent = 0;
         isImpulse = false;
+        for (int i = 0; i < nextBranches.size(); i++) {
+            nextBranches[i]->impulse(currColor);
+            ofLog() << "impulse ";
+        }
     }
     
     //--------------- rectangle update

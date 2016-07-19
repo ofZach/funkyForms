@@ -15,14 +15,16 @@ void PlantManager::setup(inputManager *_IM){
         plants[i].setup();
         plants[i].setScale(ofRandom(0.1, 0.5));
         plants[i].setPosition(ofVec2f(ofRandomWidth(), ofRandomHeight()));
+        plants[i].impulse(0);
     }
 }
 void PlantManager::onNewTarget(){
-    Plant *p = new Plant();
-    p->setup();
-    p->setScale(ofRandom(0.3, 0.5));
-    p->setPosition(IM->getNewTarget().pos);
-    plants.push_back(*p);
+    plants.push_back(*new Plant);
+    int i = plants.size()-1;
+    plants[i].setup();
+    plants[i].setScale(ofRandom(0.3, 0.5));
+    plants[i].setPosition(IM->getNewTarget().pos);
+    plants[i].impulse(0);
 }
 void PlantManager::update(){
     if(!IM->isEmpty){
@@ -50,5 +52,4 @@ void PlantManager::draw(){
     for(auto &p: plants){
         p.draw();
     }
-    ofSetColor(ofColor::violet);
 }
