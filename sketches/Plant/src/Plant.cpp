@@ -53,10 +53,10 @@ void Plant::update(){
                 branches[i-1].isLeft  = true;
                 b.pos = r5->getCenter(); //+ ofVec2f(0, r5->getHeight()/(i+1));
             }
-            branches[i-1].setColorOffset(i+1);
+            
             branches[i-1].update(b.pos, b.leftRect, b.topRect, b.radius);
         }
-        mainBranch[i].setColorOffset(i+1);
+        
         mainBranch[i].update(s.pos, s.leftRect, s.topRect, s.radius);
         
         ofSetColor(ofColor::red);
@@ -111,8 +111,6 @@ void Plant::randomize(){
         Branch.isTopRound = (int)ofRandom(2);
         mainBranch.push_back(Branch);
         mainBranch[i].setup();
-        mainBranch[i].setiColor(&icolor);
-        colorIndexTotal += mainBranch[i].resolution;
     }
     for (int i = 0; i < mainBranchCount-1; i++) {
         Branch Branch;
@@ -120,12 +118,8 @@ void Plant::randomize(){
         Branch.color = ofColor::lightGreen;
         branches.push_back(Branch);
         branches[i].setup();
-        branches[i].setiColor(&icolor);
-        colorIndexTotal += branches[i].resolution;
     }
     for (int i = 0; i < branches.size(); i++) {
         branches[i].isLeft = (int)ofRandom(2);
     }
-    icolor.setup(colorIndexTotal, ofColor::lightGreen);
-    icolor.grow();
 }

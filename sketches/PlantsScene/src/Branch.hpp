@@ -10,13 +10,10 @@
 #define Branch_hpp
 
 #include "ofMain.h"
-#include "iColor.hpp"
-
 class Branch{
 public:
     ofPoint points[14];
-    iColor *icolor;
-    int colorOffsetMult = 1;
+
     ofPolyline polyLeft;
     ofPolyline polyTop;
     ofMesh mesh;
@@ -36,7 +33,6 @@ public:
     ofRectangle rect4;
     ofRectangle rect5;
     ofRectangle rect6;
-    int resolution = 50;
         
     ofPolyline centerLine;
     float impulsePercent = 0;
@@ -47,8 +43,6 @@ public:
     void update(ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius);
     void drawDebug();
     void drawCenterLine();
-    void setiColor(iColor *_icolor){ icolor = _icolor;}
-    void setColorOffset(int _offset){ colorOffsetMult = _offset; }
     void impulse(ofColor &color);
     void draw();
     
