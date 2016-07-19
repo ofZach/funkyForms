@@ -9,6 +9,7 @@
 #include "Branch.hpp"
 void Branch::setup(ofEvent<ofColor> *event){
     ofAddListener(*event, this, &Branch::impulse);
+    currColor = ofColor();
 }
 void Branch::drawDebug(){
     ofSetColor(color);

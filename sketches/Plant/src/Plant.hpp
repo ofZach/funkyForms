@@ -21,7 +21,6 @@ public:
     ofVec2f velocity;
     float scale = 1.0;
     float size = 0.5;
-    ofEvent<ofColor> onImpulse;
     
     struct branchSettings{
         ofVec2f pos;
@@ -31,15 +30,16 @@ public:
         bool isLeft;
     };
     
-    void smooth(ofVec2f *val, ofVec2f newVal);
+    void smooth(ofVec2f *val, ofVec2f newVal, float _speed);
     branchSettings mainBSettings(int counter);
 
     void setup();
     void update();
     void draw();
 
-    void setVelocity ( ofVec2f _vel ){ smooth(&velocity, _vel);}
-    void setPosition ( ofVec2f _pos ){ smooth(&pos, _pos);}
+    void setSmoothVelocity ( ofVec2f _vel , float _speed){ smooth(&velocity, _vel, _speed);}
+    void setSmoothPosition ( ofVec2f _pos , float _speed){ smooth(&pos, _pos, _speed);}
+    void setPosition ( ofVec2f _pos ){ pos = _pos;}
     void setScale (float _scale){ scale = _scale;};
     
     ofVec2f getPosition(){return pos;}
@@ -49,6 +49,7 @@ public:
     void randomize();
     void impulse(int colNum);
     int timer = 0;
+    
     ofColor colors[4] = {
         ofColor::violet,
         ofColor::black,

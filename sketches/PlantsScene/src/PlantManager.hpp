@@ -12,12 +12,17 @@
 #include "ofMain.h"
 #include "inputManager.h"
 #include "Plant.hpp"
-
 class PlantManager{
 public:
+    class Anchor{
+        ofVec2f pos;
+        vector<Plant> plants;
+    };
+
     vector<Plant> plants;
     inputManager *IM;
     void setup(inputManager *_IM);
+    void onNewTarget();
     void update();
     void draw();
 };

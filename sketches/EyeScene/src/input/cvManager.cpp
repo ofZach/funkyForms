@@ -25,6 +25,7 @@ void cvManager::update(ofPixels & pixels){
 }
 
 void cvManager::draw(){
+    ofSetColor(ofColor::grey);
     contourFinder.draw();
     
     ofxCv::RectTracker& tracker = contourFinder.getTracker();
@@ -37,10 +38,15 @@ void cvManager::draw(){
         ofTranslate(center.x, center.y);
         int label = contourFinder.getLabel(i);
         string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
-        ofDrawBitmapString(msg, 0, 0);
         ofVec2f velocity = ofxCv::toOf(contourFinder.getVelocity(i));
+
+        ofSetColor(ofColor::white);
+//        ofDrawBitmapString(msg, 0, 0);
+
         ofScale(5, 5);
+        ofSetColor(ofColor::yellow);
         ofDrawLine(0, 0, velocity.x, velocity.y);
+        
         ofPopMatrix();
     }
 }

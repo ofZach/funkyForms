@@ -5,7 +5,10 @@
 
 
 void inputManager::setup(){
- 
+    defaultTarget.pos.set(0, 0);
+    defaultTarget.vel.set(0,0);
+    defaultTarget.rect.set(0, 0, 0, 0);
+    
     player.load("../../../../funkyForms/bin/data/testFootage/bodies0.mov");
     player.play();
     
@@ -34,7 +37,7 @@ void inputManager::calcAveragePos(){
     float s = 0.9;
     averagePos = averagePos*s + (1-s)*p;
 }
-ofVec2f inputManager::getClosesetPosTo(ofVec2f _pos){
+inputManager::Target &inputManager::getClosesetTo(ofVec2f _pos){
     float distance = 3000;
     int index = 0;
     int i = 0;
@@ -46,9 +49,9 @@ ofVec2f inputManager::getClosesetPosTo(ofVec2f _pos){
         i++;
     }
     if(targets.size()>0){
-        return targets[index].pos;
+        return targets[index];
     }else{
-        return ofVec2f(0, 0);
+        return defaultTarget;
     }
 }
 
@@ -91,7 +94,13 @@ void inputManager::updateTargets(){
         targets.push_back(t);
     }
 }
+
 void inputManager::update(){
+    if(targets.size() > 0){
+        isEmpty = false;
+    }else{
+        isEmpty = true;
+    }
     updateTargets();
     calcAveragePos();
     player.update();
@@ -103,7 +112,6 @@ void inputManager::update(){
 }
 
 void inputManager::draw(){
-    
 //    player.draw(0,0);
 //    blah.draw(player.getWidth(),0);
     ofPushMatrix();
