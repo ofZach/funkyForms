@@ -9,13 +9,14 @@
 #include "PlantManager.hpp"
 void PlantManager::setup(inputManager *_IM){
     IM = _IM;
-    int count = 7;
+    int count = 3;
     for (int i = 0; i < count; i++) {
         plants.push_back(*new Plant);
         plants[i].setup();
         plants[i].setScale(ofRandom(0.1, 0.5));
         plants[i].setPosition(ofVec2f(ofRandomWidth(), ofRandomHeight()));
-        plants[i].impulse(0);
+        plants[i].grow();
+
     }
 }
 void PlantManager::onNewTarget(){
@@ -24,14 +25,14 @@ void PlantManager::onNewTarget(){
     plants[i].setup();
     plants[i].setScale(ofRandom(0.3, 0.5));
     plants[i].setPosition(IM->getNewTarget().pos);
-    plants[i].impulse(0);
+    plants[i].grow();
 }
 void PlantManager::update(){
     if(!IM->isEmpty){
         for(auto &p: plants){
             inputManager::Target &t = IM->getClosesetTo( p.getPosition() );
-            p.setSmoothPosition(t.pos, 0.9);
-            p.setSmoothVelocity(t.vel*40, 0.998);
+            p.setSmoothPosition(t.pos, 0.95);
+            p.setSmoothVelocity(t.vel, 0.999);
             p.update();
         }
     }
@@ -40,9 +41,14 @@ void PlantManager::update(){
         for(int j = 0; j<plants.size(); j++){
             if(i!=j){
                 if (plants[i].getPosition().distance(plants[j].getPosition())<0.2) {
-                    plants.erase(plants.begin()+i);
+                    plants[i].collapse();
                 }
             }
+        }
+    }
+    for (int i =0; i<plants.size(); i++) {
+        if(plants[i].getFinished()){
+            plants.erase(plants.begin()+i);
         }
     }
 
@@ -52,4 +58,5 @@ void PlantManager::draw(){
     for(auto &p: plants){
         p.draw();
     }
+    ofSetColor(ofColor::violet);
 }

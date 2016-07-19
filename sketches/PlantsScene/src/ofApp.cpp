@@ -7,26 +7,28 @@ void ofApp::setup(){
     inputManager.setup();
     plantManager.setup(&inputManager);
 //    plant.setup();
-    plant.setPosition(ofVec2f(300, ofGetHeight()));
+//    plant.setPosition(ofVec2f(500, ofGetHeight()));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     inputManager.update();
     plantManager.update();
-    plant.update();
+//    plant.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     inputManager.draw();
     plantManager.draw();
-    plant.draw();
+//    plant.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    plant.impulse(0);
+    if(key == ' ') plant.grow();
+    if(key == 'v') plant.collapse();
+
 }
 
 //--------------------------------------------------------------

@@ -12,7 +12,6 @@
 #include "ofMain.h"
 #include "inputManager.h"
 #include "Plant.hpp"
-
 class PlantManager{
 public:
     class Anchor{

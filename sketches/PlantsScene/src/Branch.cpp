@@ -8,8 +8,8 @@
 
 #include "Branch.hpp"
 void Branch::setup(){
-//    currColor = ofColor(pallete[(int)ofRandom(9)]);
-//    prevColor = ofColor(pallete[(int)ofRandom(9)]);
+    currColor = ofColor(0, 0);
+    prevColor = ofColor(0, 0);
 }
 void Branch::drawDebug(){
     ofSetColor(color);
@@ -29,6 +29,98 @@ void Branch::drawCenterLine(){
     float r = 3;
 }
 void Branch::draw(){
+  
+    mesh.draw();
+
+}
+void Branch::impulse( ofColor &color){
+    isImpulse = true;
+    currColor = color;
+}
+void Branch::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius, iColor &icolor){
+    
+    //--------------- centerline
+    ofPoint p1, p2, p3, p4, p5, p6, p7;
+    
+    centerLine.clear();
+    
+    if(isLeft){
+        p1.set(rect6.getCenter().x, rect6.getBottom());
+        p2.set(rect6.getCenter());
+        p3.set(rect1.getRight(), rect1.getCenter().y);
+        p4.set(rect2.getRight(), rect2.getCenter().y);
+        p5.set(rect3.getCenter());
+        p6.set(rect4.getCenter().x, rect4.getTop());
+        p7.set(rect5.getCenter().x, rect5.getTop());
+    }else{
+        p1.set(rect6.getCenter().x, rect6.getBottom());
+        p2.set(rect6.getCenter());
+        p3.set(rect1.getLeft(), rect1.getCenter().y);
+        p4.set(rect2.getLeft(), rect2.getCenter().y);
+        p5.set(rect3.getCenter());
+        p6.set(rect4.getCenter().x, rect4.getTop());
+        p7.set(rect5.getCenter().x, rect5.getTop());
+    }
+    
+    centerLine.lineTo(p1);
+    centerLine.bezierTo(p1, p2, p3);
+    centerLine.lineTo(p3);
+    centerLine.lineTo(p4);
+    centerLine.bezierTo(p4, p5, p6);
+    centerLine.lineTo(p7);
+
+    //--------------- impulse
+    if(isImpulse){
+        impulsePercent +=0.02;
+    }
+    if(impulsePercent > 1){
+        prevColor = currColor;
+        impulsePercent = 0;
+        isImpulse = false;
+    }
+    
+    //--------------- rectangle update
+    float topRectWidth = topRectSize.x;
+    float topRectHeight = topRectSize.y;
+    float leftRectWidth = leftRectSize.x;
+    float leftRectHeight = leftRectSize.y;
+
+    if(isLeft){
+        rect6.set(0, 0, leftRectHeight, leftRectHeight);
+        rect6.alignTo(pos, OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_BOTTOM);
+        
+        rect1.set(0, 0, leftRectWidth, leftRectHeight);
+        rect1.alignTo(rect6.getTopLeft(), OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_TOP);
+        
+        rect2.set(0, 0, radius, rect1.getHeight());
+        rect2.alignTo(rect1.getTopLeft(), OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_TOP);
+        
+        rect3.set(0, 0, topRectWidth, rect1.getHeight());
+        rect3.alignTo(rect2.getTopLeft(), OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_TOP);
+        
+        rect4.set(0, 0, topRectWidth, radius);
+        rect4.alignTo(rect3.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
+        
+        rect5.set(0, 0, topRectWidth, topRectHeight);
+        rect5.alignTo(rect4.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
+
+    }else{
+        rect6.set(0, 0, leftRectHeight, leftRectHeight);
+        rect6.alignTo(pos, OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
+
+        rect1.set(0, 0, leftRectWidth, leftRectHeight);
+        rect1.alignTo(rect6.getTopRight(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_TOP);
+        
+        rect2.set(rect1.getTopRight(), radius, rect1.getHeight());
+        
+        rect3.set(rect2.getTopRight(), topRectWidth, rect1.getHeight());
+        
+        rect4.set(0, 0, topRectWidth, radius);
+        rect4.alignTo(rect3.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
+        
+        rect5.set(0, 0, topRectWidth, topRectHeight);
+        rect5.alignTo(rect4.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
+    }
     ofPath path;
     ofPath path2;
     path.setColor(color);
@@ -88,9 +180,9 @@ void Branch::draw(){
     stroke2.bezierTo(points[12], points[10], points[8]);
     stroke2.lineTo(points[8]);
     stroke2.lineTo(points[7]);
-
+    
     float y = rect5.getTop()-rect5.getWidth()/2;
-
+    
     if(isCap && !isTopRound){
         ofPoint p1, p2, p3;
         if (isLeft) {
@@ -121,120 +213,15 @@ void Branch::draw(){
     }else{
         stroke2.lineTo(rect5.getCenter().x, rect5.getTop());
     }
-    
-//    stroke1.draw();
-//    stroke2.draw();
-    
-    ofMesh mesh;
+    mesh.clear();
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    for (float i = 0; i < 1; i+=0.02) {
-        ofFloatColor col = prevColor;
-//        float range = 0.06;
-        if(isImpulse){
-            if(i < impulsePercent){
-                col = currColor;
-            }
-        }
-//        col.setBrightness(i);
-//        col.setHueAngle(i*180);
+    int j = 0;
+    for (float i = 0; i < 1; i+=1.0/resolution) {
+        ofColor col = icolor.getColorAt(j + colorOffsetMult*resolution);
         mesh.addVertex(stroke1.getPointAtPercent(i));
         mesh.addColor(col);
         mesh.addVertex(stroke2.getPointAtPercent(i));
         mesh.addColor(col);
-    }
-    mesh.draw();
-
-}
-void Branch::impulse( ofColor &color){
-    isImpulse = true;
-    currColor = color;
-}
-void Branch::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, float radius){
-    
-    //--------------- centerline
-    ofPoint p1, p2, p3, p4, p5, p6, p7;
-    
-    centerLine.clear();
-    
-    if(isLeft){
-        p1.set(rect6.getCenter().x, rect6.getBottom());
-        p2.set(rect6.getCenter());
-        p3.set(rect1.getRight(), rect1.getCenter().y);
-        p4.set(rect2.getRight(), rect2.getCenter().y);
-        p5.set(rect3.getCenter());
-        p6.set(rect4.getCenter().x, rect4.getTop());
-        p7.set(rect5.getCenter().x, rect5.getTop());
-    }else{
-        p1.set(rect6.getCenter().x, rect6.getBottom());
-        p2.set(rect6.getCenter());
-        p3.set(rect1.getLeft(), rect1.getCenter().y);
-        p4.set(rect2.getLeft(), rect2.getCenter().y);
-        p5.set(rect3.getCenter());
-        p6.set(rect4.getCenter().x, rect4.getTop());
-        p7.set(rect5.getCenter().x, rect5.getTop());
-    }
-    
-    centerLine.lineTo(p1);
-    centerLine.bezierTo(p1, p2, p3);
-    centerLine.lineTo(p3);
-    centerLine.lineTo(p4);
-    centerLine.bezierTo(p4, p5, p6);
-    centerLine.lineTo(p7);
-
-    //--------------- impulse
-    if(isImpulse){
-        impulsePercent +=0.02;
-    }
-    if(impulsePercent > 1){
-        prevColor = currColor;
-        impulsePercent = 0;
-        isImpulse = false;
-        for (int i = 0; i < nextBranches.size(); i++) {
-            nextBranches[i]->impulse(currColor);
-            ofLog() << "impulse ";
-        }
-    }
-    
-    //--------------- rectangle update
-    float topRectWidth = topRectSize.x;
-    float topRectHeight = topRectSize.y;
-    float leftRectWidth = leftRectSize.x;
-    float leftRectHeight = leftRectSize.y;
-
-    if(isLeft){
-        rect6.set(0, 0, leftRectHeight, leftRectHeight);
-        rect6.alignTo(pos, OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_BOTTOM);
-        
-        rect1.set(0, 0, leftRectWidth, leftRectHeight);
-        rect1.alignTo(rect6.getTopLeft(), OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_TOP);
-        
-        rect2.set(0, 0, radius, rect1.getHeight());
-        rect2.alignTo(rect1.getTopLeft(), OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_TOP);
-        
-        rect3.set(0, 0, topRectWidth, rect1.getHeight());
-        rect3.alignTo(rect2.getTopLeft(), OF_ALIGN_HORZ_RIGHT, OF_ALIGN_VERT_TOP);
-        
-        rect4.set(0, 0, topRectWidth, radius);
-        rect4.alignTo(rect3.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
-        
-        rect5.set(0, 0, topRectWidth, topRectHeight);
-        rect5.alignTo(rect4.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
-
-    }else{
-        rect6.set(0, 0, leftRectHeight, leftRectHeight);
-        rect6.alignTo(pos, OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
-
-        rect1.set(0, 0, leftRectWidth, leftRectHeight);
-        rect1.alignTo(rect6.getTopRight(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_TOP);
-        
-        rect2.set(rect1.getTopRight(), radius, rect1.getHeight());
-        
-        rect3.set(rect2.getTopRight(), topRectWidth, rect1.getHeight());
-        
-        rect4.set(0, 0, topRectWidth, radius);
-        rect4.alignTo(rect3.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
-        
-        rect5.set(0, 0, topRectWidth, topRectHeight);
-        rect5.alignTo(rect4.getTopLeft(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_BOTTOM);
+        j++;
     }
 }
