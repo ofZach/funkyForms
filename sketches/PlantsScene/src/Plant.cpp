@@ -27,13 +27,13 @@ void Plant::update(){
         
         if(i>0){
             branchSettings b;
-            b.radius = (30+ofNoise(ofGetElapsedTimef()+i*100)*30)*scale;
+            b.radius = (30+ofNoise(ofGetElapsedTimef()+i*velocity.x*20)*30)*scale;
             
             float top_wMin = 60/(i+1)*scale ;
-            float top_wVel = (velocity.x*(20.0/(i+1))*40 +ofNoise(ofGetElapsedTimef()+i*20)*30)*scale;
-            float top_w = (top_wMin + max( top_wVel*1.0, top_wMin/5.0))*scale; //
-            float top_h = 100/(i+1)*scale;
-            float left_w = 100/(i+1)*scale;
+            float top_wVel = (velocity.x*(100.0/(i+1))*40 +ofNoise(ofGetElapsedTimef()+i*200)*30)*scale;
+            float top_w = (top_wMin + max( top_wVel*3.0, top_wMin/5.0))*scale; //
+            float top_h = velocity.y*700/(i+1)*scale;
+            float left_w = velocity.x*100/(i+1)*scale;
             float left_h = 30/(i+1)*scale;
             
             ofRectangle *r5 = &mainBranch[i-1].rect5;
@@ -71,12 +71,12 @@ void Plant::smooth(ofVec2f *vec , ofVec2f newVec, float _speed){
 }
 Plant::branchSettings Plant::mainBSettings(int i){
     branchSettings s;
-    float left_wMin = 100/(i+1)*scale;
-    float left_wVel = velocity.x*(20.0/(i+1))*scale*40;
-    float left_w = left_wMin + min( left_wVel*1.0, left_wMin*1.0 )*scale;
+    float left_wMin = 100/(i+1)*scale-velocity.x*20;
+    float left_wVel = velocity.x*(20.0/((i%2)+1))*scale*40;
+    float left_w = velocity.x;
     float left_h = 30/(i+1)*scale;
     float top_w = 30/(i+1)*scale;
-    float top_h = (100/(i+1)-velocity.y*20*40)*scale;
+    float top_h = velocity.y*800+i*scale;
     if (mainBranch[i].isLeft) {
         s.leftRect.set(left_w, left_h);
         s.topRect.set(top_w, top_h);

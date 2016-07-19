@@ -40,8 +40,8 @@ void PlantManager::update(){
         for(auto &p: plants){
             inputManager::Target &t = IM->getClosesetTo( p.plant.getPosition() );
             t.isBusy = true;
-            p.plant.setSmoothPosition(t.pos+p.pos, 0.95);
-            p.plant.setSmoothVelocity(t.vel, 0.999);
+            p.plant.setSmoothPosition(t.pos+p.pos, 0.97);
+            p.plant.setSmoothVelocity(t.vel, 0.9995);
             p.plant.setSmoothScale(ofMap(t.vel.y, -1, 1, 0.2, 0.8, true), 0.99);
             p.plant.update();
         }
