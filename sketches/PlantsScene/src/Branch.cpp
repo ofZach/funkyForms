@@ -122,25 +122,16 @@ void Branch::draw(){
         stroke2.lineTo(rect5.getCenter().x, rect5.getTop());
     }
     
-//    stroke1.draw();
-//    stroke2.draw();
-    
     ofMesh mesh;
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    for (float i = 0; i < 1; i+=0.02) {
-        ofFloatColor col = prevColor;
-//        float range = 0.06;
-        if(isImpulse){
-            if(i < impulsePercent){
-                col = currColor;
-            }
-        }
-//        col.setBrightness(i);
-//        col.setHueAngle(i*180);
+    int j = 0;
+    for (float i = 0; i < 1; i+=1.0/resolution) {
         mesh.addVertex(stroke1.getPointAtPercent(i));
+        ofColor col = icolor->getColorAt(j*colorOffsetMult);
         mesh.addColor(col);
         mesh.addVertex(stroke2.getPointAtPercent(i));
         mesh.addColor(col);
+        j++;
     }
     mesh.draw();
 

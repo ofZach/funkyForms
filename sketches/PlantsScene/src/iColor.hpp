@@ -36,6 +36,8 @@ private:
     bool isCollapse = false;
     ofColor baseColor;
     int colorCounts = 5;
+    float length;
+public:
     struct Color{
         ofRectangle rect;
         int delay;
@@ -49,8 +51,6 @@ private:
         ofColor color;
     };
     vector<Color> colors;
-    float length;
-public:
     void setup(float _indexCount, ofColor _baseColor);
     int getColorCount(){return colorCounts;}
     Color *getColor(int index){return &colors[index];}

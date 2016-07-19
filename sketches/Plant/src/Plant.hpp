@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "Branch.hpp"
+#include "iColor.hpp"
 
 class Plant{
 public:
@@ -21,6 +22,8 @@ public:
     ofVec2f velocity;
     float scale = 1.0;
     float size = 0.5;
+    iColor icolor;
+    int colorIndexTotal = 0;
     
     struct branchSettings{
         ofVec2f pos;
