@@ -12,8 +12,17 @@
 #include "ofMain.h"
 #include "inputManager.h"
 #include "Plant.hpp"
+#include "ofxGui.h"
+
 class PlantManager{
 public:
+    // gui
+    ofParameter<float> posSmooth;
+    ofParameter<float> scaleSmooth;
+    ofParameter<float> velSmooth;
+    ofParameterGroup parameters;
+    ofxPanel gui;
+    
     struct Anchor{
         ofVec2f pos;
         Plant plant;

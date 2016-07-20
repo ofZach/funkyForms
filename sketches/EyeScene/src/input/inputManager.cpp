@@ -19,9 +19,9 @@ void inputManager::setup(){
     inputQuad.push_back( cv::Point2f( 317,164 ));
     inputQuad.push_back( cv::Point2f( 8,164 ));
     
-    float scale = 1.5;
+    float scale = 1.8;
     blah.allocate(600*scale, 250*scale, OF_IMAGE_COLOR);
-    pos.set(0, ofGetHeight()-blah.getHeight());
+    pos.set(200, ofGetHeight()-blah.getHeight());
     
 }
 void inputManager::calcAveragePos(){

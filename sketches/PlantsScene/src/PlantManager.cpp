@@ -8,6 +8,13 @@
 
 #include "PlantManager.hpp"
 void PlantManager::setup(inputManager *_IM){
+    parameters.setName("PlantManager");
+    parameters.add(posSmooth.set("posSmooth", 0.9, 0.9, 0.99999));
+    parameters.add(velSmooth.set("velSmooth", 0.9, 0.99, 0.99999));
+    parameters.add(scaleSmooth.set("scaleSmooth", 0.9, 0.9, 0.99999));
+    gui.setup(parameters);
+    gui.loadFromFile("settings.xml");
+    
     IM = _IM;
     int count = 3;
     for (int i = 0; i < count; i++) {
@@ -28,7 +35,7 @@ void PlantManager::addPlant(ofVec2f _pos){
     plants.push_back(*new Anchor);
     int i = plants.size()-1;
     plants[i].plant.setup();
-    plants[i].plant.setScale(ofRandom(0.3, 0.5));
+    plants[i].plant.setScale(ofRandom(0.3, 0.7));
     plants[i].plant.setPosition(_pos);
     plants[i].plant.grow();
     float x = ofRandom(-30, 30);
@@ -46,17 +53,16 @@ void PlantManager::update(){
                 p.plant.delSpike();
             }
             
-            p.plant.setSmoothPosition(t.pos+p.pos, 0.97);
-            p.plant.setSmoothVelocity(t.vel.normalize(), 0.9995);
-            p.plant.setSmoothScale(ofMap(t.vel.normalize().y, -1, 1, 0.2, 0.8, true), 0.99);
+            p.plant.setSmoothPosition(t.pos+p.pos, posSmooth);
+            p.plant.setSmoothVelocity(t.vel.normalize(), velSmooth);
+            p.plant.setSmoothScale(ofMap(t.vel.normalize().y, -1, 1, 0.2, 0.9, true), scaleSmooth);
             p.plant.update();
         }
     }
     for(auto &t: IM->targets){
-        if(!t.isBusy && t.age ==20){
+        if(!t.isBusy && t.vel.length() > 2){
             addPlant(t.pos);
         }
-
     }
     for (int i =0; i<plants.size(); i++) {
         for(int j = 0; j<plants.size(); j++){
@@ -81,4 +87,5 @@ void PlantManager::draw(){
     for(auto &p: plants){
         p.plant.draw();
     }
+    gui.draw();
 }

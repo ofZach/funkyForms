@@ -1,0 +1,10 @@
+<group>
+	<posSmooth>0.980492</posSmooth>
+	<velSmooth>0.998192</velSmooth>
+	<scaleSmooth>0.9</scaleSmooth>
+<PlantManager>
+		<posSmooth>0.977492</posSmooth>
+		<velSmooth>0.997942</velSmooth>
+		<scaleSmooth>0.9</scaleSmooth>
+	</PlantManager>
+</group>

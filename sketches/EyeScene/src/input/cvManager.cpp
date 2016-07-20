@@ -15,13 +15,8 @@ void cvManager::setup(){
 }
 
 void cvManager::update(ofPixels & pixels){
-    
-        contourFinder.setThreshold(115);
-        contourFinder.findContours(pixels);
-  
-    
-   
-    
+    contourFinder.setThreshold(115);
+    contourFinder.findContours(pixels);
 }
 void cvManager::drawPeopleFill(){
     for (int i = 0; i < contourFinder.getPolylines().size(); i++) {
@@ -37,11 +32,8 @@ void cvManager::drawPeopleFill(){
 }
 void cvManager::draw(){
     ofSetColor(ofColor::grey);
-//    contourFinder.draw();
     drawPeopleFill();
-    
     ofxCv::RectTracker& tracker = contourFinder.getTracker();
-
     
     for(int i = 0; i < contourFinder.size(); i++) {
         
