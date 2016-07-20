@@ -17,6 +17,7 @@ class Plant{
 public:
     vector<Branch> mainBranch;
     vector<Branch> branches;
+    vector<ofPolyline> spikes;
     float mainBranchCount = 4;
     ofVec2f pos;
     ofVec2f velocity;
@@ -24,6 +25,12 @@ public:
     float size = 0.5;
     iColor icolor;
     int colorIndexTotal = 0;
+    
+    bool isSpike = false;
+    float spikePct = 0;
+    float spikeLength = 0;
+    bool isSpikeFinished = false;
+    float randomNums [200];
     
     struct branchSettings{
         ofVec2f pos;
@@ -40,7 +47,11 @@ public:
     void update();
     void draw();
     void grow(){icolor.grow();}
-    void collapse(){icolor.colapse();}
+    void collapse(){icolor.colapse(); }
+    void addSpike(){if(icolor.getGrowDone()){isSpike = true; isSpikeFinished = false;}}
+    void delSpike(){isSpike = false;};
+    void updateSpike();
+    void makeSpikes(ofPolyline &p, int counter, bool isRight);
 
     void setSmoothVelocity ( ofVec2f _vel , float _speed){ smooth(&velocity, _vel, _speed);}
     void setSmoothPosition ( ofVec2f _pos , float _speed){ smooth(&pos, _pos, _speed);}

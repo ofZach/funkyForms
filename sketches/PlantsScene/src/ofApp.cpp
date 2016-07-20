@@ -6,8 +6,8 @@ void ofApp::setup(){
     ofBackground(0);
     inputManager.setup();
     plantManager.setup(&inputManager);
-//    plant.setup();
-//    plant.setPosition(ofVec2f(500, ofGetHeight()));
+    plant.setup();
+    plant.setPosition(ofVec2f(500, ofGetHeight()));
 }
 
 //--------------------------------------------------------------
@@ -19,8 +19,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    inputManager.draw();
     plantManager.draw();
+    inputManager.draw();
 //    plant.draw();
 }
 
@@ -28,6 +28,8 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if(key == ' ') plant.grow();
     if(key == 'v') plant.collapse();
+    if(key == 's') plant.addSpike();
+    if(key == 'r') plant.delSpike();
 
 }
 

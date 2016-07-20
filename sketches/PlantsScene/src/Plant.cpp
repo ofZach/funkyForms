@@ -9,8 +9,18 @@
 #include "Plant.hpp"
 void Plant::setup(){
     randomize();
+    for(auto &i: randomNums){
+        i = ofRandom(1);
+    }
+}
+void Plant::updateSpike(){
+    isSpike ? spikePct+=0.1 : spikePct-=0.1;
+    if(spikePct<0){isSpikeFinished = true;}
+    spikePct = ofClamp(spikePct, 0, 1);
+    spikeLength = ofInterpolateCosine(0, 40, spikePct);
 }
 void Plant::update(){
+    updateSpike();
     int i = 0;
     int limit = 3;
     //    if (velocity.x < -limit || velocity.x > limit ) {
@@ -21,6 +31,7 @@ void Plant::update(){
     //    }
     timer++;
     icolor.update();
+    if(!icolor.getGrowDone()) isSpike = false;
     for (int i = 0; i < mainBranch.size(); i++) {
         branchSettings s = mainBSettings(i);
         s.pos = pos;
@@ -92,12 +103,48 @@ Plant::branchSettings Plant::mainBSettings(int i){
 void Plant::impulse(int colNum){
     icolor.grow();
 }
+void Plant::makeSpikes(ofPolyline &line, int counter, bool isRight){
+    int index = 5;
+    int i = 0;
+    while (index < line.getVertices().size()) {
+        ofVec2f dir = line.getTangentAtIndex(index);
+        ofVec2f p1 = line.getPointAtIndexInterpolated(index);
+        float length = spikeLength*ofMap(cos(counter*100.0+index*100.0), -1, 1, 0, 1)*scale;
+        ofVec2f p2 = isRight? dir.getPerpendicular()*length+p1 : dir.getPerpendicular().rotate(180)*length+p1;
+        ofVec2f p3 = dir*2 + p1;
+        ofVec2f p4 = p1 - dir*2;
+        ofDrawTriangle(p2, p3, p4);
+        index+= ofMap(randomNums[i], 0, 1, 6, 20);
+        i++;
+    }
+}
 void Plant::draw(){
     for(auto b: branches){
         b.draw();
     }
     for(auto b: mainBranch){
         b.draw();
+    }
+    if(!isSpikeFinished){
+        for (int i = 0; i < mainBranch.size(); i++) {
+            ofSetColor(ofColor::white);
+            if(mainBranch[i].isLeft){
+                makeSpikes(mainBranch[i].stroke1, i, true);
+                makeSpikes(mainBranch[i].stroke2, i, false);
+            }else{
+                makeSpikes(mainBranch[i].stroke1, i, false);
+                makeSpikes(mainBranch[i].stroke2, i, true);
+            }
+            if(i<mainBranch.size()-1){
+                if(branches[i].isLeft){
+                    makeSpikes(branches[i].stroke1, i, true);
+                    makeSpikes(branches[i].stroke2, i, false);
+                }else{
+                    makeSpikes(branches[i].stroke1, i, false);
+                    makeSpikes(branches[i].stroke2, i, true);
+                }
+            }
+        }
     }
 }
 void Plant::randomize(){

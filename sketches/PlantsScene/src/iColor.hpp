@@ -16,10 +16,10 @@ private:
     int timeCounter = 0;
     float indexCount = 0;
     ofColor pallete[4] = {
-        ofColor::cadetBlue,
-        ofColor::lightPink,
-        ofColor::lightYellow,
-        ofColor::lightCoral
+        ofColor::green,
+        ofColor::yellowGreen,
+        ofColor::yellow,
+        ofColor::cadetBlue
     };
 //    ofColor pallete[9] = {
 //        ofColor(251,49,1),
@@ -38,6 +38,7 @@ private:
     int colorCounts = 5;
     float length;
     bool isFinished = false;
+    bool isGrowDone = false;
 public:
     struct Color{
         ofRectangle rect;
@@ -55,6 +56,7 @@ public:
     void setup(float _indexCount, ofColor _baseColor);
     int getColorCount(){return colorCounts;}
     bool getFinished(){return isFinished;}
+    bool getGrowDone();
     Color *getColor(int index){return &colors[index];}
     void grow();
     void colapse();

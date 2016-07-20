@@ -67,6 +67,7 @@ public:
         ofColor(3,82,221),
         ofColor(170,178,170)
     };
+    
     ofColor currColor;
     ofColor prevColor;
 };

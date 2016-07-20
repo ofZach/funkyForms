@@ -11,7 +11,6 @@ void iColor::setup(float _indexCount, ofColor _baseColor){
     indexCount = _indexCount;
     baseColor = _baseColor;
     init();
-    ofLog() << "setup: " << colors.size();
 }
 void iColor::init(){
     colors.clear();
@@ -37,7 +36,19 @@ void iColor::init(){
     }
     timeCounter = 0;
 }
+bool iColor::getGrowDone(){
+    
+    for (int i = 0; i < colors.size(); i++) {
+        if( i < colors.size()-1){
+            if (!colors[i].isFinished) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 void iColor::update(){
+    
     if (isGrow) {
         for (int i = 0; i < colors.size(); i++) {
             Color *c = &colors[i];
@@ -56,7 +67,7 @@ void iColor::update(){
                     c->isFinished = true;
                 }
             }
-           c->start = c->rect.getLeft();
+            c->start = c->rect.getLeft();
             c->end = c->rect.getRight();
             
             float x = ofMap(c->start, 0, 1, 0, 500);
@@ -72,6 +83,7 @@ void iColor::update(){
         if(isCollapse){
             for (int i = 0; i < colors.size(); i++) {
                 Color &c = colors[i];
+                c.isFinished = false;
                 if (i>0) {
                     c.rect.alignTo(colors[i-1].rect.getTopRight(), OF_ALIGN_HORZ_LEFT, OF_ALIGN_VERT_TOP);
                 }

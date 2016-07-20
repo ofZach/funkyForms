@@ -40,17 +40,23 @@ void PlantManager::update(){
         for(auto &p: plants){
             inputManager::Target &t = IM->getClosesetTo( p.plant.getPosition() );
             t.isBusy = true;
+            if(t.rect.height/t.rect.width < 1.3 && t.rect.height>120 ){
+                p.plant.addSpike();
+            }else{
+                p.plant.delSpike();
+            }
+            
             p.plant.setSmoothPosition(t.pos+p.pos, 0.97);
-            p.plant.setSmoothVelocity(t.vel, 0.9995);
-            p.plant.setSmoothScale(ofMap(t.vel.y, -1, 1, 0.2, 0.8, true), 0.99);
+            p.plant.setSmoothVelocity(t.vel.normalize(), 0.9995);
+            p.plant.setSmoothScale(ofMap(t.vel.normalize().y, -1, 1, 0.2, 0.8, true), 0.99);
             p.plant.update();
         }
     }
     for(auto &t: IM->targets){
         if(!t.isBusy && t.age ==20){
             addPlant(t.pos);
-            ofLog() << t.pos;
         }
+
     }
     for (int i =0; i<plants.size(); i++) {
         for(int j = 0; j<plants.size(); j++){
@@ -66,12 +72,13 @@ void PlantManager::update(){
             plants.erase(plants.begin()+i);
         }
     }
-
     IM->onNewTarget(this, &PlantManager::onNewTarget);
 }
 void PlantManager::draw(){
+    for(auto &t: IM->targets){
+        
+    }
     for(auto &p: plants){
         p.plant.draw();
     }
-    ofSetColor(ofColor::violet);
 }
