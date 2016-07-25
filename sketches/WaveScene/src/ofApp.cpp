@@ -2,17 +2,28 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    ofBackground(0);
+    ofSetFrameRate(60);
+    waveManager.setup();
+    inputManager.setup();
+//    inputManager.setInputToMouse();
+    waveManager.setInputManager(&inputManager);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    waveManager.update(mouseX, mouseY);
+    inputManager.update();
+    ofVec2f mPos(mouseX, mouseY);
+    ofVec2f vel = mPos - mPosPrev;
+//    inputManager.setMouse(mPos, vel.normalize());
+    mPosPrev.set(mouseX, mouseY);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    waveManager.draw();
+    inputManager.draw();
 }
 
 //--------------------------------------------------------------

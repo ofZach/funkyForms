@@ -19,7 +19,10 @@
 		68E3A5079016D4E01F156AFE /* ObjectFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 469D7DCC5A746DDE0B13FF7A /* ObjectFinder.cpp */; };
 		68FE25DEF56B90EDB6DF4EF8 /* ofxCvContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD4D9A1B379E1E09E57786EF /* ofxCvContourFinder.cpp */; };
 		72987B561D466EE200E5A8B6 /* wave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B521D466EE200E5A8B6 /* wave.cpp */; };
-		72987B571D466EE200E5A8B6 /* waves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B541D466EE200E5A8B6 /* waves.cpp */; };
+		72987B571D466EE200E5A8B6 /* WaveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B541D466EE200E5A8B6 /* WaveManager.cpp */; };
+		72987B671D46721100E5A8B6 /* cvManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B631D46721100E5A8B6 /* cvManager.cpp */; };
+		72987B681D46721100E5A8B6 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B651D46721100E5A8B6 /* inputManager.cpp */; };
+		72987B6B1D46725100E5A8B6 /* Spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B691D46725100E5A8B6 /* Spring.cpp */; };
 		72CEEFF669D21538BA336662 /* ofxCvColorImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC938ECB6BDB8E319F89A40 /* ofxCvColorImage.cpp */; };
 		77399DCF819EAE2674D467DF /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 201244234EB9CF0C8DADBA63 /* ofxCvImage.cpp */; };
 		7A91CB6FED13B1B0EB7D718D /* Tracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A70F0ED0CD9640627B2E830 /* Tracker.cpp */; };
@@ -180,8 +183,14 @@
 		71CAFD24C3D24A42EAFB9345 /* dynamic_bitset.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = dynamic_bitset.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/dynamic_bitset.h; sourceTree = SOURCE_ROOT; };
 		72987B521D466EE200E5A8B6 /* wave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wave.cpp; sourceTree = "<group>"; };
 		72987B531D466EE200E5A8B6 /* wave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = wave.hpp; sourceTree = "<group>"; };
-		72987B541D466EE200E5A8B6 /* waves.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = waves.cpp; sourceTree = "<group>"; };
-		72987B551D466EE200E5A8B6 /* waves.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = waves.hpp; sourceTree = "<group>"; };
+		72987B541D466EE200E5A8B6 /* WaveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaveManager.cpp; sourceTree = "<group>"; };
+		72987B551D466EE200E5A8B6 /* WaveManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaveManager.hpp; sourceTree = "<group>"; };
+		72987B631D46721100E5A8B6 /* cvManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cvManager.cpp; sourceTree = "<group>"; };
+		72987B641D46721100E5A8B6 /* cvManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvManager.h; sourceTree = "<group>"; };
+		72987B651D46721100E5A8B6 /* inputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inputManager.cpp; sourceTree = "<group>"; };
+		72987B661D46721100E5A8B6 /* inputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inputManager.h; sourceTree = "<group>"; };
+		72987B691D46725100E5A8B6 /* Spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spring.cpp; sourceTree = "<group>"; };
+		72987B6A1D46725100E5A8B6 /* Spring.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spring.hpp; sourceTree = "<group>"; };
 		73580A8DF898F8E40E813A23 /* types_c.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = types_c.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/types_c.h; sourceTree = SOURCE_ROOT; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		75414ECF31440A6DA5B2F180 /* video.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = video.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/video.hpp; sourceTree = SOURCE_ROOT; };
@@ -603,6 +612,17 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		72987B621D46721100E5A8B6 /* input */ = {
+			isa = PBXGroup;
+			children = (
+				72987B631D46721100E5A8B6 /* cvManager.cpp */,
+				72987B641D46721100E5A8B6 /* cvManager.h */,
+				72987B651D46721100E5A8B6 /* inputManager.cpp */,
+				72987B661D46721100E5A8B6 /* inputManager.h */,
+			);
+			path = input;
+			sourceTree = "<group>";
+		};
 		737B033AA777B67BA4F8F4D2 /* opencv */ = {
 			isa = PBXGroup;
 			children = (
@@ -924,8 +944,11 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				72987B521D466EE200E5A8B6 /* wave.cpp */,
 				72987B531D466EE200E5A8B6 /* wave.hpp */,
-				72987B541D466EE200E5A8B6 /* waves.cpp */,
-				72987B551D466EE200E5A8B6 /* waves.hpp */,
+				72987B691D46725100E5A8B6 /* Spring.cpp */,
+				72987B6A1D46725100E5A8B6 /* Spring.hpp */,
+				72987B541D466EE200E5A8B6 /* WaveManager.cpp */,
+				72987B551D466EE200E5A8B6 /* WaveManager.hpp */,
+				72987B621D46721100E5A8B6 /* input */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1063,6 +1086,7 @@
 				8DCF9706FEE973E12FFEAEC6 /* ContourFinder.cpp in Sources */,
 				3668E01145A9CB67D0FFA209 /* Distance.cpp in Sources */,
 				83D7BD713BC335A501B90C06 /* Flow.cpp in Sources */,
+				72987B681D46721100E5A8B6 /* inputManager.cpp in Sources */,
 				9CCDC2992B0D33839144F5CD /* Helpers.cpp in Sources */,
 				9055538CFCE52B80869244A1 /* Kalman.cpp in Sources */,
 				68E3A5079016D4E01F156AFE /* ObjectFinder.cpp in Sources */,
@@ -1072,14 +1096,16 @@
 				54BB620B364263786CB68DD4 /* Utilities.cpp in Sources */,
 				AFF1895BA59C9A17328B1DAA /* Wrappers.cpp in Sources */,
 				106B9A6182DF98E835C09B47 /* ofxBaseGui.cpp in Sources */,
+				72987B671D46721100E5A8B6 /* cvManager.cpp in Sources */,
 				A61B54CA66E926867C59D2C6 /* ofxButton.cpp in Sources */,
 				CFFFBA144E8160ECC1C97982 /* ofxGuiGroup.cpp in Sources */,
 				81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */,
-				72987B571D466EE200E5A8B6 /* waves.cpp in Sources */,
+				72987B571D466EE200E5A8B6 /* WaveManager.cpp in Sources */,
 				CE6F136678038366969711AB /* ofxPanel.cpp in Sources */,
 				A2953313263AE1234930247E /* ofxSlider.cpp in Sources */,
 				413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */,
 				B07D6C52C2FE371D2B91739E /* ofxToggle.cpp in Sources */,
+				72987B6B1D46725100E5A8B6 /* Spring.cpp in Sources */,
 				72CEEFF669D21538BA336662 /* ofxCvColorImage.cpp in Sources */,
 				68FE25DEF56B90EDB6DF4EF8 /* ofxCvContourFinder.cpp in Sources */,
 				BC9D698DFFE25117A83A929B /* ofxCvFloatImage.cpp in Sources */,

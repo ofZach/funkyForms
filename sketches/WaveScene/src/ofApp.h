@@ -1,9 +1,11 @@
 #pragma once
 
 #include "ofMain.h"
+#include "WaveManager.hpp"
+#include "inputManager.h"
+
 
 class ofApp : public ofBaseApp{
-
 	public:
 		void setup();
 		void update();
@@ -20,5 +22,8 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+    
+    WaveManager waveManager;
+    inputManager inputManager;
+    ofVec2f mPosPrev;
 };
