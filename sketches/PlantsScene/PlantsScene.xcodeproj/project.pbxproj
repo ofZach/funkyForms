@@ -14,8 +14,8 @@
 		72323E9C1D4128AF00A04E22 /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72323E9A1D4128AF00A04E22 /* Animator.cpp */; };
 		728316441D3EC4170011479A /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 728316421D3EC4170011479A /* Plant.cpp */; };
 		728316471D3EC4600011479A /* iColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 728316451D3EC4600011479A /* iColor.cpp */; };
-		72DF711A1D3D2CC200284EC3 /* cvManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF71161D3D2CC200284EC3 /* cvManager.cpp */; };
-		72DF711B1D3D2CC200284EC3 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF71181D3D2CC200284EC3 /* inputManager.cpp */; };
+		72987B5F1D46714700E5A8B6 /* cvManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B5B1D46714700E5A8B6 /* cvManager.cpp */; };
+		72987B601D46714700E5A8B6 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72987B5D1D46714700E5A8B6 /* inputManager.cpp */; };
 		72DF71481D3D2D1600284EC3 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF712A1D3D2D1600284EC3 /* ETF.cpp */; };
 		72DF71491D3D2D1600284EC3 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF712B1D3D2D1600284EC3 /* fdog.cpp */; };
 		72DF714A1D3D2D1600284EC3 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72DF713C1D3D2D1600284EC3 /* Calibration.cpp */; };
@@ -96,10 +96,10 @@
 		728316431D3EC4170011479A /* Plant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plant.hpp; sourceTree = "<group>"; };
 		728316451D3EC4600011479A /* iColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iColor.cpp; sourceTree = "<group>"; };
 		728316461D3EC4600011479A /* iColor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = iColor.hpp; sourceTree = "<group>"; };
-		72DF71161D3D2CC200284EC3 /* cvManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cvManager.cpp; sourceTree = "<group>"; };
-		72DF71171D3D2CC200284EC3 /* cvManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvManager.h; sourceTree = "<group>"; };
-		72DF71181D3D2CC200284EC3 /* inputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inputManager.cpp; sourceTree = "<group>"; };
-		72DF71191D3D2CC200284EC3 /* inputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inputManager.h; sourceTree = "<group>"; };
+		72987B5B1D46714700E5A8B6 /* cvManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cvManager.cpp; sourceTree = "<group>"; };
+		72987B5C1D46714700E5A8B6 /* cvManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvManager.h; sourceTree = "<group>"; };
+		72987B5D1D46714700E5A8B6 /* inputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inputManager.cpp; sourceTree = "<group>"; };
+		72987B5E1D46714700E5A8B6 /* inputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inputManager.h; sourceTree = "<group>"; };
 		72DF711E1D3D2D1600284EC3 /* ofxCv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCv.h; sourceTree = "<group>"; };
 		72DF71201D3D2D1600284EC3 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		72DF71221D3D2D1600284EC3 /* addons.make */ = {isa = PBXFileReference; lastKnownFileType = text; path = addons.make; sourceTree = "<group>"; };
@@ -399,16 +399,15 @@
 			name = src;
 			sourceTree = "<group>";
 		};
-		72DF71151D3D2CC200284EC3 /* input */ = {
+		72987B5A1D46714700E5A8B6 /* input */ = {
 			isa = PBXGroup;
 			children = (
-				72DF71161D3D2CC200284EC3 /* cvManager.cpp */,
-				72DF71171D3D2CC200284EC3 /* cvManager.h */,
-				72DF71181D3D2CC200284EC3 /* inputManager.cpp */,
-				72DF71191D3D2CC200284EC3 /* inputManager.h */,
+				72987B5B1D46714700E5A8B6 /* cvManager.cpp */,
+				72987B5C1D46714700E5A8B6 /* cvManager.h */,
+				72987B5D1D46714700E5A8B6 /* inputManager.cpp */,
+				72987B5E1D46714700E5A8B6 /* inputManager.h */,
 			);
-			name = input;
-			path = ../../EyeScene/src/input;
+			path = input;
 			sourceTree = "<group>";
 		};
 		72DF711C1D3D2D1600284EC3 /* ofxCv */ = {
@@ -1032,7 +1031,7 @@
 				72E513421D3D75F300E3AAB1 /* Branch.hpp */,
 				728316451D3EC4600011479A /* iColor.cpp */,
 				728316461D3EC4600011479A /* iColor.hpp */,
-				72DF71151D3D2CC200284EC3 /* input */,
+				72987B5A1D46714700E5A8B6 /* input */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1143,6 +1142,8 @@
 				A61B54CA66E926867C59D2C6 /* ofxButton.cpp in Sources */,
 				72DF714B1D3D2D1600284EC3 /* ContourFinder.cpp in Sources */,
 				72DF71521D3D2D1600284EC3 /* Tracker.cpp in Sources */,
+				72987B601D46714700E5A8B6 /* inputManager.cpp in Sources */,
+				72987B5F1D46714700E5A8B6 /* cvManager.cpp in Sources */,
 				72DF71531D3D2D1600284EC3 /* Utilities.cpp in Sources */,
 				72DF723E1D3D2D1C00284EC3 /* ofxCvShortImage.cpp in Sources */,
 				72323E9C1D4128AF00A04E22 /* Animator.cpp in Sources */,
@@ -1154,7 +1155,6 @@
 				CFFFBA144E8160ECC1C97982 /* ofxGuiGroup.cpp in Sources */,
 				72DF714F1D3D2D1600284EC3 /* Kalman.cpp in Sources */,
 				72DF714A1D3D2D1600284EC3 /* Calibration.cpp in Sources */,
-				72DF711A1D3D2CC200284EC3 /* cvManager.cpp in Sources */,
 				81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */,
 				CE6F136678038366969711AB /* ofxPanel.cpp in Sources */,
 				A2953313263AE1234930247E /* ofxSlider.cpp in Sources */,
@@ -1167,7 +1167,6 @@
 				72DF71491D3D2D1600284EC3 /* fdog.cpp in Sources */,
 				40755491CDDD7249B25A1F2D /* ofxXmlSettings.cpp in Sources */,
 				72DF723B1D3D2D1C00284EC3 /* ofxCvGrayscaleImage.cpp in Sources */,
-				72DF711B1D3D2CC200284EC3 /* inputManager.cpp in Sources */,
 				72DF71541D3D2D1600284EC3 /* Wrappers.cpp in Sources */,
 				B8A4986AE3CFD44755D311C7 /* tinyxml.cpp in Sources */,
 				72DF71481D3D2D1600284EC3 /* ETF.cpp in Sources */,
