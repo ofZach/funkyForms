@@ -47,9 +47,9 @@ void cvManager::draw(){
         ofSetColor(ofColor::white);
 //        ofDrawBitmapString(msg, 0, 0);
 
-        ofScale(5, 5);
-        ofSetColor(ofColor::yellow);
-        ofDrawLine(0, 0, velocity.x, velocity.y);
+//        ofScale(5, 5);
+//        ofSetColor(ofColor::yellow);
+//        ofDrawLine(0, 0, velocity.x, velocity.y);
         
         ofPopMatrix();
     }

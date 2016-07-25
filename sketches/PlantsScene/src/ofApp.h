@@ -4,6 +4,8 @@
 #include "inputManager.h"
 #include "Plant.hpp"
 #include "PlantManager.hpp"
+#include "ofxGui.h"
+#include "Animator.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -27,5 +29,7 @@ class ofApp : public ofBaseApp{
     inputManager inputManager;
     PlantManager plantManager;
     Plant plant;
-
+    ofxPanel gui;
+    Animator animator;
+    float value = 0;
 };

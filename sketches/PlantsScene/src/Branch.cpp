@@ -12,7 +12,7 @@ void Branch::setup(){
     prevColor = ofColor(0, 0);
 }
 void Branch::drawDebug(){
-    ofSetColor(color);
+    ofSetColor(ofColor::cadetBlue);
     ofDrawRectangle(rect1);
     ofSetColor(ofColor::lightCyan);
     ofDrawRectangle(rect2);
@@ -22,6 +22,8 @@ void Branch::drawDebug(){
     ofDrawRectangle(rect4);
     ofSetColor(ofColor::lightYellow);
     ofDrawRectangle(rect5);
+    ofSetColor(ofColor::lightGreen);
+    ofDrawRectangle(rect6);
 }
 void Branch::drawCenterLine(){
     ofSetColor(ofColor::white);

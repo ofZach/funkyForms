@@ -4,7 +4,28 @@
 	<scaleSmooth>0.9</scaleSmooth>
 <PlantManager>
 		<posSmooth>0.977492</posSmooth>
-		<velSmooth>0.997942</velSmooth>
-		<scaleSmooth>0.9</scaleSmooth>
+		<velSmooth>0.935996</velSmooth>
+		<scaleSmooth>0.981992</scaleSmooth>
+	<init_bottomW>27.5</init_bottomW>
+		<init_bottomH>7.5</init_bottomH>
+		<init_topW>32.5</init_topW>
+		<init_topH>35</init_topH>
+		<init_radius>270</init_radius>
+		<init_m_bottomW>65</init_m_bottomW>
+		<init_m_bottomH>12.5</init_m_bottomH>
+		<init_m_topW>7.5</init_m_topW>
+		<init_m_topH>285</init_m_topH>
+		<init_m_radius>80</init_m_radius>
 	</PlantManager>
+<group/>
+	<bottomW>55</bottomW>
+	<bottomH>20</bottomH>
+	<topW>50</topW>
+	<topH>47.5</topH>
+	<radius>62.5</radius>
+	<m_bottomW>50</m_bottomW>
+	<m_bottomH>42.5</m_bottomH>
+	<m_topW>30</m_topW>
+	<m_topH>95</m_topH>
+	<m_radius>25</m_radius>
 </group>

@@ -20,6 +20,19 @@ public:
     ofParameter<float> posSmooth;
     ofParameter<float> scaleSmooth;
     ofParameter<float> velSmooth;
+    
+    ofParameter<float> init_bottomW;
+    ofParameter<float> init_bottomH;
+    ofParameter<float> init_topW;
+    ofParameter<float> init_topH;
+    ofParameter<float> init_radius;
+    
+    ofParameter<float> init_m_bottomW;
+    ofParameter<float> init_m_bottomH;
+    ofParameter<float> init_m_topW;
+    ofParameter<float> init_m_topH;
+    ofParameter<float> init_m_radius;
+    
     ofParameterGroup parameters;
     ofxPanel gui;
     
@@ -33,6 +46,7 @@ public:
     void setup(inputManager *_IM);
     void onNewTarget();
     void update();
+    void updateParameters(Plant *p);
     void addPlant(ofVec2f _pos);
     void draw();
 };

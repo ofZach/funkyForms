@@ -12,9 +12,44 @@
 #include "ofMain.h"
 #include "Branch.hpp"
 #include "iColor.hpp"
+#include "Animator.hpp"
 
 class Plant{
 public:
+    // gui
+    float init_bottomW;
+    float init_bottomH;
+    float init_topW;
+    float init_topH;
+    float init_radius;
+
+    float init_m_bottomW;
+    float init_m_bottomH;
+    float init_m_topW;
+    float init_m_topH;
+    float init_m_radius;
+    
+    float bottomW = 0;
+    float bottomWMax = 30;
+    Animator bottomW_animator;
+    
+    float bottomH = 0;
+    float topW = 0;
+    float topH = 0;
+    float radius = 0;
+    float m_bottomW = 0;
+    float m_bottomH = 0;
+    float m_topW = 0;
+    
+    float m_topH = 0;
+    float m_topHMax = 30;
+    Animator m_topH_animator;
+    
+    float m_radius = 0;
+    vector<float> randomNums;
+
+    ofParameterGroup parameters;
+    
     vector<Branch> mainBranch;
     vector<Branch> branches;
     vector<ofPolyline> spikes;
@@ -30,7 +65,6 @@ public:
     float spikePct = 0;
     float spikeLength = 0;
     bool isSpikeFinished = false;
-    float randomNums [200];
     
     struct branchSettings{
         ofVec2f pos;
@@ -45,9 +79,12 @@ public:
 
     void setup();
     void update();
+    void updateParameters();
     void draw();
     void grow(){icolor.grow();}
     void collapse(){icolor.colapse(); }
+    void bottomWIn(){bottomW_animator.in();}
+    void bottomWOut(){bottomW_animator.out();}
     void addSpike(){if(icolor.getGrowDone()){isSpike = true; isSpikeFinished = false;}}
     void delSpike(){isSpike = false;};
     void updateSpike();
