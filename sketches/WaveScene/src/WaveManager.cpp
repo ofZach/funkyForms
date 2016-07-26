@@ -9,11 +9,12 @@
 #include "WaveManager.hpp"
 void WaveManager::setup(){
     int pos = ofGetHeight()-150;
-    ofFloatColor colors[4] = {
-        ofColor::lightGreen,
-        ofColor::red,
-        ofColor::mistyRose,
-        ofColor::yellow
+    ofFloatColor colors[5] = {
+        ofColor(190,44,119),
+        ofColor(30,210,255),
+        ofColor(184,241,253),
+        ofColor(223,195,68),
+        ofColor(42,42,42)
     };
     gui.setup("waveSettings");
     gui.add(amount.set("amount", 55, 10, 200));
@@ -37,12 +38,12 @@ void WaveManager::reload(float &value){
     waves.clear();
     int pos = ofGetHeight()-150;
     ofFloatColor colors[4] = {
-        ofColor::lightGreen,
+        ofColor::cadetBlue,
         ofColor::red,
-        ofColor::mistyRose,
+        ofColor::goldenRod,
         ofColor::yellow
     };
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         pos += 10*i;
         addWave(pos, colors[i]);
     }
@@ -62,27 +63,37 @@ void WaveManager::update(int x, int y){
     }
 }
 void WaveManager::drawSpikes(){
-    ofPolyline *line = &waves[0].polyline;
-    int index  = 5;
-    while (index < waves[0].amount) {
-        ofVec2f p = line->getPointAtIndexInterpolated(index);
-        ofVec3f dir = line->getTangentAtIndex(index);
-        float angle = atan2(dir.x, dir.y)*(180)/pi;
-        ofSetColor(ofColor::white);
-        ofSetLineWidth(ofNoise(index/20.0)*5);
-        ofNode node;
-        ofNode child;
-        child.setParent(node);
-        child.setPosition(-ofNoise(index/2.)*300, 0, 0);
-        
-        node.setPosition(p);
-        ofQuaternion q = ofQuaternion(0, ofVec3f(1, 0, 0), 0, ofVec3f(0, 1, 0), angle, ofVec3f(0, 0, 1));
-        node.setOrientation(q);
-        
-        ofDrawLine(node.getGlobalPosition(), child.getGlobalPosition());
-        ofDrawCircle(child.getGlobalPosition(), ofNoise(index/20.0)*10);
-        
-        index += 5;
+    for (int i = 0; i < waves.size(); i++) {
+        ofPolyline *line = &waves[i].polyline;
+        float index  = 5.0;
+        for (int j = 0; j < 50; j++) {
+            index = ofMap(ofNoise(ofGetElapsedTimef()/j + j*100.0 + i*10.0), 0.2, 0.8, 0, waves[0].amount );
+            ofVec2f p = line->getPointAtIndexInterpolated(index);
+            ofVec3f dir = line->getTangentAtIndex(index);
+            float angle = atan2(dir.x, dir.y)*(180)/pi;
+            ofSetColor(ofColor::white);
+            ofSetLineWidth(ofNoise(index/20.0)*5);
+            ofNode node;
+            ofNode child;
+            child.setParent(node);
+            child.setPosition(-ofNoise(index/2.)*20, 0, 0);
+            
+            node.setPosition(p);
+            ofQuaternion q = ofQuaternion(0, ofVec3f(1, 0, 0), 0, ofVec3f(0, 1, 0), angle, ofVec3f(0, 0, 1));
+            node.setOrientation(q);
+            float vel = 0;
+            for(auto &t: IM->targets){
+                if(p.distance(t.pos)<30){
+                    vel = t.vel.y;
+                }
+            }
+//            ofDrawLine(node.getGlobalPosition(), child.getGlobalPosition());
+            ofSetColor(255, 255);
+            ofDrawCircle(ofVec2f(p.x, p.y+vel*10), ofMap(p.y, 0, ofGetHeight(), 10, 1, true));
+            
+            //        ofDrawCircle(child.getGlobalPosition(), ofNoise(index/20.0)*10);
+            
+        }
     }
 }
 void WaveManager::drawCircles(ofPolyline *line, int i){
@@ -111,11 +122,13 @@ void WaveManager::drawCircles(ofPolyline *line, int i){
     }
 }
 void WaveManager::draw(){
-    drawSpikes();
+//    ofEnableBlendMode(OF_BLENDMODE_ADD);
     for (int i = 0; i < waves.size(); i++) {
+        
         waves[i].draw();
-        drawCircles(&waves[i].polyline, i);
+//        drawCircles(&waves[i].polyline, i);
     }
+//    ofDisableBlendMode();
     gui.draw();
 }
 void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){

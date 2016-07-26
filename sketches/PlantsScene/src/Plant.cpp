@@ -11,6 +11,7 @@ void Plant::setup(){
     randomize();
     bottomW_animator.setup(0, bottomWMax);
     m_topH_animator.setup(0, m_topHMax);
+    m_bottomW_animator.setup(0, m_bottomWMax);
 }
 void Plant::updateParameters(){
     bottomW = init_bottomW * scale;
@@ -39,21 +40,26 @@ void Plant::update(){
     // animate side branches
     if(velocity.x>0.02){
         bottomW_animator.in();
+        m_bottomW_animator.in();
     }
     if(velocity.x<-0.02){
         bottomW_animator.out();
+        m_bottomW_animator.out();
     }
-    bottomW_animator.setSpeed(0.005);
     
     // animate main branch
     if(velocity.y>0.02){
-        m_topH_animator.out();
-    }
-    if(velocity.y<-0.02){
         m_topH_animator.in();
     }
-    m_topH_animator.setSpeed(0.005);
-
+    if(velocity.y<-0.02){
+        m_topH_animator.out();
+    }
+    
+    // set animation speed
+    bottomW_animator.setSpeed(0.005);
+    m_topH_animator.setSpeed(0.008);
+    m_bottomW_animator.setSpeed(0.006);
+    
     // color grow
     icolor.update();
     if(!icolor.getGrowDone()) isSpike = false;
@@ -64,10 +70,13 @@ void Plant::update(){
         branchSettings s = mainBSettings(i);
         s.pos = pos;
         
+        m_topH_animator.setPctOffset(4.2*randomNums[i]);
+        m_bottomW_animator.setPctOffset(5.2*randomNums[i]);
+
         if(i>0){
             branchSettings b;
             b.radius = radius/(i+1);
-        
+            
             bottomW_animator.setPctOffset(2.2*randomNums[i]);
             float top_wMin = 10;
             float top_wVel = velocity.x;
@@ -88,8 +97,10 @@ void Plant::update(){
             }else{
                 bottom_w = bottomW+ofMap(bottomW_animator.getValue(), 0, bottomWMax, bottomWMax, 0);
                 topW = topW+ofMap(bottomW_animator.getValue(), 0, bottomWMax, bottomWMax, 0)*scale;
+                float m_b = m_bottomW/(i+1) + ofMap(m_bottomW_animator.getValue(), 0, m_bottomWMax, m_bottomWMax, 0)*scale;
                 b.leftRect.set(bottom_w, bottom_h);
                 b.topRect.set(top_w, top_h);
+                s.leftRect.set(m_b, m_bottomH);
                 s.pos = r5->getTopLeft();
                 branches[i-1].isLeft  = true;
                 b.pos = r5->getCenter(); //+ ofVec2f(0, r5->getHeight()/(i+1));
@@ -110,12 +121,10 @@ void Plant::smooth(ofVec2f *vec , ofVec2f newVec, float _speed){
     vec->set(*vec*smoothVec + newVec*(oneVec-smoothVec));
 }
 Plant::branchSettings Plant::mainBSettings(int i){
-    
     branchSettings s;
-
     float left_wMin = 100/(i+1)*scale-velocity.x*20;
     float left_wVel = velocity.x*(20.0/((i%2)+1))*scale*40;
-    float bottom_w = m_bottomW/(i+1);
+    float bottom_w = m_bottomW/(i+1) + m_bottomW_animator.getValue();
     float bottom_h = m_bottomH;
     float top_w = m_topW;
     float top_h = m_topH * randomNums[i] * scale + m_topH_animator.getValue();

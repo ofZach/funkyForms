@@ -42,8 +42,10 @@ public:
     float m_topW = 0;
     
     float m_topH = 0;
-    float m_topHMax = 30;
+    float m_topHMax = 50;
     Animator m_topH_animator;
+    Animator m_bottomW_animator;
+    float m_bottomWMax = 40;
     
     float m_radius = 0;
     vector<float> randomNums;
@@ -65,6 +67,7 @@ public:
     float spikePct = 0;
     float spikeLength = 0;
     bool isSpikeFinished = false;
+    bool isFadeFinished = false;
     
     struct branchSettings{
         ofVec2f pos;

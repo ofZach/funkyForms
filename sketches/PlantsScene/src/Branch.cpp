@@ -10,6 +10,8 @@
 void Branch::setup(){
     currColor = ofColor(0, 0);
     prevColor = ofColor(0, 0);
+    topRectHeightSmooth = ofRandom(0.9, 0.9999);
+    leftRectWidthSmooth = ofRandom(0.9, 0.9999);
 }
 void Branch::drawDebug(){
     ofSetColor(ofColor::cadetBlue);
@@ -83,8 +85,8 @@ void Branch::update( ofVec2f pos, ofVec2f leftRectSize, ofVec2f topRectSize, flo
     
     //--------------- rectangle update
     float topRectWidth = topRectSize.x;
-    float topRectHeight = topRectSize.y;
-    float leftRectWidth = leftRectSize.x;
+    topRectHeight = topRectHeightSmooth * topRectHeight + (1 - topRectHeightSmooth) * topRectSize.y;
+    leftRectWidth = leftRectWidthSmooth * leftRectWidth + (1 - leftRectWidthSmooth) * leftRectSize.x;
     float leftRectHeight = leftRectSize.y;
 
     if(isLeft){

@@ -16,14 +16,13 @@ void wave::setup(int _ypos, ofFloatColor _color, int _width){
     fbo.allocate(100, 100);
     fbo.begin();
     fbo.end();
-
-    
-    //        restLength.addListener(this, &wave::reload);
-    //        strength.addListener(this, &wave::reload);
-    //        invMass.addListener(this, &wave::reload);
-    //        amount.addListener(this, &wave::reload);
-    
-    //        gui.loadFromFile("settings.xml");
+//
+//            restLength.addListener(this, &wave::reload);
+//            strength.addListener(this, &wave::reload);
+//            invMass.addListener(this, &wave::reload);
+//            amount.addListener(this, &wave::reload);
+//    
+//            gui.loadFromFile("settings.xml");
     setupSpring();
 }
 void wave::setupSpring(){
@@ -36,7 +35,7 @@ void wave::setupSpring(){
         
         Point_ point;
         
-        float step = width/(amount-1);
+        float step = width/(amount*1.0-1.0);
         
         ofVec2f pos(i*step , ypos);
         
@@ -57,10 +56,10 @@ void wave::update(vector<inputManager::Target> &targets){
     for (int i = 0; i < points.size(); i++) {
         
         for(auto &t: targets ){
-            ofVec2f pos = ofVec2f(t.pos.x + t.vel.normalize().x*100, t.pos.y);
-            if(pos.distance(points[i].p)<30){
+//            ofVec2f pos = ofVec2f(t.pos.x + t.vel.normalize().x*100, t.pos.y);
+            if(t.pos.distance(points[i].p)<30){
                 if (!points[i].isFixed) {
-                    points[i].p.y += t.vel.normalize().y*10;
+                    points[i].p.y += t.vel.normalize().y*20;
                 }
             }
         }
@@ -98,7 +97,7 @@ void wave::draw(){
         polyline.addVertex(points[i].p);
         
         m.addVertex(points[i].p);
-        m.addColor(ofFloatColor(color, ofNoise(i/8.01)/2.));
+        m.addColor(ofFloatColor(color, 1));
         m.addTexCoord(leftTop);
         m.addVertex(p2);
         m.addColor(ofFloatColor(color, 1));

@@ -9,7 +9,6 @@
 #include "Spring.hpp"
 
 void Spring::setup(float _strength, float _restLength, float _invMass){
-    
     restLength = _restLength;
     strength = _strength;
     invMass = _invMass;

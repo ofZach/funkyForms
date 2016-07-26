@@ -108,7 +108,7 @@ void Plant::randomize(){
     mainBranchCount = (int)ofRandom(3, 6);
     
     for (int i = 0; i < mainBranchCount; i++) {
-        SvgPlant svgplant;
+        Branch svgplant;
         svgplant.color = ofColor::lightGreen;
         svgplant.isLeft = (int)ofRandom(2);
         svgplant.isCap = (int)ofRandom(2);
@@ -121,7 +121,7 @@ void Plant::randomize(){
         }
     }
     for (int i = 0; i < mainBranchCount-1; i++) {
-        SvgPlant svgplant;
+        Branch svgplant;
         svgplant.isCap = (int)ofRandom(2);
         svgplant.color = ofColor::lightGreen;
         branches.push_back(svgplant);

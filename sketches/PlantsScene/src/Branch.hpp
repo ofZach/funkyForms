@@ -26,6 +26,16 @@ public:
     bool isLeft;
     bool isCap = false;
     bool isTopRound = false;
+    
+    float topRectHeight = 0;
+    float topRectHeightSmooth;
+    
+    float topRectWidth = 0;
+    float topRectWidthSmooth;
+    
+    float leftRectWidth = 0;
+    float leftRectWidthSmooth;
+    
     ofColor color;
     ofPolyline stroke1, stroke2;
     

@@ -26,7 +26,7 @@ void cvManager::drawPeopleFill(){
         for (float i = 0; i < 1.; i += 1.0/res) {
             path.lineTo(l.getPointAtPercent(i));
         }
-        path.setFillColor(ofColor::gray);
+        path.setFillColor(ofColor::black);
         path.draw();
     }
 }
