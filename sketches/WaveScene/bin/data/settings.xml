@@ -1,7 +1,14 @@
 <waveSettings>
-	<amount>83</amount>
-	<strength>0.805195</strength>
+	<amount>43</amount>
+	<strength>0.325675</strength>
 	<restLength>2.52</restLength>
-	<invMass>0.4045</invMass>
+	<invMass>0.6655</invMass>
 <waveSettings/>
+<density>1.3</density>
+	<bounce>0.135</bounce>
+	<friction>0.13</friction>
+<Ripples>
+		<damping>0.991836</damping>
+		<pixelOffset>0.438776</pixelOffset>
+	</Ripples>
 </waveSettings>

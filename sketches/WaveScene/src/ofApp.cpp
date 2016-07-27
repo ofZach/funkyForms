@@ -12,8 +12,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    waveManager.update(mouseX, mouseY);
     inputManager.update();
+    waveManager.update(mouseX, mouseY);
     ofVec2f mPos(mouseX, mouseY);
     ofVec2f vel = mPos - mPosPrev;
 //    inputManager.setMouse(mPos, vel.normalize());
@@ -23,7 +23,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     waveManager.draw();
-    inputManager.draw();
+//    inputManager.draw();
     ofEnableAlphaBlending();
 //    waveManager.drawSpikes();
 }

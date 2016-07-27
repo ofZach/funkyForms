@@ -9,6 +9,43 @@
 #include "WaveManager.hpp"
 void WaveManager::setup(){
     int pos = ofGetHeight()-150;
+
+
+
+    for (int i = 0; i < 5; i++) {
+        pos += 10*i;
+        addWave(pos, swatch[i]);
+    }
+    
+    // box2d
+    box2d.init();
+    box2d.setGravity(0, 20);
+    box2d.setFPS(60.0);
+    box2d.registerGrabbing();
+    
+    // shader
+    bumpmap.allocate(ofGetWidth(), ofGetHeight());
+    bumpmap.setup();
+    
+    gui.setup("waveSettings");
+    gui.add(amount.set("amount", 55, 10, 200));
+    gui.add(strength.set("strength", 0.55, 0.001, 1));
+    gui.add(restLength.set("restLength", 16.92, 0, 18));
+    gui.add(invMass.set("invMass", 0.375, 0.1, 3));
+    gui.add(density.set("density", 3, 0, 20));
+    gui.add(bounce.set("bounce", 0.5, 0, 3));
+    gui.add(friction.set("friction", 0.1, 0, 2));
+    gui.add(bumpmap.parameters);
+    
+    restLength.addListener(this, &WaveManager::reload);
+    strength.addListener(this, &WaveManager::reload);
+    invMass.addListener(this, &WaveManager::reload);
+    
+    gui.loadFromFile("settings.xml");
+}
+void WaveManager::reload(float &value){
+    waves.clear();
+    int pos = ofGetHeight()-150;
     ofFloatColor colors[5] = {
         ofColor(190,44,119),
         ofColor(30,210,255),
@@ -16,36 +53,9 @@ void WaveManager::setup(){
         ofColor(223,195,68),
         ofColor(42,42,42)
     };
-    gui.setup("waveSettings");
-    gui.add(amount.set("amount", 55, 10, 200));
-    gui.add(strength.set("strength", 0.55, 0.001, 1));
-    gui.add(restLength.set("restLength", 16.92, 0, 18));
-    gui.add(invMass.set("invMass", 0.375, 0.1, 3));
-    
-    restLength.addListener(this, &WaveManager::reload);
-    strength.addListener(this, &WaveManager::reload);
-    invMass.addListener(this, &WaveManager::reload);
-//    amount.addListener(this, &WaveManager::reload);
-
-    gui.loadFromFile("settings.xml");
-
-    for (int i = 0; i < 4; i++) {
-        pos += 10*i;
-        addWave(pos, colors[i]);
-    }
-}
-void WaveManager::reload(float &value){
-    waves.clear();
-    int pos = ofGetHeight()-150;
-    ofFloatColor colors[4] = {
-        ofColor::cadetBlue,
-        ofColor::red,
-        ofColor::goldenRod,
-        ofColor::yellow
-    };
     for (int i = 0; i < 5; i++) {
         pos += 10*i;
-        addWave(pos, colors[i]);
+        addWave(pos, swatch[i]);
     }
 }
 void WaveManager::addWave( int ypos, ofFloatColor col){
@@ -57,10 +67,29 @@ void WaveManager::addWave( int ypos, ofFloatColor col){
     wave.setup(ypos, col, ofGetWidth());
     waves.push_back(wave);
 }
-void WaveManager::update(int x, int y){
-    for (int i = 0; i < waves.size(); i++) {
-        waves[i].update(IM->targets);
+void WaveManager::updateBox2d(){
+    for(int i = 0; i<circles.size(); i++){
+        if(ofxBox2dBaseShape::shouldRemoveOffScreen(circles[i])){
+            circles.erase(circles.begin()+i);
+            colors.erase(colors.begin()+i);
+        }
     }
+    
+    box2d.update();
+    ground.clear();
+    ground.addVertexes(waves[waves.size()-1].polyline);
+    ground.create(box2d.getWorld());
+    
+    
+    if(ofGetFrameNum()%10 == 0){
+        float r = ofRandom(4, 20);		// a random radius 4px - 20px
+        circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
+        colors.push_back(swatch[(int)ofRandom(5)]);
+        ofxBox2dCircle * circle = circles.back().get();
+        circle->setPhysics(density, bounce, friction);
+        circle->setup(box2d.getWorld(), ofRandomWidth(), 20, r);
+    }
+    ground.updateShape();
 }
 void WaveManager::drawSpikes(){
     for (int i = 0; i < waves.size(); i++) {
@@ -121,15 +150,12 @@ void WaveManager::drawCircles(ofPolyline *line, int i){
         index += ofNoise((i*index)/20.01)*60;
     }
 }
-void WaveManager::draw(){
-//    ofEnableBlendMode(OF_BLENDMODE_ADD);
-    for (int i = 0; i < waves.size(); i++) {
-        
-        waves[i].draw();
-//        drawCircles(&waves[i].polyline, i);
+void WaveManager::drawBox2d(){
+    for(int i=0; i<circles.size(); i++) {
+        ofFill();
+        ofSetColor(colors[i]);
+        ofDrawCircle(circles[i].get()->getPosition(), circles[i].get()->getRadius());
     }
-//    ofDisableBlendMode();
-    gui.draw();
 }
 void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
     ofFloatColor col = ofColor::white;
@@ -143,4 +169,37 @@ void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
     m->addVertex(r.getGlobalPosition());
     
     m->addColor(col);
+}
+void WaveManager::update(int x, int y){
+    updateBox2d();
+    for (int i = 0; i < waves.size(); i++) {
+        waves[i].update(IM->targets);
+    }
+    bumpmap.begin();
+    ofPushMatrix();
+    ofTranslate(IM->pos);
+    for (int i = 0; i < IM->getContourFinder()->getPolylines().size(); i++) {
+        ofPolyline &l = IM->getContourFinder()->getPolyline(i);
+        ofPath path;
+        int res = ofMap(l.getPerimeter(), 0, 1900, 1, 200);
+        for (float i = 0; i < 1.; i += 1.0/res) {
+            path.lineTo(l.getPointAtPercent(i));
+        }
+        path.setFilled(false);
+        path.setStrokeWidth(5);
+        path.setStrokeColor(colors[i%4]);
+        path.draw();
+    }
+    ofPopMatrix();
+    bumpmap.end();
+    bumpmap.update();
+}
+void WaveManager::draw(){
+    for (int i = 0; i < waves.size(); i++) {
+        waves[i].draw();
+    }
+    drawBox2d();
+    ofSetColor(255, 255);
+    bumpmap.draw();
+    gui.draw();
 }

@@ -17,8 +17,10 @@ void cvManager::setup(){
 void cvManager::update(ofPixels & pixels){
     contourFinder.setThreshold(115);
     contourFinder.findContours(pixels);
+
 }
 void cvManager::drawPeopleFill(){
+    
     for (int i = 0; i < contourFinder.getPolylines().size(); i++) {
         ofPolyline &l = contourFinder.getPolyline(i);
         ofPath path;
@@ -26,7 +28,9 @@ void cvManager::drawPeopleFill(){
         for (float i = 0; i < 1.; i += 1.0/res) {
             path.lineTo(l.getPointAtPercent(i));
         }
-        path.setFillColor(ofColor::black);
+        path.setFilled(false);
+        path.setStrokeWidth(5);
+        path.setStrokeColor(ofColor::white);
         path.draw();
     }
 }
@@ -34,6 +38,8 @@ void cvManager::draw(){
     ofSetColor(ofColor::grey);
     drawPeopleFill();
     ofxCv::RectTracker& tracker = contourFinder.getTracker();
+
+    
     
     for(int i = 0; i < contourFinder.size(); i++) {
         

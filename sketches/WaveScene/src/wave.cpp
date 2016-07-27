@@ -82,7 +82,7 @@ void wave::draw(){
     int stepCounter = 0;
     
     polyline.clear();
-    
+    polyline.addVertex(ofVec2f(0, ofGetHeight()+100));
     for (int i = 0; i < points.size(); i++) {
         ofVec2f p2 (points[i].p.x, ofGetHeight());
         
@@ -106,6 +106,8 @@ void wave::draw(){
         stepCounter++;
         
     }
+    polyline.addVertex(ofVec2f(ofGetWidth(), ofGetHeight()+100));
+
     if(isTexture) tex.bind();
     m.draw();
     if(isTexture) tex.unbind();
