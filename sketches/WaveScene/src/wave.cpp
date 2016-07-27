@@ -11,12 +11,11 @@ void wave::setup(int _ypos, ofFloatColor _color, int _width){
     width = _width;
     color = _color;
     ypos = _ypos;
-    tex.load("texture.png");
     
     fbo.allocate(100, 100);
     fbo.begin();
     fbo.end();
-//
+
 //            restLength.addListener(this, &wave::reload);
 //            strength.addListener(this, &wave::reload);
 //            invMass.addListener(this, &wave::reload);
@@ -24,6 +23,8 @@ void wave::setup(int _ypos, ofFloatColor _color, int _width){
 //    
 //            gui.loadFromFile("settings.xml");
     setupSpring();
+    m.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    strokeMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 }
 void wave::setupSpring(){
     points.clear();
@@ -51,19 +52,17 @@ void wave::setupSpring(){
 }
 void wave::update(vector<inputManager::Target> &targets){
     
-    float force = 1 - friction * timeStep * timeStep;
+    float force2 = 1 - friction * timeStep * timeStep;
     
     for (int i = 0; i < points.size(); i++) {
-        
         for(auto &t: targets ){
-//            ofVec2f pos = ofVec2f(t.pos.x + t.vel.normalize().x*100, t.pos.y);
             if(t.pos.distance(points[i].p)<30){
                 if (!points[i].isFixed) {
-                    points[i].p.y += t.vel.normalize().y*20;
+                    points[i].p.y += t.vel.normalize().y*force;
                 }
             }
         }
-        float dy = (points[i].p.y - points[i].pp.y) * force;
+        float dy = (points[i].p.y - points[i].pp.y) * force2;
         points[i].pp = points[i].p;
         points[i].p.y = MAX(points[i].p.y + dy, 0);
     }
@@ -72,44 +71,55 @@ void wave::update(vector<inputManager::Target> &targets){
             springs[i].update(&points[i-1], &points[i]);
         }
     }
+    updatePolyline();
+    updateMesh();
 }
-void wave::draw(){
-    ofMesh m;
-    m.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    
-    int stepLength = 4;
-    float texPixWidth = tex.getWidth()/points.size();
-    int stepCounter = 0;
-    
+void wave::updatePolyline(){
     polyline.clear();
-    polyline.addVertex(ofVec2f(0, ofGetHeight()+100));
     for (int i = 0; i < points.size(); i++) {
-        ofVec2f p2 (points[i].p.x, ofGetHeight());
-        
-        ofVec2f leftTop;
-        leftTop.x = i*texPixWidth;
-        leftTop.y = 0;
-        
-        ofVec2f leftBottom;
-        leftBottom.x = i*texPixWidth;
-        leftBottom.y = tex.getHeight();
-        
         polyline.addVertex(points[i].p);
+    }
+}
+void wave::updateMesh(){
+    m.clear();
+    strokeMesh.clear();
+    
+    for (int i = 0; i < polyline.getVertices().size(); i++) {
+        ofVec2f p = polyline.getVertices()[i];
+        ofVec2f p2 = ofVec2f(p.x, ofGetHeight());
+        ofVec3f dir = polyline.getTangentAtIndex(i);
+        float angle = atan2(dir.x, dir.y)*(180)/pi;
+        ofColor col = color;
+        int a = angle/2+col.getHueAngle()/2;
+        col.setHueAngle(a%360);
+        ofColor cc = baseColor;
+        
+        float pct = ofMap(p.y, ypos-ofGetMouseX(), ypos, 1, 0, true);
+        
+        col.r = pct * cc.r + (1-pct) * col.r;
+        col.g = pct * cc.g + (1-pct) * col.g;
+        col.b = pct * cc.b + (1-pct) * col.b;
         
         m.addVertex(points[i].p);
-        m.addColor(ofFloatColor(color, 1));
-        m.addTexCoord(leftTop);
+        m.addColor(ofFloatColor(col, 1));
         m.addVertex(p2);
-        m.addColor(ofFloatColor(color, 1));
-        m.addTexCoord(leftBottom);
-        
-        stepCounter++;
-        
-    }
-    polyline.addVertex(ofVec2f(ofGetWidth(), ofGetHeight()+100));
+        m.addColor(ofFloatColor(col, 1));
 
-    if(isTexture) tex.bind();
+//        ofNode node;
+//        ofNode child;
+//        child.setParent(node);
+//        child.setPosition(ofVec3f(0, ofMap(pct, 0, 1, 0, 20), 0));
+//        
+//        node.setPosition(p);
+//        ofQuaternion q = ofQuaternion(0, ofVec3f(1, 0, 0), 0, ofVec3f(0, 1, 0), angle, ofVec3f(0, 0, 1));
+//        node.setOrientation(q);
+//
+//        strokeMesh.addVertex(node.getGlobalPosition());
+//        strokeMesh.addVertex(child.getGlobalPosition());
+    }
+
+}
+void wave::draw(){
     m.draw();
-    if(isTexture) tex.unbind();
-    //        tex.draw(0, 0);
+    strokeMesh.draw();
 }

@@ -31,16 +31,26 @@ public:
     void drawCircles(ofPolyline *line, int i);
     
     ofFloatColor swatch[5] = {
-        ofColor(190,44,119),
-        ofColor(30,210,255),
-        ofColor(184,241,253),
-        ofColor(223,195,68),
-        ofColor(42,42,42)
+        ofColor(143,112,9),
+        ofColor(219,128,14),
+        ofColor(245,177,92),
+        ofColor(0,219,204),
+        ofColor(4,140,131)
     };
+    ofFloatColor swatchBase[5] = {
+        ofColor(174,255,254),
+        ofColor(252,202,255),
+        ofColor(255,187,175),
+        ofColor(224,220,183),
+        ofColor(255,255,255)
+    };
+    
+
     void setInputManager(inputManager *_IM){ IM = _IM; }
     void reload(float &value);
+    void reloadInt(int &value);
     
-    void addWave( int ypos, ofFloatColor col);
+    void addWave( int ypos, ofFloatColor col, ofColor baseCol);
     void addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i);
 
     inputManager *IM;
@@ -50,9 +60,12 @@ public:
     ofParameter<float> strength;
     ofParameter<float> restLength;
     ofParameter<float> invMass;
+    ofParameter<float> force;
     ofParameter<float> density;
     ofParameter<float> bounce;
     ofParameter<float> friction;
+    ofParameter<int> waveCount;
+    ofParameter<float> waveDistance;
     
     // box2d
     int                                     groundRes;

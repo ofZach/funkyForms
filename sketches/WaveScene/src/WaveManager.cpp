@@ -14,7 +14,7 @@ void WaveManager::setup(){
 
     for (int i = 0; i < 5; i++) {
         pos += 10*i;
-        addWave(pos, swatch[i]);
+        addWave(pos, swatch[i%5], swatchBase[i%5]);
     }
     
     // box2d
@@ -28,42 +28,47 @@ void WaveManager::setup(){
     bumpmap.setup();
     
     gui.setup("waveSettings");
+    gui.add(waveCount.set("waveCount", 5, 1, 20));
+    gui.add(waveDistance.set("waveDistance", 10, 5, 200));
     gui.add(amount.set("amount", 55, 10, 200));
     gui.add(strength.set("strength", 0.55, 0.001, 1));
     gui.add(restLength.set("restLength", 16.92, 0, 18));
     gui.add(invMass.set("invMass", 0.375, 0.1, 3));
+    gui.add(force.set("force", 4, 0.1, 20));
     gui.add(density.set("density", 3, 0, 20));
     gui.add(bounce.set("bounce", 0.5, 0, 3));
     gui.add(friction.set("friction", 0.1, 0, 2));
     gui.add(bumpmap.parameters);
     
+    waveCount.addListener(this, &WaveManager::reloadInt);
+    amount.addListener(this, &WaveManager::reloadInt);
+
+    waveDistance.addListener(this, &WaveManager::reload);
+    force.addListener(this, &WaveManager::reload);
     restLength.addListener(this, &WaveManager::reload);
     strength.addListener(this, &WaveManager::reload);
     invMass.addListener(this, &WaveManager::reload);
     
     gui.loadFromFile("settings.xml");
 }
+void WaveManager::reloadInt(int &value){
+    float val = 0;
+    reload(val);
+}
 void WaveManager::reload(float &value){
     waves.clear();
-    int pos = ofGetHeight()-150;
-    ofFloatColor colors[5] = {
-        ofColor(190,44,119),
-        ofColor(30,210,255),
-        ofColor(184,241,253),
-        ofColor(223,195,68),
-        ofColor(42,42,42)
-    };
-    for (int i = 0; i < 5; i++) {
-        pos += 10*i;
-        addWave(pos, swatch[i]);
+    for (int i = 0; i < waveCount; i++) {
+        addWave(waveDistance*i+ofGetHeight()-waveDistance*waveCount, swatch[i%5], swatchBase[i%5]);
     }
 }
-void WaveManager::addWave( int ypos, ofFloatColor col){
+void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     wave wave;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
     wave.amount = amount;
+    wave.force = force;
+    wave.baseColor = baseCol;
     wave.setup(ypos, col, ofGetWidth());
     waves.push_back(wave);
 }
@@ -185,9 +190,9 @@ void WaveManager::update(int x, int y){
         for (float i = 0; i < 1.; i += 1.0/res) {
             path.lineTo(l.getPointAtPercent(i));
         }
-        path.setFilled(false);
+//        path.setFilled(false);
+        path.setStrokeColor(ofColor::white);
         path.setStrokeWidth(5);
-        path.setStrokeColor(colors[i%4]);
         path.draw();
     }
     ofPopMatrix();
@@ -195,11 +200,11 @@ void WaveManager::update(int x, int y){
     bumpmap.update();
 }
 void WaveManager::draw(){
+//    bumpmap.draw();
     for (int i = 0; i < waves.size(); i++) {
         waves[i].draw();
     }
-    drawBox2d();
+//    drawBox2d();
     ofSetColor(255, 255);
-    bumpmap.draw();
     gui.draw();
 }

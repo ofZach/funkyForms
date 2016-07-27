@@ -23,7 +23,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     waveManager.draw();
-//    inputManager.draw();
+    inputManager.draw();
     ofEnableAlphaBlending();
 //    waveManager.drawSpikes();
 }

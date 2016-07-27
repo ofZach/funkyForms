@@ -18,7 +18,8 @@ class wave{
 public:
     ofxPanel gui;
     ofImage tex;
-    
+    ofMesh m;
+    ofMesh strokeMesh;
     int ypos;
     
     ofVec2f pos;
@@ -32,11 +33,13 @@ public:
     ofParameter<float> invMass = 1.0/mass;
     ofParameter<float> strength;
     ofParameter<float> restLength;
+    ofParameter<float> force;
+    ofParameter<float> colorHueOffset;
     ofParameter<float> p1;
     ofParameter<float> p2;
     ofParameter<float> p3;
     ofParameter<float> p4;
-
+    ofColor baseColor;
     vector<Spring> springs;
     vector<Point_> points;
     ofFbo fbo;
@@ -45,6 +48,8 @@ public:
     ofPolyline polyline;
     
     void setup(int _ypos, ofFloatColor _color, int _width);
+    void updatePolyline();
+    void updateMesh();
     void reload(float &p){ setupSpring(); }
     void setupSpring();
     void update(vector<inputManager::Target> &targets);
