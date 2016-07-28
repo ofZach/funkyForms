@@ -4,9 +4,9 @@
 	<restLength>3.51</restLength>
 	<invMass>0.8975</invMass>
 <waveSettings/>
-<density>0</density>
+<density>6.6</density>
 	<bounce>0.135</bounce>
-	<friction>0.13</friction>
+	<friction>0.31</friction>
 <Ripples>
 		<damping>0.991836</damping>
 		<pixelOffset>0.438776</pixelOffset>
@@ -14,4 +14,7 @@
 <force>1.891</force>
 <waveCount>6</waveCount>
 	<waveDistance>23.525</waveDistance>
+<shadowRadius>107.5</shadowRadius>
+	<energyHighlightSize>100</energyHighlightSize>
+	<shadowOpacity>44.625</shadowOpacity>
 </waveSettings>

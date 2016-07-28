@@ -38,6 +38,9 @@ void WaveManager::setup(){
     gui.add(density.set("density", 3, 0, 20));
     gui.add(bounce.set("bounce", 0.5, 0, 3));
     gui.add(friction.set("friction", 0.1, 0, 2));
+    gui.add(shadowRadius.set("shadowRadius", 100, 0, 500));
+    gui.add(energyHighlightSize.set("energyHighlightSize", 100, 0, 500));
+    gui.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
     gui.add(bumpmap.parameters);
     
     waveCount.addListener(this, &WaveManager::reloadInt);
@@ -72,6 +75,14 @@ void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     wave.setup(ypos, col, ofGetWidth());
     waves.push_back(wave);
 }
+void WaveManager::updateWaveParameters(){
+    for(auto &w: waves){
+        w.shadowRadius = shadowRadius;
+        w.shadowOpacity = shadowOpacity;
+        w.energyHighlightSize = energyHighlightSize;
+    }
+
+}
 void WaveManager::updateBox2d(){
     for(int i = 0; i<circles.size(); i++){
         if(ofxBox2dBaseShape::shouldRemoveOffScreen(circles[i])){
@@ -85,7 +96,6 @@ void WaveManager::updateBox2d(){
     ground.addVertexes(waves[waves.size()-1].polyline);
     ground.create(box2d.getWorld());
     
-    
     if(ofGetFrameNum()%10 == 0){
         float r = ofRandom(4, 20);		// a random radius 4px - 20px
         circles.push_back(shared_ptr<ofxBox2dCircle>(new ofxBox2dCircle));
@@ -94,6 +104,7 @@ void WaveManager::updateBox2d(){
         circle->setPhysics(density, bounce, friction);
         circle->setup(box2d.getWorld(), ofRandomWidth(), 20, r);
     }
+    
     ground.updateShape();
 }
 void WaveManager::drawSpikes(){
@@ -176,6 +187,7 @@ void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
     m->addColor(col);
 }
 void WaveManager::update(int x, int y){
+    updateWaveParameters();
     updateBox2d();
     for (int i = 0; i < waves.size(); i++) {
         waves[i].update(IM->targets);
@@ -204,7 +216,7 @@ void WaveManager::draw(){
     for (int i = 0; i < waves.size(); i++) {
         waves[i].draw();
     }
-//    drawBox2d();
+    drawBox2d();
     ofSetColor(255, 255);
     gui.draw();
 }

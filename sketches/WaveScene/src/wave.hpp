@@ -24,7 +24,7 @@ public:
     
     ofVec2f pos;
     int width;
-    
+    ofImage img;
     ofParameter<float> friction = 0.8;
     ofParameter<float> timeStep = 0.01;
     ofParameter<int> amount = 50;
@@ -35,6 +35,9 @@ public:
     ofParameter<float> restLength;
     ofParameter<float> force;
     ofParameter<float> colorHueOffset;
+    ofParameter<float> shadowRadius = 100;
+    ofParameter<float> shadowOpacity = 100;
+    ofParameter<float> energyHighlightSize = 100;
     ofParameter<float> p1;
     ofParameter<float> p2;
     ofParameter<float> p3;
@@ -53,6 +56,7 @@ public:
     void reload(float &p){ setupSpring(); }
     void setupSpring();
     void update(vector<inputManager::Target> &targets);
+    
     void draw();
 };
 

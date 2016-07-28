@@ -15,7 +15,7 @@ void wave::setup(int _ypos, ofFloatColor _color, int _width){
     fbo.allocate(100, 100);
     fbo.begin();
     fbo.end();
-
+    img.load("shadow.png");
 //            restLength.addListener(this, &wave::reload);
 //            strength.addListener(this, &wave::reload);
 //            invMass.addListener(this, &wave::reload);
@@ -90,11 +90,11 @@ void wave::updateMesh(){
         ofVec3f dir = polyline.getTangentAtIndex(i);
         float angle = atan2(dir.x, dir.y)*(180)/pi;
         ofColor col = color;
-        int a = angle/2+col.getHueAngle()/2;
+        int a = angle/2+col.getHueAngle()/2+ofGetFrameNum()/5.;
         col.setHueAngle(a%360);
         ofColor cc = baseColor;
         
-        float pct = ofMap(p.y, ypos-ofGetMouseX(), ypos, 1, 0, true);
+        float pct = ofMap(p.y, ypos-energyHighlightSize, ypos, 1, 0, true);
         
         col.r = pct * cc.r + (1-pct) * col.r;
         col.g = pct * cc.g + (1-pct) * col.g;
@@ -120,6 +120,12 @@ void wave::updateMesh(){
 
 }
 void wave::draw(){
+    for (int i = 0; i < polyline.getVertices().size(); i++) {
+        ofVec2f p = polyline.getVertices()[i];
+        ofSetColor(255, shadowOpacity);
+        
+        img.draw(p-ofVec2f(shadowRadius, shadowRadius), shadowRadius*2, shadowRadius*2);
+    }
     m.draw();
-    strokeMesh.draw();
+//    strokeMesh.draw();
 }

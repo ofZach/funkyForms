@@ -47,6 +47,7 @@ public:
     
 
     void setInputManager(inputManager *_IM){ IM = _IM; }
+    void updateWaveParameters();
     void reload(float &value);
     void reloadInt(int &value);
     
@@ -66,7 +67,10 @@ public:
     ofParameter<float> friction;
     ofParameter<int> waveCount;
     ofParameter<float> waveDistance;
-    
+    ofParameter<float> shadowRadius = 100;
+    ofParameter<float> shadowOpacity = 100;
+    ofParameter<float> energyHighlightSize = 100;
+
     // box2d
     int                                     groundRes;
     float                                   groundSpeed;
