@@ -39,6 +39,12 @@ void StencilWaves::setup(){
     
     // masks
     mask.allocate(ofGetWidth(), ofGetHeight());
+    
+    // refract
+    refract.allocate(ofGetWidth(), ofGetHeight());
+    refract.setupParameters(ofGetWidth(), ofGetHeight());
+    refract.parameters.setName("Refraction");
+    
 }
 void StencilWaves::reload(float &v){
     waves.clear();
@@ -91,9 +97,10 @@ void StencilWaves::updateMeshes(){
         col.setBrightness(ofMap(angle, 90, 120, 0, 255));
         
         mainWaveMesh.addVertex(p);
+        mainWaveMesh.addColor(col);
         mainWaveMesh.addVertex(p2);
+        mainWaveMesh.addColor(col);
     }
-
 }
 void StencilWaves::updateFbos(){
     // draw people
@@ -108,7 +115,6 @@ void StencilWaves::updateFbos(){
     
     // draw mainWave
     mainWaveFbo.begin();
-    ofClear(0, 0);
     mainWaveMesh.draw();
     mainWaveFbo.end();
 }
@@ -127,6 +133,8 @@ void StencilWaves::updateMasks(){
     mask.setTexture(mainWaveFbo.getTexture(), 0); // mask
     
     mask.update();
+}
+void StencilWaves::updateRefract(){
 }
 void StencilWaves::updateContours(){
     contours.clear();

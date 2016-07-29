@@ -15,6 +15,7 @@
 #include "ofxGui.h"
 #include "ofxFX.h"
 #include "ofxMask.h"
+#include "ofxRefract.h"
 
 class StencilWaves{
 public:
@@ -43,6 +44,10 @@ public:
     // mask
     ofxMask mask;
     
+    // refraction
+    ofxRefract refract;
+    
+    
     void setup();
     void setInputManager(inputManager *_IM){ IM = _IM; }
     void addWave(int y);
@@ -51,6 +56,7 @@ public:
     void update();
     void updateFbos();
     void updateMasks();
+    void updateRefract();
     void updateContours();
     void updateWaves();
     void updateWaveParameters();

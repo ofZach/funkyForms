@@ -17,7 +17,7 @@ void ofApp::setup(){
 void ofApp::update(){
     inputManager.update();
     stencilWaves.update();
-    waveManager.update(mouseX, mouseY);
+//    waveManager.update(mouseX, mouseY);
 
     ofVec2f mPos(mouseX, mouseY);
     ofVec2f vel = mPos - mPosPrev;
@@ -27,9 +27,9 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    waveManager.draw();
+//    waveManager.draw();
 //    inputManager.draw();
-//    stencilWaves.draw();
+    stencilWaves.draw();
     
 //    waveManager.drawSpikes();
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
