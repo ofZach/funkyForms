@@ -78,6 +78,8 @@
 		7226ED9A1D480D73008C5A7E /* del_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226ED5F1D480D73008C5A7E /* del_impl.cpp */; };
 		7226EDC61D49126A008C5A7E /* ofxFXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDB91D49126A008C5A7E /* ofxFXObject.cpp */; };
 		7226EDC91D4912EE008C5A7E /* ofxRipple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDC71D4912EE008C5A7E /* ofxRipple.cpp */; };
+		7226EDDB1D4A677B008C5A7E /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDD91D4A677B008C5A7E /* particle.cpp */; };
+		7226EDDF1D4B9F54008C5A7E /* Shapes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDDD1D4B9F54008C5A7E /* Shapes.cpp */; };
 		72CEEFF669D21538BA336662 /* ofxCvColorImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC938ECB6BDB8E319F89A40 /* ofxCvColorImage.cpp */; };
 		77399DCF819EAE2674D467DF /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 201244234EB9CF0C8DADBA63 /* ofxCvImage.cpp */; };
 		7A91CB6FED13B1B0EB7D718D /* Tracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A70F0ED0CD9640627B2E830 /* Tracker.cpp */; };
@@ -403,6 +405,10 @@
 		7226EDC51D49126A008C5A7E /* ofxThreshold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxThreshold.h; sourceTree = "<group>"; };
 		7226EDC71D4912EE008C5A7E /* ofxRipple.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxRipple.cpp; sourceTree = "<group>"; };
 		7226EDC81D4912EE008C5A7E /* ofxRipple.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ofxRipple.hpp; sourceTree = "<group>"; };
+		7226EDD91D4A677B008C5A7E /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
+		7226EDDA1D4A677B008C5A7E /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
+		7226EDDD1D4B9F54008C5A7E /* Shapes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shapes.cpp; sourceTree = "<group>"; };
+		7226EDDE1D4B9F54008C5A7E /* Shapes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shapes.hpp; sourceTree = "<group>"; };
 		73580A8DF898F8E40E813A23 /* types_c.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = types_c.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/types_c.h; sourceTree = SOURCE_ROOT; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		75414ECF31440A6DA5B2F180 /* video.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = video.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/video.hpp; sourceTree = SOURCE_ROOT; };
@@ -1462,10 +1468,14 @@
 				17C2996688FD62B17D7BEA55 /* WaveManager.hpp */,
 				623F33965D6628A57E389E48 /* wave.cpp */,
 				2A31F426E3EA412C4931CB48 /* wave.hpp */,
+				7226EDDD1D4B9F54008C5A7E /* Shapes.cpp */,
+				7226EDDE1D4B9F54008C5A7E /* Shapes.hpp */,
 				5C639ADF1E531CDCE3EC2127 /* Spring.cpp */,
 				98AB7E045E5DEEB66F9EDC36 /* Spring.hpp */,
 				7226EDC71D4912EE008C5A7E /* ofxRipple.cpp */,
 				7226EDC81D4912EE008C5A7E /* ofxRipple.hpp */,
+				7226EDD91D4A677B008C5A7E /* particle.cpp */,
+				7226EDDA1D4A677B008C5A7E /* particle.h */,
 				C8F905A850B56EB1DCC856BB /* input */,
 			);
 			path = src;
@@ -1647,6 +1657,7 @@
 				7226ED7E1D480D73008C5A7E /* b2Body.cpp in Sources */,
 				A2953313263AE1234930247E /* ofxSlider.cpp in Sources */,
 				7226ED941D480D73008C5A7E /* b2PulleyJoint.cpp in Sources */,
+				7226EDDF1D4B9F54008C5A7E /* Shapes.cpp in Sources */,
 				7226ED6F1D480D73008C5A7E /* b2CollidePolygon.cpp in Sources */,
 				7226ED6C1D480D73008C5A7E /* b2BroadPhase.cpp in Sources */,
 				413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */,
@@ -1661,6 +1672,7 @@
 				BC9D698DFFE25117A83A929B /* ofxCvFloatImage.cpp in Sources */,
 				7226ED811D480D73008C5A7E /* b2Island.cpp in Sources */,
 				7226ED681D480D73008C5A7E /* ofxBox2dEdge.cpp in Sources */,
+				7226EDDB1D4A677B008C5A7E /* particle.cpp in Sources */,
 				7226ED861D480D73008C5A7E /* b2CircleContact.cpp in Sources */,
 				7226ED891D480D73008C5A7E /* b2EdgeAndCircleContact.cpp in Sources */,
 				7226ED8E1D480D73008C5A7E /* b2FrictionJoint.cpp in Sources */,

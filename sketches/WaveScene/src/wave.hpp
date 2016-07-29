@@ -13,9 +13,19 @@
 #include "ofxGui.h"
 #include "Spring.hpp"
 #include "inputManager.h"
+#include "particle.h"
+#include "Shapes.hpp"
 
 class wave{
 public:
+    // particles
+    vector <particle> particles;
+    vector <particle> splashes;
+    vector <particle> fishes;
+
+    // shapes
+    vector <ShapeBase *> shapes;
+    vector <ShapeType> shapeTypes;
     ofxPanel gui;
     ofImage tex;
     ofMesh m;
@@ -38,10 +48,6 @@ public:
     ofParameter<float> shadowRadius = 100;
     ofParameter<float> shadowOpacity = 100;
     ofParameter<float> energyHighlightSize = 100;
-    ofParameter<float> p1;
-    ofParameter<float> p2;
-    ofParameter<float> p3;
-    ofParameter<float> p4;
     ofColor baseColor;
     vector<Spring> springs;
     vector<Point_> points;
@@ -49,14 +55,25 @@ public:
     bool isTexture;
     ofFloatColor color;
     ofPolyline polyline;
+    float fishGravity;
+    float fishDirection;
+    float fishRepulseRadius;
+    ofVec2f fishPos;
     
     void setup(int _ypos, ofFloatColor _color, int _width);
+    
+    void updateSplashes();
     void updatePolyline();
+    void updateForces(vector<inputManager::Target> &targets);
     void updateMesh();
-    void reload(float &p){ setupSpring(); }
-    void setupSpring();
     void update(vector<inputManager::Target> &targets);
     
+    void reload(float &p){ setupSpring(); }
+    void setupSpring();
+    void addSplash();
+    void addFish();
+    
+    void drawSplashes();
     void draw();
 };
 

@@ -9,7 +9,12 @@ class particle
         ofVec2f pos;
         ofVec2f vel;
         ofVec2f frc;   // frc is also know as acceleration (newton says "f=ma")
-			
+        float radius = 5;
+    ofVec2f gravity;
+    ofVec2f initPos;
+    float opacity;
+    ofColor color;
+    
         particle();
 		virtual ~particle(){};
 

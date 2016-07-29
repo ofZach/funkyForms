@@ -16,6 +16,7 @@
 #include "ofxBox2d.h"
 #include "ofxRipple.hpp"
 
+
 class WaveManager{
 public:
     vector<wave> waves;
@@ -24,9 +25,12 @@ public:
     void setup();
     void update(int x, int y);
     void updateBox2d();
+    void updateSplash();
+    void updateRipples();
     void draw();
+    void drawSplash();
     void drawBox2d();
-    
+    void drawRipples();
     void drawSpikes();
     void drawCircles(ofPolyline *line, int i);
     

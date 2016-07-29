@@ -26,6 +26,7 @@ void ofApp::draw(){
     inputManager.draw();
     ofEnableAlphaBlending();
 //    waveManager.drawSpikes();
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 }
 
 //--------------------------------------------------------------

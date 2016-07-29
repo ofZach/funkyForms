@@ -7,6 +7,7 @@
 //
 
 #include "wave.hpp"
+// ------- setup
 void wave::setup(int _ypos, ofFloatColor _color, int _width){
     width = _width;
     color = _color;
@@ -25,6 +26,11 @@ void wave::setup(int _ypos, ofFloatColor _color, int _width){
     setupSpring();
     m.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     strokeMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    
+    shapeTypes.push_back(PEBEL1);
+    shapeTypes.push_back(PEBEL2);
+    shapeTypes.push_back(PEBEL3);
+    shapeTypes.push_back(BLOB1);
 }
 void wave::setupSpring(){
     points.clear();
@@ -50,8 +56,51 @@ void wave::setupSpring(){
         points.push_back(point);
     }
 }
-void wave::update(vector<inputManager::Target> &targets){
+void wave::addSplash(){
+    particles.clear();
+    for (int i = 0; i < 50; i++){
+        particle myParticle;
+        float randomAngle = ofRandom(-0.1, 0.1) + 3 * PI / 2.0;
+        float randomRadius = ofRandom(1,2);
+        ofPoint frc = randomRadius * ofPoint(cos(randomAngle), sin(randomAngle));
+        myParticle.setInitialCondition(fishPos.x, fishPos.y, frc.x, frc.y);
+        myParticle.radius = ofRandom(0.5, 8);
+        myParticle.damping = 0.02 + ofRandom(0,0.04);
+        myParticle.color = baseColor;
+        particles.push_back(myParticle);
+    }
+}
+void wave::addFish(){
+    fishPos = polyline.getPointAtPercent(ofRandom(0, 1));
+    fishes.clear();
+    shapes.clear();
+    particle myParticle;
+    myParticle.setInitialCondition(fishPos.x, fishPos.y, 0, ofRandom(-0.7, -0.8));
+    fishGravity = ofRandom(-3, -0.8);
+    fishDirection = ofRandom(-0.7, 0.7);
+    myParticle.radius = ofRandom(20, 30);
+    fishes.push_back(myParticle);
     
+    ofPath p;
+    float  scale = 100;
+    float angle = 0;
+    float r = ofRandom(30, 60);
+    
+    int index = (int)ofRandom(shapeTypes.size());
+    ShapeType t = shapeTypes[index];
+    ShapeBase* s = ShapeFactory(t);
+    s->setColor(baseColor);
+    s->setup();
+    shapes.push_back(s);
+}
+// ------- update
+void wave::update(vector<inputManager::Target> &targets){
+    updateForces(targets);
+    updatePolyline();
+    updateMesh();
+    updateSplashes();
+}
+void wave::updateForces(vector<inputManager::Target> &targets){
     float force2 = 1 - friction * timeStep * timeStep;
     
     for (int i = 0; i < points.size(); i++) {
@@ -71,8 +120,6 @@ void wave::update(vector<inputManager::Target> &targets){
             springs[i].update(&points[i-1], &points[i]);
         }
     }
-    updatePolyline();
-    updateMesh();
 }
 void wave::updatePolyline(){
     polyline.clear();
@@ -119,6 +166,42 @@ void wave::updateMesh(){
     }
 
 }
+void wave::updateSplashes(){
+    if(ofGetFrameNum()%(int)ofRandom(120, 300)==0){
+        addFish();
+        addSplash();
+    }
+    for (int i = 0; i < particles.size(); i++){
+        particles[i].resetForce();
+    }
+    for (int i = 0; i < particles.size(); i++){
+        for(auto &p: points){
+            particles[i].addAttractionForce(p.p.x, p.p.y, 200, 0.2);
+        }
+        particles[i].addForce(0, 0.9);
+        
+        for (int j = 0; j < i; j++){
+            particles[i].addRepulsionForce(particles[j], 20, 0.7);
+            particles[i].addAttractionForce(particles[j], 500, 0.005);
+        }
+    }
+    for (int i = 0; i < particles.size(); i++){
+        particles[i].addDampingForce();
+        particles[i].update();
+    }
+    for (int i = 0; i < fishes.size(); i++){
+        fishes[i].resetForce();
+    }
+    for(auto &f: fishes){
+        f.addForce(fishDirection, fishGravity);
+    }
+    for(auto &f: fishes){
+        f.addDampingForce();
+        f.update();
+    }
+    fishGravity += 0.06;
+}
+// ------- draw
 void wave::draw(){
     for (int i = 0; i < polyline.getVertices().size(); i++) {
         ofVec2f p = polyline.getVertices()[i];
@@ -126,6 +209,20 @@ void wave::draw(){
         
         img.draw(p-ofVec2f(shadowRadius, shadowRadius), shadowRadius*2, shadowRadius*2);
     }
+    drawSplashes();
     m.draw();
 //    strokeMesh.draw();
+}
+void wave::drawSplashes(){
+    for (int i = 0; i < particles.size(); i++){
+        particles[i].draw();
+    }
+    for (int i = 0; i < shapes.size(); i++){
+        ofPushMatrix();
+        ofTranslate(fishes[i].pos);
+        ofRotateZ(fishes[i].vel.x/2*ofGetFrameNum());
+        shapes[i]->draw();
+        ofPopMatrix();
+    }
+
 }

@@ -75,6 +75,27 @@ void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     wave.setup(ypos, col, ofGetWidth());
     waves.push_back(wave);
 }
+void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
+    ofFloatColor col = ofColor::white;
+    
+    float mix = cos(i*3);
+    ofFloatColor temp = ofColor::lightGreen;
+    ofFloatColor temp2 = ofColor::darkMagenta;
+    
+    m->addVertex(l.getGlobalPosition());
+    m->addColor(col);
+    m->addVertex(r.getGlobalPosition());
+    
+    m->addColor(col);
+}
+// -------------- update
+void WaveManager::update(int x, int y){
+    updateWaveParameters();
+//    updateBox2d();
+    for (int i = 0; i < waves.size(); i++) {
+        waves[i].update(IM->targets);
+    }
+}
 void WaveManager::updateWaveParameters(){
     for(auto &w: waves){
         w.shadowRadius = shadowRadius;
@@ -106,6 +127,35 @@ void WaveManager::updateBox2d(){
     }
     
     ground.updateShape();
+}
+void WaveManager::updateRipples(){
+    bumpmap.begin();
+    ofPushMatrix();
+    ofTranslate(IM->pos);
+    for (int i = 0; i < IM->getContourFinder()->getPolylines().size(); i++) {
+        ofPolyline &l = IM->getContourFinder()->getPolyline(i);
+        ofPath path;
+        int res = ofMap(l.getPerimeter(), 0, 1900, 1, 200);
+        for (float i = 0; i < 1.; i += 1.0/res) {
+            path.lineTo(l.getPointAtPercent(i));
+        }
+        //        path.setFilled(false);
+        path.setStrokeColor(ofColor::white);
+        path.setStrokeWidth(5);
+        path.draw();
+    }
+    ofPopMatrix();
+    bumpmap.end();
+    bumpmap.update();
+}
+// -------------- draw
+void WaveManager::draw(){
+    for (int i = 0; i < waves.size(); i++) {
+        waves[i].draw();
+    }
+//    drawBox2d();
+    ofSetColor(255, 255);
+    gui.draw();
 }
 void WaveManager::drawSpikes(){
     for (int i = 0; i < waves.size(); i++) {
@@ -173,50 +223,10 @@ void WaveManager::drawBox2d(){
         ofDrawCircle(circles[i].get()->getPosition(), circles[i].get()->getRadius());
     }
 }
-void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
-    ofFloatColor col = ofColor::white;
-    
-    float mix = cos(i*3);
-    ofFloatColor temp = ofColor::lightGreen;
-    ofFloatColor temp2 = ofColor::darkMagenta;
-    
-    m->addVertex(l.getGlobalPosition());
-    m->addColor(col);
-    m->addVertex(r.getGlobalPosition());
-    
-    m->addColor(col);
+void WaveManager::drawRipples(){
+    bumpmap.draw();
 }
-void WaveManager::update(int x, int y){
-    updateWaveParameters();
-    updateBox2d();
-    for (int i = 0; i < waves.size(); i++) {
-        waves[i].update(IM->targets);
-    }
-    bumpmap.begin();
-    ofPushMatrix();
-    ofTranslate(IM->pos);
-    for (int i = 0; i < IM->getContourFinder()->getPolylines().size(); i++) {
-        ofPolyline &l = IM->getContourFinder()->getPolyline(i);
-        ofPath path;
-        int res = ofMap(l.getPerimeter(), 0, 1900, 1, 200);
-        for (float i = 0; i < 1.; i += 1.0/res) {
-            path.lineTo(l.getPointAtPercent(i));
-        }
-//        path.setFilled(false);
-        path.setStrokeColor(ofColor::white);
-        path.setStrokeWidth(5);
-        path.draw();
-    }
-    ofPopMatrix();
-    bumpmap.end();
-    bumpmap.update();
-}
-void WaveManager::draw(){
-//    bumpmap.draw();
-    for (int i = 0; i < waves.size(); i++) {
-        waves[i].draw();
-    }
-    drawBox2d();
-    ofSetColor(255, 255);
-    gui.draw();
-}
+
+
+
+
