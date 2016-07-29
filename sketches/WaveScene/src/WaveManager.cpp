@@ -65,14 +65,16 @@ void WaveManager::reload(float &value){
     }
 }
 void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
-    wave wave;
+    FishWave wave;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
     wave.amount = amount;
     wave.force = force;
+    wave.color = col;
     wave.baseColor = baseCol;
-    wave.setup(ypos, col, ofGetWidth());
+    wave.setup(ypos, ofGetWidth());
+    wave.setupFishWave();
     waves.push_back(wave);
 }
 void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
@@ -94,6 +96,7 @@ void WaveManager::update(int x, int y){
 //    updateBox2d();
     for (int i = 0; i < waves.size(); i++) {
         waves[i].update(IM->targets);
+        waves[i].updateFishWave();
     }
 }
 void WaveManager::updateWaveParameters(){

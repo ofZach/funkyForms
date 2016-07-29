@@ -10,7 +10,7 @@
 #define WaveManager_hpp
 
 #include "ofMain.h"
-#include "wave.hpp"
+#include "FishWave.hpp"
 #include "inputManager.h"
 #include "ofxGui.h"
 #include "ofxBox2d.h"
@@ -19,7 +19,7 @@
 
 class WaveManager{
 public:
-    vector<wave> waves;
+    vector<FishWave> waves;
     ofxRipple bumpmap;
     
     void setup();
