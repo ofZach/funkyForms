@@ -415,6 +415,7 @@
 		7226EDE21D4BB942008C5A7E /* StencilWaves.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilWaves.hpp; sourceTree = "<group>"; };
 		7226EDE51D4BBFA8008C5A7E /* FishWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FishWave.cpp; sourceTree = "<group>"; };
 		7226EDE61D4BBFA8008C5A7E /* FishWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FishWave.hpp; sourceTree = "<group>"; };
+		72E590531D4BFDD20021B114 /* ofxRefract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRefract.h; sourceTree = "<group>"; };
 		73580A8DF898F8E40E813A23 /* types_c.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = types_c.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/types_c.h; sourceTree = SOURCE_ROOT; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		75414ECF31440A6DA5B2F180 /* video.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = video.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/video.hpp; sourceTree = SOURCE_ROOT; };
@@ -1484,6 +1485,7 @@
 				98AB7E045E5DEEB66F9EDC36 /* Spring.hpp */,
 				7226EDC71D4912EE008C5A7E /* ofxRipple.cpp */,
 				7226EDC81D4912EE008C5A7E /* ofxRipple.hpp */,
+				72E590531D4BFDD20021B114 /* ofxRefract.h */,
 				7226EDD91D4A677B008C5A7E /* particle.cpp */,
 				7226EDDA1D4A677B008C5A7E /* particle.h */,
 				C8F905A850B56EB1DCC856BB /* input */,

@@ -17,4 +17,11 @@
 <shadowRadius>107.5</shadowRadius>
 	<energyHighlightSize>100</energyHighlightSize>
 	<shadowOpacity>44.625</shadowOpacity>
+<StencilWavesSettings>
+		<amount>55</amount>
+		<strength>0.22078</strength>
+		<restLength>4.41</restLength>
+		<invMass>0.2885</invMass>
+		<force>4.3785</force>
+	</StencilWavesSettings>
 </waveSettings>

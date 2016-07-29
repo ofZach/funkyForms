@@ -10,8 +10,6 @@
 void WaveManager::setup(){
     int pos = ofGetHeight()-150;
 
-
-
     for (int i = 0; i < 5; i++) {
         pos += 10*i;
         addWave(pos, swatch[i%5], swatchBase[i%5]);

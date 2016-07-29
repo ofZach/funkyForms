@@ -60,6 +60,7 @@ public:
     Target *getFastestTarget();
     Target &getNewTarget (){return targets[newTargetIndex];}
     ofVec2f getAveragePos (){ return averagePos;}
+    ofVec2f getPos() {return pos;}
     Target &getClosesetTo (ofVec2f _pos);
     ofxCv::ContourFinder *getContourFinder(){return CVM.getContourFinder();}
 
