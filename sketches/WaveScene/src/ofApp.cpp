@@ -6,6 +6,9 @@ void ofApp::setup(){
     ofSetFrameRate(60);
     waveManager.setup();
     inputManager.setup();
+
+    stencilWaves.setup();
+    stencilWaves.setInputManager(&inputManager);
 //    inputManager.setInputToMouse();
     waveManager.setInputManager(&inputManager);
 }
@@ -13,7 +16,9 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     inputManager.update();
-    waveManager.update(mouseX, mouseY);
+    stencilWaves.update();
+//    waveManager.update(mouseX, mouseY);
+
     ofVec2f mPos(mouseX, mouseY);
     ofVec2f vel = mPos - mPosPrev;
 //    inputManager.setMouse(mPos, vel.normalize());
@@ -22,9 +27,10 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    waveManager.draw();
-    inputManager.draw();
-    ofEnableAlphaBlending();
+//    waveManager.draw();
+//    inputManager.draw();
+    stencilWaves.draw();
+    
 //    waveManager.drawSpikes();
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 }

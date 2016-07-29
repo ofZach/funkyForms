@@ -80,6 +80,8 @@
 		7226EDC91D4912EE008C5A7E /* ofxRipple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDC71D4912EE008C5A7E /* ofxRipple.cpp */; };
 		7226EDDB1D4A677B008C5A7E /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDD91D4A677B008C5A7E /* particle.cpp */; };
 		7226EDDF1D4B9F54008C5A7E /* Shapes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDDD1D4B9F54008C5A7E /* Shapes.cpp */; };
+		7226EDE31D4BB942008C5A7E /* StencilWaves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDE11D4BB942008C5A7E /* StencilWaves.cpp */; };
+		7226EDE71D4BBFA8008C5A7E /* FishWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7226EDE51D4BBFA8008C5A7E /* FishWave.cpp */; };
 		72CEEFF669D21538BA336662 /* ofxCvColorImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC938ECB6BDB8E319F89A40 /* ofxCvColorImage.cpp */; };
 		77399DCF819EAE2674D467DF /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 201244234EB9CF0C8DADBA63 /* ofxCvImage.cpp */; };
 		7A91CB6FED13B1B0EB7D718D /* Tracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A70F0ED0CD9640627B2E830 /* Tracker.cpp */; };
@@ -409,6 +411,10 @@
 		7226EDDA1D4A677B008C5A7E /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
 		7226EDDD1D4B9F54008C5A7E /* Shapes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shapes.cpp; sourceTree = "<group>"; };
 		7226EDDE1D4B9F54008C5A7E /* Shapes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shapes.hpp; sourceTree = "<group>"; };
+		7226EDE11D4BB942008C5A7E /* StencilWaves.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilWaves.cpp; sourceTree = "<group>"; };
+		7226EDE21D4BB942008C5A7E /* StencilWaves.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilWaves.hpp; sourceTree = "<group>"; };
+		7226EDE51D4BBFA8008C5A7E /* FishWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FishWave.cpp; sourceTree = "<group>"; };
+		7226EDE61D4BBFA8008C5A7E /* FishWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FishWave.hpp; sourceTree = "<group>"; };
 		73580A8DF898F8E40E813A23 /* types_c.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = types_c.h; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/types_c.h; sourceTree = SOURCE_ROOT; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		75414ECF31440A6DA5B2F180 /* video.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = video.hpp; path = ../../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/video.hpp; sourceTree = SOURCE_ROOT; };
@@ -1464,8 +1470,12 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				7226EDE11D4BB942008C5A7E /* StencilWaves.cpp */,
+				7226EDE21D4BB942008C5A7E /* StencilWaves.hpp */,
 				95235E3955636976AAD5F16B /* WaveManager.cpp */,
 				17C2996688FD62B17D7BEA55 /* WaveManager.hpp */,
+				7226EDE51D4BBFA8008C5A7E /* FishWave.cpp */,
+				7226EDE61D4BBFA8008C5A7E /* FishWave.hpp */,
 				623F33965D6628A57E389E48 /* wave.cpp */,
 				2A31F426E3EA412C4931CB48 /* wave.hpp */,
 				7226EDDD1D4B9F54008C5A7E /* Shapes.cpp */,
@@ -1644,6 +1654,7 @@
 				DEF9DC74D70006F9420B5C6E /* RunningBackground.cpp in Sources */,
 				7A91CB6FED13B1B0EB7D718D /* Tracker.cpp in Sources */,
 				7226ED851D480D73008C5A7E /* b2ChainAndPolygonContact.cpp in Sources */,
+				7226EDE71D4BBFA8008C5A7E /* FishWave.cpp in Sources */,
 				54BB620B364263786CB68DD4 /* Utilities.cpp in Sources */,
 				AFF1895BA59C9A17328B1DAA /* Wrappers.cpp in Sources */,
 				106B9A6182DF98E835C09B47 /* ofxBaseGui.cpp in Sources */,
@@ -1679,6 +1690,7 @@
 				7226ED6E1D480D73008C5A7E /* b2CollideEdge.cpp in Sources */,
 				7226ED741D480D73008C5A7E /* b2ChainShape.cpp in Sources */,
 				7226ED921D480D73008C5A7E /* b2MouseJoint.cpp in Sources */,
+				7226EDE31D4BB942008C5A7E /* StencilWaves.cpp in Sources */,
 				7226ED931D480D73008C5A7E /* b2PrismaticJoint.cpp in Sources */,
 				7226ED6B1D480D73008C5A7E /* ofxBox2dRect.cpp in Sources */,
 				7226ED7C1D480D73008C5A7E /* b2StackAllocator.cpp in Sources */,

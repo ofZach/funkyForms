@@ -17,12 +17,7 @@ void wave::setup(int _ypos, ofFloatColor _color, int _width){
     fbo.begin();
     fbo.end();
     img.load("shadow.png");
-//            restLength.addListener(this, &wave::reload);
-//            strength.addListener(this, &wave::reload);
-//            invMass.addListener(this, &wave::reload);
-//            amount.addListener(this, &wave::reload);
-//    
-//            gui.loadFromFile("settings.xml");
+
     setupSpring();
     m.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     strokeMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);

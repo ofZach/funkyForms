@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "WaveManager.hpp"
 #include "inputManager.h"
-
+#include "StencilWaves.hpp"
 
 class ofApp : public ofBaseApp{
 	public:
@@ -22,7 +22,8 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
+
+    StencilWaves stencilWaves;
     WaveManager waveManager;
     inputManager inputManager;
     ofVec2f mPosPrev;
