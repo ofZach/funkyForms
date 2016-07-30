@@ -32,6 +32,8 @@ public:
     
     // meshes
     ofMesh mainWaveMesh;
+    ofMesh strokeMesh;
+
     
     // waves
     vector<wave> waves;
@@ -50,6 +52,9 @@ public:
     // refraction
     ofxRefract refract;
     
+    // images
+    ofImage glowImg;
+    
     
     void setup();
     void setInputManager(inputManager *_IM){ IM = _IM; }
@@ -66,6 +71,9 @@ public:
     void updateMeshes();
 
     void draw();
+    void drawWaveMesh();
+    void drawGlow();
+    void drawBg();
 };
 
 #endif /* StencilWaves_hpp */

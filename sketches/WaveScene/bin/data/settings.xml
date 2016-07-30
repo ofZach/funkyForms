@@ -18,14 +18,14 @@
 	<energyHighlightSize>100</energyHighlightSize>
 	<shadowOpacity>44.625</shadowOpacity>
 <StencilWavesSettings>
-		<amount>55</amount>
-		<strength>0.22078</strength>
+		<amount>23.3</amount>
+		<strength>0.045955</strength>
 		<restLength>4.41</restLength>
 		<invMass>0.2885</invMass>
-		<force>4.3785</force>
+		<force>5.672</force>
 	<Refraction>
-			<offsetX>0.591837</offsetX>
-			<offsetY>0.234694</offsetY>
+			<offsetX>0.943878</offsetX>
+			<offsetY>0.969388</offsetY>
 			<offsetZ>0.173469</offsetZ>
 			<multiply>0.107143</multiply>
 			<noiseOffset>382.653</noiseOffset>

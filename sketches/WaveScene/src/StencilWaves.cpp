@@ -38,6 +38,7 @@ void StencilWaves::setup(){
     
     // meshes
     mainWaveMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    strokeMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     
     // waves
     addWave(ofGetHeight()-150);
@@ -47,7 +48,10 @@ void StencilWaves::setup(){
     mask.allocate(ofGetWidth(), ofGetHeight());
     
     // colors
-    peopleColor = ofColor::red;
+    peopleColor = ofColor::lavender;
+    
+    // images
+    glowImg.load("glow.png");
     
 }
 void StencilWaves::reload(float &v){
@@ -91,20 +95,35 @@ void StencilWaves::updateWaveParameters(){
 }
 void StencilWaves::updateMeshes(){
     mainWaveMesh.clear();
+    strokeMesh.clear();
     for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
         ofVec2f p = waves[0].polyline.getVertices()[i];
         ofVec2f p2 = ofVec2f(p.x, ofGetHeight());
         ofVec3f dir = waves[0].polyline.getTangentAtIndex(i);
         float angle = atan2(dir.x, dir.y)*(180)/pi;
         
-        ofColor col = ofColor::red;
-        ofColor cc = ofColor::black;
-        col.setBrightness(ofMap(angle, 90, 120, 0, 255));
+        ofColor col = ofColor::lightSkyBlue;
+        ofColor cc = ofColor::darkBlue;
+        col.setBrightness((int)ofMap(angle, 90, 120, 0, 255)%255);
+        col.setHueAngle(ofMap(angle, 90, 120, 0, 360, true));
         
         mainWaveMesh.addVertex(p);
         mainWaveMesh.addColor(col);
         mainWaveMesh.addVertex(p2);
-        mainWaveMesh.addColor(col);
+        mainWaveMesh.addColor(cc);
+        
+        ofNode node;
+        ofNode child;
+        child.setParent(node);
+
+        child.setPosition(ofVec3f(0, ofMap(angle, 90, 120, 0, 20)+cos(ofGetFrameNum()/20.0)*10, 0));
+
+        node.setPosition(p);
+        ofQuaternion q = ofQuaternion(0, ofVec3f(1, 0, 0), 0, ofVec3f(0, 1, 0), angle, ofVec3f(0, 0, 1));
+        node.setOrientation(q);
+
+        strokeMesh.addVertex(node.getGlobalPosition());
+        strokeMesh.addVertex(child.getGlobalPosition());
     }
 }
 void StencilWaves::updateFbos(){
@@ -120,6 +139,7 @@ void StencilWaves::updateFbos(){
     
     // draw mainWave
     mainWaveFbo.begin();
+    ofClear(0, 0);
     mainWaveMesh.draw();
     mainWaveFbo.end();
 }
@@ -128,22 +148,27 @@ void StencilWaves::updateMasks(){
     mask.begin(1); // masked img
     ofClear(0, 0);
     ofSetColor(ofColor::white);
-    ofDrawRectangle(ofGetWindowRect());
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    mainWaveMesh.draw();
+    ofColor col = peopleColor;
+    col.setBrightness(120);
     for(auto &p: contours){
-        p.setFillColor(ofColor::black);
+        p.setFillColor(col);
         p.draw();
     }
+    ofDisableBlendMode();
     mask.end(1);
     
-    mask.setTexture(mainWaveFbo.getTexture(), 0); // mask
+    mask.begin(0); // masked img
+    ofClear(0, 0);
+    ofSetColor(ofColor::red);
+    drawWaveMesh();
+    mask.end(0);
     
     mask.update();
 }
 void StencilWaves::updateRefract(){
-    refract.begin();
-    ofClear(0, 0);
-    peopleFbo.draw(0, 0);
-    refract.end();
+    refract.setTexture(mask.getTexture(), 0);
 //    refract.setTexture(peopleFbo.getTexture(), 0);
     refract.setTexture(mainWaveFbo.getTexture(), 1);
     refract.update();
@@ -158,7 +183,6 @@ void StencilWaves::updateContours(){
         for (float i = 0; i < 1.; i += 1.0/res) {
             path.lineTo(l.getPointAtPercent(i));
         }
-        peopleColor.setHueAngle((ofGetFrameNum()/1)%360);
         path.setFillColor(ofColor::white);
         path.translate(IM->getPos());
         contours.push_back(path);
@@ -166,12 +190,61 @@ void StencilWaves::updateContours(){
 }
 // -------------- draw
 void StencilWaves::draw(){
-//    for(auto &p: contours){
-//        p.setFillColor(ofColor::white);
-//        p.draw();
-//    }
-    mask.draw();
+//    drawBg();
+    for(auto &p: contours){
+        p.setFillColor(peopleColor);
+        p.draw();
+    }
+//    mask.draw();
+//    waves[0].polyline.draw();
     refract.draw(0, 0);
+    strokeMesh.draw();
+    drawGlow();
     gui.draw();
     
+}
+void StencilWaves::drawWaveMesh(){
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
+        ofVec2f p = waves[0].polyline.getVertices()[i];
+        ofVec2f p2 = ofVec2f(p.x, ofGetHeight());
+        
+        mesh.addVertex(p);
+        mesh.addVertex(p2);
+    }
+    mesh.draw();
+
+
+}
+void StencilWaves::drawGlow(){
+    for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
+        ofVec2f p = waves[0].polyline.getVertices()[i];
+        float dist  = 100;
+        float r = 0;
+        for(auto &t: IM->targets ){
+            if(t.pos.distance(p)<dist){
+                r = ofMap(t.pos.distance(p), 0, dist, dist, 0);
+            }
+        }
+        ofSetColor(255);
+        r *= 3;
+//        ofDrawCircle(p-ofVec2f(r, r), r*2);
+        glowImg.draw(p-ofVec2f(r, r), r*2, r*2);
+    }
+}
+void StencilWaves::drawBg(){
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    int count = 5;
+    for (int i = 0; i < count; i++) {
+        float x1 = ofGetWidth()/count*i;
+        float y1 = 0;
+        float y2 = ofGetHeight();
+        mesh.addVertex(ofVec2f(x1, y1));
+        mesh.addColor(ofColor::lightBlue);
+        mesh.addVertex(ofVec2f(x1, y2));
+        mesh.addColor(ofColor::black);
+    }
+    mesh.draw();
 }
