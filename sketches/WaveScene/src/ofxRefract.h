@@ -67,9 +67,9 @@ public:
     void update(){
         pingPong.dst->begin();
         shader.begin();
-        
-        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
-        shader.setUniformTexture( "tex1" , textures[1].getTextureReference(), 1 );
+        ofClear(0, 0);
+        shader.setUniformTexture( "tex0" , textures[0].getTexture(), 0 );
+        shader.setUniformTexture( "tex1" , textures[1].getTexture(), 1 );
         shader.setUniform1f("time", ofGetElapsedTimef());
         shader.setUniform2f("size", 640., 480);
         shader.setUniform1f("s1", s1);

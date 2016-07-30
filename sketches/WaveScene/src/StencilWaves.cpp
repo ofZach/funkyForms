@@ -9,6 +9,11 @@
 #include "StencilWaves.hpp"
 // -------------- setup
 void StencilWaves::setup(){
+    // refract
+    refract.allocate(ofGetWidth(), ofGetHeight());
+    refract.setupParameters(ofGetWidth(), ofGetHeight());
+    refract.parameters.setName("Refraction");
+    
     // gui
     gui.setup("StencilWavesSettings");
     gui.add(amount.set("amount", 55, 10, 200));
@@ -16,6 +21,7 @@ void StencilWaves::setup(){
     gui.add(restLength.set("restLength", 16.92, 0, 18));
     gui.add(invMass.set("invMass", 0.375, 0.1, 3));
     gui.add(force.set("force", 4, 0.1, 20));
+    gui.add(refract.parameters);
 
     force.addListener(this, &StencilWaves::reload);
     restLength.addListener(this, &StencilWaves::reload);
@@ -40,10 +46,8 @@ void StencilWaves::setup(){
     // masks
     mask.allocate(ofGetWidth(), ofGetHeight());
     
-    // refract
-    refract.allocate(ofGetWidth(), ofGetHeight());
-    refract.setupParameters(ofGetWidth(), ofGetHeight());
-    refract.parameters.setName("Refraction");
+    // colors
+    peopleColor = ofColor::red;
     
 }
 void StencilWaves::reload(float &v){
@@ -69,6 +73,7 @@ void StencilWaves::update(){
     updateMeshes();
     updateFbos();
     updateMasks();
+    updateRefract();
 }
 void StencilWaves::updateWaves(){
     for(auto &w: waves){
@@ -106,8 +111,8 @@ void StencilWaves::updateFbos(){
     // draw people
     peopleFbo.begin();
     ofClear(0, 0);
-    ofSetColor(ofColor::white);
-    ofDrawRectangle(ofGetWindowRect());
+//    ofSetColor(ofColor::white);
+//    ofDrawRectangle(ofGetWindowRect());
     for(auto &p: contours){
         p.draw();
     }
@@ -135,6 +140,13 @@ void StencilWaves::updateMasks(){
     mask.update();
 }
 void StencilWaves::updateRefract(){
+    refract.begin();
+    ofClear(0, 0);
+    peopleFbo.draw(0, 0);
+    refract.end();
+//    refract.setTexture(peopleFbo.getTexture(), 0);
+    refract.setTexture(mainWaveFbo.getTexture(), 1);
+    refract.update();
 }
 void StencilWaves::updateContours(){
     contours.clear();
@@ -146,6 +158,7 @@ void StencilWaves::updateContours(){
         for (float i = 0; i < 1.; i += 1.0/res) {
             path.lineTo(l.getPointAtPercent(i));
         }
+        peopleColor.setHueAngle((ofGetFrameNum()/1)%360);
         path.setFillColor(ofColor::white);
         path.translate(IM->getPos());
         contours.push_back(path);
@@ -153,10 +166,12 @@ void StencilWaves::updateContours(){
 }
 // -------------- draw
 void StencilWaves::draw(){
-    for(auto &p: contours){
-        p.setFillColor(ofColor::white);
-        p.draw();
-    }
+//    for(auto &p: contours){
+//        p.setFillColor(ofColor::white);
+//        p.draw();
+//    }
     mask.draw();
+    refract.draw(0, 0);
     gui.draw();
+    
 }

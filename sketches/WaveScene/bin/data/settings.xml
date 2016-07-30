@@ -23,5 +23,18 @@
 		<restLength>4.41</restLength>
 		<invMass>0.2885</invMass>
 		<force>4.3785</force>
+	<Refraction>
+			<offsetX>0.591837</offsetX>
+			<offsetY>0.234694</offsetY>
+			<offsetZ>0.173469</offsetZ>
+			<multiply>0.107143</multiply>
+			<noiseOffset>382.653</noiseOffset>
+			<noiseAmountX>13.7755</noiseAmountX>
+			<noiseAmountY>2.04082</noiseAmountY>
+			<noisePeriodX>5.40816</noisePeriodX>
+			<noisePeriodY>2.2449</noisePeriodY>
+			<noiseSpeedX>0.142857</noiseSpeedX>
+			<noiseSpeedY>0.357143</noiseSpeedY>
+		</Refraction>
 	</StencilWavesSettings>
 </waveSettings>

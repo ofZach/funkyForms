@@ -22,6 +22,9 @@ public:
     // input
     inputManager *IM;
     vector<ofPath> contours;
+    
+    // colors
+    ofColor peopleColor;
 
     // fbo
     ofFbo peopleFbo;
