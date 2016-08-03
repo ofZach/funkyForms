@@ -40,6 +40,16 @@ public:
         int branchCount;
     };
     
+    // mainbranch
+    float mbLengthMin;
+    float mbLengthMax;
+    int mbCount;
+    
+    // childbranch
+    float cbLengthMin;
+    float cbLengthMax;
+    int cbCount;
+    
     void setup();
     void setupRandom();
     void makeMainBranch();

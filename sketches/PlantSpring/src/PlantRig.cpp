@@ -28,9 +28,9 @@ void PlantRig::makeMainBranch(){
     s.points = &mainBranchPoints;
     s.pos = ofVec2f(ofGetWidth()/2, ofGetHeight());
     s.dir = ofVec2f(0, -1);
-    s.lengthMin = 50;
-    s.lengthMax = 100;
-    s.branchCount = 10;
+    s.lengthMin = mbLengthMin;
+    s.lengthMax = mbLengthMax;
+    s.branchCount = mbCount;
     
     makeBranch(s);
     
@@ -62,9 +62,9 @@ void PlantRig::makeChildBranches(){
         s.points = &points;
         s.pos = p1 + delta / ofMap(randomFloats[i], 0, 1, 1, 5);
         s.dir = dir;
-        s.lengthMin = 20;
-        s.lengthMax = 100;
-        s.branchCount = 3;
+        s.lengthMin = cbLengthMin;
+        s.lengthMax = cbLengthMax;
+        s.branchCount = ofRandom(3, cbCount);
         
         makeBranch(s);
         childBranchesPoints.push_back(points);
@@ -129,7 +129,9 @@ void PlantRig::updateMainBranch(){
             ofVec2f *p = &mainBranchPoints[i];
             ofVec2f *pp = &mainBranchPoints[i-1];
             ofVec2f delta = mainBranchInitPoints[i] - mainBranchInitPoints[i-1];
-            ofVec2f newPos = *pp + delta;
+            float offsetX = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*100.0, (int)(ofGetElapsedTimef()*0.3) * 100, 0), -1, 1, 1,1.5);
+            float offsetY = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*300.0, (int)(ofGetElapsedTimef()*0.3) * 100, 10000), -1, 1, 1, 1.5);
+            ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
             float s = 0.7;
             p->x = p->x * s + newPos.x * (1 - s);
             p->y = p->y * s + newPos.y * (1 - s);
@@ -158,7 +160,9 @@ void PlantRig::updateChildBranches(){
                 ofVec2f *p = &childBranchesPoints[i][j];
                 ofVec2f *pp = &childBranchesPoints[i][j-1];
                 ofVec2f delta = childBranchesInitPoints[i][j] - childBranchesInitPoints[i][j-1];
-                ofVec2f newPos = *pp + delta;
+                float offsetX = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*100.0, (int)(ofGetElapsedTimef()*0.3) * 100, 0), -1, 1, 1,1.5);
+                float offsetY = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*300.0, (int)(ofGetElapsedTimef()*0.3) * 100, 10000), -1, 1, 1, 1.5);
+                ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
                 float s = 0.7;
                 p->x = p->x * s + newPos.x * (1 - s);
                 p->y = p->y * s + newPos.y * (1 - s);

@@ -25,5 +25,5 @@ class ofApp : public ofBaseApp{
 
     PlantRig plantrig;
     Plant plant;
-    
+    vector<Plant> plants;
 };

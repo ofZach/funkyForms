@@ -25,6 +25,7 @@ public:
     // meshes
     ofMesh mbMesh;
     vector<ofMesh> childMeshes;
+    vector<ofMesh> childShadows;
     
     // settings
     struct StrokeSettings{
@@ -34,6 +35,9 @@ public:
         ofPolyline *line1;
         ofPolyline *line2;
     };
+    
+    // color
+    ofColor color;
     
     void setup();
     void setupChildBranches();

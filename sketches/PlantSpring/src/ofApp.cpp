@@ -3,22 +3,43 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofBackground(0);
-    plantrig.setup();
-    plant.setup();
+//    plantrig.setup();
+//    plant.setup();
+    for (int i = 0; i < 1; i++) {
+        Plant p;
+        p.rig.mbCount = ofRandom(5, 6) ;
+        p.rig.mbLengthMax = ofRandom(100, 300) ;
+        p.rig.mbLengthMin = ofRandom(10, 100) ;
+        p.rig.cbCount = ofRandom(3, 6) ;
+        p.rig.cbLengthMax = ofRandom(50, 100) ;
+        p.rig.cbLengthMin = ofRandom(10, 50) ;
+        p.rig.pos = ofVec2f(ofRandomWidth(), ofGetHeight());
+        if(i%2==0){
+            p.color = ofColor::honeyDew;
+        }else{
+            p.color = ofColor::greenYellow;
+        }
+        p.setup();
+        plants.push_back(p);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    plantrig.pos = ofVec2f(mouseX, mouseY);
-    plantrig.update();
-    plant.rig.pos = ofVec2f(mouseX, mouseY);
-    plant.update();
+    for(auto &p: plants){
+        p.update();
+        p.rig.pos = ofVec2f(mouseX, mouseY);
+
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 //    plantrig.draw();
-    plant.draw();
+//    plant.draw();
+    for(auto &p: plants){
+        p.draw();
+    }
 }
 
 //--------------------------------------------------------------
