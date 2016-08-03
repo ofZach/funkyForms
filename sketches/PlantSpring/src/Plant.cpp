@@ -23,8 +23,7 @@ void Plant::setupChildBranches(){
 // ----------- udpate
 void Plant::update(){
     rig.update();
-    updatePolylines();
-    updateMesh();
+
 }
 void Plant::updatePolylines(){
     mbLine1.clear();
@@ -45,6 +44,34 @@ void Plant::updatePolylines(){
         ofSetColor(ofColor::red);
         for (int j = 0; j < l.size(); j++) {
             makeStroke(j, 20, 10, l, &childLines1[i], &childLines2[i]);
+            // create cap
+            if(j==l.size()-1){
+                ofVec2f v = l.getTangentAtIndex(j);
+                float length = ofMap(j, 0, l.size()-1, 10, 20) ;
+                ofVec2f p2 = l.getVertices()[j] + v.rotate(90)*length;
+                ofVec2f p1 = l.getVertices()[j] + v.rotate(180)*length;
+                ofVec2f p3 = p1 + (p2 - p1)/2;
+                ofVec2f delta = p2-p1;
+                ofVec2f pCenter = p3 - delta.getPerpendicular()*20;
+                ofVec2f pLeft = pCenter - delta/2;
+                ofVec2f pRight = pCenter + delta/2;
+                
+                childLines2[i].bezierTo(p1, pLeft, pCenter);
+                childLines1[i].bezierTo(p2, pRight, pCenter);
+                
+                ofSetColor(ofColor::yellow);
+                ofDrawCircle(p1, 5);
+                ofSetColor(ofColor::red);
+                ofDrawCircle(p2, 5);
+                ofSetColor(ofColor::blueViolet);
+                ofDrawCircle(p3, 5);
+                ofSetColor(ofColor::darkMagenta);
+                ofDrawCircle(pCenter, 5);
+                ofSetColor(ofColor::lightPink);
+                ofDrawCircle(pLeft, 5);
+                ofSetColor(ofColor::lightSkyBlue);
+                ofDrawCircle(pRight, 5);
+            }
         }
     }
 }
@@ -122,9 +149,14 @@ void Plant::makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, floa
 }
 // ----------- draw
 void Plant::draw(){
+    
     rig.draw();
+    
+    updatePolylines();
+    updateMesh();
+    
     drawPolylines();
-    drawMeshes();
+//    drawMeshes();
 }
 void Plant::drawPolylines(){
     ofSetColor(ofColor::white);
