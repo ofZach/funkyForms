@@ -12,13 +12,19 @@
 #include "ofMain.h"
 class PlantRig{
 public:
+    // pos, vel
+    ofVec2f pos;
+    
     // polylines
     ofPolyline mainBranchLine;
     vector<ofPolyline> childBranchLines;
 
     // points
     vector<ofVec2f> mainBranchPoints;
+    vector<ofVec2f> mainBranchInitPoints;
+    
     vector<vector<ofVec2f>> childBranchesPoints;
+    vector<vector<ofVec2f>> childBranchesInitPoints;
     
     // randoms
     vector<int> randomBools;
@@ -36,14 +42,19 @@ public:
     
     void setup();
     void setupRandom();
+    void makeMainBranch();
+    void makeChildBranches();
     
     void update();
     void updateMainBranch();
     void updateChildBranches();
-    void updatePolylines();
+    void updateMBPolyline();
+    void updateCBPolyline();
     void makeBranch(BranchSettings s);
     
     void draw();
+    void drawChildBranches();
+    void drawMainBranch();
 };
 
 #endif /* PlantRig_hpp */

@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "PlantRig.hpp"
+#include "Plant.hpp"
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -22,5 +24,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
     PlantRig plantrig;
+    Plant plant;
     
 };

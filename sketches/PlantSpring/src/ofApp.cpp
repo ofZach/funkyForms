@@ -2,17 +2,23 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofBackground(0);
     plantrig.setup();
+    plant.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    plantrig.pos = ofVec2f(mouseX, mouseY);
     plantrig.update();
+    plant.rig.pos = ofVec2f(mouseX, mouseY);
+    plant.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    plantrig.draw();
+//    plantrig.draw();
+    plant.draw();
 }
 
 //--------------------------------------------------------------
