@@ -23,14 +23,15 @@ void Plant::setupChildBranches(){
 // ----------- udpate
 void Plant::update(){
     rig.update();
-
+    updatePolylines();
+    updateMesh();
 }
 void Plant::updatePolylines(){
     mbLine1.clear();
     mbLine2.clear();
     ofPolyline &l = rig.mainBranchLine;
     for (int i = 0; i < l.size(); i++) {
-        makeStroke(i, 20, 50, l, &mbLine1, &mbLine2);
+        makeStroke(i, 10, 50, l, &mbLine1, &mbLine2);
     }
 
     for(auto &b: childLines1){
@@ -59,18 +60,18 @@ void Plant::updatePolylines(){
                 childLines2[i].bezierTo(p1, pLeft, pCenter);
                 childLines1[i].bezierTo(p2, pRight, pCenter);
                 
-                ofSetColor(ofColor::yellow);
-                ofDrawCircle(p1, 5);
-                ofSetColor(ofColor::red);
-                ofDrawCircle(p2, 5);
-                ofSetColor(ofColor::blueViolet);
-                ofDrawCircle(p3, 5);
-                ofSetColor(ofColor::darkMagenta);
-                ofDrawCircle(pCenter, 5);
-                ofSetColor(ofColor::lightPink);
-                ofDrawCircle(pLeft, 5);
-                ofSetColor(ofColor::lightSkyBlue);
-                ofDrawCircle(pRight, 5);
+//                ofSetColor(ofColor::yellow);
+//                ofDrawCircle(p1, 5);
+//                ofSetColor(ofColor::red);
+//                ofDrawCircle(p2, 5);
+//                ofSetColor(ofColor::blueViolet);
+//                ofDrawCircle(p3, 5);
+//                ofSetColor(ofColor::darkMagenta);
+//                ofDrawCircle(pCenter, 5);
+//                ofSetColor(ofColor::lightPink);
+//                ofDrawCircle(pLeft, 5);
+//                ofSetColor(ofColor::lightSkyBlue);
+//                ofDrawCircle(pRight, 5);
             }
         }
     }
@@ -99,16 +100,26 @@ void Plant::updateMesh(){
     mbMesh.clear();
     float step = 0.01;
     for (float i = 0; i < 1; i += step) {
+        ofVec2f dir1 = mbLine1.getTangentAtIndexInterpolated(ofMap(i, 0, 1, 0, mbLine1.size()-1));
+        ofColor col = ofColor::green;
+
         mbMesh.addVertex(mbLine1.getPointAtPercent(i));
+        mbMesh.addColor(ofFloatColor(col));
+        col.setBrightness(120);
         mbMesh.addVertex(mbLine2.getPointAtPercent(i));
+        mbMesh.addColor(ofFloatColor(col));
     }
     childMeshes.clear();
     for (int i = 0; i < childLines1.size(); i++) {
         ofMesh mesh;
         mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
         for (float j = 0; j < 1; j += step) {
+            ofColor col = ofColor::green;
             mesh.addVertex(childLines1[i].getPointAtPercent(j));
+            mesh.addColor(col);
             mesh.addVertex(childLines2[i].getPointAtPercent(j));
+            col.setBrightness(120);
+            mesh.addColor(col);
         }
         childMeshes.push_back(mesh);
     }
@@ -150,13 +161,12 @@ void Plant::makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, floa
 // ----------- draw
 void Plant::draw(){
     
-    rig.draw();
+//    rig.draw();
     
-    updatePolylines();
-    updateMesh();
+
     
-    drawPolylines();
-//    drawMeshes();
+//    drawPolylines();
+    drawMeshes();
 }
 void Plant::drawPolylines(){
     ofSetColor(ofColor::white);
