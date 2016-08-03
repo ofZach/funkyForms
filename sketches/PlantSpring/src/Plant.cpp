@@ -24,21 +24,67 @@ void Plant::setupChildBranches(){
 void Plant::update(){
     rig.update();
     updatePolylines();
+    updateMesh();
 }
 void Plant::updatePolylines(){
+    mbLine1.clear();
+    mbLine2.clear();
+    ofPolyline &l = rig.mainBranchLine;
+    for (int i = 0; i < l.size(); i++) {
+        makeStroke(i, 20, 50, l, &mbLine1, &mbLine2);
+    }
 
+    for(auto &b: childLines1){
+        b.clear();
+    }
+    for(auto &b: childLines2){
+        b.clear();
+    }
+    for (int i = 0; i < rig.childBranchLines.size(); i++) {
+        ofPolyline &l = rig.childBranchLines[i];
+        ofSetColor(ofColor::red);
+        for (int j = 0; j < l.size(); j++) {
+            makeStroke(j, 20, 10, l, &childLines1[i], &childLines2[i]);
+        }
+    }
+}
+void Plant::makeStroke(int i,
+                       float min,
+                       float max,
+                       ofPolyline &centerLine,
+                       ofPolyline *line1,
+                       ofPolyline *line2
+                       ){
+    ofVec2f v = centerLine.getTangentAtIndex(i);
+    float length = ofMap(i, 0, centerLine.size()-1, max, min) ;
+    ofVec2f p = centerLine.getVertices()[i] + v.rotate(90)*length;
+    ofVec2f p2 = centerLine.getVertices()[i] + v.rotate(180)*length;
+    if(i==0 || i== centerLine.size()-1){
+        line1->lineTo(p);
+        line2->lineTo(p2);
+    }
+    if(i>0 && i < centerLine.size()-1){
+        makeCorner(line1, centerLine, i, 90, length);
+        makeCorner(line2, centerLine, i, -90, length);
+    }
 }
 void Plant::updateMesh(){
     mbMesh.clear();
-    for (float i = 0; i < 1; i += 0.01) {
+    float step = 0.01;
+    for (float i = 0; i < 1; i += step) {
         mbMesh.addVertex(mbLine1.getPointAtPercent(i));
         mbMesh.addVertex(mbLine2.getPointAtPercent(i));
     }
-//    for (int i = 0; i < rig.childBranchesPoints.size(); i++) {
-//        for (int j = 0; j < rig.childBranchesPoints[i].size(); j++) {
-//            <#statements#>
-//        }
-//    }
+    childMeshes.clear();
+    for (int i = 0; i < childLines1.size(); i++) {
+        ofMesh mesh;
+        mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+        for (float j = 0; j < 1; j += step) {
+            mesh.addVertex(childLines1[i].getPointAtPercent(j));
+            mesh.addVertex(childLines2[i].getPointAtPercent(j));
+        }
+        childMeshes.push_back(mesh);
+    }
 }
 void Plant::makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, float length){
     ofVec2f v = l.getTangentAtIndex(i);
@@ -78,63 +124,22 @@ void Plant::makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, floa
 void Plant::draw(){
     rig.draw();
     drawPolylines();
-//    updateMesh();
-//    mbMesh.draw();
+    drawMeshes();
 }
 void Plant::drawPolylines(){
-    mbLine1.clear();
-    mbLine2.clear();
-    ofPolyline &l = rig.mainBranchLine;
-    for (int i = 0; i < l.size(); i++) {
-        ofVec2f v = l.getTangentAtIndex(i);
-        float length = ofMap(i, 0, l.size()-1, 50, 10) ;
-        ofVec2f p = l.getVertices()[i] + v.rotate(90)*length;
-        ofVec2f p2 = l.getVertices()[i] + v.rotate(180)*length;
-        if(i==0 || i==l.size()-1){
-            mbLine1.lineTo(p);
-            mbLine2.lineTo(p2);
-        }
-        if(i>0 && i<l.size()-1){
-            makeCorner(&mbLine1, l, i, 90, length);
-            makeCorner(&mbLine2, l, i, -90, length);
-        }
-
-    }
     ofSetColor(ofColor::white);
     mbLine1.draw();
     mbLine2.draw();
-    
-    for(auto &b: childLines1){
-        b.clear();
-    }
-    for(auto &b: childLines2){
-        b.clear();
-    }
-    for (int i = 0; i < rig.childBranchLines.size(); i++) {
-        ofPolyline &l = rig.childBranchLines[i];
-        ofSetColor(ofColor::red);
-        l.draw();
-        for (int j = 0; j < l.size(); j++) {
-            ofVec2f v = l.getTangentAtIndex(j);
-            float length = ofMap(j, 0, l.size()-1, 20, 10) ;
-            ofVec2f p = l.getVertices()[j] + v.rotate(90)*length;
-            ofVec2f p2 = l.getVertices()[j] + v.rotate(-180)*length;
-
-            if(j==0 || j==l.size()-1){
-                childLines1[i].lineTo(p);
-                childLines2[i].lineTo(p2);
-            }
-            if(j>0 && j<l.size()-1){
-                makeCorner(&childLines1[i], l, j, 90, length);
-                makeCorner(&childLines2[i], l, j, -90, length);
-            }
-        }
-    }
     for(auto &b: childLines1){
         b.draw();
     }
     for(auto &b: childLines2){
         b.draw();
     }
-    
+}
+void Plant::drawMeshes(){
+    mbMesh.draw();
+    for(auto &m: childMeshes){
+        m.draw();
+    }
 }

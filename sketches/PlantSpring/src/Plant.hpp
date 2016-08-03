@@ -26,6 +26,15 @@ public:
     ofMesh mbMesh;
     vector<ofMesh> childMeshes;
     
+    // settings
+    struct StrokeSettings{
+        float min;
+        float max;
+        ofPolyline *centerLine;
+        ofPolyline *line1;
+        ofPolyline *line2;
+    };
+    
     void setup();
     void setupChildBranches();
     
@@ -33,9 +42,17 @@ public:
     void updatePolylines();
     void updateMesh();
     void makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, float lenght);
+    void makeStroke(int i, 
+                    float min,
+                    float max,
+                    ofPolyline &centerLine,
+                    ofPolyline *line1,
+                    ofPolyline *line2
+                    );
     
     void draw();
     void drawPolylines();
+    void drawMeshes();
 };
 
 #endif /* Plant_hpp */

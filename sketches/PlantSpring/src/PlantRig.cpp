@@ -72,6 +72,30 @@ void PlantRig::makeChildBranches(){
     }
 
 }
+void PlantRig::makeBranch(BranchSettings s){
+    ofVec2f curdir = ofVec2f(0, 0);
+    ofVec2f curPos = s.pos;
+    for(int i = 0; i< s.branchCount; i++ ){
+        curPos = curPos+curdir * (s.lengthMin + ofRandom(1) * s.lengthMax);
+        
+        s.points->push_back(curPos);
+        
+        // grow branch UP or LEFT/RIGHT
+        if(i>0){
+            if(curdir == ofVec2f(0, -1)){
+                if(randomBools[i] == 1){ // right
+                    curdir = ofVec2f(1, 0);
+                }else{ // left
+                    curdir = ofVec2f(-1, 0);
+                }
+            }else if(curdir == ofVec2f(-1, 0) || curdir == ofVec2f(1, 0) ){
+                curdir = ofVec2f(0, -1);
+            }
+        }else{
+            curdir = s.dir;
+        }
+    }
+}
 // ----------- update
 void PlantRig::update(){
     updateMainBranch();
@@ -142,30 +166,7 @@ void PlantRig::updateChildBranches(){
         }
     }
 }
-void PlantRig::makeBranch(BranchSettings s){
-    ofVec2f curdir = ofVec2f(0, 0);
-    ofVec2f curPos = s.pos;
-    for(int i = 0; i< s.branchCount; i++ ){
-        curPos = curPos+curdir * (s.lengthMin + randomFloats[i] * s.lengthMax);
-       
-        s.points->push_back(curPos);
-        
-        // grow branch UP or LEFT/RIGHT
-        if(i>0){
-            if(curdir == ofVec2f(0, -1)){
-                if(randomBools[i] == 1){ // right
-                    curdir = ofVec2f(1, 0);
-                }else{ // left
-                    curdir = ofVec2f(-1, 0);
-                }
-            }else if(curdir == ofVec2f(-1, 0) || curdir == ofVec2f(1, 0) ){
-                curdir = ofVec2f(0, -1);
-            }
-        }else{
-           curdir = s.dir;
-        }
-    }
-}
+
 // ----------- draw
 void PlantRig::draw(){
     drawMainBranch();
