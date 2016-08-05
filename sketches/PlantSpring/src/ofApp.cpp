@@ -2,17 +2,35 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+
+    
+
     ofBackground(0);
 //    plantrig.setup();
 //    plant.setup();
+    randomizePlant();
+}
+void ofApp::randomizePlant(){
+    plants.clear();
     for (int i = 0; i < 1; i++) {
         Plant p;
-        p.rig.mbCount = ofRandom(5, 6) ;
-        p.rig.mbLengthMax = ofRandom(100, 300) ;
-        p.rig.mbLengthMin = ofRandom(10, 100) ;
+        
         p.rig.cbCount = ofRandom(3, 6) ;
-        p.rig.cbLengthMax = ofRandom(50, 100) ;
-        p.rig.cbLengthMin = ofRandom(10, 50) ;
+        p.rig.mbCount = ofRandom(5, 6) ;
+        
+        float mbLengthMax = ofRandom(100, 300);
+        float mbLengthMin = ofRandom(10, 100);
+        
+        float cbLengthMax = ofRandom(50, 100);
+        float cbLengthMin = ofRandom(10, 50);
+        
+        p.rig.mbLengthMax = mbLengthMax ;
+        p.rig.mbLengthMin = mbLengthMin ;
+        p.rig.cbLengthMax = cbLengthMax ;
+        p.rig.cbLengthMin = cbLengthMin ;
+        
+        p.mbWidth = mbLengthMin;
+        p.cbWidth = cbLengthMin;
         p.rig.pos = ofVec2f(ofRandomWidth(), ofGetHeight());
         if(i%2==0){
             p.color = ofColor::honeyDew;
@@ -44,7 +62,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    
+    if(key == ' ')     randomizePlant();
 }
 
 //--------------------------------------------------------------

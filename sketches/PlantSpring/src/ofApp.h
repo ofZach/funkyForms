@@ -23,6 +23,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+    void randomizePlant();
+    
     PlantRig plantrig;
     Plant plant;
     vector<Plant> plants;

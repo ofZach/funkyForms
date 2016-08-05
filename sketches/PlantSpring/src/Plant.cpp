@@ -14,10 +14,11 @@ void Plant::setup(){
     mbMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 }
 void Plant::setupChildBranches(){
-    for (int i = 0; i < rig.childBranchesPoints.size(); i++) {
+    for (int i = 0; i < rig.childBranchesPoints.size() + rig.child2pts.size() ; i++) {
         ofPolyline line;
         childLines1.push_back(line);
         childLines2.push_back(line);
+        cbWidths.push_back(ofRandom(cbWidth/2, cbWidth));
     }
 }
 // ----------- udpate
@@ -31,7 +32,7 @@ void Plant::updatePolylines(){
     mbLine2.clear();
     ofPolyline &l = rig.mainBranchLine;
     for (int i = 0; i < l.size(); i++) {
-        makeStroke(i, 10, 50, l, &mbLine1, &mbLine2);
+        makeStroke(i, mbWidth, mbWidth, l, &mbLine1, &mbLine2);
     }
     for(auto &b: childLines1){
         b.clear();
@@ -43,7 +44,7 @@ void Plant::updatePolylines(){
         ofPolyline &l = rig.childBranchLines[i];
         ofSetColor(ofColor::red);
         for (int j = 0; j < l.size(); j++) {
-            makeStroke(j, 10, 10, l, &childLines1[i], &childLines2[i]);
+            makeStroke(j, cbWidths[i], cbWidths[i], l, &childLines1[i], &childLines2[i]);
         }
     }
 }
@@ -57,10 +58,11 @@ void Plant::makeStroke(int i,
     ofVec2f v = centerLine.getTangentAtIndex(i);
     float length = ofMap(i, 0, centerLine.size()-1, max, min) ;
     float angle = 90;
-    ofVec2f p = centerLine.getVertices()[i] + v.rotate(angle)*length;
-    ofVec2f v2 = centerLine.getTangentAtIndex(i);
-    ofVec2f p2 = centerLine.getVertices()[i] + v2.rotate(-angle)*length;
+    float hackValue = 0.8;
     if(i==0 || i == centerLine.size()-1){
+        ofVec2f p = centerLine.getVertices()[i] + v.rotate(angle)*length*hackValue;
+        ofVec2f v2 = centerLine.getTangentAtIndex(i);
+        ofVec2f p2 = centerLine.getVertices()[i] + v2.rotate(-angle)*length*hackValue;
         line1->lineTo(p);
         line2->lineTo(p2);
     }
@@ -71,8 +73,8 @@ void Plant::makeStroke(int i,
     if(i == centerLine.size()-1){
         ofVec2f v = centerLine.getTangentAtIndex(i);
         float length = ofMap(i, 0, centerLine.size()-1, min, min) ;
-        ofVec2f _p2 = centerLine.getVertices()[i] + v.rotate(90)*length;
-        ofVec2f _p1 = centerLine.getVertices()[i] + v.rotate(180)*length;
+        ofVec2f _p2 = centerLine.getVertices()[i] + v.rotate(90)*length*hackValue;
+        ofVec2f _p1 = centerLine.getVertices()[i] + v.rotate(180)*length*hackValue;
         ofVec2f _p3 = _p1 + (_p2 - _p1)/2;
         ofVec2f _delta = _p2 - _p1;
         ofVec2f pCenter = _p3 - _delta.getPerpendicular()*min;
@@ -122,27 +124,28 @@ void Plant::updateMesh(){
         shadow.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
         for (float j = 0; j < 1; j += step) {
             ofColor col = color;
+            float opacity = ofMap(j, 0, step*8, 0, 1, true);
             mesh.addVertex(childLines1[i].getPointAtPercent(j));
-            mesh.addColor(col);
+            mesh.addColor(ofFloatColor(col, opacity));
             mesh.addVertex(childLines2[i].getPointAtPercent(j));
             col.setBrightness(ofMap(j, 0, 1, col.getBrightness(), 120));
-            mesh.addColor(col);
+            mesh.addColor(ofFloatColor(col, opacity));
         }
         childMeshes.push_back(mesh);
         // add shadow
-        ofVec2f dir = rig.childBranchLines[i].getTangentAtIndex(0);
-        ofVec2f p = rig.childBranchLines[i].getVertices()[0];
-        ofVec2f p1 = p + dir*10;
-        ofVec2f p2 = p + ofVec2f(0, 1)*40;
-        ofColor col = ofColor::black;
-        shadow.addVertex(p);
-        shadow.addColor(ofFloatColor(col, 0.2));
-        shadow.addVertex(p1);
-        shadow.addColor(ofFloatColor(col, 0));
-        shadow.addVertex(p2);
-        shadow.addColor(ofFloatColor(col, 0));
-
-        childShadows.push_back(shadow);
+//        ofVec2f dir = rig.childBranchLines[i].getTangentAtIndex(0);
+//        ofVec2f p = rig.childBranchLines[i].getVertices()[0];
+//        ofVec2f p1 = p + dir*10;
+//        ofVec2f p2 = p + ofVec2f(0, 1)*40;
+//        ofColor col = ofColor::black;
+//        shadow.addVertex(p);
+//        shadow.addColor(ofFloatColor(col, 0.2));
+//        shadow.addVertex(p1);
+//        shadow.addColor(ofFloatColor(col, 0));
+//        shadow.addVertex(p2);
+//        shadow.addColor(ofFloatColor(col, 0));
+//
+//        childShadows.push_back(shadow);
     }
 }
 void Plant::makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, float length){

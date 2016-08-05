@@ -35,6 +35,9 @@ public:
         ofPolyline *line1;
         ofPolyline *line2;
     };
+    float mbWidth;
+    float cbWidth;
+    vector<float> cbWidths;
     
     // color
     ofColor color;
