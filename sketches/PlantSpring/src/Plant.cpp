@@ -12,6 +12,7 @@ void Plant::setup(){
     rig.setup();
     setupChildBranches();
     mbMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    fadeAnimator.setup(0, 1);
 }
 void Plant::setupChildBranches(){
     for (int i = 0; i < rig.childBranchesPoints.size() + rig.child2pts.size() ; i++) {
@@ -25,6 +26,7 @@ void Plant::setupChildBranches(){
 void Plant::update(){
     rig.update();
     updatePolylines();
+    updateFade();
     updateMesh();
 }
 void Plant::updatePolylines(){
@@ -108,10 +110,10 @@ void Plant::updateMesh(){
         ofColor col = color;
 
         mbMesh.addVertex(mbLine1.getPointAtPercent(i));
-        mbMesh.addColor(ofFloatColor(col));
+        mbMesh.addColor(ofFloatColor(col, fadeAnimator.getValue()));
         col.setBrightness(190);
         mbMesh.addVertex(mbLine2.getPointAtPercent(i));
-        mbMesh.addColor(ofFloatColor(col));
+        mbMesh.addColor(ofFloatColor(col, fadeAnimator.getValue()));
     }
     
     childMeshes.clear();
@@ -124,7 +126,7 @@ void Plant::updateMesh(){
         shadow.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
         for (float j = 0; j < 1; j += step) {
             ofColor col = color;
-            float opacity = ofMap(j, 0, step*8, 0, 1, true);
+            float opacity = ofMap(j, 0, step*8, 0, 1, true) * fadeAnimator.getValue();
             mesh.addVertex(childLines1[i].getPointAtPercent(j));
             mesh.addColor(ofFloatColor(col, opacity));
             mesh.addVertex(childLines2[i].getPointAtPercent(j));

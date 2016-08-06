@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "PlantRig.hpp"
+#include "Animator.hpp"
 
 class Plant{
 public:
@@ -27,6 +28,9 @@ public:
     vector<ofMesh> childMeshes;
     vector<ofMesh> childShadows;
     
+    // fading
+    Animator fadeAnimator;
+    
     // settings
     struct StrokeSettings{
         float min;
@@ -35,6 +39,7 @@ public:
         ofPolyline *line1;
         ofPolyline *line2;
     };
+    ofVec2f pos;
     float mbWidth;
     float cbWidth;
     vector<float> cbWidths;
@@ -44,6 +49,11 @@ public:
     
     void setup();
     void setupChildBranches();
+    void setPos(ofVec2f _pos, float smooth){ rig.pos = rig.pos*smooth+ (1-smooth)*_pos;}
+    
+    bool isFadeOutFinished(){
+        return fadeAnimator.isFinished;
+    }
     
     void update();
     void updatePolylines();
@@ -56,6 +66,10 @@ public:
                     ofPolyline *line1,
                     ofPolyline *line2
                     );
+    
+    void fadeIn(){fadeAnimator.in();};
+    void fadeOut(){fadeAnimator.out();};
+    void updateFade(){fadeAnimator.update();}
     
     void draw();
     void drawPolylines();

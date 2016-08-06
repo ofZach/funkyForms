@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "PlantRig.hpp"
 #include "Plant.hpp"
+#include "PlantManager.hpp"
+#include "inputManager.h"
 
 class ofApp : public ofBaseApp{
 
@@ -23,9 +25,6 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-    void randomizePlant();
-    
-    PlantRig plantrig;
-    Plant plant;
-    vector<Plant> plants;
+    PlantManager plantManager;
+    inputManager IM;
 };
