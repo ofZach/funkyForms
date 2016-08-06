@@ -6,7 +6,6 @@ void ofApp::setup(){
     IM.setup();
     plantManager.setup();
     plantManager.setInputManager(&IM);
-    
 }
 
 

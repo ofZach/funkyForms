@@ -8,13 +8,16 @@
 class cvManager {
 
 public:
-  
+    ofVec2f offset;
+    
     void setup();
     void update(ofPixels & pixels);
     void draw();
-    
+    void drawPeopleFill();
     
     ofxCv::ContourFinder contourFinder;
+    ofxCv::ContourFinder *getContourFinder(){return &contourFinder;}
+    
     
     
     
