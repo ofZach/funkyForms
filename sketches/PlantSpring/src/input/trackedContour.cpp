@@ -10,9 +10,9 @@ void trackedContour::update(ofPolyline line){
     float contourLength = line.getPerimeter();
     //cout << contourLength << endl;
     
-    ofPolyline resampled = line.getResampledByCount( 480);
+    ofPolyline resampled = line.getResampledByCount( sampleCount);
     
-    while(resampled.size() < 480){
+    while(resampled.size() < sampleCount){
         resampled.getVertices().push_back(resampled[resampled.size()-1]);
     }
     
@@ -26,11 +26,11 @@ void trackedContour::update(ofPolyline line){
         int smallestStart = -1;
         float smallestAvgLen = 10000000;
         
-        for (int i = 0; i < 480; i++){
+        for (int i = 0; i < sampleCount; i++){
             
             float avgLen = 0;
-            for (int j = 0; j < 480; j++){
-                avgLen += (resampled[ (j + i ) % 480] - prevFrame[j]).length() / 480.0;
+            for (int j = 0; j < sampleCount; j++){
+                avgLen += (resampled[ (j + i ) % sampleCount] - prevFrame[j]).length() / sampleCount*1.0;
             }
             if (avgLen < smallestAvgLen){
                 smallestAvgLen = avgLen;
@@ -40,8 +40,8 @@ void trackedContour::update(ofPolyline line){
         }
         
         ofPolyline temp;
-        for (int i = 0; i < 480; i++){
-            temp.addVertex( resampled[ (i + smallestStart) % 480]);
+        for (int i = 0; i < sampleCount; i++){
+            temp.addVertex( resampled[ (i + smallestStart) % sampleCount]);
         }
         resampled = temp;
 
@@ -50,9 +50,9 @@ void trackedContour::update(ofPolyline line){
     
     
     
-    ofPolyline tempT = resampled.getResampledByCount(100);
+    ofPolyline tempT = resampled.getResampledByCount(resampleCount);
     
-    while(tempT.size() < 100){
+    while(tempT.size() < resampleCount){
         tempT.getVertices().push_back(tempT[tempT.size()-1]);
     }
     // cout << tempT.size() << " " << resampleSmoothed.size() << endl;
@@ -65,17 +65,17 @@ void trackedContour::update(ofPolyline line){
             
         }
     } else {
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < resampleCount; i++){
             ofPoint prev = resampleSmoothed[i] ;
             resampleSmoothed[i] = 0.75f * resampleSmoothed[i] + 0.25f * tempT[i];
-            velPts[i] = (resampleSmoothed[i]  - prev) * ofMap(contourLength, 100, 1000, 1, 0.1, true);
+            velPts[i] = (resampleSmoothed[i]  - prev) * ofMap(contourLength, resampleCount, 1000, 1, 0.1, true);
         }
     }
     
-    for (int i = 0; i < 100; i++){
+    for (int i = 0; i < resampleCount; i++){
         velAvg += velPts[i];
     }
-    velAvg /= 100;
+    velAvg /= resampleCount;
     velAvgSmooth = 0.9* velAvgSmooth + 0.1 * velAvg;
     
     for (auto p : resampleSmoothed.getVertices()){

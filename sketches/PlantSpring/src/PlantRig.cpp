@@ -69,7 +69,7 @@ void PlantRig::makeMainBranch(){
     
     BranchSettings s;
     s.points = &mainBranchPoints;
-    s.pos = ofVec2f(ofGetWidth()/2, ofGetHeight());
+    s.pos = pos;
     s.dir = ofVec2f(0, -1);
     s.lengthMin = mbLengthMin;
     s.lengthMax = mbLengthMax;

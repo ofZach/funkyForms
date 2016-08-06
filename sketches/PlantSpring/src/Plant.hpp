@@ -47,14 +47,20 @@ public:
     // color
     ofColor color;
     
+    
+    // set
     void setup();
     void setupChildBranches();
     void setPos(ofVec2f _pos, float smooth){ rig.pos = rig.pos*smooth+ (1-smooth)*_pos;}
+   
+    // get
+    ofVec2f getPos(){ return rig.pos; }
     
     bool isFadeOutFinished(){
         return fadeAnimator.isFinished;
     }
     
+    // update
     void update();
     void updatePolylines();
     void updateMesh();
@@ -70,7 +76,9 @@ public:
     void fadeIn(){fadeAnimator.in();};
     void fadeOut(){fadeAnimator.out();};
     void updateFade(){fadeAnimator.update();}
+    bool isFadeFinished() { return fadeAnimator.isFinished; }
     
+    // draw
     void draw();
     void drawPolylines();
     void drawMeshes();

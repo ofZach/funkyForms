@@ -912,10 +912,10 @@
 		72393F421D557A4B00742320 /* input */ = {
 			isa = PBXGroup;
 			children = (
-				72393F431D557A4B00742320 /* cvManager.cpp */,
-				72393F441D557A4B00742320 /* cvManager.h */,
 				72393F451D557A4B00742320 /* inputManager.cpp */,
 				72393F461D557A4B00742320 /* inputManager.h */,
+				72393F431D557A4B00742320 /* cvManager.cpp */,
+				72393F441D557A4B00742320 /* cvManager.h */,
 				72393F471D557A4B00742320 /* trackedContour.cpp */,
 				72393F481D557A4B00742320 /* trackedContour.hpp */,
 			);

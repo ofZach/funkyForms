@@ -14,13 +14,38 @@ void cvManager::setup(){
 }
 
 void cvManager::update(ofPixels & pixels){
-    
     contourFinder.setThreshold(115);
     contourFinder.findContours(pixels);
+    updateTracked();
+}
+void cvManager::updateTracked(){
     
+    ofxCv::RectTracker& tracker = contourFinder.getTracker();
+//    for(auto &c: trackedContours){
+//        int label = c.first;
+//        if(tracker.existsPrevious(label)){
+//            ofLog() << "exist : " <<  label;
+//        }else{
+//            ofLog() << "not exist : " <<  label;
+//            trackedContours.erase(label);
+//        }
+//    }
 
+    for(int i = 0; i < contourFinder.size(); i++) {
+        int label = contourFinder.getLabel(i);
+        trackedContours[ label ].update(contourFinder.getPolyline(i));
+    }
     
-    
+    // clear unused countours
+    std::map<int, trackedContour>::iterator itr = trackedContours.begin();
+    while (itr != trackedContours.end()) {
+        int label = itr->first;
+        if (!tracker.existsCurrent(label)) {
+            itr = trackedContours.erase(itr);
+        } else {
+            ++itr;
+        }
+    }
 }
 void cvManager::drawPeopleFill(){
     for (int i = 0; i < contourFinder.getPolylines().size(); i++) {
@@ -39,11 +64,14 @@ void cvManager::draw(){
     
     ofxCv::RectTracker& tracker = contourFinder.getTracker();
     
+
     for(int i = 0; i < contourFinder.size(); i++) {
         ofPoint center = ofxCv::toOf(contourFinder.getCenter(i));
         ofPushMatrix();
         ofTranslate(center.x, center.y);
         int label = contourFinder.getLabel(i);
+        
+        tracker.existsCurrent(label);
         string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
         //ofDrawBitmapString(msg, 0, 0);
         ofVec2f velocity = ofxCv::toOf(contourFinder.getVelocity(i));

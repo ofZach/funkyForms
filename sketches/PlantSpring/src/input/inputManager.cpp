@@ -2,8 +2,7 @@
 
 #include "inputManager.h"
 
-
-
+// --------------- setup
 void inputManager::setup(){
     defaultTarget.pos.set(0, 0);
     defaultTarget.vel.set(0,0);
@@ -22,11 +21,25 @@ void inputManager::setup(){
     float scale = 1.8;
     blah.allocate(600*scale, 250*scale, OF_IMAGE_COLOR);
     pos.set(200, ofGetHeight()-blah.getHeight());
-   
-    
-    
-    
-    
+}
+// --------------- update
+void inputManager::update(){
+    if(targets.size() > 0){
+        isEmpty = false;
+    }else{
+        isEmpty = true;
+    }
+    updateTargets();
+    calcAveragePos();
+    updatePlayer();
+}
+void inputManager::updatePlayer(){
+    player.update();
+    if (player.isFrameNew()){
+        ofxCv::unwarpPerspective(player, blah, inputQuad);
+        blah.update();
+        CVM.update(blah.getPixels());
+    }
 }
 void inputManager::calcAveragePos(){
     ofVec2f p;
@@ -41,7 +54,7 @@ void inputManager::calcAveragePos(){
     float s = 0.9;
     averagePos = averagePos*s + (1-s)*p;
 }
-inputManager::Target &inputManager::getClosesetTo(ofVec2f _pos){
+inputManager::Target &inputManager::getClosesetToPerson(ofVec2f _pos){
     float distance = 3000;
     int index = 0;
     int i = 0;
@@ -58,7 +71,6 @@ inputManager::Target &inputManager::getClosesetTo(ofVec2f _pos){
         return defaultTarget;
     }
 }
-
 inputManager::Target *inputManager::getFastestTarget(){
     int index = 0;
     ofVec2f zero(0, 0);
@@ -77,6 +89,7 @@ inputManager::Target *inputManager::getFastestTarget(){
 }
 void inputManager::updateTargets(){
     targets.clear();
+    peoplePoints.clear();
     
     ofxCv::RectTracker& tracker = CVM.getContourFinder()->getTracker();
     for (int i = 0; i < CVM.getContourFinder()->size(); i++) {
@@ -89,7 +102,15 @@ void inputManager::updateTargets(){
         ofVec2f vel = ofxCv::toOf(CVM.getContourFinder()->getVelocity(i));
         int label = CVM.getContourFinder()->getLabel(i);
         
+        ofPolyline *l = &getTrackedContours()[label].resampleSmoothed;
+        
+        
         Target t;
+        for(auto &p: *l){
+            peoplePoints.push_back(p+pos);
+            t.points.push_back(p+pos);
+        }
+        t.line = l;
         t.pos = center + pos;
         t.vel = vel;
         t.age = tracker.getAge(label);
@@ -98,34 +119,19 @@ void inputManager::updateTargets(){
         targets.push_back(t);
     }
 }
-
-void inputManager::update(){
-    if(targets.size() > 0){
-        isEmpty = false;
-    }else{
-        isEmpty = true;
-    }
-    updateTargets();
-    calcAveragePos();
-    player.update();
-    if (player.isFrameNew()){
-        
-        ofxCv::unwarpPerspective(player, blah, inputQuad);
-        blah.update();
-        CVM.update(blah.getPixels());
-        
-    }
-}
-
+// --------------- draw
 void inputManager::draw(){
     
-    player.draw(0,0);
-    
-    
-    blah.draw(player.getWidth(),0);
+//    player.draw(0,0);
+//    blah.draw(player.getWidth(),0);
     
     ofPushMatrix();
     ofTranslate(pos);
-    CVM.draw();
-    ofPopMatrix();
+    CVM.drawPeopleFill();
+    ofPopMatrix();    
+
+    for(auto &p: peoplePoints){
+        ofDrawCircle(p, 10);
+    }
+        
 }
