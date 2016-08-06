@@ -2,19 +2,29 @@
 
 #include "ofMain.h"
 #include "ofxCv.h"
+#include "trackedContour.hpp"
+
 
 class cvManager {
-private:
-public:
 
-    ofVec2f offset;
+public:
   
     void setup();
     void update(ofPixels & pixels);
     void draw();
-    void drawPeopleFill();
+    
     
     ofxCv::ContourFinder contourFinder;
-    ofxCv::ContourFinder *getContourFinder(){return &contourFinder;}
+    
+    
+    
+    // for drawing contours in diff colors:
+    
+    ofPtr<ofCairoRenderer> cairoRenderer; //(new ofCairoRenderer);
+    ofPixels cairoPixels;
+    ofPtr<ofBaseRenderer> glRenderer; //(new ofGLRenderer);
+    
+    
+    map < int, trackedContour > trackedContours;
     
 };

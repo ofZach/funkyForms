@@ -10,8 +10,6 @@
 		106B9A6182DF98E835C09B47 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA20A4B3FEF378FA209B9E4E /* ofxBaseGui.cpp */; };
 		413B65A0F41D699F37AB4C06 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99B37C8367EB4811EEF8E78D /* ofxSliderGroup.cpp */; };
 		72393E0E1D549A9400742320 /* PlantManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E0C1D549A9400742320 /* PlantManager.cpp */; };
-		72393E141D549C2D00742320 /* cvManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E101D549C2D00742320 /* cvManager.cpp */; };
-		72393E151D549C2D00742320 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E121D549C2D00742320 /* inputManager.cpp */; };
 		72393E421D54A0C000742320 /* ETF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E241D54A0C000742320 /* ETF.cpp */; };
 		72393E431D54A0C000742320 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E251D54A0C000742320 /* fdog.cpp */; };
 		72393E441D54A0C000742320 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E361D54A0C000742320 /* Calibration.cpp */; };
@@ -35,6 +33,9 @@
 		72393F381D54A0C800742320 /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393E601D54A0C800742320 /* ofxCvShortImage.cpp */; };
 		72393F391D54A0C800742320 /* opencv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72393F2F1D54A0C800742320 /* opencv.a */; };
 		72393F3C1D54AA9A00742320 /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393F3A1D54AA9A00742320 /* Animator.cpp */; };
+		72393F491D557A4B00742320 /* cvManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393F431D557A4B00742320 /* cvManager.cpp */; };
+		72393F4A1D557A4B00742320 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393F451D557A4B00742320 /* inputManager.cpp */; };
+		72393F4B1D557A4B00742320 /* trackedContour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393F471D557A4B00742320 /* trackedContour.cpp */; };
 		7270565B1D4FCC600043E3A8 /* PlantRig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 727056591D4FCC600043E3A8 /* PlantRig.cpp */; };
 		7270565E1D4FF07D0043E3A8 /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7270565C1D4FF07D0043E3A8 /* Plant.cpp */; };
 		81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73799D65360CD587DCAE90A0 /* ofxLabel.cpp */; };
@@ -85,10 +86,6 @@
 		607FCA3A979EBCF02F0B00FC /* ofxGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGui.h; path = ../../../../addons/ofxGui/src/ofxGui.h; sourceTree = SOURCE_ROOT; };
 		72393E0C1D549A9400742320 /* PlantManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlantManager.cpp; sourceTree = "<group>"; };
 		72393E0D1D549A9400742320 /* PlantManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlantManager.hpp; sourceTree = "<group>"; };
-		72393E101D549C2D00742320 /* cvManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cvManager.cpp; sourceTree = "<group>"; };
-		72393E111D549C2D00742320 /* cvManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvManager.h; sourceTree = "<group>"; };
-		72393E121D549C2D00742320 /* inputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inputManager.cpp; sourceTree = "<group>"; };
-		72393E131D549C2D00742320 /* inputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inputManager.h; sourceTree = "<group>"; };
 		72393E181D54A0C000742320 /* ofxCv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxCv.h; sourceTree = "<group>"; };
 		72393E1A1D54A0C000742320 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		72393E1C1D54A0C000742320 /* addons.make */ = {isa = PBXFileReference; lastKnownFileType = text; path = addons.make; sourceTree = "<group>"; };
@@ -302,6 +299,12 @@
 		72393F311D54A0C800742320 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		72393F3A1D54AA9A00742320 /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		72393F3B1D54AA9A00742320 /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
+		72393F431D557A4B00742320 /* cvManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cvManager.cpp; sourceTree = "<group>"; };
+		72393F441D557A4B00742320 /* cvManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvManager.h; sourceTree = "<group>"; };
+		72393F451D557A4B00742320 /* inputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inputManager.cpp; sourceTree = "<group>"; };
+		72393F461D557A4B00742320 /* inputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inputManager.h; sourceTree = "<group>"; };
+		72393F471D557A4B00742320 /* trackedContour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trackedContour.cpp; sourceTree = "<group>"; };
+		72393F481D557A4B00742320 /* trackedContour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = trackedContour.hpp; sourceTree = "<group>"; };
 		727056591D4FCC600043E3A8 /* PlantRig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlantRig.cpp; sourceTree = "<group>"; };
 		7270565A1D4FCC600043E3A8 /* PlantRig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlantRig.hpp; sourceTree = "<group>"; };
 		7270565C1D4FF07D0043E3A8 /* Plant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plant.cpp; sourceTree = "<group>"; };
@@ -355,17 +358,6 @@
 			children = (
 			);
 			name = local_addons;
-			sourceTree = "<group>";
-		};
-		72393E0F1D549C2D00742320 /* input */ = {
-			isa = PBXGroup;
-			children = (
-				72393E101D549C2D00742320 /* cvManager.cpp */,
-				72393E111D549C2D00742320 /* cvManager.h */,
-				72393E121D549C2D00742320 /* inputManager.cpp */,
-				72393E131D549C2D00742320 /* inputManager.h */,
-			);
-			path = input;
 			sourceTree = "<group>";
 		};
 		72393E161D54A0C000742320 /* ofxCv */ = {
@@ -917,6 +909,19 @@
 			path = license;
 			sourceTree = "<group>";
 		};
+		72393F421D557A4B00742320 /* input */ = {
+			isa = PBXGroup;
+			children = (
+				72393F431D557A4B00742320 /* cvManager.cpp */,
+				72393F441D557A4B00742320 /* cvManager.h */,
+				72393F451D557A4B00742320 /* inputManager.cpp */,
+				72393F461D557A4B00742320 /* inputManager.h */,
+				72393F471D557A4B00742320 /* trackedContour.cpp */,
+				72393F481D557A4B00742320 /* trackedContour.hpp */,
+			);
+			path = input;
+			sourceTree = "<group>";
+		};
 		A763ED608B35AE3310251DEE /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -986,7 +991,7 @@
 				7270565A1D4FCC600043E3A8 /* PlantRig.hpp */,
 				72393F3A1D54AA9A00742320 /* Animator.cpp */,
 				72393F3B1D54AA9A00742320 /* Animator.hpp */,
-				72393E0F1D549C2D00742320 /* input */,
+				72393F421D557A4B00742320 /* input */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1087,6 +1092,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72393F4A1D557A4B00742320 /* inputManager.cpp in Sources */,
 				72393F3C1D54AA9A00742320 /* Animator.cpp in Sources */,
 				72393E4A1D54A0C000742320 /* ObjectFinder.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
@@ -1095,7 +1101,6 @@
 				72393E0E1D549A9400742320 /* PlantManager.cpp in Sources */,
 				A61B54CA66E926867C59D2C6 /* ofxButton.cpp in Sources */,
 				CFFFBA144E8160ECC1C97982 /* ofxGuiGroup.cpp in Sources */,
-				72393E141D549C2D00742320 /* cvManager.cpp in Sources */,
 				72393E481D54A0C000742320 /* Helpers.cpp in Sources */,
 				72393E421D54A0C000742320 /* ETF.cpp in Sources */,
 				72393E441D54A0C000742320 /* Calibration.cpp in Sources */,
@@ -1105,10 +1110,11 @@
 				72393F351D54A0C800742320 /* ofxCvGrayscaleImage.cpp in Sources */,
 				81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */,
 				72393F341D54A0C800742320 /* ofxCvFloatImage.cpp in Sources */,
+				72393F4B1D557A4B00742320 /* trackedContour.cpp in Sources */,
 				CE6F136678038366969711AB /* ofxPanel.cpp in Sources */,
 				72393E4C1D54A0C000742320 /* Tracker.cpp in Sources */,
 				72393E4B1D54A0C000742320 /* RunningBackground.cpp in Sources */,
-				72393E151D549C2D00742320 /* inputManager.cpp in Sources */,
+				72393F491D557A4B00742320 /* cvManager.cpp in Sources */,
 				72393F331D54A0C800742320 /* ofxCvContourFinder.cpp in Sources */,
 				72393E451D54A0C000742320 /* ContourFinder.cpp in Sources */,
 				A2953313263AE1234930247E /* ofxSlider.cpp in Sources */,
