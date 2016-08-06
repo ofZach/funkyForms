@@ -204,7 +204,8 @@ void particle::update(){
 
 //------------------------------------------------------------
 void particle::draw(){
-    ofCircle(pos.x, pos.y, 3);
+    ofSetColor(255);
+    ofCircle(pos.x, pos.y, 20);
 }
 
 void particle::addFlockingForce(){
