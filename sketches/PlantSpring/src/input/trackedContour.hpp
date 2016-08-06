@@ -15,7 +15,7 @@ class trackedContour {
     
 public: 
     int sampleCount = 50;
-    int resampleCount = 4;
+    int resampleCount = 10;
 
     ofPoint midPt;
     ofPolyline prevFrame;

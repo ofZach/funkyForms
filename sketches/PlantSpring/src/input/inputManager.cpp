@@ -131,7 +131,7 @@ void inputManager::draw(){
     ofPopMatrix();    
 
     for(auto &p: peoplePoints){
-        ofDrawCircle(p, 10);
+        ofDrawCircle(p, 2);
     }
         
 }

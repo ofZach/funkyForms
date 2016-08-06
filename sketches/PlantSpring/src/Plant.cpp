@@ -111,7 +111,7 @@ void Plant::updateMesh(){
 
         mbMesh.addVertex(mbLine1.getPointAtPercent(i));
         mbMesh.addColor(ofFloatColor(col, fadeAnimator.getValue()));
-        col.setBrightness(190);
+        col.setBrightness(ofMap(col.getBrightness(), 0, 255, 0, 200));
         mbMesh.addVertex(mbLine2.getPointAtPercent(i));
         mbMesh.addColor(ofFloatColor(col, fadeAnimator.getValue()));
     }

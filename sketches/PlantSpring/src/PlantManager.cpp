@@ -36,11 +36,9 @@ void PlantManager::addPlant(ofVec2f _pos){
     plants[i].mbWidth = mbLengthMin;
     plants[i].cbWidth = cbLengthMin;
     plants[i].rig.pos = _pos;
-    if(i%2==0){
-        plants[i].color = ofColor::honeyDew;
-    }else{
-        plants[i].color = ofColor::greenYellow;
-    }
+    
+    plants[i].color = swatch[(int)ofRandom(4)];
+
     plants[i].setup();
     plants[i].fadeIn();
         
@@ -48,10 +46,16 @@ void PlantManager::addPlant(ofVec2f _pos){
 }
 void PlantManager::setupGui(){
     parameters.setName("PlantManager");
-    
+    parameters.add(mainBranchWMin.set("mainBranchWMin", 5, 1, 200));
+    parameters.add(mainBranchWMax.set("mainBranchWMax", 5, 1, 200));
+    parameters.add(childBranchWMin.set("childBranchWMin", 5, 1, 200));
+    parameters.add(childBranchWMax.set("childBranchWMax", 5, 1, 200));
+    gui.setup(parameters);
+    gui.loadFromFile("settings.xml");
 }
 // --------------- update
 void PlantManager::update(){
+    updatePlantsParameters();
     updatePlants();
     updatePlantCreation();
     updatePlantRemoval();
@@ -61,21 +65,19 @@ void PlantManager::updatePlants(){
         for(auto &p: plants){
             p.update();
             inputManager::Target &t = IM->getClosesetToPerson( p.getPos() );
+            
             int pIndex = t.pointIndex;
             if(pIndex > t.points.size()-1){
                 pIndex = 0;
             }
             p.setPos(t.points[pIndex], 0.7);
             t.isBusy = true;
-//            updateParameters(&p.plant);
-//            if(t.rect.height/t.rect.width < 1.3 && t.rect.height>120 ){
-//                p.plant.addSpike();
-//            }else{
-//                p.plant.delSpike();
-//            }
-            
-
         }
+    }
+}
+void PlantManager::updatePlantsParameters(){
+    for(auto &p: plants){
+        
     }
 }
 void PlantManager::updatePlantCreation(){
@@ -85,10 +87,14 @@ void PlantManager::updatePlantCreation(){
             t.pointIndex = ofRandom(t.points.size()-1);
         }
     }
-//    IM->onNewTarget(this, &PlantManager::onNewPlant);
+    IM->onNewTarget(this, &PlantManager::onNewPlant);
 }
 void PlantManager::updatePlantRemoval(){
     for (int i =0; i<plants.size(); i++) {
+//        inputManager::Target &t = IM->getClosesetToPerson( plants[i].getPos() );
+//        if(plants[i].getPos().distance(t.pos) >120){
+//            plants[i].fadeOut();
+//        }
         for(int j = 0; j<plants.size(); j++){
             if(i!=j){
                 if (plants[i].getPos().distance(plants[j].getPos())<20) {
@@ -106,6 +112,7 @@ void PlantManager::updatePlantRemoval(){
 // --------------- draw
 void PlantManager::draw(){
     drawPlants();
+    gui.draw();
 }
 void PlantManager::drawPlants(){
     for(auto &p: plants){

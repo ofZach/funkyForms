@@ -17,8 +17,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    IM.draw();
     plantManager.draw();
+    IM.draw();
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 20);
 }
