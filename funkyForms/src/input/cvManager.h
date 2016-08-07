@@ -16,11 +16,6 @@ public:
     
     ofxCv::ContourFinder contourFinder;
     
-    
-    
-    // for drawing contours in diff colors:
-    
-       
     map < int, trackedContour > trackedContours;
     
 };

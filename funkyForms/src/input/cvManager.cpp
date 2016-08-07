@@ -19,14 +19,31 @@ void cvManager::update(ofPixels & pixels){
     contourFinder.findContours(pixels);
     
 
+    ofxCv::RectTracker& tracker = contourFinder.getTracker();
     
+    for(int i = 0; i < contourFinder.size(); i++) {
+        int label = contourFinder.getLabel(i);
+        trackedContours[ label ].update(contourFinder.getPolyline(i));
+    }
+    
+    // clear unused countours
+    std::map<int, trackedContour>::iterator itr = trackedContours.begin();
+    while (itr != trackedContours.end()) {
+        int label = itr->first;
+        if (!tracker.existsCurrent(label)) {
+            itr = trackedContours.erase(itr);
+        } else {
+            ++itr;
+        }
+    }
+    
+
     
 }
 
 void cvManager::draw(){
     contourFinder.draw();
     
-    ofxCv::RectTracker& tracker = contourFinder.getTracker();
     
     typedef struct {
         int label;
@@ -36,42 +53,19 @@ void cvManager::draw(){
     vector < centerppp > centers;
     
     
+    ofxCv::RectTracker& tracker = contourFinder.getTracker();
+    
+    
     for(int i = 0; i < contourFinder.size(); i++) {
-        ofPoint center = ofxCv::toOf(contourFinder.getCenter(i));
-        ofPushMatrix();
-        ofTranslate(center.x, center.y);
+        
         int label = contourFinder.getLabel(i);
-        string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
-        //ofDrawBitmapString(msg, 0, 0);
-        ofVec2f velocity = ofxCv::toOf(contourFinder.getVelocity(i));
-        ofScale(5, 5);
-        
-        ofPopMatrix();
-        
-        trackedContours[ label ].update(contourFinder.getPolyline(i));
-        
-        centerppp cent;
-        cent.label = contourFinder.getLabel(i);
-        cent.pos = center;
-        centers.push_back(cent);
-        
-//        for (int j = 0; j < trackedContours[label].resampleSmoothed.size(); j++){
-//            
-//            //ofPoint diff =  trackedContours[label].velPts[j];
-////            //if (diff.length() > ofGetMouseX()*0.1){
-////            float angle = atan2(diff.y, diff.x);
-////            ofColor c;
-////            c.setHsb(ofMap(angle, -PI, PI, 0, 255), 255,255);
-////            ofSetColor(c);
-////            ofLine(trackedContours[label].resampleSmoothed[j], trackedContours[label].resampleSmoothed[j] + trackedContours[label].velPts[j] * 20);
-////            ofCircle( trackedContours[label].resampleSmoothed[j], 3);
-////            
-//        }
         
         ofSetColor(255);
         ofLine(contourFinder.getPolyline(i).getCentroid2D(), contourFinder.getPolyline(i).getCentroid2D() + trackedContours[label].velAvgSmooth * 50);
         
-        ofDrawBitmapStringHighlight(ofToString(cent.label), contourFinder.getPolyline(i).getCentroid2D() + ofPoint(0,30), ofColor::darkCyan, ofColor::white);
+        ofDrawBitmapStringHighlight(ofToString(label), contourFinder.getPolyline(i).getCentroid2D() + ofPoint(0,30), ofColor::darkMagenta, ofColor::white);
+        
+        ofDrawBitmapStringHighlight("age: " + ofToString(tracker.getAge(label)), contourFinder.getPolyline(i).getCentroid2D() + ofPoint(0,46), ofColor::darkCyan, ofColor::white);
         //}
     }
 
