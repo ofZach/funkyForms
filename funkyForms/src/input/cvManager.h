@@ -20,11 +20,7 @@ public:
     
     // for drawing contours in diff colors:
     
-    ofPtr<ofCairoRenderer> cairoRenderer; //(new ofCairoRenderer);
-    ofPixels cairoPixels;
-    ofPtr<ofBaseRenderer> glRenderer; //(new ofGLRenderer);
-    
-    
+       
     map < int, trackedContour > trackedContours;
     
 };

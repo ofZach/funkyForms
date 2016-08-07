@@ -12,7 +12,6 @@ public:
     void update();
     void draw();
     
-    
     cvManager CVM;
     
     ofVideoPlayer player;

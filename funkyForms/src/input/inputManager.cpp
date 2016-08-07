@@ -18,13 +18,7 @@ void inputManager::setup(){
     
     blah.allocate(600,250, OF_IMAGE_COLOR);
     
-    
-    
-   
-    
-    
-    
-    
+
 }
 
 void inputManager::update(){
