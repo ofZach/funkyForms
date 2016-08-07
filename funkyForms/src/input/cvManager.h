@@ -5,6 +5,14 @@
 #include "trackedContour.hpp"
 
 
+// todo:
+
+// remap contours to target size
+// check another contour tracker (from original app)
+// add new blob / end blob events
+
+
+
 class cvManager {
 
 public:
@@ -12,7 +20,6 @@ public:
     void setup();
     void update(ofPixels & pixels);
     void draw();
-    
     
     ofxCv::ContourFinder contourFinder;
     
