@@ -16,7 +16,7 @@ void inputManager::setup(){
     inputQuad.push_back( cv::Point2f( 317,164  ));
     inputQuad.push_back( cv::Point2f(8,164   ));
     
-    blah.allocate(600,250, OF_IMAGE_COLOR);
+    inputWarped.allocate(600,250, OF_IMAGE_COLOR);
     
 
 }
@@ -26,9 +26,9 @@ void inputManager::update(){
     player.update();
     if (player.isFrameNew()){
         
-        ofxCv::unwarpPerspective(player, blah, inputQuad);
-        blah.update();
-        CVM.update(blah.getPixels());
+        ofxCv::unwarpPerspective(player, inputWarped, inputQuad);
+        inputWarped.update();
+        CVM.update(inputWarped.getPixels());
         
     }
 }
@@ -38,10 +38,10 @@ void inputManager::draw(){
     player.draw(0,0);
     
     
-    blah.draw(player.getWidth(),0);
+    inputWarped.draw(player.getWidth(),0);
     
     ofPushMatrix();
-    ofTranslate(player.getWidth(), blah.getHeight());
+    ofTranslate(player.getWidth(), inputWarped.getHeight());
     CVM.draw();
     ofPopMatrix();
     

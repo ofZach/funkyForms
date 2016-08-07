@@ -19,7 +19,7 @@ public:
     vector < cv::Point2f > inputQuad;
     
     
-    ofImage blah;
+    ofImage inputWarped;
     
     
 
