@@ -22,7 +22,11 @@
 		7CDAD32BE4FA46701E3552C7 /* RunningBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBF6AED6A17AC0C17F63CC4 /* RunningBackground.cpp */; };
 		9215152B1D14474B00450FA7 /* cvManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921515281D14474B00450FA7 /* cvManager.cpp */; };
 		9215152C1D14474B00450FA7 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9215152A1D14474B00450FA7 /* inputManager.cpp */; };
+		9219254C1D57DAA2006F1F70 /* ofCvBlobTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921925491D57DAA2006F1F70 /* ofCvBlobTracker.cpp */; };
 		9264646E1D4BA271005082DE /* trackedContour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9264646C1D4BA271005082DE /* trackedContour.cpp */; };
+		92911A711D58D08E00225642 /* sceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92911A6F1D58D08E00225642 /* sceneManager.cpp */; };
+		92911A741D58D09900225642 /* baseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92911A721D58D09900225642 /* baseScene.cpp */; };
+		92911A791D58D2FD00225642 /* simpleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92911A771D58D2FD00225642 /* simpleScene.cpp */; };
 		933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */; };
 		9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 832BDC407620CDBA568B713D /* tinyxmlerror.cpp */; };
 		A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC50DB3D06414010233963 /* Utilities.cpp */; };
@@ -179,8 +183,18 @@
 		921515281D14474B00450FA7 /* cvManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cvManager.cpp; path = input/cvManager.cpp; sourceTree = "<group>"; };
 		921515291D14474B00450FA7 /* cvManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cvManager.h; path = input/cvManager.h; sourceTree = "<group>"; };
 		9215152A1D14474B00450FA7 /* inputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inputManager.cpp; path = input/inputManager.cpp; sourceTree = "<group>"; };
+		921925481D57DAA2006F1F70 /* ofCvBlobListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofCvBlobListener.h; sourceTree = "<group>"; };
+		921925491D57DAA2006F1F70 /* ofCvBlobTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofCvBlobTracker.cpp; sourceTree = "<group>"; };
+		9219254A1D57DAA2006F1F70 /* ofCvBlobTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofCvBlobTracker.h; sourceTree = "<group>"; };
+		9219254B1D57DAA2006F1F70 /* ofCvTrackedBlob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofCvTrackedBlob.h; sourceTree = "<group>"; };
 		9264646C1D4BA271005082DE /* trackedContour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = trackedContour.cpp; path = input/trackedContour.cpp; sourceTree = "<group>"; };
 		9264646D1D4BA271005082DE /* trackedContour.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = trackedContour.hpp; path = input/trackedContour.hpp; sourceTree = "<group>"; };
+		92911A6F1D58D08E00225642 /* sceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sceneManager.cpp; sourceTree = "<group>"; };
+		92911A701D58D08E00225642 /* sceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sceneManager.h; sourceTree = "<group>"; };
+		92911A721D58D09900225642 /* baseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = baseScene.cpp; sourceTree = "<group>"; };
+		92911A731D58D09900225642 /* baseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = baseScene.h; sourceTree = "<group>"; };
+		92911A771D58D2FD00225642 /* simpleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleScene.cpp; sourceTree = "<group>"; };
+		92911A781D58D2FD00225642 /* simpleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simpleScene.h; sourceTree = "<group>"; };
 		946187321200AC04E570E6EC /* hierarchical_clustering_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hierarchical_clustering_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/hierarchical_clustering_index.h; sourceTree = SOURCE_ROOT; };
 		960BD311ABBA7D3299D7FE1F /* datamov_utils.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = datamov_utils.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/device/datamov_utils.hpp; sourceTree = SOURCE_ROOT; };
 		974AACF856A0A1B7D8F259E0 /* result_set.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = result_set.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/result_set.h; sourceTree = SOURCE_ROOT; };
@@ -646,6 +660,39 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
+		921925471D57DAA2006F1F70 /* ofxCvBlobTracker */ = {
+			isa = PBXGroup;
+			children = (
+				921925481D57DAA2006F1F70 /* ofCvBlobListener.h */,
+				921925491D57DAA2006F1F70 /* ofCvBlobTracker.cpp */,
+				9219254A1D57DAA2006F1F70 /* ofCvBlobTracker.h */,
+				9219254B1D57DAA2006F1F70 /* ofCvTrackedBlob.h */,
+			);
+			name = ofxCvBlobTracker;
+			path = input/ofxCvBlobTracker;
+			sourceTree = "<group>";
+		};
+		92911A6E1D58D07800225642 /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				92911A761D58D2FD00225642 /* simpleScene */,
+				92911A6F1D58D08E00225642 /* sceneManager.cpp */,
+				92911A701D58D08E00225642 /* sceneManager.h */,
+				92911A721D58D09900225642 /* baseScene.cpp */,
+				92911A731D58D09900225642 /* baseScene.h */,
+			);
+			path = scenes;
+			sourceTree = "<group>";
+		};
+		92911A761D58D2FD00225642 /* simpleScene */ = {
+			isa = PBXGroup;
+			children = (
+				92911A771D58D2FD00225642 /* simpleScene.cpp */,
+				92911A781D58D2FD00225642 /* simpleScene.h */,
+			);
+			path = simpleScene;
+			sourceTree = "<group>";
+		};
 		961A625BD21068033782887C /* legacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -797,6 +844,7 @@
 		C8F905A850B56EB1DCC856BB /* input */ = {
 			isa = PBXGroup;
 			children = (
+				921925471D57DAA2006F1F70 /* ofxCvBlobTracker */,
 				921515281D14474B00450FA7 /* cvManager.cpp */,
 				921515291D14474B00450FA7 /* cvManager.h */,
 				9264646C1D4BA271005082DE /* trackedContour.cpp */,
@@ -878,6 +926,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				92911A6E1D58D07800225642 /* scenes */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -1017,7 +1066,9 @@
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				9264646E1D4BA271005082DE /* trackedContour.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
+				92911A711D58D08E00225642 /* sceneManager.cpp in Sources */,
 				EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */,
+				92911A741D58D09900225642 /* baseScene.cpp in Sources */,
 				6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */,
 				45CC483A999BF1065A6B926C /* Distance.cpp in Sources */,
 				5CC34D433F5806179935B89D /* Flow.cpp in Sources */,
@@ -1029,6 +1080,7 @@
 				10B69DE456AED1288FC9316B /* Tracker.cpp in Sources */,
 				A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */,
 				DBCB84A37F9AECC254870D79 /* Wrappers.cpp in Sources */,
+				92911A791D58D2FD00225642 /* simpleScene.cpp in Sources */,
 				9215152C1D14474B00450FA7 /* inputManager.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
@@ -1041,6 +1093,7 @@
 				933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */,
 				9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */,
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
+				9219254C1D57DAA2006F1F70 /* ofCvBlobTracker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
