@@ -21,13 +21,14 @@ public:
     void update();
     void draw();
     
+    void start();
+    void stop();
+    
     void blobBorn(int id);
     void blobDied(int id);
     
     vector < bornParticle > particles;
-    
-
-    
+        
 };
 
 

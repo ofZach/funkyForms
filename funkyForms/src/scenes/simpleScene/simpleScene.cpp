@@ -72,3 +72,12 @@ void simpleScene::blobDied(int id){
                                   [&](bornParticle & i){return i.id == id;}),
                    particles.end());
 }
+
+
+void simpleScene::start(){
+    // I am starting, show a gui
+}
+
+void simpleScene::stop(){
+    // I am stopping, hide a gui
+}

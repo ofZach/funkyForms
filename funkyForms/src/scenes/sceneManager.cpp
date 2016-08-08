@@ -17,6 +17,7 @@ void sceneManager::update(){
     scenes[currentScene]->update();
 }
 
+
 void sceneManager::draw(){
     scenes[currentScene]->draw();
 }
