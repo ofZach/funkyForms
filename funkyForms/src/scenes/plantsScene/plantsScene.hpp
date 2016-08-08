@@ -26,6 +26,9 @@ public:
     
     void blobBorn(int id);
     void blobDied(int id);
+    
+    void drawPeople();
+    
 };
 
 #endif /* plantsScene_hpp */

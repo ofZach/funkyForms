@@ -10,12 +10,12 @@
 // --------------- setup
 void PlantManager::setup(){
     setupGui();
-    for (int i = 0; i < 6; i++) {
-        addPlant(ofVec2f(ofRandomWidth(), ofRandom(100, ofGetHeight())));
-    }
-    for (int i = 0; i < 4; i++) {
-        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
-    }
+//    for (int i = 0; i < 6; i++) {
+//        addPlant(ofVec2f(ofRandomWidth(), ofRandom(100, ofGetHeight())));
+//    }
+//    for (int i = 0; i < 4; i++) {
+//        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
+//    }
     for (int i = 0; i < 40; i++) {
         randSwatchIndex.push_back((int)ofRandom(4));
     }
@@ -28,7 +28,7 @@ void PlantManager::setupParticles(){
         float y = ofRandom(0,ofGetHeight());
         myParticle.setInitialCondition(x,y,0,0);
         particles.push_back(myParticle);
-        addPlant(ofVec2f(x, y));
+//        addPlant(ofVec2f(x, y));
     }
 }
 void PlantManager::onNewPlant(){
@@ -60,11 +60,12 @@ void PlantManager::addBgPlant(ofVec2f _pos){
     bgPlants[i].ageMax = ofRandom(600, 1000);
     bgPlants[i].fadeIn();
 }
-void PlantManager::addPlant(ofVec2f _pos){
+void PlantManager::addPlant(ofVec2f _pos, int id){
     plants.push_back( *new Plant );
     int i = plants.size()-1;
     
     ofVec2f dir[2] = { ofVec2f(-1, 0), ofVec2f(1, 0)};
+    plants[i].id = id;
     plants[i].rig.dir = dir[(int)ofRandom(1)];
     
     plants[i].rig.cbCount = ofRandom(3, 6) ;
@@ -100,11 +101,19 @@ void PlantManager::setupGui(){
     gui.setup(parameters);
     gui.loadFromFile("settings.xml");
 }
+void PlantManager::remove(int id){
+    plants.erase(
+                    std::remove_if(
+                                   plants.begin(),
+                                   plants.end(),
+                                   [&](Plant & p){return p.id == id;}),
+                    plants.end());
+}
 // --------------- update
 void PlantManager::update(){
     updatePlantsParameters();
     updateBgPlants();
-    updateBgPlantsRemoval();
+//    updateBgPlantsRemoval();
     updatePlants();
     updatePlantRemoval();
     updatePeoples();
@@ -125,6 +134,13 @@ void PlantManager::updateParticles(){
     }
 }
 void PlantManager::updatePlants(){
+    for(auto &p: plants){
+        p.update();
+        int id = p.id;
+        int whichBlob = cvData->idToBlobPos[id];
+        ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+        p.setPos(centroid, 0.5);
+    }
 //    if(!IM->isEmpty){
 //        for(auto &p: plants){
 //            p.update();

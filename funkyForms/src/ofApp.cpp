@@ -8,11 +8,12 @@ void ofApp::setup(){
     SM.scenes.push_back(new plantsScene());
     
     IM.setup();
-    SM.setup();
+
     
     for (int i = 0; i < SM.scenes.size(); i++){
         SM.scenes[i]->cvData = &IM.CVM.packet;
     }
+    SM.setup();
     
     bDrawDebug = true;
 }
@@ -24,7 +25,6 @@ void ofApp::update(){
     
     //-----------------------------------------------------------
     // check for new or dead blobs;
-    if (IM.CVM.bornThisFrame.size() > 0){
         for (auto a : IM.CVM.bornThisFrame){
             SM.blobBorn(a);
         }
@@ -34,7 +34,7 @@ void ofApp::update(){
         }
         IM.CVM.diedThisFrame.clear();
         IM.CVM.bornThisFrame.clear();
-    }
+    
     //-----------------------------------------------------------
     
     SM.update();

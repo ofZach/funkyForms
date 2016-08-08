@@ -54,7 +54,8 @@ public:
     // color
     ofColor color;
     
-    // timing
+    // timing, id 
+    int id;
     float timeOffset;
     int age = 0;
     int ageMax;

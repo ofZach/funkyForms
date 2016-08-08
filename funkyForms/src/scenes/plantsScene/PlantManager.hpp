@@ -11,7 +11,7 @@
 
 #include "ofMain.h"
 #include "Plant.hpp"
-#include "inputManager.h"
+#include "cvManager.h"
 #include "ofxGui.h"
 #include "particle.h"
 
@@ -23,7 +23,7 @@ public:
     vector<Plant> bgPlants;
     
     // input manager
-    inputManager *IM;
+    cvPacket * cvData;
     vector<ofPolyline> peopleResampled;
     
     // gui
@@ -55,11 +55,11 @@ public:
     
     void setup();
     void setupParticles();
-    void setInputManager(inputManager *_IM){ IM = _IM;};
     void setupGui();
-    void addPlant(ofVec2f _pos);
+    void addPlant(ofVec2f _pos, int id);
     void addBgPlant(ofVec2f _pos);
     void onNewPlant();
+    void remove(int id);
     
     void update();
     void updateParticles();
