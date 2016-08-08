@@ -102,12 +102,28 @@ void PlantManager::setupGui(){
     gui.loadFromFile("settings.xml");
 }
 void PlantManager::remove(int id){
-    plants.erase(
-                    std::remove_if(
-                                   plants.begin(),
-                                   plants.end(),
-                                   [&](Plant & p){return p.id == id;}),
-                    plants.end());
+    for(auto &p : plants){
+        if(p.id == id){
+            p.fadeOut();
+            float mindist = 2000;
+            int index = 0;
+            for(int i = 0; i < peoplePoints.size(); i++){
+                float dist = p.getPos().distance(peoplePoints[i]);
+                if(dist < mindist){
+                    mindist = dist;
+                    index = i;
+                }
+            }
+            ofVec2f &closestP = peoplePoints[index];
+            p.setPos(closestP, 0.5);
+        }
+    }
+//    plants.erase(
+//                    std::remove_if(
+//                                   plants.begin(),
+//                                   plants.end(),
+//                                   [&](Plant & p){return p.id == id;}),
+//                    plants.end());
 }
 // --------------- update
 void PlantManager::update(){
@@ -134,29 +150,42 @@ void PlantManager::updateParticles(){
     }
 }
 void PlantManager::updatePlants(){
+    peoplePoints.clear();
+    for(auto &id: cvData->idsThisFrame){
+        ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+
+        int size = 4;
+        ofVec2f point[4];
+        float pctStep = 1.0/(size*1.0);
+        float pct = 0;
+        
+        for (int i = 0; i < size; i++) {
+            point[i] = line.getPointAtPercent(pct);
+            
+            pct += pctStep;
+            peoplePoints.push_back(point[i]);
+        }
+    }
     for(auto &p: plants){
         p.update();
         int id = p.id;
         int whichBlob = cvData->idToBlobPos[id];
-        ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
-        p.setPos(centroid, 0.5);
+        ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+        
+        int size = 4;
+        ofVec2f point[4];
+        float pctStep = 1/size;
+        float pct = 0;
+        
+        for (int i = 0; i < size; i++) {
+            point[i] = line.getPointAtPercent(pct);
+            pct+=pctStep;
+        }
+//        ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+        if(!p.isFading){
+            p.setPos(point[2], 0.5);
+        }
     }
-//    if(!IM->isEmpty){
-//        for(auto &p: plants){
-//            p.update();
-//            
-//            vector<inputManager::Point> &points = IM->peoplePoints;
-//            
-//            for(int i = 0; i < points.size(); i++){
-//                if(p.getPos().distance(points[i].pos)<70){
-//                    if( !points[i].isBusy){
-//                        points[i].isBusy = true;
-//                        p.setPos(points[i].pos, 0.6);
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 void PlantManager::updateBgPlants(){
     for(auto &p: bgPlants){
@@ -187,6 +216,11 @@ void PlantManager::updatePlantCreation(){
 //    IM->onNewTarget(this, &PlantManager::onNewPlant);
 }
 void PlantManager::updatePlantRemoval(){
+    for (int i =0; i<plants.size(); i++) {
+        if(plants[i].isFadeFinished()){
+            plants.erase(plants.begin()+i);
+        }
+    }
 //    for (int i =0; i<plants.size(); i++) {
 //        if(plants[i].isFadeFinished()){
 //            ofVec2f pos = ofVec2f(IM->targets[(int)ofRandom(IM->targets.size()-1)].pos.x, ofRandom( 300, ofGetHeight()));
@@ -233,40 +267,9 @@ void PlantManager::drawBgPlants(){
 }
 void PlantManager::drawPeoples(){
     int j = 0;
-//    for(auto &p: peopleResampled){
-//        ofPath path1;
-//        
-//        ofPolyline &l = IM->CVM.getContourFinder()->getPolyline(j);
-//        ofPath path;
-//        int res = ofMap(l.getPerimeter(), 0, 1900, 1, 200);
-//        
-//        for (float i = 0; i < 1.; i += 1.0/res) {
-//            path.lineTo(l.getPointAtPercent(i)+IM->pos);
-//        }
-//        
-//        for(int i = 0; i < p.size(); i++){
-//            ofVec2f p1 = p.getVertices()[i];
-//            ofVec2f dir = p.getTangentAtIndex(i);
-//            ofVec2f p2 = p1+dir.getRotated(90)*50;
-//            
-//            path1.curveTo(p2);
-//            
-//            if(i<p.size()-1){
-//                ofVec2f pn = p.getVertices()[i+1];
-//                ofVec2f pndir = p.getTangentAtIndex(i+1);
-//                ofVec2f pn2 = pn+pndir.getRotated(90)*50;
-//                ofVec2f delta = pn2 - p2;
-//                ofVec2f pmid = p2 + delta/2;
-//                ofVec2f p3 = pmid + dir.getRotated(90)*10;
-//                ofVec2f p4 = pmid - dir.getRotated(90)*10;
-//                path1.curveTo(p3);
-//                path1.curveTo(p4);
-//            }
-//        }
-//        
-//        path1.append(path);
-//        path1.setFillColor(255);
-//        path1.draw();
-//        j++;
-//    }
+    for(auto &p: peoplePoints){
+        ofFill();
+        ofSetColor(ofColor::white);
+        ofDrawCircle(p, 5);
+    }
 }

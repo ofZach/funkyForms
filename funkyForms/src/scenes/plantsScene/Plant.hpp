@@ -30,6 +30,7 @@ public:
     vector<ofMesh> childShadows;
     
     // fading
+    bool isFading = false;
     Animator fadeAnimator;
     Animator mbGrowAnimator;
     Animator cbGrowAnimator;
@@ -90,7 +91,7 @@ public:
                     );
     
     void fadeIn(){mbGrowAnimator.in();};
-    void fadeOut(){fadeAnimator.out();};
+    void fadeOut(){fadeAnimator.out(); isFading = true;};
     void updateAnimators();
     bool isFadeFinished() { return fadeAnimator.isFinished; }
     

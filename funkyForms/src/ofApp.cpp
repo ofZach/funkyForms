@@ -48,7 +48,7 @@ void ofApp::draw(){
     if (bDrawDebug){
         IM.draw();
     } else {
-        IM.draw();
+//        IM.draw();
         SM.draw();
     }
 }

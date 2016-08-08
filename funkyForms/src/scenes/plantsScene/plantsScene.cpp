@@ -20,10 +20,14 @@ void plantsScene::draw(){
 }
 void plantsScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){
+        ofPath p;
+        p.setFillColor(ofColor::gray);
         ofPolyline line = cvData->blobs[i].blob;
-        //cout << line.size() << " ??? " << endl;
-        
-        line.draw();
+        line.simplify();
+        for(auto &l : line){
+            p.lineTo(l);
+        }
+        p.draw();
     }
 }
 void plantsScene::blobBorn(int id){

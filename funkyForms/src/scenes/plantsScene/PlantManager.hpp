@@ -25,6 +25,7 @@ public:
     // input manager
     cvPacket * cvData;
     vector<ofPolyline> peopleResampled;
+    vector<ofVec2f> peoplePoints;
     
     // gui
     ofParameterGroup parameters;

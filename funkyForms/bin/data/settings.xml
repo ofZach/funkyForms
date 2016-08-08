@@ -1,0 +1,11 @@
+<PlantManager>
+	<plantScale>0.6795</plantScale>
+	<mainBranchWMin>24.88</mainBranchWMin>
+	<mainBranchWMax>30.85</mainBranchWMax>
+	<childBranchWMin>19.905</childBranchWMin>
+	<childBranchWMax>29.855</childBranchWMax>
+	<particleRepulseRadius>10</particleRepulseRadius>
+	<particleRepulseForce>0.5</particleRepulseForce>
+	<particleAttractRadius>100</particleAttractRadius>
+	<particleAttractForce>0.5</particleAttractForce>
+</PlantManager>

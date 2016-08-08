@@ -19,6 +19,7 @@ void Plant::setup(){
 void Plant::setupAnimators(){
     fadeAnimator.setup(0, 1);
     fadeAnimator.setIn();
+    fadeAnimator.setSpeed(0.01);
     mbGrowAnimator.setup(0, 1);
     for (int i = 0; i < rig.childBranchesPoints.size()  + rig.child2pts.size(); i++) {
         cbGrowAnimators.push_back( * new Animator);
