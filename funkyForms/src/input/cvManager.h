@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxCv.h"
 #include "trackedContour.hpp"
+#include "cvSettings.h"
 
 
 // testing the original blob tracker

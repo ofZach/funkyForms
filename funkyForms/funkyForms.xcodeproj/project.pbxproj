@@ -244,6 +244,7 @@
 		92911A731D58D09900225642 /* baseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = baseScene.h; sourceTree = "<group>"; };
 		92911A771D58D2FD00225642 /* simpleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleScene.cpp; sourceTree = "<group>"; };
 		92911A781D58D2FD00225642 /* simpleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simpleScene.h; sourceTree = "<group>"; };
+		92911A7C1D5929A400225642 /* cvSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cvSettings.h; sourceTree = "<group>"; };
 		946187321200AC04E570E6EC /* hierarchical_clustering_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hierarchical_clustering_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/hierarchical_clustering_index.h; sourceTree = SOURCE_ROOT; };
 		960BD311ABBA7D3299D7FE1F /* datamov_utils.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = datamov_utils.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/device/datamov_utils.hpp; sourceTree = SOURCE_ROOT; };
 		974AACF856A0A1B7D8F259E0 /* result_set.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = result_set.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/result_set.h; sourceTree = SOURCE_ROOT; };
@@ -965,6 +966,7 @@
 				9264646C1D4BA271005082DE /* trackedContour.cpp */,
 				9264646D1D4BA271005082DE /* trackedContour.hpp */,
 				9215152A1D14474B00450FA7 /* inputManager.cpp */,
+				92911A7C1D5929A400225642 /* cvSettings.h */,
 				05429B797CC5BC6DF8526D0B /* inputManager.h */,
 			);
 			name = input;

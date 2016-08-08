@@ -68,6 +68,14 @@ void cvManager::blobOff( int x, int y, int bid, int order ) {
 #endif
 
 
+inline ofPoint mapPt(ofRectangle src, ofRectangle dst, ofPoint input){
+    
+    float newx = ofMap(input.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
+    float newy = ofMap(input.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
+    
+    return ofPoint(newx, newy);
+}
+
 void cvManager::update(ofPixels & pixels){
     
     bornThisFrame.clear();
@@ -81,17 +89,15 @@ void cvManager::update(ofPixels & pixels){
     
 #ifdef USE_OLDER_BLOB_TRACKER
     if (imgColor.getWidth() != pixels.getWidth()){
-        
-        
         imgColor.allocate(pixels.getWidth(), pixels.getHeight());
         imgGray.allocate(pixels.getWidth(), pixels.getHeight());
-        
     }
     
-    //imgColor.setUseTexture(false);
+    imgColor.setUseTexture(false);
     imgColor.setFromPixels(pixels);
     imgColor.flagImageChanged();
     
+    imgGray.setUseTexture(false);
     imgGray = imgColor;
     imgGray.flagImageChanged();
     
@@ -99,9 +105,32 @@ void cvManager::update(ofPixels & pixels){
     imgGray.threshold(255-115);
    // cout << ofGetMouseX() << endl;
     
+    
+    
+    ofRectangle inputRect(0,0,INPUT_WARP_TO_W, INPUT_WARP_TO_H);
+    ofRectangle inputRectScaled(0,0,INPUT_WARP_TO_W, INPUT_WARP_TO_H);
+    ofRectangle targetRect(OUTPUT_TARGET_X, OUTPUT_TARGET_Y, OUTPUT_TARGET_W, OUTPUT_TARGET_H);
+    
+    inputRectScaled.scaleTo(targetRect);
+    
+    
+    
     finder.findContours(imgGray, 300, 10000000, 20, false);
     
-    tracker.trackBlobs(finder.blobs);
+    
+    vector<ofxCvBlob> blobs = finder.blobs;
+    
+    for (auto & a : blobs){
+        
+        a.centroid = mapPt(inputRect, inputRectScaled, a.centroid);
+        
+        for (auto & b : a.pts){
+            b = mapPt(inputRect, inputRectScaled, b);
+        }
+    
+    }
+    
+    tracker.trackBlobs(blobs);
     
     for (int i = 0; i < tracker.blobs.size(); i++){
         ofPolyline line(tracker.blobs[i].pts);
@@ -207,8 +236,8 @@ void cvManager::draw(){
     
     ofPushMatrix();
     finder.draw();
-    ofTranslate(0,300);
-    tracker.draw(0, 0);
+    //ofTranslate(0,300);
+    //tracker.draw(0, 0);
     ofPopMatrix();
 #else
     

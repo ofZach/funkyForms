@@ -16,7 +16,7 @@ void inputManager::setup(){
     inputQuad.push_back( cv::Point2f( 317,164  ));
     inputQuad.push_back( cv::Point2f(8,164   ));
     
-    inputWarped.allocate(600,250, OF_IMAGE_COLOR);
+    inputWarped.allocate(INPUT_WARP_TO_W,INPUT_WARP_TO_H, OF_IMAGE_COLOR);
     
 
 }
