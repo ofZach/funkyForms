@@ -5,6 +5,7 @@ void ofApp::setup(){
 
     
     SM.scenes.push_back(new simpleScene());
+    SM.scenes.push_back(new plantsScene());
     
     IM.setup();
     SM.setup();

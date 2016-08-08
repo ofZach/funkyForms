@@ -4,6 +4,7 @@
 #include "inputManager.h"
 #include "sceneManager.h"
 #include "simpleScene.h"
+#include "plantsScene.hpp"
 
 
 class ofApp : public ofBaseApp{

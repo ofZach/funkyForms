@@ -26,6 +26,7 @@
 		72955B7E1D5917980037303D /* PlantRig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B781D5917980037303D /* PlantRig.cpp */; };
 		72955B841D5917EA0037303D /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B801D5917EA0037303D /* particle.cpp */; };
 		72955B851D5917EA0037303D /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B821D5917EA0037303D /* spring.cpp */; };
+		72955B881D5919140037303D /* plantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B861D5919140037303D /* plantsScene.cpp */; };
 		72CDE39B1D59BAAE001F4812 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72CDE38A1D59BAAE001F4812 /* ofxBaseGui.cpp */; };
 		72CDE39C1D59BAAE001F4812 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72CDE38C1D59BAAE001F4812 /* ofxButton.cpp */; };
 		72CDE39D1D59BAAE001F4812 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72CDE38F1D59BAAE001F4812 /* ofxGuiGroup.cpp */; };
@@ -186,6 +187,8 @@
 		72955B811D5917EA0037303D /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
 		72955B821D5917EA0037303D /* spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spring.cpp; sourceTree = "<group>"; };
 		72955B831D5917EA0037303D /* spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spring.h; sourceTree = "<group>"; };
+		72955B861D5919140037303D /* plantsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plantsScene.cpp; sourceTree = "<group>"; };
+		72955B871D5919140037303D /* plantsScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = plantsScene.hpp; sourceTree = "<group>"; };
 		72CDE38A1D59BAAE001F4812 /* ofxBaseGui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
 		72CDE38B1D59BAAE001F4812 /* ofxBaseGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBaseGui.h; sourceTree = "<group>"; };
 		72CDE38C1D59BAAE001F4812 /* ofxButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxButton.cpp; sourceTree = "<group>"; };
@@ -658,6 +661,8 @@
 				72955B761D5917980037303D /* PlantManager.cpp */,
 				72955B771D5917980037303D /* PlantManager.hpp */,
 				72955B781D5917980037303D /* PlantRig.cpp */,
+				72955B861D5919140037303D /* plantsScene.cpp */,
+				72955B871D5919140037303D /* plantsScene.hpp */,
 				72955B791D5917980037303D /* PlantRig.hpp */,
 			);
 			path = plantsScene;
@@ -1204,6 +1209,7 @@
 				72955B851D5917EA0037303D /* spring.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				72CDE39F1D59BAAE001F4812 /* ofxPanel.cpp in Sources */,
+				72955B881D5919140037303D /* plantsScene.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
 				72955B7A1D5917980037303D /* Animator.cpp in Sources */,
