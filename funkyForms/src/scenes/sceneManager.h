@@ -26,8 +26,10 @@ public:
     int currentScene;
     
     void advanceScene(){
+        scenes[currentScene]->stop();   // hide gui,etc
         currentScene ++;
         currentScene %= scenes.size();
+        scenes[currentScene]->start();
     }
     void reverseScene();
     
