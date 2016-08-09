@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "inputManager.h"
+#include "sceneManager.h"
+#include "simpleScene.h"
 
 
 class ofApp : public ofBaseApp{
@@ -24,6 +26,10 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         inputManager IM;
+    
+        bool bDrawDebug;
+    
+        sceneManager SM;
     
 		
 };

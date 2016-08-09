@@ -17,11 +17,11 @@ public:
     ofVideoPlayer player;
     
     vector < cv::Point2f > inputQuad;
-    
-    
-    ofImage inputWarped;
-    
-    
 
-    
+    ofImage inputWarped;
+
+    ofParameterGroup inputParams;
+    ofParameter < int > inputTargetWidth;
+    ofParameter < int > inputTargetHeight;
+
 };

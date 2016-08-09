@@ -35,10 +35,10 @@ void inputManager::update(){
 
 void inputManager::draw(){
     
-    player.draw(0,0);
+   // player.draw(0,0);
     
     
-    inputWarped.draw(player.getWidth(),0);
+   // inputWarped.draw(player.getWidth(),0);
     
     ofPushMatrix();
     ofTranslate(player.getWidth(), inputWarped.getHeight());

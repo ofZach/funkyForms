@@ -13,18 +13,26 @@
 
 class trackedContour {
     
-public: 
+public:
+    
+    trackedContour();
     
     ofPoint midPt;
     ofPolyline prevFrame;
     ofPolyline resampleSmoothed;
-    
-    
+
     vector < ofPoint > velPts;
     
     void update( ofPolyline line);
     
     ofPoint velAvg;
     ofPoint velAvgSmooth;
+    
+    float smoothingRate;
+    int resampleInternal;
+    int resampleTarget;
+    float velSmoothingRate;
+    
+    float startTime;
     
 };

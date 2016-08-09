@@ -3,13 +3,40 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+    
+    SM.scenes.push_back(new simpleScene());
+    
     IM.setup();
+    SM.setup();
+    
+    for (int i = 0; i < SM.scenes.size(); i++){
+        SM.scenes[i]->cvData = &IM.CVM.packet;
+    }
+    
+    bDrawDebug = true;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 
     IM.update();
+    
+    //-----------------------------------------------------------
+    // check for new or dead blobs;
+    if (IM.CVM.bornThisFrame.size() > 0){
+        for (auto a : IM.CVM.bornThisFrame){
+            SM.blobBorn(a);
+        }
+        
+        for (auto a : IM.CVM.diedThisFrame){
+            SM.blobDied(a);
+        }
+        IM.CVM.diedThisFrame.clear();
+        IM.CVM.bornThisFrame.clear();
+    }
+    //-----------------------------------------------------------
+    
+    SM.update();
 }
 
 //--------------------------------------------------------------
@@ -17,12 +44,24 @@ void ofApp::draw(){
     
     ofBackground(0);
     
-    IM.draw();
+    if (bDrawDebug){
+        IM.draw();
+    } else {
+        IM.draw();
+        SM.draw();
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
+    if (key == 'd'){
+        bDrawDebug = !bDrawDebug;
+    }
+    
+    if (key  == ' '){
+        SM.advanceScene();
+    }
 }
 
 //--------------------------------------------------------------
