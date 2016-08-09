@@ -9,11 +9,9 @@
 #include "PlantManager.hpp"
 // --------------- setup
 void PlantManager::setup(){
-    setupGui();
-
-//    for (int i = 0; i < 4; i++) {
-//        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
-//    }
+    for (int i = 0; i < 4; i++) {
+        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
+    }
     for (int i = 0; i < 40; i++) {
         randSwatchIndex.push_back((int)ofRandom(4));
     }
@@ -26,14 +24,14 @@ void PlantManager::addBgPlant(ofVec2f _pos){
     bgPlants[i].rig.mbCount = ofRandom(4, 6) ;
     
     bgPlants[i].rig.dir = ofVec2f(0, -1);
-    bgPlants[i].rig.mbLengthMax = 200 ;
-    bgPlants[i].rig.mbLengthMin = 100 ;
-    bgPlants[i].rig.cbLengthMax = 70 ;
-    bgPlants[i].rig.cbLengthMin = 20 ;
+    bgPlants[i].rig.mbLengthMax = bgMainBranchWMax ;
+    bgPlants[i].rig.mbLengthMin = bgMainBranchWMin ;
+    bgPlants[i].rig.cbLengthMax = bgChildBranchWMax ;
+    bgPlants[i].rig.cbLengthMin = bgChildBranchWMin ;
     bgPlants[i].rig.timeSpeed = 0.01;
     
-    bgPlants[i].mbWidth = 50;
-    bgPlants[i].cbWidth = 10;
+    bgPlants[i].mbWidth = bgMainBranchWMin;
+    bgPlants[i].cbWidth = bgChildBranchWMin;
     bgPlants[i].rig.pos = _pos;
     
     ofFloatColor col = swatch[(int)ofRandom(4)];
@@ -104,13 +102,22 @@ void PlantManager::addPlant(ofVec2f _pos, int id){
 }
 void PlantManager::setupGui(){
     parameters.setName("PlantManager");
+    // plant
     parameters.add(plantScale.set("plantScale", 1.0, 0.1, 2.0));
     parameters.add(mainBranchWMin.set("mainBranchWMin", 5, 1, 200));
     parameters.add(mainBranchWMax.set("mainBranchWMax", 5, 1, 200));
     parameters.add(childBranchWMin.set("childBranchWMin", 5, 1, 200));
     parameters.add(childBranchWMax.set("childBranchWMax", 5, 1, 200));
-    gui.setup(parameters);
-    gui.loadFromFile("settings.xml");
+    // bgPlant
+    parameters.add(bgMainBranchWMin.set("bgMainBranchWMin", 5, 1, 200));
+    parameters.add(bgMainBranchWMax.set("bgMainBranchWMax", 5, 1, 200));
+    parameters.add(bgChildBranchWMin.set("bgChildBranchWMin", 5, 1, 200));
+    parameters.add(bgChildBranchWMax.set("bgChildBranchWMax", 5, 1, 200));
+    parameters.add(createBgPlant.set("createBgPlant", false));
+    
+    createBgPlant.addListener(this, &PlantManager::triggerBgPlant);
+
+
 }
 void PlantManager::remove(int id){
     for(auto &p : plants){
@@ -127,7 +134,21 @@ void PlantManager::remove(int id){
 //                    plants.end());
 }
 void PlantManager::reset(){
+    bgPlants.clear();
     plants.clear();
+    for (int i = 0; i < 4; i++) {
+        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
+    }
+}
+void PlantManager::triggerBgPlant(bool &b){
+    if(plants.size()>0){
+        int pId = (int)ofRandom(plants.size());
+        int id = plants[pId].id;
+        float x = plants[pId].getPos().x;
+        ofVec2f pos = ofVec2f(x, ofGetHeight());
+        addBgPlant(pos);
+        bgPlants.erase(bgPlants.begin());
+    }
 }
 ofVec2f PlantManager::getClosestPoint(ofVec2f target, vector<ofVec2f> &points){
     float mindist = 2000;
@@ -145,10 +166,9 @@ ofVec2f PlantManager::getClosestPoint(ofVec2f target, vector<ofVec2f> &points){
 void PlantManager::update(){
     updatePlantsParameters();
     updateBgPlants();
-//    updateBgPlantsRemoval();
+    updateBgPlantsRemoval();
     updatePlants();
     updatePlantRemoval();
-    updatePeoples();
 }
 void PlantManager::updatePlants(){
     peoplePoints.clear();
@@ -184,13 +204,16 @@ void PlantManager::updateBgPlants(){
     }
 }
 void PlantManager::updateBgPlantsRemoval(){
-//    for (int i =0; i < bgPlants.size(); i++) {
-//        if(bgPlants[i].isFadeFinished()){
-//            ofVec2f pos = ofVec2f(IM->targets[(int)ofRandom(IM->targets.size()-1)].pos.x, ofGetHeight());
-//            addBgPlant(pos);
-//            bgPlants.erase(bgPlants.begin()+i);
-//        }
-//    }
+    for (int i =0; i < bgPlants.size(); i++) {
+        if(bgPlants[i].isFadeFinished()){
+            int pId = (int)ofRandom(plants.size());
+            int id = plants[pId].id;
+            float x = plants[pId].getPos().x;
+            ofVec2f pos = ofVec2f(x, ofGetHeight());
+            addBgPlant(pos);
+            bgPlants.erase(bgPlants.begin()+i);
+        }
+    }
 }
 void PlantManager::updatePlantsParameters(){
     for(auto &p: plants){
@@ -207,14 +230,10 @@ void PlantManager::updatePlantRemoval(){
         }
     }
 }
-void PlantManager::updatePeoples(){
-}
 // --------------- draw
 void PlantManager::draw(){
     drawBgPlants();
     drawPlants();
-//    drawPeoples();
-    gui.draw();
 }
 void PlantManager::drawPlants(){
     for(auto &p: plants){
@@ -224,13 +243,5 @@ void PlantManager::drawPlants(){
 void PlantManager::drawBgPlants(){
     for(auto &p: bgPlants){
         p.draw();
-    }
-}
-void PlantManager::drawPeoples(){
-    int j = 0;
-    for(auto &p: peoplePoints){
-        ofFill();
-        ofSetColor(ofColor::white);
-        ofDrawCircle(p, 5);
     }
 }

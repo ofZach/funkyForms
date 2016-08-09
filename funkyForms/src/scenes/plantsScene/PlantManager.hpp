@@ -29,11 +29,16 @@ public:
     
     // gui
     ofParameterGroup parameters;
-    ofxPanel gui;
+
     ofParameter<float> mainBranchWMax;
     ofParameter<float> mainBranchWMin;
     ofParameter<float> childBranchWMin;
     ofParameter<float> childBranchWMax;
+    ofParameter<float> bgMainBranchWMax;
+    ofParameter<float> bgMainBranchWMin;
+    ofParameter<float> bgChildBranchWMin;
+    ofParameter<float> bgChildBranchWMax;
+    ofParameter<bool> createBgPlant;
     
     // colors
     ofFloatColor swatch[4] = {
@@ -46,6 +51,8 @@ public:
     // random
     vector<int> randSwatchIndex;
     
+
+    
     void setup();
     void setupGui();
     void addPlant(ofVec2f _pos, int id);
@@ -53,22 +60,22 @@ public:
     void onNewPlant();
     void remove(int id);
     void reset();
+    void triggerBgPlant(bool &b);
     
     void update();
     void updatePlants();
     void updateBgPlants();
+    void updateBgPlantsCreation();
     void updateBgPlantsRemoval();
     void updatePlantCreation();
     void updatePlantsParameters();
     void updatePlantRemoval();
-    void updatePeoples();
 
     ofVec2f getClosestPoint(ofVec2f target, vector<ofVec2f> &points);
     
     void draw();
     void drawPlants();
     void drawBgPlants();
-    void drawPeoples();
 };
 
 #endif /* PlantManager_hpp */

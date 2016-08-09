@@ -15,10 +15,24 @@
 
 class plantsScene : public baseScene {
 public:
+    // plants
     PlantManager plantManager;
     
+    // people
+    ofImage glow;
+    ofParameter<float> glowRadius;
+    ofParameter<float> glowOpacity;
+    
+    
+    // gui
+    ofParameterGroup parameters;
+    ofxPanel gui;
+    
     void setup();
+    void setupGui();
+    
     void update();
+    
     void draw();
     
     void start();
