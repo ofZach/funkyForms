@@ -6,13 +6,25 @@ void ofApp::setup(){
     IM.setup();
     plantManager.setup();
     plantManager.setInputManager(&IM);
+//    setupPlant();
 }
 
-
+void ofApp::setupPlant(){
+    plant.setup();
+    plant.setPos(ofVec2f(ofGetWidth()/2, ofGetHeight()), 0.5);
+    plant.rig.dir = ofVec2f(0, -1);
+    plant.rig.cbCount = ofRandom(3, 6) ;
+    plant.rig.mbCount = ofRandom(5, 6) ;
+    plant.rig.pos = ofVec2f(ofGetWidth()/2, ofGetHeight());
+    plant.color = ofColor::red;
+    plant.setup();
+    plant.fadeIn();
+}
 //--------------------------------------------------------------
 void ofApp::update(){
     IM.update();
     plantManager.update();
+//    plant.update();
 }
 
 //--------------------------------------------------------------
@@ -20,6 +32,7 @@ void ofApp::draw(){
     plantManager.draw();
     IM.draw();
     ofSetColor(255);
+//    plant.draw();
     ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 20);
 }
 

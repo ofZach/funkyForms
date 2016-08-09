@@ -1,8 +1,8 @@
 <PlantManager>
-	<mainBranchWMin>11.945</mainBranchWMin>
-	<mainBranchWMax>34.83</mainBranchWMax>
-	<childBranchWMin>14.93</childBranchWMin>
-	<childBranchWMax>20.9</childBranchWMax>
+	<mainBranchWMin>21.895</mainBranchWMin>
+	<mainBranchWMax>46.77</mainBranchWMax>
+	<childBranchWMin>29.855</childBranchWMin>
+	<childBranchWMax>47.765</childBranchWMax>
 	<particleRepulseRadius>287.15</particleRepulseRadius>
 	<particleRepulseForce>0.8515</particleRepulseForce>
 	<particleAttractRadius>252.5</particleAttractRadius>

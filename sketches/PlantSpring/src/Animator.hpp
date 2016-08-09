@@ -28,6 +28,10 @@ public:
         valueMax = _valueMax;
         valueMin = _valueMin;
     }
+    void setIn(){
+        isGrow = true;
+        pct = 1;
+    }
     float setSpeed(float speed){
         pctSpeed = speed;
     }

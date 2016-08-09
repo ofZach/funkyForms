@@ -10,10 +10,23 @@
 // ----------- setup
 void Plant::setup(){
     rig.setup();
+    setupMeshRes();
     setupChildBranches();
     mbMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-    fadeAnimator.setup(0, 1);
+    setupAnimators();
     ageMax = (int)ofRandom(300, 600);
+}
+void Plant::setupAnimators(){
+    fadeAnimator.setup(0, 1);
+    fadeAnimator.setIn();
+    mbGrowAnimator.setup(0, 1);
+    for (int i = 0; i < rig.childBranchesPoints.size()  + rig.child2pts.size(); i++) {
+        cbGrowAnimators.push_back( * new Animator);
+        cbGrowAnimators[i].setup(0, 1);
+    }
+}
+void Plant::setupMeshRes(){
+//    rig.mainBranchLine.getl
 }
 void Plant::setupChildBranches(){
     for (int i = 0; i < rig.childBranchesPoints.size() + rig.child2pts.size() ; i++) {
@@ -27,9 +40,23 @@ void Plant::setupChildBranches(){
 void Plant::update(){
     rig.update();
     updatePolylines();
-    updateFade();
+    updateAnimators();
     updateMesh();
     updateAge();
+}
+void Plant::updateAnimators(){
+    fadeAnimator.update();
+    mbGrowAnimator.update();
+    for(auto &a:cbGrowAnimators ){
+        a.update();
+    }
+    for (int i = 0; i < rig.mainBranchPcts.size(); i++) {
+        if (mbGrowAnimator.getValue()>rig.mainBranchPcts[i]) {
+            cbGrowAnimators[i].in();
+        }
+    }
+
+
 }
 void Plant::updateAge(){
     age++;
@@ -109,17 +136,24 @@ void Plant::makeStroke(int i,
 }
 void Plant::updateMesh(){
     mbMesh.clear();
-    float step = 0.01;
+    float perimeter = mbLine1.getPerimeter();
+    float distance = 10;
+    float step = 0.02;
     
     for (float i = 0; i < 1; i += step) {
+        float opacity;
+        if(mbGrowAnimator.getValue()>i){
+            opacity = fadeAnimator.getValue();
+        }else{
+            opacity = 0;
+        }
         ofVec2f dir1 = mbLine1.getTangentAtIndexInterpolated(ofMap(i, 0, 1, 0, mbLine1.size()-1));
         ofColor col = color;
-
         mbMesh.addVertex(mbLine1.getPointAtPercent(i));
-        mbMesh.addColor(ofFloatColor(col, fadeAnimator.getValue()));
+        mbMesh.addColor(ofFloatColor(col, opacity));
         col.setBrightness(ofMap(col.getBrightness(), 0, 255, 0, 200));
         mbMesh.addVertex(mbLine2.getPointAtPercent(i));
-        mbMesh.addColor(ofFloatColor(col, fadeAnimator.getValue()));
+        mbMesh.addColor(ofFloatColor(col, opacity));
     }
     
     childMeshes.clear();
@@ -130,9 +164,24 @@ void Plant::updateMesh(){
         mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
         ofMesh shadow;
         shadow.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+        
+
+        Animator &a = cbGrowAnimators[i];
+        if(i>rig.childBranchesPoints.size()-1){
+            int parentIndex = i-rig.childBranchesPoints.size();
+            if(cbGrowAnimators[parentIndex].getValue()>0.5){
+                a.in();
+            }
+        }
         for (float j = 0; j < 1; j += step) {
+            float opacity = 1;
             ofColor col = color;
-            float opacity = ofMap(j, 0, step*8, 0, 1, true) * fadeAnimator.getValue();
+            if(a.getValue()>j){
+                opacity = ofMap(j, 0, step*8, 0, 1, true) * fadeAnimator.getValue();
+            }else{
+                opacity = 0;
+            }
+//            float opacity = ofMap(j, 0, step*8, 0, 1, true) * fadeAnimator.getValue();
             mesh.addVertex(childLines1[i].getPointAtPercent(j));
             mesh.addColor(ofFloatColor(col, opacity));
             mesh.addVertex(childLines2[i].getPointAtPercent(j));

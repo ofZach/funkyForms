@@ -79,6 +79,9 @@ void PlantRig::makeMainBranch(){
     makeBranch(s);
     
     mainBranchInitPoints = mainBranchPoints;
+    if (dir == ofVec2f(0, -1)) {
+        indexOffset = 0;
+    }
 }
 void PlantRig::makeChildBranches(){
     childBranchesPoints.clear();
@@ -89,12 +92,12 @@ void PlantRig::makeChildBranches(){
     for(int i = 0; i < bCount; i++){
         vector<ofVec2f> points;
         
-        ofVec2f p1 = mainBranchPoints[i*2+1];
-        ofVec2f p2 = mainBranchPoints[i*2+2];
+        ofVec2f p1 = mainBranchPoints[i*2+indexOffset];
+        ofVec2f p2 = mainBranchPoints[i*2+(indexOffset+1)];
         
         ofVec2f p3 = p2+ofVec2f(1, 0);
-        if((i*2+3) < mainBranchPoints.size()-1){
-            p3 = mainBranchPoints[i*2+3];
+        if((i*2+(indexOffset+2)) < mainBranchPoints.size()-1){
+            p3 = mainBranchPoints[i*2+(indexOffset+2)];
         }
         
         ofVec2f dir = -(p3-p2);
@@ -114,7 +117,6 @@ void PlantRig::makeChildBranches(){
         childBranchesPoints.push_back(points);
         childBranchesInitPoints.push_back(points);
     }
-
 }
 void PlantRig::makeBranch(BranchSettings s){
     ofVec2f curdir = ofVec2f(0, 0);
@@ -196,21 +198,36 @@ void PlantRig::updateMainBranch(){
     }
 }
 void PlantRig::updateChildBranches(){
+    ofPolyline line;
+    for (int i = 0; i < mainBranchPoints.size(); i++) {
+        line.lineTo(mainBranchPoints[i]);
+    }
+    float totalLength = line.getPerimeter();
+    mainBranchPcts.clear();
+    
     for (int i = 0; i < childBranchesPoints.size(); i++) {
-        ofVec2f p1 = mainBranchPoints[i*2];
-        ofVec2f p2 = mainBranchPoints[i*2+1];
+        ofVec2f p1 = mainBranchPoints[i*2+(indexOffset)];
+        ofVec2f p2 = mainBranchPoints[i*2+(indexOffset+1)];
+
+
         
         ofVec2f p3 = p2+ofVec2f(1, 0);
-        if((i*2+2) < mainBranchPoints.size()-1){
-            p3 = mainBranchPoints[i*2+2];
+        if((i*2+(indexOffset+2)) < mainBranchPoints.size()-1){
+            p3 = mainBranchPoints[i*2+(indexOffset+2)];
         }
         
         ofVec2f dir = -(p3-p2);
         dir.normalize();
         
         ofVec2f delta = p2-p1;
+        ofVec2f result = delta / ofMap(randomFloats[i], 0, 1, 1, 5);
         
-        childBranchesPoints[i][0] = p1 + delta / ofMap(randomFloats[i], 0, 1, 1, 5);
+        float length = line.getLengthAtIndex(i*2);
+        float distance = result.length() + length;
+        float pct = distance/totalLength;
+        mainBranchPcts.push_back(pct);
+        
+        childBranchesPoints[i][0] =  p1 + result;
         
         for (int j = 0; j < childBranchesPoints[i].size(); j++) {
             if(j>0){

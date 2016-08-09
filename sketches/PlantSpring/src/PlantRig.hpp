@@ -15,6 +15,7 @@ public:
     // pos, vel, direction
     ofVec2f pos;
     ofVec2f dir;
+    int indexOffset = 1;
     
     // polylines
     ofPolyline mainBranchLine;
@@ -22,6 +23,7 @@ public:
 
     // points
     vector<ofVec2f> mainBranchPoints;
+    vector<float> mainBranchPcts;
     vector<ofVec2f> mainBranchInitPoints;
     
     vector<vector<ofVec2f>> childBranchesPoints;
@@ -48,14 +50,14 @@ public:
     float timeSpeed = 0.93;
     
     // mainbranch
-    float mbLengthMin;
-    float mbLengthMax;
-    int mbCount;
+    float mbLengthMin = 70;
+    float mbLengthMax = 100;
+    int mbCount = 6;
     
     // childbranch
-    float cbLengthMin;
-    float cbLengthMax;
-    int cbCount;
+    float cbLengthMin = 30;
+    float cbLengthMax = 50;
+    int cbCount = 3;
     
     void setup();
     void setupRandom();

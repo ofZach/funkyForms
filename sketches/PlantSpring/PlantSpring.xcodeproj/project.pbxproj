@@ -40,6 +40,7 @@
 		72393F531D55C00000742320 /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72393F501D55C00000742320 /* spring.cpp */; };
 		7270565B1D4FCC600043E3A8 /* PlantRig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 727056591D4FCC600043E3A8 /* PlantRig.cpp */; };
 		7270565E1D4FF07D0043E3A8 /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7270565C1D4FF07D0043E3A8 /* Plant.cpp */; };
+		72883F731D5975AD00EB83DD /* iColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72883F711D5975AD00EB83DD /* iColor.cpp */; };
 		81BE400C35825643551A3190 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73799D65360CD587DCAE90A0 /* ofxLabel.cpp */; };
 		A2953313263AE1234930247E /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA7CD14AC4CC1AF68D59D19 /* ofxSlider.cpp */; };
 		A61B54CA66E926867C59D2C6 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE859610F3926950EBBC8B13 /* ofxButton.cpp */; };
@@ -315,6 +316,8 @@
 		7270565A1D4FCC600043E3A8 /* PlantRig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlantRig.hpp; sourceTree = "<group>"; };
 		7270565C1D4FF07D0043E3A8 /* Plant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plant.cpp; sourceTree = "<group>"; };
 		7270565D1D4FF07D0043E3A8 /* Plant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plant.hpp; sourceTree = "<group>"; };
+		72883F711D5975AD00EB83DD /* iColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iColor.cpp; sourceTree = "<group>"; };
+		72883F721D5975AD00EB83DD /* iColor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = iColor.hpp; sourceTree = "<group>"; };
 		73799D65360CD587DCAE90A0 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		78F524ADA8DDC5DF3F460FA5 /* ofxToggle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxToggle.h; path = ../../../../addons/ofxGui/src/ofxToggle.h; sourceTree = SOURCE_ROOT; };
 		99B37C8367EB4811EEF8E78D /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxSliderGroup.cpp; path = ../../../../addons/ofxGui/src/ofxSliderGroup.cpp; sourceTree = SOURCE_ROOT; };
@@ -1004,6 +1007,8 @@
 				72393E0D1D549A9400742320 /* PlantManager.hpp */,
 				7270565C1D4FF07D0043E3A8 /* Plant.cpp */,
 				7270565D1D4FF07D0043E3A8 /* Plant.hpp */,
+				72883F711D5975AD00EB83DD /* iColor.cpp */,
+				72883F721D5975AD00EB83DD /* iColor.hpp */,
 				727056591D4FCC600043E3A8 /* PlantRig.cpp */,
 				7270565A1D4FCC600043E3A8 /* PlantRig.hpp */,
 				72393F3A1D54AA9A00742320 /* Animator.cpp */,
@@ -1113,6 +1118,7 @@
 				72393F4A1D557A4B00742320 /* inputManager.cpp in Sources */,
 				72393F3C1D54AA9A00742320 /* Animator.cpp in Sources */,
 				72393E4A1D54A0C000742320 /* ObjectFinder.cpp in Sources */,
+				72883F731D5975AD00EB83DD /* iColor.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				106B9A6182DF98E835C09B47 /* ofxBaseGui.cpp in Sources */,

@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "PlantRig.hpp"
 #include "Animator.hpp"
+#include "iColor.hpp"
 
 class Plant{
 public:
@@ -30,6 +31,11 @@ public:
     
     // fading
     Animator fadeAnimator;
+    Animator mbGrowAnimator;
+    Animator cbGrowAnimator;
+    Animator cb2GrowAnimator;
+    vector<Animator> cbGrowAnimators;
+    iColor icolor;
     
     // settings
     struct StrokeSettings{
@@ -40,8 +46,8 @@ public:
         ofPolyline *line2;
     };
     ofVec2f pos;
-    float mbWidth;
-    float cbWidth;
+    float mbWidth = 20;
+    float cbWidth = 10;
     float scale = 1.0;
     vector<float> cbWidths;
     
@@ -57,6 +63,8 @@ public:
     // set
     void setup();
     void setupChildBranches();
+    void setupMeshRes();
+    void setupAnimators();
     void setPos(ofVec2f _pos, float smooth){ rig.pos = rig.pos*smooth+ (1-smooth)*_pos;}
    
     // get
@@ -80,9 +88,9 @@ public:
                     ofPolyline *line2
                     );
     
-    void fadeIn(){fadeAnimator.in();};
+    void fadeIn(){mbGrowAnimator.in();};
     void fadeOut(){fadeAnimator.out();};
-    void updateFade(){fadeAnimator.update();}
+    void updateAnimators();
     bool isFadeFinished() { return fadeAnimator.isFinished; }
     
     // draw

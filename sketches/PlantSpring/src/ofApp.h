@@ -24,7 +24,9 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    void setupPlant();
 
     PlantManager plantManager;
+    Plant plant;
     inputManager IM;
 };
