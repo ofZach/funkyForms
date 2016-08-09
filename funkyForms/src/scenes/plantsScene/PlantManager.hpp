@@ -51,6 +51,7 @@ public:
     void addBgPlant(ofVec2f _pos);
     void onNewPlant();
     void remove(int id);
+    void reset();
     
     void update();
     void updatePlants();

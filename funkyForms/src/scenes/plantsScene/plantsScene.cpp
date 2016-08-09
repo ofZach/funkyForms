@@ -39,6 +39,7 @@ void plantsScene::blobDied(int id){
     plantManager.remove(id);
 }
 void plantsScene::start(){
+    plantManager.reset();
 }
 void plantsScene::stop(){
 }

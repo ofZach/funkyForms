@@ -110,6 +110,9 @@ void PlantManager::remove(int id){
 //                                   [&](Plant & p){return p.id == id;}),
 //                    plants.end());
 }
+void PlantManager::reset(){
+    plants.clear();
+}
 // --------------- update
 void PlantManager::update(){
     updatePlantsParameters();
