@@ -23,7 +23,6 @@ public:
     ofParameter<float> glowRadius;
     ofParameter<float> glowOpacity;
     
-    
     // gui
     ofParameterGroup parameters;
     ofxPanel gui;

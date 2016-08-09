@@ -15,6 +15,7 @@ void Plant::setup(){
     mbMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     setupAnimators();
     ageMax = (int)ofRandom(300, 600);
+    shadow.load("assets/glow.png");
 }
 void Plant::setupAnimators(){
     fadeAnimator.setup(0, 1);
@@ -268,5 +269,13 @@ void Plant::drawMeshes(){
     }
     for(auto &m: childMeshes){
         m.draw();
+    }
+}
+void Plant::drawShadow(){
+    for(auto &p : rig.mainBranchLine.getResampledBySpacing(2)){
+        float x = p.x - shadowRadius;
+        float y = p.y - shadowRadius;
+        ofSetColor(0, shadowOpacity);
+        shadow.draw(x, y, shadowRadius*2, shadowRadius*2);
     }
 }

@@ -114,6 +114,9 @@ void PlantManager::setupGui(){
     parameters.add(bgChildBranchWMin.set("bgChildBranchWMin", 5, 1, 200));
     parameters.add(bgChildBranchWMax.set("bgChildBranchWMax", 5, 1, 200));
     parameters.add(createBgPlant.set("createBgPlant", false));
+    // shadow
+    parameters.add(shadowRadius.set("shadowRadius", 5, 1, 300));
+    parameters.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
     
     createBgPlant.addListener(this, &PlantManager::triggerBgPlant);
 
@@ -218,6 +221,8 @@ void PlantManager::updateBgPlantsRemoval(){
 void PlantManager::updatePlantsParameters(){
     for(auto &p: plants){
         p.scale = plantScale;
+        p.shadowRadius = shadowRadius;
+        p.shadowOpacity = shadowOpacity;
     }
 }
 void PlantManager::updatePlantCreation(){
@@ -233,7 +238,13 @@ void PlantManager::updatePlantRemoval(){
 // --------------- draw
 void PlantManager::draw(){
     drawBgPlants();
+//    drawShadow();
     drawPlants();
+}
+void PlantManager::drawShadow(){
+    for(auto &p: plants){
+        p.drawShadow();
+    }
 }
 void PlantManager::drawPlants(){
     for(auto &p: plants){

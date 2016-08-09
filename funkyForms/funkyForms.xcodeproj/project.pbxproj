@@ -19,6 +19,8 @@
 		63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6151136D101F857DAE12722 /* ofxCvImage.cpp */; };
 		63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DF87D612C5AAE17AAFA6C0 /* ofxXmlSettings.cpp */; };
 		6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8427353AED09174BE5 /* ContourFinder.cpp */; };
+		72835E7C1D5A5DD800A71A0E /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E781D5A5DD800A71A0E /* particle.cpp */; };
+		72835E7D1D5A5DD800A71A0E /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E7A1D5A5DD800A71A0E /* spring.cpp */; };
 		72955B7A1D5917980037303D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B701D5917980037303D /* Animator.cpp */; };
 		72955B7B1D5917980037303D /* iColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B721D5917980037303D /* iColor.cpp */; };
 		72955B7C1D5917980037303D /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B741D5917980037303D /* Plant.cpp */; };
@@ -171,6 +173,10 @@
 		71C98C3F44D63B39F1482A54 /* background_segm.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = background_segm.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/background_segm.hpp; sourceTree = SOURCE_ROOT; };
 		722542BCDC94162B6A8B9B72 /* defines.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = defines.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/defines.h; sourceTree = SOURCE_ROOT; };
 		7279658ADA9582251CB1D783 /* log.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = log.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/log.hpp; sourceTree = SOURCE_ROOT; };
+		72835E781D5A5DD800A71A0E /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
+		72835E791D5A5DD800A71A0E /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
+		72835E7A1D5A5DD800A71A0E /* spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spring.cpp; sourceTree = "<group>"; };
+		72835E7B1D5A5DD800A71A0E /* spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spring.h; sourceTree = "<group>"; };
 		72955B701D5917980037303D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		72955B711D5917980037303D /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
 		72955B721D5917980037303D /* iColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iColor.cpp; sourceTree = "<group>"; };
@@ -632,6 +638,17 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		72835E771D5A5DD800A71A0E /* particles */ = {
+			isa = PBXGroup;
+			children = (
+				72835E781D5A5DD800A71A0E /* particle.cpp */,
+				72835E791D5A5DD800A71A0E /* particle.h */,
+				72835E7A1D5A5DD800A71A0E /* spring.cpp */,
+				72835E7B1D5A5DD800A71A0E /* spring.h */,
+			);
+			path = particles;
+			sourceTree = "<group>";
+		};
 		72CDE3741D59BA24001F4812 /* plantsScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -1025,6 +1042,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				72835E771D5A5DD800A71A0E /* particles */,
 				92911A6E1D58D07800225642 /* scenes */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
@@ -1170,6 +1188,7 @@
 				72CDE3A01D59BAAE001F4812 /* ofxSlider.cpp in Sources */,
 				EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */,
 				92911A741D58D09900225642 /* baseScene.cpp in Sources */,
+				72835E7D1D5A5DD800A71A0E /* spring.cpp in Sources */,
 				6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */,
 				45CC483A999BF1065A6B926C /* Distance.cpp in Sources */,
 				72CDE39D1D59BAAE001F4812 /* ofxGuiGroup.cpp in Sources */,
@@ -1177,6 +1196,7 @@
 				72955B7B1D5917980037303D /* iColor.cpp in Sources */,
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
 				72955B7E1D5917980037303D /* PlantRig.cpp in Sources */,
+				72835E7C1D5A5DD800A71A0E /* particle.cpp in Sources */,
 				311DF864378748129984EA1D /* Kalman.cpp in Sources */,
 				C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */,
 				9215152B1D14474B00450FA7 /* cvManager.cpp in Sources */,

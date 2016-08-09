@@ -51,7 +51,10 @@ public:
     // random
     vector<int> randSwatchIndex;
     
-
+    // shadow
+    ofImage shadow;
+    ofParameter<float> shadowRadius;
+    ofParameter<float> shadowOpacity;
     
     void setup();
     void setupGui();
@@ -76,6 +79,7 @@ public:
     void draw();
     void drawPlants();
     void drawBgPlants();
+    void drawShadow();
 };
 
 #endif /* PlantManager_hpp */
