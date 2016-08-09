@@ -20,17 +20,6 @@ void PlantManager::setup(){
         randSwatchIndex.push_back((int)ofRandom(4));
     }
 }
-void PlantManager::setupParticles(){
-    particles.clear();
-    for (int i = 0; i < particleCount; i++){
-        particle myParticle;
-        float x = ofRandom(0,ofGetWidth());
-        float y = ofRandom(0,ofGetHeight());
-        myParticle.setInitialCondition(x,y,0,0);
-        particles.push_back(myParticle);
-//        addPlant(ofVec2f(x, y));
-    }
-}
 void PlantManager::onNewPlant(){
 //    addPlant(IM->getNewTarget().pos);
 }
@@ -94,10 +83,6 @@ void PlantManager::setupGui(){
     parameters.add(mainBranchWMax.set("mainBranchWMax", 5, 1, 200));
     parameters.add(childBranchWMin.set("childBranchWMin", 5, 1, 200));
     parameters.add(childBranchWMax.set("childBranchWMax", 5, 1, 200));
-    parameters.add(particleRepulseRadius.set("particleRepulseRadius", 10, 5, 500));
-    parameters.add(particleRepulseForce.set("particleRepulseForce", 0.5, 0.01, 1.0));
-    parameters.add(particleAttractRadius.set("particleAttractRadius", 100, 5, 500));
-    parameters.add(particleAttractForce.set("particleAttractForce", 0.5, 0.01, 1.0));
     gui.setup(parameters);
     gui.loadFromFile("settings.xml");
 }
@@ -133,21 +118,6 @@ void PlantManager::update(){
     updatePlants();
     updatePlantRemoval();
     updatePeoples();
-}
-void PlantManager::updateParticles(){
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].resetForce();
-    }
-    for (int i = 0; i < particles.size(); i++){
-        for (int j = 0; j < i; j++){
-            particles[i].addRepulsionForce(particles[j], particleRepulseRadius, particleRepulseForce);
-        }
-        
-    }
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].addDampingForce();
-        particles[i].update();
-    }
 }
 void PlantManager::updatePlants(){
     peoplePoints.clear();
@@ -249,11 +219,6 @@ void PlantManager::draw(){
     drawPlants();
 //    drawPeoples();
     gui.draw();
-}
-void PlantManager::drawParticles(){
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].draw();
-    }
 }
 void PlantManager::drawPlants(){
     for(auto &p: plants){

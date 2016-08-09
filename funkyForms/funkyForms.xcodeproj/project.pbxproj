@@ -24,8 +24,6 @@
 		72955B7C1D5917980037303D /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B741D5917980037303D /* Plant.cpp */; };
 		72955B7D1D5917980037303D /* PlantManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B761D5917980037303D /* PlantManager.cpp */; };
 		72955B7E1D5917980037303D /* PlantRig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B781D5917980037303D /* PlantRig.cpp */; };
-		72955B841D5917EA0037303D /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B801D5917EA0037303D /* particle.cpp */; };
-		72955B851D5917EA0037303D /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B821D5917EA0037303D /* spring.cpp */; };
 		72955B881D5919140037303D /* plantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B861D5919140037303D /* plantsScene.cpp */; };
 		72CDE39B1D59BAAE001F4812 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72CDE38A1D59BAAE001F4812 /* ofxBaseGui.cpp */; };
 		72CDE39C1D59BAAE001F4812 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72CDE38C1D59BAAE001F4812 /* ofxButton.cpp */; };
@@ -183,10 +181,6 @@
 		72955B771D5917980037303D /* PlantManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlantManager.hpp; sourceTree = "<group>"; };
 		72955B781D5917980037303D /* PlantRig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlantRig.cpp; sourceTree = "<group>"; };
 		72955B791D5917980037303D /* PlantRig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlantRig.hpp; sourceTree = "<group>"; };
-		72955B801D5917EA0037303D /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
-		72955B811D5917EA0037303D /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
-		72955B821D5917EA0037303D /* spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spring.cpp; sourceTree = "<group>"; };
-		72955B831D5917EA0037303D /* spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spring.h; sourceTree = "<group>"; };
 		72955B861D5919140037303D /* plantsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plantsScene.cpp; sourceTree = "<group>"; };
 		72955B871D5919140037303D /* plantsScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = plantsScene.hpp; sourceTree = "<group>"; };
 		72CDE38A1D59BAAE001F4812 /* ofxBaseGui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
@@ -638,21 +632,9 @@
 			name = src;
 			sourceTree = "<group>";
 		};
-		72955B7F1D5917EA0037303D /* particles */ = {
-			isa = PBXGroup;
-			children = (
-				72955B801D5917EA0037303D /* particle.cpp */,
-				72955B811D5917EA0037303D /* particle.h */,
-				72955B821D5917EA0037303D /* spring.cpp */,
-				72955B831D5917EA0037303D /* spring.h */,
-			);
-			path = particles;
-			sourceTree = "<group>";
-		};
 		72CDE3741D59BA24001F4812 /* plantsScene */ = {
 			isa = PBXGroup;
 			children = (
-				72955B7F1D5917EA0037303D /* particles */,
 				72955B701D5917980037303D /* Animator.cpp */,
 				72955B711D5917980037303D /* Animator.hpp */,
 				72955B721D5917980037303D /* iColor.cpp */,
@@ -1182,7 +1164,6 @@
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				9264646E1D4BA271005082DE /* trackedContour.cpp in Sources */,
-				72955B841D5917EA0037303D /* particle.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
 				72CDE3A21D59BAAE001F4812 /* ofxToggle.cpp in Sources */,
 				92911A711D58D08E00225642 /* sceneManager.cpp in Sources */,
@@ -1208,7 +1189,6 @@
 				92911A791D58D2FD00225642 /* simpleScene.cpp in Sources */,
 				72CDE3A11D59BAAE001F4812 /* ofxSliderGroup.cpp in Sources */,
 				9215152C1D14474B00450FA7 /* inputManager.cpp in Sources */,
-				72955B851D5917EA0037303D /* spring.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				72CDE39F1D59BAAE001F4812 /* ofxPanel.cpp in Sources */,
 				72955B881D5919140037303D /* plantsScene.cpp in Sources */,

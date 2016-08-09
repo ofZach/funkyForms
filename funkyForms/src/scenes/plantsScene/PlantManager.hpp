@@ -13,7 +13,6 @@
 #include "Plant.hpp"
 #include "cvManager.h"
 #include "ofxGui.h"
-#include "particle.h"
 
 class PlantManager{
 public:
@@ -46,16 +45,7 @@ public:
     // random
     vector<int> randSwatchIndex;
     
-    // particles
-    ofParameter<int> particleCount = 10;
-    vector<particle> particles;
-    ofParameter<float> particleRepulseRadius = 10;
-    ofParameter<float> particleRepulseForce = 0.2;
-    ofParameter<float> particleAttractRadius = 100;
-    ofParameter<float> particleAttractForce = 0.2;
-    
     void setup();
-    void setupParticles();
     void setupGui();
     void addPlant(ofVec2f _pos, int id);
     void addBgPlant(ofVec2f _pos);
@@ -63,7 +53,6 @@ public:
     void remove(int id);
     
     void update();
-    void updateParticles();
     void updatePlants();
     void updateBgPlants();
     void updateBgPlantsRemoval();
@@ -74,7 +63,6 @@ public:
     
     void draw();
     void drawPlants();
-    void drawParticles();
     void drawBgPlants();
     void drawPeoples();
 };
