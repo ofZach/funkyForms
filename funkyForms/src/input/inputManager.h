@@ -12,7 +12,6 @@ public:
     void update();
     void draw();
     
-    
     cvManager CVM;
     
     ofVideoPlayer player;
@@ -20,7 +19,7 @@ public:
     vector < cv::Point2f > inputQuad;
     
     
-    ofImage blah;
+    ofImage inputWarped;
     
     
 
