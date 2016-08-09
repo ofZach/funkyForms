@@ -1,3 +1,5 @@
+// took from: algo2012/week8/springs
+
 #ifndef PARTICLE_H
 #define PARTICLE_H
 

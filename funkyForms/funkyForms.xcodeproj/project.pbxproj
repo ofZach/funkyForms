@@ -21,6 +21,13 @@
 		6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8427353AED09174BE5 /* ContourFinder.cpp */; };
 		72835E7C1D5A5DD800A71A0E /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E781D5A5DD800A71A0E /* particle.cpp */; };
 		72835E7D1D5A5DD800A71A0E /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E7A1D5A5DD800A71A0E /* spring.cpp */; };
+		72835E8A1D5A60D800A71A0E /* eye.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E801D5A60D800A71A0E /* eye.cpp */; };
+		72835E8B1D5A60D800A71A0E /* EyeLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E821D5A60D800A71A0E /* EyeLinker.cpp */; };
+		72835E8C1D5A60D800A71A0E /* EyePair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E841D5A60D800A71A0E /* EyePair.cpp */; };
+		72835E8D1D5A60D800A71A0E /* EyeParticles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E861D5A60D800A71A0E /* EyeParticles.cpp */; };
+		72835E8E1D5A60D800A71A0E /* lid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E881D5A60D800A71A0E /* lid.cpp */; };
+		72835E911D5A619500A71A0E /* eyesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E8F1D5A619500A71A0E /* eyesScene.cpp */; };
+		72835E941D5A642400A71A0E /* eyeParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E921D5A642400A71A0E /* eyeParticle.cpp */; };
 		72955B7A1D5917980037303D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B701D5917980037303D /* Animator.cpp */; };
 		72955B7B1D5917980037303D /* iColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B721D5917980037303D /* iColor.cpp */; };
 		72955B7C1D5917980037303D /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B741D5917980037303D /* Plant.cpp */; };
@@ -177,6 +184,20 @@
 		72835E791D5A5DD800A71A0E /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
 		72835E7A1D5A5DD800A71A0E /* spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spring.cpp; sourceTree = "<group>"; };
 		72835E7B1D5A5DD800A71A0E /* spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spring.h; sourceTree = "<group>"; };
+		72835E801D5A60D800A71A0E /* eye.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eye.cpp; sourceTree = "<group>"; };
+		72835E811D5A60D800A71A0E /* eye.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eye.hpp; sourceTree = "<group>"; };
+		72835E821D5A60D800A71A0E /* EyeLinker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EyeLinker.cpp; sourceTree = "<group>"; };
+		72835E831D5A60D800A71A0E /* EyeLinker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EyeLinker.hpp; sourceTree = "<group>"; };
+		72835E841D5A60D800A71A0E /* EyePair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EyePair.cpp; sourceTree = "<group>"; };
+		72835E851D5A60D800A71A0E /* EyePair.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EyePair.hpp; sourceTree = "<group>"; };
+		72835E861D5A60D800A71A0E /* EyeParticles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EyeParticles.cpp; sourceTree = "<group>"; };
+		72835E871D5A60D800A71A0E /* EyeParticles.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EyeParticles.hpp; sourceTree = "<group>"; };
+		72835E881D5A60D800A71A0E /* lid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lid.cpp; sourceTree = "<group>"; };
+		72835E891D5A60D800A71A0E /* lid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lid.hpp; sourceTree = "<group>"; };
+		72835E8F1D5A619500A71A0E /* eyesScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eyesScene.cpp; sourceTree = "<group>"; };
+		72835E901D5A619500A71A0E /* eyesScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eyesScene.hpp; sourceTree = "<group>"; };
+		72835E921D5A642400A71A0E /* eyeParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eyeParticle.cpp; sourceTree = "<group>"; };
+		72835E931D5A642400A71A0E /* eyeParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eyeParticle.hpp; sourceTree = "<group>"; };
 		72955B701D5917980037303D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		72955B711D5917980037303D /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
 		72955B721D5917980037303D /* iColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iColor.cpp; sourceTree = "<group>"; };
@@ -649,6 +670,27 @@
 			path = particles;
 			sourceTree = "<group>";
 		};
+		72835E7F1D5A60D800A71A0E /* eyesScene */ = {
+			isa = PBXGroup;
+			children = (
+				72835E8F1D5A619500A71A0E /* eyesScene.cpp */,
+				72835E901D5A619500A71A0E /* eyesScene.hpp */,
+				72835E801D5A60D800A71A0E /* eye.cpp */,
+				72835E811D5A60D800A71A0E /* eye.hpp */,
+				72835E821D5A60D800A71A0E /* EyeLinker.cpp */,
+				72835E831D5A60D800A71A0E /* EyeLinker.hpp */,
+				72835E841D5A60D800A71A0E /* EyePair.cpp */,
+				72835E851D5A60D800A71A0E /* EyePair.hpp */,
+				72835E861D5A60D800A71A0E /* EyeParticles.cpp */,
+				72835E871D5A60D800A71A0E /* EyeParticles.hpp */,
+				72835E921D5A642400A71A0E /* eyeParticle.cpp */,
+				72835E931D5A642400A71A0E /* eyeParticle.hpp */,
+				72835E881D5A60D800A71A0E /* lid.cpp */,
+				72835E891D5A60D800A71A0E /* lid.hpp */,
+			);
+			path = eyesScene;
+			sourceTree = "<group>";
+		};
 		72CDE3741D59BA24001F4812 /* plantsScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -788,6 +830,7 @@
 		92911A6E1D58D07800225642 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				72835E7F1D5A60D800A71A0E /* eyesScene */,
 				72CDE3741D59BA24001F4812 /* plantsScene */,
 				92911A761D58D2FD00225642 /* simpleScene */,
 				92911A6F1D58D08E00225642 /* sceneManager.cpp */,
@@ -1178,20 +1221,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72835E8D1D5A60D800A71A0E /* EyeParticles.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				9264646E1D4BA271005082DE /* trackedContour.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
 				72CDE3A21D59BAAE001F4812 /* ofxToggle.cpp in Sources */,
+				72835E941D5A642400A71A0E /* eyeParticle.cpp in Sources */,
 				92911A711D58D08E00225642 /* sceneManager.cpp in Sources */,
 				72CDE3A01D59BAAE001F4812 /* ofxSlider.cpp in Sources */,
+				72835E8E1D5A60D800A71A0E /* lid.cpp in Sources */,
 				EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */,
 				92911A741D58D09900225642 /* baseScene.cpp in Sources */,
 				72835E7D1D5A5DD800A71A0E /* spring.cpp in Sources */,
 				6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */,
 				45CC483A999BF1065A6B926C /* Distance.cpp in Sources */,
 				72CDE39D1D59BAAE001F4812 /* ofxGuiGroup.cpp in Sources */,
+				72835E8B1D5A60D800A71A0E /* EyeLinker.cpp in Sources */,
 				5CC34D433F5806179935B89D /* Flow.cpp in Sources */,
 				72955B7B1D5917980037303D /* iColor.cpp in Sources */,
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
@@ -1205,12 +1252,15 @@
 				72955B7D1D5917980037303D /* PlantManager.cpp in Sources */,
 				72CDE39E1D59BAAE001F4812 /* ofxLabel.cpp in Sources */,
 				A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */,
+				72835E911D5A619500A71A0E /* eyesScene.cpp in Sources */,
 				DBCB84A37F9AECC254870D79 /* Wrappers.cpp in Sources */,
 				92911A791D58D2FD00225642 /* simpleScene.cpp in Sources */,
 				72CDE3A11D59BAAE001F4812 /* ofxSliderGroup.cpp in Sources */,
 				9215152C1D14474B00450FA7 /* inputManager.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				72CDE39F1D59BAAE001F4812 /* ofxPanel.cpp in Sources */,
+				72835E8A1D5A60D800A71A0E /* eye.cpp in Sources */,
+				72835E8C1D5A60D800A71A0E /* EyePair.cpp in Sources */,
 				72955B881D5919140037303D /* plantsScene.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,

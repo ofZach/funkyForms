@@ -5,6 +5,7 @@
 #include "sceneManager.h"
 #include "simpleScene.h"
 #include "plantsScene.hpp"
+#include "eyesScene.hpp"
 
 
 class ofApp : public ofBaseApp{
