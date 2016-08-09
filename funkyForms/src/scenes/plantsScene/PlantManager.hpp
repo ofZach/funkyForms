@@ -20,6 +20,7 @@ public:
     vector<Plant> plants;
     ofParameter<float> plantScale;
     vector<Plant> bgPlants;
+    int pointLinkCount = 4;
     
     // input manager
     cvPacket * cvData;
@@ -61,6 +62,8 @@ public:
     void updatePlantsParameters();
     void updatePlantRemoval();
     void updatePeoples();
+
+    ofVec2f getClosestPoint(ofVec2f target, vector<ofVec2f> &points);
     
     void draw();
     void drawPlants();

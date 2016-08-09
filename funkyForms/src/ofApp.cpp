@@ -15,7 +15,7 @@ void ofApp::setup(){
     }
     SM.setup();
     
-    bDrawDebug = true;
+    bDrawDebug = false;
 }
 
 //--------------------------------------------------------------

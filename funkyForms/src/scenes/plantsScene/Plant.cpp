@@ -19,8 +19,8 @@ void Plant::setup(){
 void Plant::setupAnimators(){
     fadeAnimator.setup(0, 1);
     fadeAnimator.setIn();
-    fadeAnimator.setSpeed(0.01);
     mbGrowAnimator.setup(0, 1);
+    fadingDelay = ofRandom(20, 50);
     for (int i = 0; i < rig.childBranchesPoints.size()  + rig.child2pts.size(); i++) {
         cbGrowAnimators.push_back( * new Animator);
         cbGrowAnimators[i].setup(0, 1);
@@ -48,6 +48,12 @@ void Plant::update(){
 void Plant::updateAnimators(){
     fadeAnimator.update();
     mbGrowAnimator.update();
+    if(isFading){
+        fadingCounter++;
+    }
+    if(fadingCounter>fadingDelay){
+        fadeAnimator.out();
+    }
     for(auto &a:cbGrowAnimators ){
         a.update();
     }
@@ -56,8 +62,6 @@ void Plant::updateAnimators(){
             cbGrowAnimators[i].in();
         }
     }
-
-
 }
 void Plant::updateAge(){
     age++;

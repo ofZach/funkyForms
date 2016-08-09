@@ -635,18 +635,18 @@
 		72CDE3741D59BA24001F4812 /* plantsScene */ = {
 			isa = PBXGroup;
 			children = (
+				72955B861D5919140037303D /* plantsScene.cpp */,
+				72955B871D5919140037303D /* plantsScene.hpp */,
+				72955B761D5917980037303D /* PlantManager.cpp */,
+				72955B771D5917980037303D /* PlantManager.hpp */,
+				72955B741D5917980037303D /* Plant.cpp */,
+				72955B751D5917980037303D /* Plant.hpp */,
+				72955B781D5917980037303D /* PlantRig.cpp */,
+				72955B791D5917980037303D /* PlantRig.hpp */,
 				72955B701D5917980037303D /* Animator.cpp */,
 				72955B711D5917980037303D /* Animator.hpp */,
 				72955B721D5917980037303D /* iColor.cpp */,
 				72955B731D5917980037303D /* iColor.hpp */,
-				72955B741D5917980037303D /* Plant.cpp */,
-				72955B751D5917980037303D /* Plant.hpp */,
-				72955B761D5917980037303D /* PlantManager.cpp */,
-				72955B771D5917980037303D /* PlantManager.hpp */,
-				72955B781D5917980037303D /* PlantRig.cpp */,
-				72955B861D5919140037303D /* plantsScene.cpp */,
-				72955B871D5919140037303D /* plantsScene.hpp */,
-				72955B791D5917980037303D /* PlantRig.hpp */,
 			);
 			path = plantsScene;
 			sourceTree = "<group>";
