@@ -6,6 +6,7 @@
 #include "simpleScene.h"
 #include "plantsScene.hpp"
 #include "eyesScene.hpp"
+#include "wavesScene.hpp"
 
 
 class ofApp : public ofBaseApp{

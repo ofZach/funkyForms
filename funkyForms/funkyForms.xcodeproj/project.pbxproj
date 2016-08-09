@@ -28,6 +28,15 @@
 		72835E8E1D5A60D800A71A0E /* lid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E881D5A60D800A71A0E /* lid.cpp */; };
 		72835E911D5A619500A71A0E /* eyesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E8F1D5A619500A71A0E /* eyesScene.cpp */; };
 		72835E941D5A642400A71A0E /* eyeParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E921D5A642400A71A0E /* eyeParticle.cpp */; };
+		72835EA61D5A80E700A71A0E /* FishWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E971D5A80E700A71A0E /* FishWave.cpp */; };
+		72835EA71D5A80E700A71A0E /* ofxRipple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E9A1D5A80E700A71A0E /* ofxRipple.cpp */; };
+		72835EA81D5A80E700A71A0E /* Shapes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E9C1D5A80E700A71A0E /* Shapes.cpp */; };
+		72835EA91D5A80E700A71A0E /* Spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E9E1D5A80E700A71A0E /* Spring.cpp */; };
+		72835EAA1D5A80E700A71A0E /* StencilWaves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835EA01D5A80E700A71A0E /* StencilWaves.cpp */; };
+		72835EAB1D5A80E700A71A0E /* wave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835EA21D5A80E700A71A0E /* wave.cpp */; };
+		72835EAC1D5A80E700A71A0E /* WaveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835EA41D5A80E700A71A0E /* WaveManager.cpp */; };
+		72835ED71D5A810000A71A0E /* ofxFXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835ECA1D5A810000A71A0E /* ofxFXObject.cpp */; };
+		72835EDA1D5A842E00A71A0E /* wavesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835ED81D5A842E00A71A0E /* wavesScene.cpp */; };
 		72955B7A1D5917980037303D /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B701D5917980037303D /* Animator.cpp */; };
 		72955B7B1D5917980037303D /* iColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B721D5917980037303D /* iColor.cpp */; };
 		72955B7C1D5917980037303D /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72955B741D5917980037303D /* Plant.cpp */; };
@@ -198,6 +207,59 @@
 		72835E901D5A619500A71A0E /* eyesScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eyesScene.hpp; sourceTree = "<group>"; };
 		72835E921D5A642400A71A0E /* eyeParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eyeParticle.cpp; sourceTree = "<group>"; };
 		72835E931D5A642400A71A0E /* eyeParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eyeParticle.hpp; sourceTree = "<group>"; };
+		72835E971D5A80E700A71A0E /* FishWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FishWave.cpp; sourceTree = "<group>"; };
+		72835E981D5A80E700A71A0E /* FishWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FishWave.hpp; sourceTree = "<group>"; };
+		72835E991D5A80E700A71A0E /* ofxRefract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRefract.h; sourceTree = "<group>"; };
+		72835E9A1D5A80E700A71A0E /* ofxRipple.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxRipple.cpp; sourceTree = "<group>"; };
+		72835E9B1D5A80E700A71A0E /* ofxRipple.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ofxRipple.hpp; sourceTree = "<group>"; };
+		72835E9C1D5A80E700A71A0E /* Shapes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shapes.cpp; sourceTree = "<group>"; };
+		72835E9D1D5A80E700A71A0E /* Shapes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shapes.hpp; sourceTree = "<group>"; };
+		72835E9E1D5A80E700A71A0E /* Spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spring.cpp; sourceTree = "<group>"; };
+		72835E9F1D5A80E700A71A0E /* Spring.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spring.hpp; sourceTree = "<group>"; };
+		72835EA01D5A80E700A71A0E /* StencilWaves.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilWaves.cpp; sourceTree = "<group>"; };
+		72835EA11D5A80E700A71A0E /* StencilWaves.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilWaves.hpp; sourceTree = "<group>"; };
+		72835EA21D5A80E700A71A0E /* wave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wave.cpp; sourceTree = "<group>"; };
+		72835EA31D5A80E700A71A0E /* wave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = wave.hpp; sourceTree = "<group>"; };
+		72835EA41D5A80E700A71A0E /* WaveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaveManager.cpp; sourceTree = "<group>"; };
+		72835EA51D5A80E700A71A0E /* WaveManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaveManager.hpp; sourceTree = "<group>"; };
+		72835EB01D5A810000A71A0E /* ofxBlend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlend.h; sourceTree = "<group>"; };
+		72835EB11D5A810000A71A0E /* ofxClone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxClone.h; sourceTree = "<group>"; };
+		72835EB21D5A810000A71A0E /* ofxMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMask.h; sourceTree = "<group>"; };
+		72835EB31D5A810000A71A0E /* ofxMultiTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMultiTexture.h; sourceTree = "<group>"; };
+		72835EB51D5A810000A71A0E /* ofxBarrelChromaAb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBarrelChromaAb.h; sourceTree = "<group>"; };
+		72835EB61D5A810000A71A0E /* ofxBloom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBloom.h; sourceTree = "<group>"; };
+		72835EB71D5A810000A71A0E /* ofxBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBlur.h; sourceTree = "<group>"; };
+		72835EB81D5A810000A71A0E /* ofxBokeh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBokeh.h; sourceTree = "<group>"; };
+		72835EB91D5A810000A71A0E /* ofxChromaAb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxChromaAb.h; sourceTree = "<group>"; };
+		72835EBA1D5A810000A71A0E /* ofxChromaGlitch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxChromaGlitch.h; sourceTree = "<group>"; };
+		72835EBB1D5A810000A71A0E /* ofxContrast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxContrast.h; sourceTree = "<group>"; };
+		72835EBC1D5A810000A71A0E /* ofxGaussianBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGaussianBlur.h; sourceTree = "<group>"; };
+		72835EBD1D5A810000A71A0E /* ofxGlow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGlow.h; sourceTree = "<group>"; };
+		72835EBE1D5A810000A71A0E /* ofxGrayscale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGrayscale.h; sourceTree = "<group>"; };
+		72835EBF1D5A810000A71A0E /* ofxInverse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxInverse.h; sourceTree = "<group>"; };
+		72835EC01D5A810000A71A0E /* ofxLUT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxLUT.h; sourceTree = "<group>"; };
+		72835EC11D5A810000A71A0E /* ofxMedian.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMedian.h; sourceTree = "<group>"; };
+		72835EC21D5A810000A71A0E /* ofxOldTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOldTv.h; sourceTree = "<group>"; };
+		72835EC41D5A810000A71A0E /* ofxFBM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFBM.h; sourceTree = "<group>"; };
+		72835EC51D5A810000A71A0E /* ofxFire.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFire.h; sourceTree = "<group>"; };
+		72835EC61D5A810000A71A0E /* ofxGrayScott.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGrayScott.h; sourceTree = "<group>"; };
+		72835EC71D5A810000A71A0E /* ofxNoise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxNoise.h; sourceTree = "<group>"; };
+		72835EC81D5A810000A71A0E /* ofxTint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxTint.h; sourceTree = "<group>"; };
+		72835EC91D5A810000A71A0E /* ofxFX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFX.h; sourceTree = "<group>"; };
+		72835ECA1D5A810000A71A0E /* ofxFXObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFXObject.cpp; sourceTree = "<group>"; };
+		72835ECB1D5A810000A71A0E /* ofxFXObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFXObject.h; sourceTree = "<group>"; };
+		72835ECC1D5A810000A71A0E /* ofxSwapBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSwapBuffer.h; sourceTree = "<group>"; };
+		72835ECE1D5A810000A71A0E /* ofxAbsDiff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxAbsDiff.h; sourceTree = "<group>"; };
+		72835ECF1D5A810000A71A0E /* ofxBounce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBounce.h; sourceTree = "<group>"; };
+		72835ED01D5A810000A71A0E /* ofxDisplacePixels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxDisplacePixels.h; sourceTree = "<group>"; };
+		72835ED11D5A810000A71A0E /* ofxEdgeDetect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxEdgeDetect.h; sourceTree = "<group>"; };
+		72835ED21D5A810000A71A0E /* ofxFlow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFlow.h; sourceTree = "<group>"; };
+		72835ED31D5A810000A71A0E /* ofxNormals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxNormals.h; sourceTree = "<group>"; };
+		72835ED41D5A810000A71A0E /* ofxRipples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxRipples.h; sourceTree = "<group>"; };
+		72835ED51D5A810000A71A0E /* ofxSubstract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSubstract.h; sourceTree = "<group>"; };
+		72835ED61D5A810000A71A0E /* ofxThreshold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxThreshold.h; sourceTree = "<group>"; };
+		72835ED81D5A842E00A71A0E /* wavesScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wavesScene.cpp; sourceTree = "<group>"; };
+		72835ED91D5A842E00A71A0E /* wavesScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = wavesScene.hpp; sourceTree = "<group>"; };
 		72955B701D5917980037303D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		72955B711D5917980037303D /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
 		72955B721D5917980037303D /* iColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iColor.cpp; sourceTree = "<group>"; };
@@ -691,6 +753,114 @@
 			path = eyesScene;
 			sourceTree = "<group>";
 		};
+		72835E961D5A80E700A71A0E /* wavesScene */ = {
+			isa = PBXGroup;
+			children = (
+				72835ED81D5A842E00A71A0E /* wavesScene.cpp */,
+				72835ED91D5A842E00A71A0E /* wavesScene.hpp */,
+				72835EA41D5A80E700A71A0E /* WaveManager.cpp */,
+				72835EA51D5A80E700A71A0E /* WaveManager.hpp */,
+				72835EA01D5A80E700A71A0E /* StencilWaves.cpp */,
+				72835EA11D5A80E700A71A0E /* StencilWaves.hpp */,
+				72835E971D5A80E700A71A0E /* FishWave.cpp */,
+				72835E981D5A80E700A71A0E /* FishWave.hpp */,
+				72835E991D5A80E700A71A0E /* ofxRefract.h */,
+				72835E9A1D5A80E700A71A0E /* ofxRipple.cpp */,
+				72835E9B1D5A80E700A71A0E /* ofxRipple.hpp */,
+				72835E9C1D5A80E700A71A0E /* Shapes.cpp */,
+				72835E9D1D5A80E700A71A0E /* Shapes.hpp */,
+				72835E9E1D5A80E700A71A0E /* Spring.cpp */,
+				72835E9F1D5A80E700A71A0E /* Spring.hpp */,
+				72835EA21D5A80E700A71A0E /* wave.cpp */,
+				72835EA31D5A80E700A71A0E /* wave.hpp */,
+			);
+			path = wavesScene;
+			sourceTree = "<group>";
+		};
+		72835EAD1D5A810000A71A0E /* ofxFX */ = {
+			isa = PBXGroup;
+			children = (
+				72835EAE1D5A810000A71A0E /* src */,
+			);
+			name = ofxFX;
+			sourceTree = "<group>";
+		};
+		72835EAE1D5A810000A71A0E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				72835EAF1D5A810000A71A0E /* composers */,
+				72835EB41D5A810000A71A0E /* filters */,
+				72835EC31D5A810000A71A0E /* generative */,
+				72835EC91D5A810000A71A0E /* ofxFX.h */,
+				72835ECA1D5A810000A71A0E /* ofxFXObject.cpp */,
+				72835ECB1D5A810000A71A0E /* ofxFXObject.h */,
+				72835ECC1D5A810000A71A0E /* ofxSwapBuffer.h */,
+				72835ECD1D5A810000A71A0E /* operations */,
+			);
+			name = src;
+			path = ../../../addons/ofxFX/src;
+			sourceTree = "<group>";
+		};
+		72835EAF1D5A810000A71A0E /* composers */ = {
+			isa = PBXGroup;
+			children = (
+				72835EB01D5A810000A71A0E /* ofxBlend.h */,
+				72835EB11D5A810000A71A0E /* ofxClone.h */,
+				72835EB21D5A810000A71A0E /* ofxMask.h */,
+				72835EB31D5A810000A71A0E /* ofxMultiTexture.h */,
+			);
+			path = composers;
+			sourceTree = "<group>";
+		};
+		72835EB41D5A810000A71A0E /* filters */ = {
+			isa = PBXGroup;
+			children = (
+				72835EB51D5A810000A71A0E /* ofxBarrelChromaAb.h */,
+				72835EB61D5A810000A71A0E /* ofxBloom.h */,
+				72835EB71D5A810000A71A0E /* ofxBlur.h */,
+				72835EB81D5A810000A71A0E /* ofxBokeh.h */,
+				72835EB91D5A810000A71A0E /* ofxChromaAb.h */,
+				72835EBA1D5A810000A71A0E /* ofxChromaGlitch.h */,
+				72835EBB1D5A810000A71A0E /* ofxContrast.h */,
+				72835EBC1D5A810000A71A0E /* ofxGaussianBlur.h */,
+				72835EBD1D5A810000A71A0E /* ofxGlow.h */,
+				72835EBE1D5A810000A71A0E /* ofxGrayscale.h */,
+				72835EBF1D5A810000A71A0E /* ofxInverse.h */,
+				72835EC01D5A810000A71A0E /* ofxLUT.h */,
+				72835EC11D5A810000A71A0E /* ofxMedian.h */,
+				72835EC21D5A810000A71A0E /* ofxOldTv.h */,
+			);
+			path = filters;
+			sourceTree = "<group>";
+		};
+		72835EC31D5A810000A71A0E /* generative */ = {
+			isa = PBXGroup;
+			children = (
+				72835EC41D5A810000A71A0E /* ofxFBM.h */,
+				72835EC51D5A810000A71A0E /* ofxFire.h */,
+				72835EC61D5A810000A71A0E /* ofxGrayScott.h */,
+				72835EC71D5A810000A71A0E /* ofxNoise.h */,
+				72835EC81D5A810000A71A0E /* ofxTint.h */,
+			);
+			path = generative;
+			sourceTree = "<group>";
+		};
+		72835ECD1D5A810000A71A0E /* operations */ = {
+			isa = PBXGroup;
+			children = (
+				72835ECE1D5A810000A71A0E /* ofxAbsDiff.h */,
+				72835ECF1D5A810000A71A0E /* ofxBounce.h */,
+				72835ED01D5A810000A71A0E /* ofxDisplacePixels.h */,
+				72835ED11D5A810000A71A0E /* ofxEdgeDetect.h */,
+				72835ED21D5A810000A71A0E /* ofxFlow.h */,
+				72835ED31D5A810000A71A0E /* ofxNormals.h */,
+				72835ED41D5A810000A71A0E /* ofxRipples.h */,
+				72835ED51D5A810000A71A0E /* ofxSubstract.h */,
+				72835ED61D5A810000A71A0E /* ofxThreshold.h */,
+			);
+			path = operations;
+			sourceTree = "<group>";
+		};
 		72CDE3741D59BA24001F4812 /* plantsScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -830,6 +1000,7 @@
 		92911A6E1D58D07800225642 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				72835E961D5A80E700A71A0E /* wavesScene */,
 				72835E7F1D5A60D800A71A0E /* eyesScene */,
 				72CDE3741D59BA24001F4812 /* plantsScene */,
 				92911A761D58D2FD00225642 /* simpleScene */,
@@ -928,6 +1099,7 @@
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				72CDE3881D59BAAE001F4812 /* ofxGui */,
+				72835EAD1D5A810000A71A0E /* ofxFX */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1221,7 +1393,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72835EA81D5A80E700A71A0E /* Shapes.cpp in Sources */,
 				72835E8D1D5A60D800A71A0E /* EyeParticles.cpp in Sources */,
+				72835ED71D5A810000A71A0E /* ofxFXObject.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
@@ -1240,6 +1414,7 @@
 				72CDE39D1D59BAAE001F4812 /* ofxGuiGroup.cpp in Sources */,
 				72835E8B1D5A60D800A71A0E /* EyeLinker.cpp in Sources */,
 				5CC34D433F5806179935B89D /* Flow.cpp in Sources */,
+				72835EA61D5A80E700A71A0E /* FishWave.cpp in Sources */,
 				72955B7B1D5917980037303D /* iColor.cpp in Sources */,
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
 				72955B7E1D5917980037303D /* PlantRig.cpp in Sources */,
@@ -1247,6 +1422,7 @@
 				311DF864378748129984EA1D /* Kalman.cpp in Sources */,
 				C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */,
 				9215152B1D14474B00450FA7 /* cvManager.cpp in Sources */,
+				72835EDA1D5A842E00A71A0E /* wavesScene.cpp in Sources */,
 				7CDAD32BE4FA46701E3552C7 /* RunningBackground.cpp in Sources */,
 				10B69DE456AED1288FC9316B /* Tracker.cpp in Sources */,
 				72955B7D1D5917980037303D /* PlantManager.cpp in Sources */,
@@ -1257,10 +1433,14 @@
 				92911A791D58D2FD00225642 /* simpleScene.cpp in Sources */,
 				72CDE3A11D59BAAE001F4812 /* ofxSliderGroup.cpp in Sources */,
 				9215152C1D14474B00450FA7 /* inputManager.cpp in Sources */,
+				72835EAB1D5A80E700A71A0E /* wave.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
+				72835EAC1D5A80E700A71A0E /* WaveManager.cpp in Sources */,
 				72CDE39F1D59BAAE001F4812 /* ofxPanel.cpp in Sources */,
+				72835EAA1D5A80E700A71A0E /* StencilWaves.cpp in Sources */,
 				72835E8A1D5A60D800A71A0E /* eye.cpp in Sources */,
 				72835E8C1D5A60D800A71A0E /* EyePair.cpp in Sources */,
+				72835EA91D5A80E700A71A0E /* Spring.cpp in Sources */,
 				72955B881D5919140037303D /* plantsScene.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
@@ -1275,6 +1455,7 @@
 				9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */,
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
 				72CDE39B1D59BAAE001F4812 /* ofxBaseGui.cpp in Sources */,
+				72835EA71D5A80E700A71A0E /* ofxRipple.cpp in Sources */,
 				9219254C1D57DAA2006F1F70 /* ofCvBlobTracker.cpp in Sources */,
 				72CDE39C1D59BAAE001F4812 /* ofxButton.cpp in Sources */,
 			);

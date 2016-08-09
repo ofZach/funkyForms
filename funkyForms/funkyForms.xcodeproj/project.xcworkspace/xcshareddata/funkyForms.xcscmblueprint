@@ -5,11 +5,13 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "37526DA425E5430474A14FBFA1BC4525160B5FC1" : 0,
+    "B7CCA6A8C889ED4C803FBF307564FD139754E943" : 0,
     "8DB61E8D9AACE30C28F37BE1CD3BF4CED61E9F0C" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "BD6343A2-7F20-4082-9BF9-4CD5E7B149DF",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "37526DA425E5430474A14FBFA1BC4525160B5FC1" : "..\/addons\/ofxCv",
+    "B7CCA6A8C889ED4C803FBF307564FD139754E943" : "..\/addons\/ofxFX",
     "8DB61E8D9AACE30C28F37BE1CD3BF4CED61E9F0C" : "funkyForms\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "funkyForms",
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ofZach\/funkyForms",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8DB61E8D9AACE30C28F37BE1CD3BF4CED61E9F0C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/patriciogonzalezvivo\/ofxFX.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B7CCA6A8C889ED4C803FBF307564FD139754E943"
     }
   ]
 }

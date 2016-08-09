@@ -1,0 +1,20 @@
+<wavesSceneSettings>
+	<waveCount>3</waveCount>
+	<waveDistance>25.475</waveDistance>
+	<amount>55</amount>
+	<strength>0.165835</strength>
+	<restLength>3.87</restLength>
+	<invMass>0.216</invMass>
+	<force>2.5875</force>
+	<density>3</density>
+	<bounce>0.6</bounce>
+	<friction>0.25</friction>
+	<shadowRadius>42.5</shadowRadius>
+	<energyHighlightSize>100</energyHighlightSize>
+	<shadowOpacity>76.5</shadowOpacity>
+	<Ripples>
+		<damping>0.854081</damping>
+		<pixelOffset>0.285714</pixelOffset>
+	</Ripples>
+<wavesSceneSettings/>
+</wavesSceneSettings>
