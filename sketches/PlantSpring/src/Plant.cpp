@@ -13,6 +13,7 @@ void Plant::setup(){
     setupChildBranches();
     mbMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     fadeAnimator.setup(0, 1);
+    ageMax = (int)ofRandom(300, 600);
 }
 void Plant::setupChildBranches(){
     for (int i = 0; i < rig.childBranchesPoints.size() + rig.child2pts.size() ; i++) {
@@ -28,13 +29,18 @@ void Plant::update(){
     updatePolylines();
     updateFade();
     updateMesh();
+    updateAge();
+}
+void Plant::updateAge(){
+    age++;
+    if(age > ageMax){fadeAnimator.out();}
 }
 void Plant::updatePolylines(){
     mbLine1.clear();
     mbLine2.clear();
     ofPolyline &l = rig.mainBranchLine;
     for (int i = 0; i < l.size(); i++) {
-        makeStroke(i, mbWidth, mbWidth, l, &mbLine1, &mbLine2);
+        makeStroke(i, mbWidth*scale, mbWidth*scale, l, &mbLine1, &mbLine2);
     }
     for(auto &b: childLines1){
         b.clear();
@@ -46,7 +52,7 @@ void Plant::updatePolylines(){
         ofPolyline &l = rig.childBranchLines[i];
         ofSetColor(ofColor::red);
         for (int j = 0; j < l.size(); j++) {
-            makeStroke(j, cbWidths[i], cbWidths[i], l, &childLines1[i], &childLines2[i]);
+            makeStroke(j, cbWidths[i]*scale, cbWidths[i]*scale, l, &childLines1[i], &childLines2[i]);
         }
     }
 }

@@ -42,11 +42,17 @@ public:
     ofVec2f pos;
     float mbWidth;
     float cbWidth;
+    float scale = 1.0;
     vector<float> cbWidths;
     
     // color
     ofColor color;
     
+    // timing
+    float timeOffset;
+    int age = 0;
+    int ageMax;
+    bool isDead = false;
     
     // set
     void setup();
@@ -62,6 +68,7 @@ public:
     
     // update
     void update();
+    void updateAge();
     void updatePolylines();
     void updateMesh();
     void makeCorner(ofPolyline *line, ofPolyline &l, int i, float angle, float lenght);

@@ -107,7 +107,9 @@ void inputManager::updateTargets(){
         
         Target t;
         for(auto &p: *l){
-            peoplePoints.push_back(p+pos);
+            Point pt;
+            pt.pos = p+pos;
+            peoplePoints.push_back(pt);
             t.points.push_back(p+pos);
         }
         t.line = l;
@@ -131,7 +133,7 @@ void inputManager::draw(){
     ofPopMatrix();    
 
     for(auto &p: peoplePoints){
-        ofDrawCircle(p, 2);
+        ofDrawCircle(p.pos, 2);
     }
         
 }

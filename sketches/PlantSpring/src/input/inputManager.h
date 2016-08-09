@@ -41,7 +41,11 @@ public:
     ofImage blah;
     
     // trackedCountour
-    vector <ofVec2f> peoplePoints;
+    struct Point{
+        bool isBusy = false;
+        ofVec2f pos;
+    };
+    vector <Point> peoplePoints;
     
     void setup();
     

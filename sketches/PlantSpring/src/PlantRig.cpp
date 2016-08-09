@@ -14,6 +14,7 @@ void PlantRig::setup(){
     makeMainBranch();
     makeChildBranches();
     makeChild2();
+    timeOffset = ofRandom(0, 100);
 }
 void PlantRig::setupRandom(){
     for(int i = 0; i< 100; i++){
@@ -70,7 +71,7 @@ void PlantRig::makeMainBranch(){
     BranchSettings s;
     s.points = &mainBranchPoints;
     s.pos = pos;
-    s.dir = ofVec2f(0, -1);
+    s.dir = dir;
     s.lengthMin = mbLengthMin;
     s.lengthMax = mbLengthMax;
     s.branchCount = mbCount;
@@ -88,12 +89,12 @@ void PlantRig::makeChildBranches(){
     for(int i = 0; i < bCount; i++){
         vector<ofVec2f> points;
         
-        ofVec2f p1 = mainBranchPoints[i*2];
-        ofVec2f p2 = mainBranchPoints[i*2+1];
+        ofVec2f p1 = mainBranchPoints[i*2+1];
+        ofVec2f p2 = mainBranchPoints[i*2+2];
         
         ofVec2f p3 = p2+ofVec2f(1, 0);
-        if((i*2+2) < mainBranchPoints.size()-1){
-            p3 = mainBranchPoints[i*2+2];
+        if((i*2+3) < mainBranchPoints.size()-1){
+            p3 = mainBranchPoints[i*2+3];
         }
         
         ofVec2f dir = -(p3-p2);
@@ -184,8 +185,9 @@ void PlantRig::updateMainBranch(){
             ofVec2f *p = &mainBranchPoints[i];
             ofVec2f *pp = &mainBranchPoints[i-1];
             ofVec2f delta = mainBranchInitPoints[i] - mainBranchInitPoints[i-1];
-            float offsetX = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*100.0, (int)(ofGetElapsedTimef()*0.3) * 100, 0), -1, 1, 1,1.5);
-            float offsetY = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*300.0, (int)(ofGetElapsedTimef()*0.3) * 100, 10000), -1, 1, 1, 1.5);
+            float t = ofGetElapsedTimef() + timeOffset;
+            float offsetX = ofMap(ofSignedNoise(t*timeSpeed+i*100.0, (int)(t*0.3) * 100, 0), -1, 1, 1,1.5);
+            float offsetY = ofMap(ofSignedNoise(t*timeSpeed+i*300.0, (int)(t*0.3) * 100, 10000), -1, 1, 1, 1.5);
             ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
             float s = 0.7;
             p->x = p->x * s + newPos.x * (1 - s);
@@ -215,8 +217,9 @@ void PlantRig::updateChildBranches(){
                 ofVec2f *p = &childBranchesPoints[i][j];
                 ofVec2f *pp = &childBranchesPoints[i][j-1];
                 ofVec2f delta = childBranchesInitPoints[i][j] - childBranchesInitPoints[i][j-1];
-                float offsetX = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*100.0, (int)(ofGetElapsedTimef()*0.3) * 100, 0), -1, 1, 1,1.5);
-                float offsetY = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*300.0, (int)(ofGetElapsedTimef()*0.3) * 100, 10000), -1, 1, 1, 1.5);
+                float t = ofGetElapsedTimef() + timeOffset;
+                float offsetX = ofMap(ofSignedNoise(t*timeSpeed+i*100.0, (int)(t*0.3) * 100, 0), -1, 1, 1,1.5);
+                float offsetY = ofMap(ofSignedNoise(t*timeSpeed+i*300.0, (int)(t*0.3) * 100, 10000), -1, 1, 1, 1.5);
                 ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
                 float s = 0.7;
                 p->x = p->x * s + newPos.x * (1 - s);

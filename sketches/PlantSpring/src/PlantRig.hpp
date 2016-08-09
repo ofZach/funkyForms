@@ -12,8 +12,9 @@
 #include "ofMain.h"
 class PlantRig{
 public:
-    // pos, vel
+    // pos, vel, direction
     ofVec2f pos;
+    ofVec2f dir;
     
     // polylines
     ofPolyline mainBranchLine;
@@ -33,6 +34,7 @@ public:
     // randoms
     vector<int> randomBools;
     vector<float> randomFloats;
+    float timeOffset;
     
     // settings
     struct BranchSettings{
@@ -43,6 +45,7 @@ public:
         float lengthMax;
         int branchCount;
     };
+    float timeSpeed = 0.93;
     
     // mainbranch
     float mbLengthMin;

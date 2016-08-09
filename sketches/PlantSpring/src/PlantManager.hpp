@@ -19,9 +19,12 @@ class PlantManager{
 public:
     // plants
     vector<Plant> plants;
+    ofParameter<float> plantScale;
+    vector<Plant> bgPlants;
     
     // input manager
     inputManager *IM;
+    vector<ofPolyline> peopleResampled;
     
     // gui
     ofParameterGroup parameters;
@@ -39,6 +42,9 @@ public:
         ofFloatColor(0.872385,0.169879,0.152076)
     };
     
+    // random
+    vector<int> randSwatchIndex;
+    
     // particles
     ofParameter<int> particleCount = 10;
     vector<particle> particles;
@@ -52,18 +58,24 @@ public:
     void setInputManager(inputManager *_IM){ IM = _IM;};
     void setupGui();
     void addPlant(ofVec2f _pos);
+    void addBgPlant(ofVec2f _pos);
     void onNewPlant();
     
     void update();
     void updateParticles();
     void updatePlants();
+    void updateBgPlants();
+    void updateBgPlantsRemoval();
     void updatePlantCreation();
     void updatePlantsParameters();
     void updatePlantRemoval();
+    void updatePeoples();
     
     void draw();
     void drawPlants();
     void drawParticles();
+    void drawBgPlants();
+    void drawPeoples();
 };
 
 #endif /* PlantManager_hpp */
