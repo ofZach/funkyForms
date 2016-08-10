@@ -1,0 +1,20 @@
+<settings_eyesScene>
+	<eyesSceneParameters>
+		<isEyePairMode>0</isEyePairMode>
+		<isEyeParticleMode>1</isEyeParticleMode>
+		<isEyeLinkerMode>1</isEyeLinkerMode>
+	</eyesSceneParameters>
+	<EyeParticlesParameters>
+		<behaviorMode>0</behaviorMode>
+		<count>50</count>
+		<initButton>1</initButton>
+		<attractionForce>0.116071</attractionForce>
+		<repulsionForce>2.5</repulsionForce>
+		<repulsionRadius>2</repulsionRadius>
+		<attractionRadius>1000</attractionRadius>
+		<scaleSpeed>0.07</scaleSpeed>
+		<scaleMax>3</scaleMax>
+		<scaleRadius>200</scaleRadius>
+	</EyeParticlesParameters>
+<settings_eyesScene/>
+</settings_eyesScene>

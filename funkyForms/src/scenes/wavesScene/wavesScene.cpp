@@ -11,7 +11,14 @@
 void wavesScene::setup(){
 //    stencilWaves.setup();
     waveManager.cvData = cvData;
+    waveManager.setupGui();
+    setupGui();
     waveManager.setup();
+}
+void wavesScene::setupGui(){
+    gui.setup("settings_wavesScene", "settings_wavesScene.xml");
+    gui.add(waveManager.parameters);
+    gui.loadFromFile("settings_wavesScene.xml");
 }
 // ------------ Update
 void wavesScene::update(){
@@ -21,6 +28,7 @@ void wavesScene::update(){
 void wavesScene::draw(){
     waveManager.draw();
     drawPeople();
+    gui.draw();
 }
 
 void wavesScene::drawPeople(){

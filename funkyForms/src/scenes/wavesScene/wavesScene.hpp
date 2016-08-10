@@ -21,7 +21,11 @@ public:
     StencilWaves stencilWaves;
     WaveManager waveManager;
     
+    // Gui
+    ofxPanel gui;
+    
     void setup();
+    void setupGui();
     
     void update();
     

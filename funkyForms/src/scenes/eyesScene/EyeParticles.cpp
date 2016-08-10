@@ -9,9 +9,15 @@
 #include "EyeParticles.hpp"
 // ---------------------------------- setup
 void EyeParticles::setup(){
+    behavior = B_ATTACK;
+    init();
+}
+void EyeParticles::setupGui(){
+    parameters.setName("EyeParticlesParameters");
+    parameters.add(behaviorMode.set("behaviorMode", 0, 0, 2));
     parameters.add(count.set("count", 50, 1, 500));
     parameters.add(initButton.set("initButton", true));
-    parameters.add(attractionForce.set("attractionForce", 0.5, 0.01, 2));
+    parameters.add(attractionForce.set("attractionForce", 0.5, 0.01, 1));
     parameters.add(repulsionForce.set("repulsionForce", 2.5, 0.01, 10));
     parameters.add(repulsionRadius.set("repulsionRadius", 2, 0.5, 5));
     parameters.add(attractionRadius.set("attractionRadius", 1000, 10, 2000));
@@ -19,12 +25,6 @@ void EyeParticles::setup(){
     parameters.add(scaleMax.set("scaleMax", 3., 1.0, 7));
     parameters.add(scaleRadius.set("scaleRadius", 200, 10, 2000));
     initButton.addListener(this, &EyeParticles::reset);
-    gui.setup(parameters);
-    gui.loadFromFile("settings.xml");
-
-    behavior = B_ATTACK;
-    
-    init();
 }
 void EyeParticles::reset(bool &b){
     init();
@@ -56,14 +56,14 @@ void EyeParticles::close(){
 }
 // ---------------------------------- Update
 void EyeParticles::update(){
-    switch (behavior) {
-        case B_ATTACK:
+    switch (behaviorMode) {
+        case 0:
             behaveAttack();
             break;
-        case B_WAIT:
+        case 1:
             behaveWait();
             break;
-        case B_RANDOM:
+        case 2:
             behaveRandom();
             break;
         default:
@@ -109,10 +109,15 @@ void EyeParticles::behaveRandom(){
 }
 void EyeParticles::behaveWait(){
     for (int i = 0; i < particles.size(); i++){
-//        for(auto &t: *targets){
-//            eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
-//            eyes[i].lookAtNear(t.pos);
-//        }
+        for(auto &id: cvData->idsThisFrame){
+            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+            for (int j = 0; j < line.size(); j += line.size()/10 ) {
+                ofVec2f pos = line.getVertices()[j];
+                ofVec2f vel = (*(cvData->trackedContours))[id].velPts[j];
+                eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+                eyes[i].lookAtNear(pos);
+            }
+        }
         eyes[i].update(particles[i].getPos());
         eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
         particles[i].resetForce();
@@ -123,9 +128,15 @@ void EyeParticles::behaveWait(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
-//        for(auto &t: *targets){
-//            particles[i].addRepulsionForce(t.pos.x, t.pos.y, 100, ofMap(t.vel.x, -10, 10, 0, 0.2, true));
-//        }
+        for(auto &id: cvData->idsThisFrame){
+            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+            for (int j = 0; j < line.size(); j += line.size()/10 ) {
+                ofVec2f pos = line.getVertices()[j];
+                ofVec2f vel = (*(cvData->trackedContours))[id].velPts[j];
+                particles[i].addRepulsionForce(pos.x, pos.y, 100, ofMap(vel.y, -10, 10, 0, 0.2, true));
+
+            }
+        }
     }
     for (int i = 0; i < particles.size(); i++){
         particles[i].addDampingForce();
@@ -135,10 +146,12 @@ void EyeParticles::behaveWait(){
 }
 void EyeParticles::behaveAttack(){
     for (int i = 0; i < particles.size(); i++){
-//        for(auto &t: *targets){
-//            eyes[i].addScaleForce(t.pos, scaleRadius, scaleSpeed, scaleMax);
-//            eyes[i].lookAtNear(t.pos);
-//        }
+        for(auto &id: cvData->idsThisFrame){
+            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+            ofVec2f pos = line.getVertices()[0];
+            eyes[i].lookAtNear(pos);
+            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+        }
         eyes[i].update(particles[i].getPos());
         eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
         particles[i].resetForce();
@@ -149,9 +162,16 @@ void EyeParticles::behaveAttack(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
-//        for(auto &t: *targets){
-//            particles[i].addAttractionForce(t.pos.x, t.pos.y, 1000, ofMap(t.vel.x, -10, 10, 0, 1, true));
-//        }
+        for(auto &id: cvData->idsThisFrame){
+            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+            ofVec2f vel = (*(cvData->trackedContours))[id].velAvgSmooth;
+            for (int j = 0; j < line.size(); j += line.size()/10 ) {
+                ofVec2f pos = line.getVertices()[j];
+//                eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+                eyes[i].lookAtNear(pos);
+                particles[i].addAttractionForce(pos.x, pos.y, 1000, attractionForce);
+            }
+        }
         
     }
     for (int i = 0; i < particles.size(); i++){
@@ -165,5 +185,4 @@ void EyeParticles::draw(){
     for (int i = 0; i < particles.size(); i++){
         eyes[i].draw();
     }
-    gui.draw();
 }

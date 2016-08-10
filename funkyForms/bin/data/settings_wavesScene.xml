@@ -1,0 +1,22 @@
+<settings_wavesScene>
+		<waveManagerParameters>
+			<waveCount>4</waveCount>
+			<waveDistance>51.7602</waveDistance>
+			<amount>55</amount>
+			<strength>0.55</strength>
+			<restLength>16.92</restLength>
+			<invMass>0.277551</invMass>
+			<force>3.14592</force>
+			<density>2.14286</density>
+			<bounce>0.290816</bounce>
+			<friction>0.112245</friction>
+			<shadowRadius>100</shadowRadius>
+			<energyHighlightSize>79.0816</energyHighlightSize>
+			<shadowOpacity>70.2551</shadowOpacity>
+			<Ripples>
+				<damping>1</damping>
+				<pixelOffset>1</pixelOffset>
+			</Ripples>
+		</waveManagerParameters>
+<settings_wavesScene/>
+</settings_wavesScene>

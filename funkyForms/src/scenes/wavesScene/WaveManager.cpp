@@ -18,33 +18,29 @@ void WaveManager::setup(){
     // shader
     bumpmap.allocate(ofGetWidth(), ofGetHeight());
     bumpmap.setup();
-    
-    gui.setup("wavesSceneSettings", "wavesScene_Settings.xml" );
-    gui.add(waveCount.set("waveCount", 5, 1, 20));
-    gui.add(waveDistance.set("waveDistance", 10, 5, 200));
-    gui.add(amount.set("amount", 55, 10, 200));
-    gui.add(strength.set("strength", 0.55, 0.001, 1));
-    gui.add(restLength.set("restLength", 16.92, 0, 18));
-    gui.add(invMass.set("invMass", 0.375, 0.1, 3));
-    gui.add(force.set("force", 4, 0.1, 20));
-    gui.add(density.set("density", 3, 0, 20));
-    gui.add(bounce.set("bounce", 0.5, 0, 3));
-    gui.add(friction.set("friction", 0.1, 0, 2));
-    gui.add(shadowRadius.set("shadowRadius", 100, 0, 500));
-    gui.add(energyHighlightSize.set("energyHighlightSize", 100, 0, 500));
-    gui.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
-    gui.add(bumpmap.parameters);
+}
+void WaveManager::setupGui(){
+    parameters.setName("waveManagerParameters");
+    parameters.add(waveCount.set("waveCount", 5, 1, 20));
+    parameters.add(waveDistance.set("waveDistance", 10, 5, 200));
+    parameters.add(amount.set("amount", 55, 10, 200));
+    parameters.add(strength.set("strength", 0.55, 0.001, 1));
+    parameters.add(restLength.set("restLength", 16.92, 0, 18));
+    parameters.add(invMass.set("invMass", 0.375, 0.1, 3));
+    parameters.add(force.set("force", 4, 0.1, 20));
+    parameters.add(shadowRadius.set("shadowRadius", 100, 0, 500));
+    parameters.add(energyHighlightSize.set("energyHighlightSize", 100, 0, 500));
+    parameters.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
+    parameters.add(bumpmap.parameters);
     
     waveCount.addListener(this, &WaveManager::reloadInt);
     amount.addListener(this, &WaveManager::reloadInt);
-
+    
     waveDistance.addListener(this, &WaveManager::reload);
     force.addListener(this, &WaveManager::reload);
     restLength.addListener(this, &WaveManager::reload);
     strength.addListener(this, &WaveManager::reload);
     invMass.addListener(this, &WaveManager::reload);
-    
-    gui.loadFromFile("wavesScene_Settings.xml");
 }
 void WaveManager::reloadInt(int &value){
     float val = 0;
@@ -126,7 +122,6 @@ void WaveManager::draw(){
     }
 //    drawBox2d();
     ofSetColor(255, 255);
-    gui.draw();
 }
 void WaveManager::drawSpikes(){
     for (int i = 0; i < waves.size(); i++) {

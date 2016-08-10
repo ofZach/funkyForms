@@ -45,15 +45,12 @@ public:
     };
     
     // Gui
-    ofxPanel gui;
+    ofParameterGroup parameters;
     ofParameter<int> amount;
     ofParameter<float> strength;
     ofParameter<float> restLength;
     ofParameter<float> invMass;
     ofParameter<float> force;
-    ofParameter<float> density;
-    ofParameter<float> bounce;
-    ofParameter<float> friction;
     ofParameter<int> waveCount;
     ofParameter<float> waveDistance;
     ofParameter<float> shadowRadius = 100;
@@ -61,6 +58,7 @@ public:
     ofParameter<float> energyHighlightSize = 100;
     
     void setup();
+    void setupGui();
     void addWave( int ypos, ofFloatColor col, ofColor baseCol);
     void addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i);
     void reload(float &value);

@@ -9,8 +9,9 @@
 #include "eyesScene.hpp"
 // ------------ setup
 void eyesScene::setup(){
-    eyePair.setup();
+    eyeParticles.setupGui();
     setupGui();
+    eyePair.setup();
 //    eyeLinker.setup();
     eyeParticles.cvData = cvData;
     eyeParticles.setup();
@@ -20,9 +21,10 @@ void eyesScene::setupGui(){
     parameters.add(isEyePairMode.set("isEyePairMode", true));
     parameters.add(isEyeParticleMode.set("isEyeParticleMode", true));
     parameters.add(isEyeLinkerMode.set("isEyeLinkerMode", true));
-    gui.setup("eyesScene_settings", "eyesScene_settings.xml");
+    gui.setup("settings_eyesScene", "settings_eyesScene.xml");
     gui.add(parameters);
-    gui.loadFromFile("eyesScene_settings.xml");
+    gui.add(eyeParticles.parameters);
+    gui.loadFromFile("settings_eyesScene.xml");
 }
 // ------------ update
 void eyesScene::update(){

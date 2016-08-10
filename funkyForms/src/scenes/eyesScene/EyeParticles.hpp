@@ -12,14 +12,13 @@
 #include "ofMain.h"
 #include "eye.hpp"
 #include "eyeParticle.hpp"
-#include "ofxGui.h"
-#include "ofxXmlSettings.h"
 #include "cvManager.h"
 
 class EyeParticles{
 public:
     cvPacket * cvData;
-
+    ofParameterGroup parameters;
+    
     enum Behavior{
         B_ATTACK,
         B_WAIT,
@@ -27,6 +26,7 @@ public:
     };
     
     void setup();
+    void setupGui();
     
     void update();
     
@@ -47,8 +47,6 @@ private:
     vector<eyeParticle> particles;
     vector<eye> eyes;
     
-    ofxPanel gui;
-    ofParameterGroup parameters;
     ofParameter<float> count;
     ofParameter<bool> initButton;
     ofParameter<float> repulsionForce;
@@ -58,6 +56,7 @@ private:
     ofParameter<float> scaleSpeed;
     ofParameter<float> scaleMax;
     ofParameter<float> scaleRadius;
+    ofParameter<int> behaviorMode;
 
     
 

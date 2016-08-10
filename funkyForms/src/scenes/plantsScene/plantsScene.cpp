@@ -18,10 +18,10 @@ void plantsScene::setupGui(){
     parameters.setName("plantsSceneParameters");
     parameters.add(glowRadius.set("glowRadius", 10, 1, 50));
     parameters.add(glowOpacity.set("glowOpacity", 100, 0, 255));
-    parameters.add(plantManager.parameters);
-    gui.setup("plantsScene", "settings_PlantsScene.xml");
+    gui.setup("settings_plantsScene", "settings_plantsScene.xml");
     gui.add(parameters);
-    gui.loadFromFile("settings_PlantsScene.xml");
+    gui.add(plantManager.parameters);
+    gui.loadFromFile("settings_plantsScene.xml");
 }
 void plantsScene::update(){
     plantManager.update();
