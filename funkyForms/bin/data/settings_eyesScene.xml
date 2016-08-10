@@ -1,7 +1,7 @@
 <settings_eyesScene>
 	<eyesSceneParameters>
 		<isEyePairMode>0</isEyePairMode>
-		<isEyeParticleMode>1</isEyeParticleMode>
+		<isEyeParticleMode>0</isEyeParticleMode>
 		<isEyeLinkerMode>1</isEyeLinkerMode>
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
@@ -17,4 +17,9 @@
 		<scaleRadius>200</scaleRadius>
 	</EyeParticlesParameters>
 <settings_eyesScene/>
+<eyeLinkerParameters>
+		<width>202.653</width>
+		<height>208.673</height>
+		<scale>0.643878</scale>
+	</eyeLinkerParameters>
 </settings_eyesScene>

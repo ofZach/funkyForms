@@ -55,10 +55,15 @@ public:
     ofVec2f getVelAvgSmoothAt(int ID){
         return (*(trackedContours))[ID].velAvgSmooth;
     }
+    ofVec2f getTopPointAt(int ID){
+        int whichBlob = idToBlobPos[ID];
+        float x = blobs[whichBlob].blob.getBoundingBox().getCenter().x;
+        float y = blobs[whichBlob].blob.getBoundingBox().getTop();
+        return ofVec2f(x, y);
+    }
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
 };
-
 
 
 

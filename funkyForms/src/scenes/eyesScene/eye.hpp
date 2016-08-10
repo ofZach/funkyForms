@@ -19,10 +19,7 @@ private:
     ofVec2f eyeballPos;
     ofVec2f lookAtPos;
     
-    float width;
-    float height;
-    float initWidth;
-    float initHeight;
+
     
     bool isMove;
     ofVec2f movePos;
@@ -42,6 +39,7 @@ private:
     bool isEyeClosing = false;
     bool isEyeOpen = false;
     bool isEyeClose = false;
+
     int blinkCounter = 0;
     int delayCounter = 0;
     int delay;
@@ -58,6 +56,12 @@ private:
     eye *eyeTarget;
     ofVec2f LookAtSmartPos;
 public:
+        bool isCloseFinished();
+    float width;
+    float height;
+    float initWidth;
+    float initHeight;
+    
     float scaleSpeed = 0.1;
     int blinkInterval = 70;
     void setup(ofVec2f _pos, float _width, float _height);
@@ -73,6 +77,8 @@ public:
     
     float getWidth(){return width;}
     float getHeight(){return height;}
+    float getScaledWidth(){return width*scale;}
+    float getScaledHeight(){return height*scale;}
     ofVec2f getPos(){return pos;}
     ofVec2f getEyeBalPos(){return eyeballPos;}
     ofVec2f getLookAtPos(){return lookAtPos;}

@@ -7,54 +7,69 @@
 //
 
 #include "EyeLinker.hpp"
-
-void EyeLinker::addEye(){
-    
-}
-void EyeLinker::updateEbPhysics(){
-    particlesEb[0].pos.set(pos.x, pos.y);
-    for (int i = 0; i < particlesEb.size(); i++){
-        particlesEb[i].resetForce();
-    }
-    for (int i = 0; i < particlesEb.size(); i++){
-        particlesEb[i].addForce(0, 0.6);
-    }
-    for (int i = 0; i < springsEb.size(); i++){
-        springsEb[i].update();
-    }
-    for (int i = 0; i < particlesEb.size(); i++){
-        particlesEb[i].addDampingForce();
-        particlesEb[i].update();
-    }
-}
+// ------------- setup
 void EyeLinker::setup(){
     eyes.push_back(*new eye);
-    eyes[0].setup(ofVec2f(100, 100), 200, 200);
+    eyes[0].setup(pos, width, height);
     eyes[0].setEyeColor(ofColor::darkGreen);
-    particles.push_back(*new particle);
-    particles[0].setInitialCondition(ofRandom(500,550),ofRandom(500,550),0,0);
-    
     for (int i = 0; i < 2; i++){
         particle myParticle;
-        myParticle.setInitialCondition(ofRandom(500,550),ofRandom(500,550),0,0);
-        particlesEb.push_back(myParticle);
+        myParticle.setInitialCondition(pos.x, pos.y ,0,0);
+        particles.push_back(myParticle);
     }
     
-    for (int i = 0; i < (particlesEb.size()-1); i++){
+    for (int i = 0; i < (particles.size()-1); i++){
         spring mySpring;
-        mySpring.distance		= 5;
+        mySpring.distance		= 0;
         mySpring.springiness	= 0.03f;
-        mySpring.particleA = & (particlesEb[i]);
-        mySpring.particleB = & (particlesEb[(i+1)%particlesEb.size()]);
-        springsEb.push_back(mySpring);
+        mySpring.particleA = & (particles[i]);
+        mySpring.particleB = & (particles[(i+1)%particles.size()]);
+        springs.push_back(mySpring);
     }
 }
-void EyeLinker::update(ofVec2f _pos){
+void EyeLinker::setPos(ofVec2f _pos){
     float s = 0.9;
-    pos = pos*s+(1-s)*_pos;
-    for (int i = 0; i < particles.size(); i++){
+    pos = pos * s + (1-s) * _pos;
+}
+void EyeLinker::setVel(ofVec2f _vel){
+    vel = vel*0.9 + 0.1*_vel;
+    if(vel.match(velPrev, 0.9)){
+        idleCounter++;
+    }else{
+        idleCounter = 0;
+        isSleep = false;
+    }
+    if(idleCounter>120){
+        isSleep = true;
+    }
+    velPrev = vel;
+}
+void EyeLinker::setScale(float scale){
+    scale = scale;
+    for(auto &e : eyes){
+        e.setScale(scale);
+    }
+}
+void EyeLinker::setSize(float w, float h){
+    width = w;
+    height = h;
+}
+void EyeLinker::out(){
+    for (auto &e : eyes){
+        e.close();
+    }
+}
+// ------------- update
+void EyeLinker::update(){
+    updateParameters();
+    updatePhysics();
+    updateEye();
+    updateFading();
+}
+void EyeLinker::updateEye(){
+    for (int i = 0; i < eyes.size(); i++){
         eyes[i].update(pos);
-        eyes[i].lookAt(particlesEb[particlesEb.size()-1].pos);
+        eyes[i].lookAt(particles[particles.size()-1].pos);
         if(fabsf(vel.y)>5){
             eyes[i].setUpdateBlink(false);
             eyes[i].addAngryForce(true, 0.2, 0.6);
@@ -69,34 +84,53 @@ void EyeLinker::update(ofVec2f _pos){
                 eyes[i].addAngryForce(false, 0.1, 0.6);
             }
         }
-        
-        eyes[i].setScale(ofMap(vel.y, 20, -20, 0.5, 3., true));
+//        eyes[i].setScale(ofMap(vel.y, 20, -20, 0.5, 3., true));
+    }
+}
+void EyeLinker::updatePhysics(){
+    
+    particles[0].pos.set(pos.x, pos.y);
+    
+    for (int i = 0; i < particles.size(); i++){
         particles[i].resetForce();
     }
-    updateEbPhysics();
-
+    for (int i = 0; i < springs.size(); i++){
+        springs[i].update();
+    }
     for (int i = 0; i < particles.size(); i++){
         particles[i].addDampingForce();
         particles[i].update();
     }
-    
-
 }
+void EyeLinker::updateFading(){
+    if(isFading){
+        // todo: fading
+    }
+}
+void EyeLinker::updateParameters(){
+    for(auto &e : eyes){
+        e.width = width;
+        e.height = height;
+    }
+}
+bool EyeLinker::isFinished(){
+    return  eyes[0].isCloseFinished();
+}
+// ------------- draw
 void EyeLinker::draw(){
     for(auto eye: eyes){
         eye.draw();
     }
+//    drawParticles();
 }
-void EyeLinker::setVel(ofVec2f _vel){
-    vel = vel*0.9 + 0.1*_vel;
-    if(vel.match(velPrev, 0.9)){
-        idleCounter++;
-    }else{
-        idleCounter = 0;
-        isSleep = false;
+void EyeLinker::drawParticles(){
+    ofFill();
+    int i = 0;
+    ofColor colors[3] = {ofColor::blue, ofColor::green, ofColor::red};
+    for(auto &p : particles){
+        ofSetColor(colors[i%2]);
+        ofDrawCircle(p.pos, 5);
+        p.draw();
+        i++;
     }
-    if(idleCounter>120){
-        isSleep = true;
-    }
-    velPrev = vel;
 }

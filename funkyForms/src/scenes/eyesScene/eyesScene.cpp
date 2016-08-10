@@ -9,12 +9,19 @@
 #include "eyesScene.hpp"
 // ------------ setup
 void eyesScene::setup(){
+    // gui
     eyeParticles.setupGui();
+    eyeLinkerManager.setupGui();
     setupGui();
+    
+    // setup
     eyePair.setup();
-//    eyeLinker.setup();
+    eyeLinkerManager.cv = cvData;
+    eyeLinkerManager.setup();
     eyeParticles.cvData = cvData;
     eyeParticles.setup();
+    
+    eyeLinker.setup();
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
@@ -24,6 +31,7 @@ void eyesScene::setupGui(){
     gui.setup("settings_eyesScene", "settings_eyesScene.xml");
     gui.add(parameters);
     gui.add(eyeParticles.parameters);
+    gui.add(eyeLinkerManager.parameters);
     gui.loadFromFile("settings_eyesScene.xml");
 }
 // ------------ update
@@ -37,7 +45,11 @@ void eyesScene::update(){
     if(isEyeParticleMode){
         eyeParticles.update();
     }
-
+    if(isEyeLinkerMode){
+        eyeLinkerManager.update();
+    }
+    eyeLinker.setPos(ofVec2f(ofGetMouseX(), ofGetMouseY()));
+    eyeLinker.update();
 }
 void eyesScene::updateAveragePos(){
     ofVec2f p;
@@ -77,8 +89,12 @@ void eyesScene::draw(){
     if(isEyeParticleMode){
         eyeParticles.draw();
     }
+    if(isEyeLinkerMode){
+        eyeLinkerManager.draw();
+    }
     drawPeople();
     gui.draw();
+    eyeLinker.draw();
 }
 void eyesScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){
@@ -95,9 +111,9 @@ void eyesScene::stop(){
 
 }
 void eyesScene::blobBorn(int id){
-
+    eyeLinkerManager.addEye(id, cvData->getTopPointAt(id));
 }
 void eyesScene::blobDied(int id){
-
+    eyeLinkerManager.removeEye(id);
 }
 

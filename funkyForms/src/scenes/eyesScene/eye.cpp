@@ -101,6 +101,13 @@ void eye::close(){
     delay = ofRandom(0, 120);
     delayCounter = 0;
 }
+bool eye::isCloseFinished(){
+    if (isEyeClose && !lids.isEyeOpen){
+        return true;
+    }else{
+        return false;
+    }
+}
 void eye::createEyeball(){
     ball.clear();
     pupil.clear();

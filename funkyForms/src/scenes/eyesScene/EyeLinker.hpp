@@ -13,26 +13,55 @@
 #include "eye.hpp"
 #include "particle.h"
 #include "spring.h"
+#include "cvManager.h"
 
 class EyeLinker{
 public:
-    vector<eye> eyes;
-    vector<particle> particles;
-    vector <spring> springsEb;
-    vector <particle> particlesEb;
+    // Pos, Vel, ID, Size
     ofVec2f pos;
     ofVec2f vel;
     ofVec2f velPrev;
+    int id;
+    float width = 100;
+    float height = 100;
+    float scale = 1.0;
+    
+    // Input
+    cvPacket * cvData;
+    
+    // Eyes
+    vector<eye> eyes;
+    
+    // Particles
+    vector <spring> springs;
+    vector <particle> particles;
+    
+    // Timing
     int idleCounter = 0;
     bool isSleep = false;
     
-    void updateEbPhysics();
-    void addEye();
-    void removeEye();
-    void setVel(ofVec2f _vel);
+    // Fading
+    bool isFading = false;
+    bool isFinished();
+    
+    // Gui
+    
     void setup();
-    void update(ofVec2f _pos);
+    void setupGui();
+    void setVel(ofVec2f _vel);
+    void setPos(ofVec2f _pos);
+    void setSize(float w, float h);
+    void setScale(float scale);
+    void out();
+
+    void update();
+    void updateEye();
+    void updateParameters();
+    void updateFading();
+    void updatePhysics();
+    
     void draw();
+    void drawParticles();
     
 };
 

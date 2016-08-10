@@ -19,6 +19,7 @@
 		63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6151136D101F857DAE12722 /* ofxCvImage.cpp */; };
 		63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DF87D612C5AAE17AAFA6C0 /* ofxXmlSettings.cpp */; };
 		6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBB4A8427353AED09174BE5 /* ContourFinder.cpp */; };
+		723A73E11D5B88330080D303 /* eyeLinkerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 723A73DF1D5B88330080D303 /* eyeLinkerManager.cpp */; };
 		72835E7C1D5A5DD800A71A0E /* particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E781D5A5DD800A71A0E /* particle.cpp */; };
 		72835E7D1D5A5DD800A71A0E /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E7A1D5A5DD800A71A0E /* spring.cpp */; };
 		72835E8A1D5A60D800A71A0E /* eye.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72835E801D5A60D800A71A0E /* eye.cpp */; };
@@ -188,6 +189,8 @@
 		7101CF2125B8B2BF46AA2662 /* cxcore.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cxcore.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv/cxcore.hpp; sourceTree = SOURCE_ROOT; };
 		71C98C3F44D63B39F1482A54 /* background_segm.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = background_segm.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/background_segm.hpp; sourceTree = SOURCE_ROOT; };
 		722542BCDC94162B6A8B9B72 /* defines.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = defines.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/defines.h; sourceTree = SOURCE_ROOT; };
+		723A73DF1D5B88330080D303 /* eyeLinkerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eyeLinkerManager.cpp; sourceTree = "<group>"; };
+		723A73E01D5B88330080D303 /* eyeLinkerManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eyeLinkerManager.hpp; sourceTree = "<group>"; };
 		7279658ADA9582251CB1D783 /* log.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = log.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/log.hpp; sourceTree = SOURCE_ROOT; };
 		72835E781D5A5DD800A71A0E /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
 		72835E791D5A5DD800A71A0E /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
@@ -739,6 +742,8 @@
 				72835E901D5A619500A71A0E /* eyesScene.hpp */,
 				72835E801D5A60D800A71A0E /* eye.cpp */,
 				72835E811D5A60D800A71A0E /* eye.hpp */,
+				723A73DF1D5B88330080D303 /* eyeLinkerManager.cpp */,
+				723A73E01D5B88330080D303 /* eyeLinkerManager.hpp */,
 				72835E821D5A60D800A71A0E /* EyeLinker.cpp */,
 				72835E831D5A60D800A71A0E /* EyeLinker.hpp */,
 				72835E841D5A60D800A71A0E /* EyePair.cpp */,
@@ -1419,6 +1424,7 @@
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
 				72955B7E1D5917980037303D /* PlantRig.cpp in Sources */,
 				72835E7C1D5A5DD800A71A0E /* particle.cpp in Sources */,
+				723A73E11D5B88330080D303 /* eyeLinkerManager.cpp in Sources */,
 				311DF864378748129984EA1D /* Kalman.cpp in Sources */,
 				C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */,
 				9215152B1D14474B00450FA7 /* cvManager.cpp in Sources */,

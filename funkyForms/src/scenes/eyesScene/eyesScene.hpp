@@ -11,9 +11,10 @@
 
 #include "ofMain.h"
 #include "baseScene.h"
-#include "EyeLinker.hpp"
+#include "eyeLinkerManager.hpp"
 #include "EyeParticles.hpp"
 #include "EyePair.hpp"
+#include "EyeLinker.hpp"
 #include "ofxGui.h"
 
 class eyesScene : public baseScene{
@@ -21,8 +22,9 @@ public:
     
     // eyes
     EyeParticles eyeParticles;
-    EyeLinker eyeLinker;
+    eyeLinkerManager eyeLinkerManager;
     EyePair eyePair;
+    EyeLinker eyeLinker;
     
     // people calculation
     ofVec2f averagePos;
