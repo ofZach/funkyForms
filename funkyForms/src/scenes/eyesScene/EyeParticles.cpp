@@ -88,7 +88,7 @@ void EyeParticles::behaveRandom(){
         }
     }
     for(auto &id: cvData->idsThisFrame){
-        ofVec2f pos = (*(cvData->trackedContours))[id].resampleSmoothed.getVertices()[0];
+        ofPoint pos = cvData->getCentoidAt(id);
         for (int i = 0; i < particles.size(); i++){
             eyes[i].lookAtNear(pos);
             eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
@@ -110,13 +110,10 @@ void EyeParticles::behaveRandom(){
 void EyeParticles::behaveWait(){
     for (int i = 0; i < particles.size(); i++){
         for(auto &id: cvData->idsThisFrame){
-            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
-            for (int j = 0; j < line.size(); j += line.size()/10 ) {
-                ofVec2f pos = line.getVertices()[j];
-                ofVec2f vel = (*(cvData->trackedContours))[id].velPts[j];
-                eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
-                eyes[i].lookAtNear(pos);
-            }
+            ofVec2f vel = cvData->getVelAvgSmoothAt(id);
+            ofPoint pos = cvData->getCentoidAt(id);
+            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+            eyes[i].lookAtNear(pos);
         }
         eyes[i].update(particles[i].getPos());
         eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
@@ -129,13 +126,9 @@ void EyeParticles::behaveWait(){
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
         for(auto &id: cvData->idsThisFrame){
-            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
-            for (int j = 0; j < line.size(); j += line.size()/10 ) {
-                ofVec2f pos = line.getVertices()[j];
-                ofVec2f vel = (*(cvData->trackedContours))[id].velPts[j];
-                particles[i].addRepulsionForce(pos.x, pos.y, 100, ofMap(vel.y, -10, 10, 0, 0.2, true));
-
-            }
+            ofVec2f vel = cvData->getVelAvgSmoothAt(id);
+            ofPoint pos = cvData->getCentoidAt(id);
+            particles[i].addRepulsionForce(pos.x, pos.y, 100, ofMap(vel.y, -10, 10, 0, 0.2, true));
         }
     }
     for (int i = 0; i < particles.size(); i++){
@@ -147,10 +140,9 @@ void EyeParticles::behaveWait(){
 void EyeParticles::behaveAttack(){
     for (int i = 0; i < particles.size(); i++){
         for(auto &id: cvData->idsThisFrame){
-            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
-            ofVec2f pos = line.getVertices()[0];
-            eyes[i].lookAtNear(pos);
-            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+            ofPoint centroid = cvData->getCentoidAt(id);
+            eyes[i].lookAtNear(centroid);
+            eyes[i].addScaleForce(centroid, scaleRadius, scaleSpeed, scaleMax);
         }
         eyes[i].update(particles[i].getPos());
         eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
@@ -163,14 +155,11 @@ void EyeParticles::behaveAttack(){
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
         for(auto &id: cvData->idsThisFrame){
-            ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
-            ofVec2f vel = (*(cvData->trackedContours))[id].velAvgSmooth;
-            for (int j = 0; j < line.size(); j += line.size()/10 ) {
-                ofVec2f pos = line.getVertices()[j];
-//                eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
-                eyes[i].lookAtNear(pos);
-                particles[i].addAttractionForce(pos.x, pos.y, 1000, attractionForce);
-            }
+            ofVec2f vel = cvData->getVelAvgSmoothAt(id);
+            ofPoint pos = cvData->getCentoidAt(id);
+            
+            eyes[i].lookAtNear(pos);
+            particles[i].addAttractionForce(pos.x, pos.y, 1000, attractionForce);
         }
         
     }
