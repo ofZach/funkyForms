@@ -16,7 +16,10 @@ void eyeLinkerManager::setupGui(){
     parameters.add(width.set("width", 100, 10, 600));
     parameters.add(height.set("height", 100, 10, 600));
     parameters.add(scale.set("scale", 1.0, 0.2, 6));
-    scale.addListener(this, &eyeLinkerManager::setupParameters);
+    parameters.add(inputScaleRange.set("inputScaleRange", 1.0, 0.5, 2));
+    parameters.add(outputScaleRange.set("outputScaleRange", 1.0, 0.5, 5.0));
+    parameters.add(scaleClip.set("scaleClip", false));
+//    scale.addListener(this, &eyeLinkerManager::setupParameters);
 }
 void eyeLinkerManager::setupParameters(float &v){
     for(auto &e : eyes){
@@ -49,6 +52,10 @@ void eyeLinkerManager::updateEye(){
         for(auto &id : cv->idsThisFrame){
             if(id == e.id){
                 e.setPos(cv->getTopPointAt(id));
+                float vellength = cv->getVelAvgSmoothAt(id).length();
+                float range = 0.5;
+                float s = ofMap(vellength, -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
+                e.setScale(s);
             }
         }
         e.update();

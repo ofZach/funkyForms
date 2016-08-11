@@ -20,6 +20,9 @@
 <eyeLinkerParameters>
 		<width>202.653</width>
 		<height>208.673</height>
-		<scale>0.643878</scale>
+		<scale>0.466327</scale>
+	<inputScaleRange>0.622449</inputScaleRange>
+		<outputScaleRange>0.706633</outputScaleRange>
+		<scaleClip>1</scaleClip>
 	</eyeLinkerParameters>
 </settings_eyesScene>

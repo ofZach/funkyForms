@@ -16,7 +16,12 @@
 class eyeLinkerManager{
 public:
     // Pos, size, vel
-    
+    ofParameter<float> width;
+    ofParameter<float> height;
+    ofParameter<float> scale;
+    ofParameter<float> inputScaleRange;
+    ofParameter<float> outputScaleRange;
+    ofParameter<bool> scaleClip;
     
     // Input
     cvPacket * cv;
@@ -26,9 +31,8 @@ public:
     
     // Gui
     ofParameterGroup parameters;
-    ofParameter<float> width;
-    ofParameter<float> height;
-    ofParameter<float> scale;
+    
+
     
     void setup();
     void setupGui();
