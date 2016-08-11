@@ -28,7 +28,7 @@ public:
     flockingForce seperation;
     flockingForce alignment;
     
-    float angle;
+    float angle = 0;
     
     ofVec2f getPos(){ return pos; }
     float getAngle();

@@ -23,7 +23,8 @@ void Plant::setupAnimators(){
     mbGrowAnimator.setup(0, 1);
     fadingDelay = ofRandom(20, 50);
     for (int i = 0; i < rig.childBranchesPoints.size()  + rig.child2pts.size(); i++) {
-        cbGrowAnimators.push_back( * new Animator);
+        Animator animator;
+        cbGrowAnimators.push_back(animator);
         cbGrowAnimators[i].setup(0, 1);
     }
 }

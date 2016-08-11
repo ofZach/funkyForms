@@ -32,7 +32,8 @@ void eyeLinkerManager::setupParameters(float &v){
     }
 }
 void eyeLinkerManager::addEye(int id, ofVec2f pos){
-    eyes.push_back(*new EyeLinker);
+    EyeLinker eyelinker;
+    eyes.push_back(eyelinker);
     int i = eyes.size()-1;
     eyes[i].id = id;
     eyes[i].pos = pos;

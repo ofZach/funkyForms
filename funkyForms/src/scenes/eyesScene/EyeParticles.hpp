@@ -43,10 +43,8 @@ public:
     void behaveAttack();
     void behaveRandom();
     
-private:
     vector<eyeParticle> particles;
     vector<eye> eyes;
-    
     ofParameter<float> count;
     ofParameter<bool> initButton;
     ofParameter<float> repulsionForce;
@@ -57,6 +55,8 @@ private:
     ofParameter<float> scaleMax;
     ofParameter<float> scaleRadius;
     ofParameter<int> behaviorMode;
+private:
+    
 
     
 

@@ -10,7 +10,8 @@
 // ------------- setup
 void EyeLinker::setup(){
     initValues();
-    eyes.push_back(*new eye);
+    eye eye;
+    eyes.push_back(eye);
     eyes[0].closeEyeSpeed = 0.2;
     eyes[0].openEyeSpeed = 0.2;
 //    eyes[0].delay = 2;

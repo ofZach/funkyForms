@@ -38,7 +38,9 @@ void EyeParticles::init(){
         float y = ofRandom(0,ofGetHeight());
         myParticle.setInitialCondition(x,y,0,0);
         particles.push_back(myParticle);
-        eyes.push_back(*new eye());
+        
+        eye eye;
+        eyes.push_back(eye);
         eyes[i].setup(ofVec2f(x, y), 50, 50);
         eyes[i].setEyeColor(ofColor::darkGray);
         eyes[i].setScale(ofRandom(1, 2));

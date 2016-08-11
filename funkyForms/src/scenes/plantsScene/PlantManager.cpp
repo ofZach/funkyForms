@@ -17,7 +17,8 @@ void PlantManager::setup(){
     }
 }
 void PlantManager::addBgPlant(ofVec2f _pos){
-    bgPlants.push_back( *new Plant );
+    Plant plant;
+    bgPlants.push_back(plant);
     int i = bgPlants.size()-1;
     
     bgPlants[i].rig.cbCount = ofRandom(5, 7) ;
@@ -43,7 +44,8 @@ void PlantManager::addBgPlant(ofVec2f _pos){
     bgPlants[i].fadeIn();
 }
 void PlantManager::addPlant(ofVec2f _pos, int id){
-    plants.push_back( *new Plant );
+    Plant plant;
+    plants.push_back(plant );
     int i = plants.size()-1;
     
     plants[i].id = id;
