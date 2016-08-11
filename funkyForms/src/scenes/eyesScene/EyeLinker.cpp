@@ -10,6 +10,8 @@
 // ------------- setup
 void EyeLinker::setup(){
     eyes.push_back(*new eye);
+    eyes[0].closeEyeSpeed = 0.2;
+    eyes[0].openEyeSpeed = 0.2;
     eyes[0].setup(pos, width, height);
     eyes[0].setEyeColor(ofColor::darkGreen);
     for (int i = 0; i < 2; i++){

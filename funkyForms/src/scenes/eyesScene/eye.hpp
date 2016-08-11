@@ -40,9 +40,10 @@ private:
     bool isEyeOpen = false;
     bool isEyeClose = false;
 
+
     int blinkCounter = 0;
     int delayCounter = 0;
-    int delay;
+    int delay = 0;
     
     void closeEye();
     void openEye();
@@ -56,6 +57,8 @@ private:
     eye *eyeTarget;
     ofVec2f LookAtSmartPos;
 public:
+    float closeEyeSpeed = 0.02;
+    float openEyeSpeed = 0.05;
         bool isCloseFinished();
     float width;
     float height;

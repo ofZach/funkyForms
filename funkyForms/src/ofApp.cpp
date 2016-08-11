@@ -15,6 +15,7 @@ void ofApp::setup(){
         SM.scenes[i]->cvData = &IM.CVM.packet;
     }
     SM.setup();
+//    SM.currentScene = 2;
     
     bDrawDebug = false;
 }
@@ -45,7 +46,6 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofBackground(0);
-    
     if (bDrawDebug){
         IM.draw();
     } else {
@@ -56,7 +56,9 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if(key == '1') SM.currentScene = 1;
+    if(key == '2') SM.currentScene = 2;
+    if(key == '3') SM.currentScene = 3;
     if (key == 'd'){
         bDrawDebug = !bDrawDebug;
     }

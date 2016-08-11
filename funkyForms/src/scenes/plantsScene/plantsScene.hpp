@@ -15,6 +15,7 @@
 
 class plantsScene : public baseScene {
 public:
+    
     // plants
     PlantManager plantManager;
     

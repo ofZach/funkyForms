@@ -38,6 +38,10 @@ void eyesScene::setupGui(){
 void eyesScene::update(){
     updateAveragePos();
     updateFastestPos();
+    updateEyes();
+//    updateEyeLinker();
+}
+void eyesScene::updateEyes(){
     if(isEyePairMode){
         eyePair.update(averagePos);
         eyePair.lookAtSmart(fastestPos);
@@ -48,7 +52,15 @@ void eyesScene::update(){
     if(isEyeLinkerMode){
         eyeLinkerManager.update();
     }
+}
+void eyesScene::updateEyeLinker(){
     eyeLinker.setPos(ofVec2f(ofGetMouseX(), ofGetMouseY()));
+    if(ofGetKeyPressed('k')){
+        eyeLinker.out();
+    }
+    if(ofGetKeyPressed('o')){
+        eyeLinker.eyes[0].open();
+    }
     eyeLinker.update();
 }
 void eyesScene::updateAveragePos(){
@@ -83,6 +95,15 @@ void eyesScene::updateFastestPos(){
 }
 // ------------ draw
 void eyesScene::draw(){
+    drawEyes();
+    drawPeople();
+//    drawEyeLinker();
+    gui.draw();
+}
+void eyesScene::drawEyeLinker(){
+    eyeLinker.draw();
+}
+void eyesScene::drawEyes(){
     if(isEyePairMode){
         eyePair.draw();
     }
@@ -92,9 +113,6 @@ void eyesScene::draw(){
     if(isEyeLinkerMode){
         eyeLinkerManager.draw();
     }
-    drawPeople();
-    gui.draw();
-    eyeLinker.draw();
 }
 void eyesScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){

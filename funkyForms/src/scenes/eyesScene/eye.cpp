@@ -27,7 +27,6 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
 
     open();
     //((ofApp *)ofGetAppPtr())->keyPressed('z');
-    delay = ofRandom(0, 120);
 }
 void eye::draw(){
     lids.lidHole.draw();
@@ -61,14 +60,14 @@ void eye::randomBlink(){
     }
 }
 void eye::openEye(){
-    lids.setScaleSpeed(ofRandom(0.02, 0.05));
+    lids.setScaleSpeed(openEyeSpeed);
     lids.open();
     isBlinking = false;
     blinkCounter = 0;
     isEyeClosing = false;
 }
 void eye::closeEye(){
-    lids.setScaleSpeed(ofRandom(0.02, 0.05));
+    lids.setScaleSpeed(closeEyeSpeed);
     lids.close();
     isEyeClosing = true;
     isBlinking = false;
@@ -93,12 +92,12 @@ void eye::blinking(){
 }
 void eye::open(){
     isEyeOpen = true;
-    delay = ofRandom(0, 120);
+//    delay = ofRandom(0, 120);
     delayCounter = 0;
 }
 void eye::close(){
     isEyeClose = true;
-    delay = ofRandom(0, 120);
+//    delay = ofRandom(0, 120);
     delayCounter = 0;
 }
 bool eye::isCloseFinished(){

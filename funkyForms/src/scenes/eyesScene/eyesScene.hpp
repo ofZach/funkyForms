@@ -42,10 +42,14 @@ public:
     
     void update();
     void updateAveragePos();
+    void updateEyes();
     void updateFastestPos();
+    void updateEyeLinker();
     
     void draw();
+    void drawEyeLinker();
     void drawPeople();
+    void drawEyes();
     
     void start();
     void stop();
