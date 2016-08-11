@@ -17,7 +17,10 @@ void eyesScene::setup(){
     // setup
     eyePair.setup();
     eyeLinkerManager.cv = cvData;
+
+    eyeLinker.setSize(eyeLinkerManager.width, eyeLinkerManager.height);
     eyeLinkerManager.setup();
+    
     eyeParticles.cvData = cvData;
     eyeParticles.setup();
     
@@ -61,6 +64,13 @@ void eyesScene::updateEyeLinker(){
     if(ofGetKeyPressed('o')){
         eyeLinker.eyes[0].open();
     }
+    eyeLinker.setScale(eyeLinkerManager.scale);
+    eyeLinker.isGlow = eyeLinkerManager.isGlow;
+    eyeLinker.glowRadius = eyeLinkerManager.glowRadius;
+    eyeLinker.glowResolution = eyeLinkerManager.glowResolution;
+    eyeLinker.glowOpacity = eyeLinkerManager.glowOpacity;
+    
+    eyeLinker.eyes[0].setAngle(ofGetFrameNum()%360);
     eyeLinker.update();
 }
 void eyesScene::updateAveragePos(){
@@ -102,6 +112,12 @@ void eyesScene::draw(){
 }
 void eyesScene::drawEyeLinker(){
     eyeLinker.draw();
+    ofSetColor(ofColor::red);
+
+    ofPushMatrix();
+    ofTranslate(eyeLinker.eyes[0].getPos());
+    eyeLinker.eyes[0].lids.draw();
+    ofPopMatrix();
 }
 void eyesScene::drawEyes(){
     if(isEyePairMode){

@@ -19,6 +19,8 @@ class EyeLinker{
 public:
     // Pos, Vel, ID, Size
     ofVec2f pos;
+    ofVec2f posPrev;
+    float velSmooth = 0.9;
     ofVec2f vel;
     ofVec2f velPrev;
     int id;
@@ -31,6 +33,13 @@ public:
     
     // Eyes
     vector<eye> eyes;
+
+    // Effects
+    ofImage glow;
+    int glowResolution = 10;
+    float glowRadius = 20;
+    float glowOpacity = 120;
+    bool isGlow;
     
     // Particles
     vector <spring> springs;
@@ -47,6 +56,7 @@ public:
     // Gui
     
     void setup();
+    void initValues();
     void setupGui();
     void setVel(ofVec2f _vel);
     void setPos(ofVec2f _pos);
@@ -57,11 +67,13 @@ public:
     void update();
     void updateEye();
     void updateParameters();
+    void updateVelocity();
     void updateFading();
     void updatePhysics();
     
     void draw();
     void drawParticles();
+    void drawGlow();
     
 };
 

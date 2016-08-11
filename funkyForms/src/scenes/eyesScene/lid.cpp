@@ -31,6 +31,7 @@ void lid::updateScaleForce(){
 }
 void lid::update(){
     lidHole.clear();
+    contour.clear();
 
     // create rig
     topLidPos = ofMap(topLidPercent, 0, 1, -height/2, height/2, true);
@@ -46,6 +47,27 @@ void lid::update(){
     
     lidHole.scale(scaleX, scaleY);
     lidHole.rotate(angle, ofVec3f(0, 0, 1));
+    
+    ofVec2f scale(scaleX, scaleY);
+    ofVec3f zero(0, 0, 1);
+    
+    p0 = p0*scale;
+    p1 = p1*scale;
+    p2 = p2*scale;
+    p3 = p3*scale;
+    
+    p0.rotate(angle, zero);
+    p1.rotate(angle, zero);
+    p2.rotate(angle, zero);
+    p3.rotate(angle, zero);
+    
+    contour.lineTo(p0);
+    contour.bezierTo(p0, p1, p2);
+    contour.lineTo(p2);
+    contour.bezierTo(p2, p3, p0);
+}
+void lid::draw(){
+    contour.draw();
 }
 void lid::setTopLidPos(float percent){
     topLidPercent = percent;

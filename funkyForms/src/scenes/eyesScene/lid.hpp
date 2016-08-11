@@ -12,7 +12,7 @@
 #include "ofMain.h"
 
 class lid{
-private:
+public:
     float angle = 0;
     int step = 4;
     
@@ -32,11 +32,14 @@ private:
     float scaleSpeed = 0.2;
     float topLidPos;
     float topLidPercent = 0;
-public:
+
     int blinkSpeed = 2;
     ofVec2f pos;
     
     ofPath lidHole;
+    
+    // Polyline
+    ofPolyline contour;
     
     bool isOpening = true;
     bool isEyeOpen = false;
@@ -60,6 +63,8 @@ public:
     void setScaleSpeed(float speed){scaleSpeed = speed;}
     void setScale(float _scale){scaleY = _scale;}
     void setTopLidPos(float percent);
+
+    void draw();
 };
 
 #endif /* lid_hpp */

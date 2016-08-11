@@ -18,11 +18,16 @@
 	</EyeParticlesParameters>
 <settings_eyesScene/>
 <eyeLinkerParameters>
-		<width>202.653</width>
-		<height>208.673</height>
+		<width>190.612</width>
+		<height>190.612</height>
 		<scale>0.466327</scale>
-	<inputScaleRange>0.622449</inputScaleRange>
+	<inputScaleRange>1.7398</inputScaleRange>
 		<outputScaleRange>0.706633</outputScaleRange>
 		<scaleClip>1</scaleClip>
+	<isGlow>1</isGlow>
+		<glowRadius>39.1582</glowRadius>
+		<glowOpacity>89.7704</glowOpacity>
+		<glowResolution>20</glowResolution>
+	<velSmooth>0.946204</velSmooth>
 	</eyeLinkerParameters>
 </settings_eyesScene>

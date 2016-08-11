@@ -14,13 +14,11 @@
 #include "lid.hpp"
 
 class eye {
-private:
+public:
     ofVec2f pos;
     ofVec2f eyeballPos;
     ofVec2f lookAtPos;
-    
 
-    
     bool isMove;
     ofVec2f movePos;
     int moveCounter;
@@ -56,7 +54,7 @@ private:
     bool isSynced = false;
     eye *eyeTarget;
     ofVec2f LookAtSmartPos;
-public:
+
     float closeEyeSpeed = 0.02;
     float openEyeSpeed = 0.05;
         bool isCloseFinished();

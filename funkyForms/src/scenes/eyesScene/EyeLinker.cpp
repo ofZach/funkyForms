@@ -9,9 +9,11 @@
 #include "EyeLinker.hpp"
 // ------------- setup
 void EyeLinker::setup(){
+    initValues();
     eyes.push_back(*new eye);
     eyes[0].closeEyeSpeed = 0.2;
     eyes[0].openEyeSpeed = 0.2;
+//    eyes[0].delay = 2;
     eyes[0].setup(pos, width, height);
     eyes[0].setEyeColor(ofColor::darkGreen);
     for (int i = 0; i < 2; i++){
@@ -28,10 +30,15 @@ void EyeLinker::setup(){
         mySpring.particleB = & (particles[(i+1)%particles.size()]);
         springs.push_back(mySpring);
     }
+    glow.load("assets/glow.png");
+}
+void EyeLinker::initValues(){
+    vel.set(0, 0);
 }
 void EyeLinker::setPos(ofVec2f _pos){
     float s = 0.9;
     pos = pos * s + (1-s) * _pos;
+    updateVelocity();
 }
 void EyeLinker::setVel(ofVec2f _vel){
     vel = vel*0.9 + 0.1*_vel;
@@ -63,6 +70,7 @@ void EyeLinker::out(){
 }
 // ------------- update
 void EyeLinker::update(){
+    updateVelocity();
     updateParameters();
     updatePhysics();
     updateEye();
@@ -115,15 +123,32 @@ void EyeLinker::updateParameters(){
         e.height = height;
     }
 }
+void EyeLinker::updateVelocity(){
+    vel = velSmooth * vel + (1-velSmooth) * (pos - posPrev);
+    posPrev = pos;
+}
 bool EyeLinker::isFinished(){
     return  eyes[0].isCloseFinished();
 }
 // ------------- draw
 void EyeLinker::draw(){
+    if(isGlow) drawGlow();
     for(auto eye: eyes){
         eye.draw();
     }
 //    drawParticles();
+}
+void EyeLinker::drawGlow(){
+    ofPushMatrix();
+    ofTranslate(eyes[0].getPos());
+    ofPolyline l = eyes[0].lids.contour.getResampledByCount(glowResolution);
+    for (int i = 0; i < l.size(); i++) {
+        ofSetColor(255, glowOpacity);
+        float x = l.getVertices()[i].x - glowRadius;
+        float y = l.getVertices()[i].y - glowRadius;
+        glow.draw(x, y, glowRadius*2, glowRadius*2);
+    }
+    ofPopMatrix();
 }
 void EyeLinker::drawParticles(){
     ofFill();

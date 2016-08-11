@@ -79,7 +79,7 @@ void eye::blinking(){
     }
     if(isEyeClose && delayCounter == delay) {
         closeEye();
-        isEyeClose = false;
+//        isEyeClose = false;
     }
     delayCounter++;
     if(isBlinking){

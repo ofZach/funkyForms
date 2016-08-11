@@ -17,8 +17,13 @@ void eyeLinkerManager::setupGui(){
     parameters.add(height.set("height", 100, 10, 600));
     parameters.add(scale.set("scale", 1.0, 0.2, 6));
     parameters.add(inputScaleRange.set("inputScaleRange", 1.0, 0.5, 2));
+    parameters.add(velSmooth.set("velSmooth", 0.9, 0.8, 0.999));
     parameters.add(outputScaleRange.set("outputScaleRange", 1.0, 0.5, 5.0));
     parameters.add(scaleClip.set("scaleClip", false));
+    parameters.add(isGlow.set("isGlow", true));
+    parameters.add(glowRadius.set("glowRadius", 20, 5, 70));
+    parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
+    parameters.add(glowResolution.set("glowResolution", 20, 5, 200));
 //    scale.addListener(this, &eyeLinkerManager::setupParameters);
 }
 void eyeLinkerManager::setupParameters(float &v){
@@ -44,17 +49,25 @@ void eyeLinkerManager::removeEye(int id){
 }
 // ------------------- udpate
 void eyeLinkerManager::update(){
+    updateParameters();
     updateEyeRemoval();
     updateEye();
+}
+void eyeLinkerManager::updateParameters(){
+    for(auto &e : eyes ){
+        e.isGlow = isGlow;
+        e.glowRadius = glowRadius;
+        e.glowOpacity = glowOpacity;
+        e.glowResolution = glowResolution;
+        e.velSmooth = velSmooth;
+    }
 }
 void eyeLinkerManager::updateEye(){
     for(auto &e : eyes ){
         for(auto &id : cv->idsThisFrame){
             if(id == e.id){
                 e.setPos(cv->getTopPointAt(id));
-                float vellength = cv->getVelAvgSmoothAt(id).length();
-                float range = 0.5;
-                float s = ofMap(vellength, -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
+                float s = ofMap(e.vel.length(), -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
                 e.setScale(s);
             }
         }
