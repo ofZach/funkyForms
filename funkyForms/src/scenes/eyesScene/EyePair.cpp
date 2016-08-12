@@ -9,9 +9,10 @@
 #include "EyePair.hpp"
 void EyePair::setup(){
     for (int i = 0; i < 2; i++) {
-        eyes.push_back(*new eye);
-        eyes[i].setup(ofVec2f(100, 100), 200, 200);
-        eyes[i].setEyeColor(ofColor::lightSkyBlue);
+        eye eye;
+        eye.setup(ofVec2f(100, 100), 200, 200);
+        eye.setEyeColor(ofColor::lightSkyBlue);
+        eyes.push_back(eye);
     }
     eyes[1].setSyncEye(&eyes[0]);
 }

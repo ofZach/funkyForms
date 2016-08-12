@@ -21,9 +21,9 @@ void eye::setup(ofVec2f _pos, float _width, float _height){
     movePos.set(0, 0);
     
     int resolution = ofMap(width, 10, 500, 2, 40, true);
-    ball.setCircleResolution(resolution);
-    pupil.setCircleResolution(resolution);
-    lids.lidHole.setCurveResolution(resolution);
+//    ball.setCircleResolution(resolution);
+//    pupil.setCircleResolution(resolution);
+//    lids.lidHole.setCurveResolution(resolution);
 
     open();
     //((ofApp *)ofGetAppPtr())->keyPressed('z');
@@ -156,9 +156,9 @@ void eye::calcEyeballMovements(){
 void eye::update(ofVec2f _pos){
     // set resolution
     int resolution = ofMap(width, 10, 500, 2, 40, true);
-    ball.setCircleResolution(resolution);
-    pupil.setCircleResolution(resolution);
-    lids.lidHole.setCurveResolution(resolution);
+//    ball.setCircleResolution(resolution);
+//    pupil.setCircleResolution(resolution);
+//    lids.lidHole.setCurveResolution(resolution);
     
     // update parameters
     pos = _pos;

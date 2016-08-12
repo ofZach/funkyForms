@@ -11,7 +11,7 @@ void lid::setup(int _width, int _height){
     width = _width;
     height = _height;
     
-    lidHole.setCurveResolution(6);
+//    lidHole.setCurveResolution(6);
     scaleY = 0; // eye closed
     randomDelay = (int) ofRandom(0, 120);
     topLidPos = -height/2;

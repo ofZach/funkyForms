@@ -6,15 +6,15 @@
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
 		<behaviorMode>0</behaviorMode>
-		<count>50</count>
+		<count>156.301</count>
 		<initButton>1</initButton>
 		<attractionForce>0.116071</attractionForce>
-		<repulsionForce>2.5</repulsionForce>
-		<repulsionRadius>2</repulsionRadius>
+		<repulsionForce>4.08755</repulsionForce>
+		<repulsionRadius>2.01531</repulsionRadius>
 		<attractionRadius>1000</attractionRadius>
-		<scaleSpeed>0.07</scaleSpeed>
+		<scaleSpeed>0.0468367</scaleSpeed>
 		<scaleMax>3</scaleMax>
-		<scaleRadius>200</scaleRadius>
+		<scaleRadius>141.99</scaleRadius>
 	</EyeParticlesParameters>
 <settings_eyesScene/>
 <eyeLinkerParameters>

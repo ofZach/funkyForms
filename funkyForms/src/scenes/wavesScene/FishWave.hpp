@@ -16,12 +16,16 @@
 #include "particle.h"
 #include "Shapes.hpp"
 #include "wave.hpp"
+class particle2 : public particle {
+public:
+    float radius = 2;
+    ofColor color;
+};
 
 class FishWave: public wave {
 public:
     // particles
-    vector <particle> particles;
-    vector <particle> splashes;
+    vector <particle2> particles;
     vector <particle> fishes;
     
     // shapes

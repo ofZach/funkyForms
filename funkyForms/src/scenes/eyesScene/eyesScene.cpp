@@ -39,10 +39,13 @@ void eyesScene::setupGui(){
 }
 // ------------ update
 void eyesScene::update(){
+    updateModeSwitch();
     updateAveragePos();
     updateFastestPos();
     updateEyes();
 //    updateEyeLinker();
+}
+void eyesScene::updateModeSwitch(){
 }
 void eyesScene::updateEyes(){
     if(isEyePairMode){
@@ -145,9 +148,10 @@ void eyesScene::stop(){
 
 }
 void eyesScene::blobBorn(int id){
-    eyeLinkerManager.addEye(id, cvData->getTopPointAt(id));
+    if(isEyeLinkerMode) eyeLinkerManager.addEye(id, cvData->getTopPointAt(id));
+    
 }
 void eyesScene::blobDied(int id){
-    eyeLinkerManager.removeEye(id);
+    if(isEyeLinkerMode) eyeLinkerManager.removeEye(id);
 }
 

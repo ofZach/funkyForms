@@ -89,7 +89,11 @@ public:
         shader.end();
         pingPong.dst->end();
     };
-    void setupParameters(int w, int h){
+    void setup(int w, int h){
+        width = w;
+        height = h;
+    }
+    void setupParameters(){
         parameters.add(s1.set("offsetX", 1., 0., 1.));
         parameters.add(s2.set("offsetY", 1., 0., 1.));
         parameters.add(s3.set("offsetZ", 1., 0., 1.));
@@ -101,9 +105,7 @@ public:
         parameters.add(noisePeriodY.set("noisePeriodY", 1., 0., 20.));
         parameters.add(noiseSpeedX.set("noiseSpeedX", 1., 0., 7.));
         parameters.add(noiseSpeedY.set("noiseSpeedY", 1., 0., 7.));
-        
-        width = w;
-        height = h;
+
     }
     int width;
     int height;

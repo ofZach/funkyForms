@@ -16,11 +16,12 @@
 #include "ofxFX.h"
 #include "ofxMask.h"
 #include "ofxRefract.h"
+#include "cvManager.h"
 
 class StencilWaves{
 public:
     // input
-    inputManager *IM;
+    cvPacket * cvData;
     vector<ofPath> contours;
     
     // colors
@@ -33,9 +34,9 @@ public:
     // meshes
     ofMesh mainWaveMesh;
     ofMesh strokeMesh;
-
     
     // waves
+    ofParameterGroup parameters;
     vector<wave> waves;
     ofParameter<float> strength;
     ofParameter<float> restLength;
@@ -57,7 +58,7 @@ public:
     
     
     void setup();
-    void setInputManager(inputManager *_IM){ IM = _IM; }
+    void setupGui();
     void addWave(int y);
     void reload(float &v);
     

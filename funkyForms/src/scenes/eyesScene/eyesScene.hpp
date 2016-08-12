@@ -45,6 +45,7 @@ public:
     void updateEyes();
     void updateFastestPos();
     void updateEyeLinker();
+    void updateModeSwitch();
     
     void draw();
     void drawEyeLinker();

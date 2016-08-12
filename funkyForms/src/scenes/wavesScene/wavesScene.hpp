@@ -22,6 +22,12 @@ public:
     WaveManager waveManager;
     
     // Gui
+    ofParameterGroup parameters;
+
+    // Modes
+    ofParameter<bool> isWaveManagerMode = false;
+    ofParameter<bool> isStencilWaveMode = true;
+    
     ofxPanel gui;
     
     void setup();

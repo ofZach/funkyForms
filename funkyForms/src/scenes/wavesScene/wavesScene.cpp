@@ -10,23 +10,34 @@
 // ------------ Setup
 void wavesScene::setup(){
 //    stencilWaves.setup();
+    stencilWaves.setupGui();
+    stencilWaves.cvData = cvData;
     waveManager.cvData = cvData;
     waveManager.setupGui();
     setupGui();
     waveManager.setup();
+    stencilWaves.setup();
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
+    parameters.add(isStencilWaveMode.set("isStencilWaveMode", true));
+    parameters.add(isWaveManagerMode.set("isWaveManagerMode", false));
+    parameters.setName("wavesSceneParameters");
+    gui.add(parameters);
     gui.add(waveManager.parameters);
+    gui.add(stencilWaves.parameters);
     gui.loadFromFile("settings_wavesScene.xml");
 }
 // ------------ Update
 void wavesScene::update(){
-    waveManager.update();
+    if(isWaveManagerMode) waveManager.update();
+    if(isStencilWaveMode) stencilWaves.update();
 }
 // ------------ Draw
 void wavesScene::draw(){
-    waveManager.draw();
+    if(isWaveManagerMode) waveManager.draw();
+    if(isStencilWaveMode) stencilWaves.draw();
+
     drawPeople();
     gui.draw();
 }

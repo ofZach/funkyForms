@@ -10,7 +10,6 @@ void ofApp::setup(){
     
     IM.setup();
 
-    
     for (int i = 0; i < SM.scenes.size(); i++){
         SM.scenes[i]->cvData = &IM.CVM.packet;
     }
@@ -52,13 +51,13 @@ void ofApp::draw(){
 //        IM.draw();
         SM.draw();
     }
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if(key == '1') SM.currentScene = 1;
-    if(key == '2') SM.currentScene = 2;
-    if(key == '3') SM.currentScene = 3;
+
     if (key == 'd'){
         bDrawDebug = !bDrawDebug;
     }

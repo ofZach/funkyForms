@@ -69,7 +69,7 @@ public:
                                        gl_FragColor = vec4(sum, 1.0);
                                    } );
     }
-    void setup(){
+    void setupParameters(){
         parameters.setName("Ripples");
         parameters.add(damping.set("damping", 1., 0.8, 0.999999));
         parameters.add(s1.set("pixelOffset", 1., 0., 1.));

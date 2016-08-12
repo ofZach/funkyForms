@@ -17,9 +17,9 @@ void WaveManager::setup(){
     
     // shader
     bumpmap.allocate(ofGetWidth(), ofGetHeight());
-    bumpmap.setup();
 }
 void WaveManager::setupGui(){
+    bumpmap.setupParameters();
     parameters.setName("waveManagerParameters");
     parameters.add(waveCount.set("waveCount", 5, 1, 20));
     parameters.add(waveDistance.set("waveDistance", 10, 5, 200));

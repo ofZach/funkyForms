@@ -11,24 +11,8 @@
 void StencilWaves::setup(){
     // refract
     refract.allocate(ofGetWidth(), ofGetHeight());
-    refract.setupParameters(ofGetWidth(), ofGetHeight());
+    refract.setup(ofGetWidth(), ofGetHeight());
     refract.parameters.setName("Refraction");
-    
-    // gui
-    gui.setup("StencilWavesSettings");
-    gui.add(amount.set("amount", 55, 10, 200));
-    gui.add(strength.set("strength", 0.55, 0.001, 1));
-    gui.add(restLength.set("restLength", 16.92, 0, 18));
-    gui.add(invMass.set("invMass", 0.375, 0.1, 3));
-    gui.add(force.set("force", 4, 0.1, 20));
-    gui.add(refract.parameters);
-
-    force.addListener(this, &StencilWaves::reload);
-    restLength.addListener(this, &StencilWaves::reload);
-    strength.addListener(this, &StencilWaves::reload);
-    invMass.addListener(this, &StencilWaves::reload);
-
-    gui.loadFromFile("settings.xml");
     
     // fbo
     peopleFbo.allocate(ofGetWidth(), ofGetHeight());
@@ -51,8 +35,22 @@ void StencilWaves::setup(){
     peopleColor = ofColor::lavender;
     
     // images
-    glowImg.load("glow.png");
+    glowImg.load("assets/glow.png");
+}
+void StencilWaves::setupGui(){
+    refract.setupParameters();
+    parameters.setName("stencilWavesParameters");
+    parameters.add(amount.set("amount", 55, 10, 200));
+    parameters.add(strength.set("strength", 0.55, 0.001, 1));
+    parameters.add(restLength.set("restLength", 16.92, 0, 18));
+    parameters.add(invMass.set("invMass", 0.375, 0.1, 3));
+    parameters.add(force.set("force", 4, 0.1, 20));
+    parameters.add(refract.parameters);
     
+    force.addListener(this, &StencilWaves::reload);
+    restLength.addListener(this, &StencilWaves::reload);
+    strength.addListener(this, &StencilWaves::reload);
+    invMass.addListener(this, &StencilWaves::reload);
 }
 void StencilWaves::reload(float &v){
     waves.clear();
@@ -61,6 +59,7 @@ void StencilWaves::reload(float &v){
 }
 void StencilWaves::addWave(int y){
     class wave wave;
+    wave.cvData = cvData;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
@@ -195,13 +194,11 @@ void StencilWaves::draw(){
         p.setFillColor(peopleColor);
         p.draw();
     }
-//    mask.draw();
-//    waves[0].polyline.draw();
+    mask.draw();
+    waves[0].polyline.draw();
     refract.draw(0, 0);
     strokeMesh.draw();
     drawGlow();
-    gui.draw();
-    
 }
 void StencilWaves::drawWaveMesh(){
     ofMesh mesh;

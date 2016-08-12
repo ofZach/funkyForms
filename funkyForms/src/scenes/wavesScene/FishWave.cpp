@@ -23,14 +23,14 @@ void FishWave::setupFishWave(){
 void FishWave::addSplash(){
     particles.clear();
     for (int i = 0; i < 50; i++){
-        particle myParticle;
+        particle2 myParticle;
         float randomAngle = ofRandom(-0.1, 0.1) + 3 * PI / 2.0;
         float randomRadius = ofRandom(1,2);
         ofPoint frc = randomRadius * ofPoint(cos(randomAngle), sin(randomAngle));
         myParticle.setInitialCondition(fishPos.x, fishPos.y, frc.x, frc.y);
-//        myParticle.radius = ofRandom(0.5, 8);
+        myParticle.radius = ofRandom(0.5, 8);
         myParticle.damping = 0.02 + ofRandom(0,0.04);
-//        myParticle.color = baseColor;
+        myParticle.color = baseColor;
         particles.push_back(myParticle);
     }
 }
@@ -149,7 +149,10 @@ void FishWave::draw(){
 }
 void FishWave::drawSplashes(){
     for (int i = 0; i < particles.size(); i++){
+        ofFill();
         particles[i].draw();
+        ofSetColor(particles[i].color);
+        ofDrawCircle(particles[i].pos, particles[i].radius);
     }
     for (int i = 0; i < shapes.size(); i++){
         ofPushMatrix();
