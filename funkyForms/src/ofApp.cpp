@@ -14,10 +14,11 @@ void ofApp::setup(){
     SM.scenes.push_back(new plantsScene());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new MonsterScene());
-    
+    SM.scenes.push_back(new eyesScene());
+    SM.scenes.push_back(new wavesScene());
+
     IM.setup();
 
-    
     for (int i = 0; i < SM.scenes.size(); i++){
         SM.scenes[i]->cvData = &IM.CVM.packet;
         SM.scenes[i]->tracker = &IM.CVM.tracker;
@@ -25,12 +26,14 @@ void ofApp::setup(){
     }
     
     SM.setup();
+//    SM.currentScene = 2;
     
     currentView = VIEW_DEBUG;
     
     RM.setup();
     
     IM.CVM.RM = &RM;
+
 }
 
 //--------------------------------------------------------------
@@ -82,6 +85,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofBackground(0);
+<<<<<<< HEAD
     
     if (currentView == VIEW_DEBUG){
         IM.draw();
@@ -140,8 +144,9 @@ void ofApp::draw(){
     
       ofDrawBitmapStringHighlight("current scene " + SM.scenes[SM.currentScene]->sceneName, ofGetWidth()-400, 40);
     ofDrawBitmapStringHighlight("press right / left arrow to advance scene\ntop / bottom arrow to advance view", ofGetWidth()-400, 60);
-    
-    //RM.draw();
+
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
 }
 
 //--------------------------------------------------------------

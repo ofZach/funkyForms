@@ -1,0 +1,21 @@
+<settings_plantsScene>
+	<plantsSceneParameters>
+		<glowRadius>22.25</glowRadius>
+		<glowOpacity>68.9541</glowOpacity>
+	</plantsSceneParameters>
+	<PlantManager>
+		<plantScale>0.585485</plantScale>
+		<mainBranchWMin>26.9836</mainBranchWMin>
+		<mainBranchWMax>46.6681</mainBranchWMax>
+		<childBranchWMin>21.8034</childBranchWMin>
+		<childBranchWMax>28.0196</childBranchWMax>
+		<bgMainBranchWMin>88.1091</bgMainBranchWMin>
+		<bgMainBranchWMax>123.334</bgMainBranchWMax>
+		<bgChildBranchWMin>39.4159</bgChildBranchWMin>
+		<bgChildBranchWMax>43.56</bgChildBranchWMax>
+		<createBgPlant>1</createBgPlant>
+		<shadowRadius>5</shadowRadius>
+		<shadowOpacity>100</shadowOpacity>
+	</PlantManager>
+<settings_plantsScene/>
+</settings_plantsScene>

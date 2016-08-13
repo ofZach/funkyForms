@@ -57,10 +57,18 @@ public:
     
     // timing, id 
     int id;
+    int pointLinkId;
     float timeOffset;
     int age = 0;
     int ageMax;
     bool isDead = false;
+    int fadingCounter = 0;
+    int fadingDelay = 200;
+    
+    // shadow
+    ofImage shadow;
+    float shadowRadius = 10;
+    float shadowOpacity = 120;
     
     // set
     void setup();
@@ -71,6 +79,8 @@ public:
    
     // get
     ofVec2f getPos(){ return rig.pos; }
+    
+
     
     bool isFadeOutFinished(){
         return fadeAnimator.isFinished;
@@ -91,7 +101,7 @@ public:
                     );
     
     void fadeIn(){mbGrowAnimator.in();};
-    void fadeOut(){fadeAnimator.out(); isFading = true;};
+    void fadeOut(){isFading = true;};
     void updateAnimators();
     bool isFadeFinished() { return fadeAnimator.isFinished; }
     
@@ -99,6 +109,7 @@ public:
     void draw();
     void drawPolylines();
     void drawMeshes();
+    void drawShadow();
 };
 
 #endif /* Plant_hpp */

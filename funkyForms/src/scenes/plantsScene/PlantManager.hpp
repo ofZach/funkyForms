@@ -13,7 +13,6 @@
 #include "Plant.hpp"
 #include "cvManager.h"
 #include "ofxGui.h"
-#include "particle.h"
 
 class PlantManager{
 public:
@@ -21,6 +20,7 @@ public:
     vector<Plant> plants;
     ofParameter<float> plantScale;
     vector<Plant> bgPlants;
+    int pointLinkCount = 4;
     
     // input manager
     cvPacket * cvData;
@@ -29,11 +29,16 @@ public:
     
     // gui
     ofParameterGroup parameters;
-    ofxPanel gui;
+
     ofParameter<float> mainBranchWMax;
     ofParameter<float> mainBranchWMin;
     ofParameter<float> childBranchWMin;
     ofParameter<float> childBranchWMax;
+    ofParameter<float> bgMainBranchWMax;
+    ofParameter<float> bgMainBranchWMin;
+    ofParameter<float> bgChildBranchWMin;
+    ofParameter<float> bgChildBranchWMax;
+    ofParameter<bool> createBgPlant;
     
     // colors
     ofFloatColor swatch[4] = {
@@ -46,38 +51,36 @@ public:
     // random
     vector<int> randSwatchIndex;
     
-    // particles
-    ofParameter<int> particleCount = 10;
-    vector<particle> particles;
-    ofParameter<float> particleRepulseRadius = 10;
-    ofParameter<float> particleRepulseForce = 0.2;
-    ofParameter<float> particleAttractRadius = 100;
-    ofParameter<float> particleAttractForce = 0.2;
+    // shadow
+    ofImage shadow;
+    ofParameter<float> shadowRadius;
+    ofParameter<float> shadowOpacity;
     
     void setup();
-    void setupParticles();
     void setupGui();
     void addPlant(ofVec2f _pos, int id);
     void addBgPlant(ofVec2f _pos);
     void onNewPlant();
     void remove(int id);
+    void reset();
+    void triggerBgPlant(bool &b);
     
     void update();
-    void updateParticles();
     void updatePlants();
     void updateBgPlants();
+    void updateBgPlantsCreation();
     void updateBgPlantsRemoval();
     void updatePlantCreation();
     void updatePlantsParameters();
     void updatePlantRemoval();
-    void updatePeoples();
+
+    ofVec2f getClosestPoint(ofVec2f target, vector<ofVec2f> &points);
     
     void drawGui();
     void draw();
     void drawPlants();
-    void drawParticles();
     void drawBgPlants();
-    void drawPeoples();
+    void drawShadow();
 };
 
 #endif /* PlantManager_hpp */

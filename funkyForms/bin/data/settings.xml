@@ -8,4 +8,18 @@
 	<particleRepulseForce>0.5</particleRepulseForce>
 	<particleAttractRadius>100</particleAttractRadius>
 	<particleAttractForce>0.5</particleAttractForce>
+<plantsSceneParameters>
+		<PlantManager>
+			<plantScale>1</plantScale>
+			<mainBranchWMin>49.7347</mainBranchWMin>
+			<mainBranchWMax>72.0714</mainBranchWMax>
+			<childBranchWMin>38.5663</childBranchWMin>
+			<childBranchWMax>39.5816</childBranchWMax>
+			<bgMainBranchWMin>38.5663</bgMainBranchWMin>
+			<bgMainBranchWMax>40.5969</bgMainBranchWMax>
+			<bgChildBranchWMin>36.5357</bgChildBranchWMin>
+			<bgChildBranchWMax>36.5357</bgChildBranchWMax>
+			<createBgPlant>0</createBgPlant>
+		</PlantManager>
+	</plantsSceneParameters>
 </PlantManager>

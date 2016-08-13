@@ -1,0 +1,33 @@
+<settings_eyesScene>
+	<eyesSceneParameters>
+		<isEyePairMode>0</isEyePairMode>
+		<isEyeParticleMode>1</isEyeParticleMode>
+		<isEyeLinkerMode>0</isEyeLinkerMode>
+	</eyesSceneParameters>
+	<EyeParticlesParameters>
+		<behaviorMode>0</behaviorMode>
+		<count>156.301</count>
+		<initButton>1</initButton>
+		<attractionForce>0.116071</attractionForce>
+		<repulsionForce>4.08755</repulsionForce>
+		<repulsionRadius>2.01531</repulsionRadius>
+		<attractionRadius>1000</attractionRadius>
+		<scaleSpeed>0.0468367</scaleSpeed>
+		<scaleMax>3</scaleMax>
+		<scaleRadius>141.99</scaleRadius>
+	</EyeParticlesParameters>
+<settings_eyesScene/>
+<eyeLinkerParameters>
+		<width>190.612</width>
+		<height>190.612</height>
+		<scale>0.466327</scale>
+	<inputScaleRange>1.7398</inputScaleRange>
+		<outputScaleRange>0.706633</outputScaleRange>
+		<scaleClip>1</scaleClip>
+	<isGlow>1</isGlow>
+		<glowRadius>39.1582</glowRadius>
+		<glowOpacity>89.7704</glowOpacity>
+		<glowResolution>20</glowResolution>
+	<velSmooth>0.946204</velSmooth>
+	</eyeLinkerParameters>
+</settings_eyesScene>

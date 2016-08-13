@@ -3,16 +3,9 @@
 
 //------------------------------------------------------------
 particle::particle(){
-    seperation.distance		= 20;
-    alignment.distance		= 80;
-    cohesion.distance		= 40;
-    
-    seperation.strength		= .03;
-    alignment.strength		= .015;
-    cohesion.strength		= .015;
-    
 	setInitialCondition(0,0,0,0);
-	damping = 0.08f;
+	damping = 0.05f;
+	bFixed = false;
 }
 
 //------------------------------------------------------------
@@ -20,24 +13,10 @@ void particle::resetForce(){
     // we reset the forces every frame
     frc.set(0,0);
 }
-float particle::getAngle(){
-    ofVec2f zero(1, 0);
-    float diffX = zero.x - vel.x;
-    float diffY = zero.y - vel.y;
-    
-    float angleTo = atan2(diffY, diffX);
-    
-    float diffAngle = (angleTo - angle);
-    if (diffAngle < -PI) diffAngle += TWO_PI;
-    if (diffAngle > PI) diffAngle -= TWO_PI;
-    
-    angle  += 0.03 * diffAngle;
-    
-    return angle;
-}
+
 //------------------------------------------------------------
 void particle::addForce(float x, float y){
-    // add in a force in X and Y for this frame.
+    // add in a fofVec2force in X and Y for this frame.
     frc.x = frc.x + x;
     frc.y = frc.y + y;
 }
@@ -123,12 +102,10 @@ void particle::addRepulsionForce(particle &p, float radius, float scale){
 	bool bAmCloseEnough = true;
     if (radius > 0){
         if (length > radius){
-            isCollide = true;
             bAmCloseEnough = false;
         }
     }
-    
-    
+	
 	// ----------- (4) if so, update force
     
 	if (bAmCloseEnough == true){
@@ -159,11 +136,9 @@ void particle::addAttractionForce(particle & p, float radius, float scale){
     if (radius > 0){
         if (length > radius){
             bAmCloseEnough = false;
-            isCollide = true;
         }
     }
-
-
+	
 	// ----------- (4) if so, update force
     
 	if (bAmCloseEnough == true){
@@ -175,6 +150,73 @@ void particle::addAttractionForce(particle & p, float radius, float scale){
         p.frc.y = p.frc.y + diff.y * scale * pct;
     }
 	
+}
+
+//------------------------------------------------------------
+void particle::addClockwiseForce(particle &p, float radius, float scale){
+	
+	// ----------- (1) make a vector of where this particle p is: 
+	ofVec2f posOfForce;
+	posOfForce.set(p.pos.x,p.pos.y);
+	
+	// ----------- (2) calculate the difference & length 
+	
+	ofVec2f diff	= pos - posOfForce;
+	float length	= diff.length();
+	
+	// ----------- (3) check close enough
+	
+	bool bAmCloseEnough = true;
+    if (radius > 0){
+        if (length > radius){
+            bAmCloseEnough = false;
+        }
+    }
+	
+	// ----------- (4) if so, update force
+    
+	if (bAmCloseEnough == true){
+		float pct = 1 - (length / radius);  // stronger on the inside
+		diff.normalize();
+		frc.x = frc.x - diff.y * scale * pct;
+        frc.y = frc.y + diff.x * scale * pct;
+		p.frc.x = p.frc.x + diff.y * scale * pct;
+        p.frc.y = p.frc.y - diff.x * scale * pct;
+    }
+}
+
+//------------------------------------------------------------
+void particle::addCounterClockwiseForce(particle &p, float radius, float scale){
+	
+	// ----------- (1) make a vector of where this particle p is: 
+	ofVec2f posOfForce;
+	posOfForce.set(p.pos.x,p.pos.y);
+	
+	// ----------- (2) calculate the difference & length 
+	
+	ofVec2f diff	= pos - posOfForce;
+	float length	= diff.length();
+	
+	// ----------- (3) check close enough
+	
+	bool bAmCloseEnough = true;
+    if (radius > 0){
+        if (length > radius){
+            bAmCloseEnough = false;
+        }
+    }
+	
+	// ----------- (4) if so, update force
+    
+	if (bAmCloseEnough == true){
+		float pct = 1 - (length / radius);  // stronger on the inside
+		diff.normalize();
+		frc.x = frc.x + diff.y * scale * pct;
+        frc.y = frc.y - diff.x * scale * pct;
+		p.frc.x = p.frc.x - diff.y * scale * pct;
+        p.frc.y = p.frc.y + diff.x * scale * pct;
+		
+    }
 }
 
 
@@ -198,68 +240,17 @@ void particle::setInitialCondition(float px, float py, float vx, float vy){
 
 //------------------------------------------------------------
 void particle::update(){	
-	vel = vel + frc;
-	pos = pos + vel;
+	if (bFixed == false){
+		vel = vel + frc;
+		pos = pos + vel;
+	}
 }
 
 //------------------------------------------------------------
 void particle::draw(){
-    ofSetColor(255);
-    ofCircle(pos.x, pos.y, 20);
+    ofCircle(pos.x, pos.y, 3);
 }
 
-void particle::addFlockingForce(){
-    
-    
-    
-    // seperation
-    if(seperation.count > 0){							// let's add seperation :)
-        seperation.sum /= (float)seperation.count;
-        float sepFrc 	= seperation.strength;
-        frc -= (seperation.sum.normalized()		    * sepFrc);
-    }
-    
-    // alignment
-    if(alignment.count > 0){
-        alignment.sum /= (float)alignment.count;
-        float alignFrc 	= alignment.strength;
-        frc += (alignment.sum		* alignFrc);		// don't normalize the allignment, just use the average
-    }
-    
-    // cohesion
-    if(cohesion.count > 0){
-        cohesion.sum /= (float)cohesion.count;
-        cohesion.sum -= pos;
-        float cohFrc 	= cohesion.strength;
-        frc += (cohesion.sum.normalized()			* cohFrc);
-    }
-    
-}
-void particle::addForFlocking(particle &p){
-    
-    ofVec3f diff, diffNormalized;
-    float distance;
-    
-    diff			= p.pos - pos;
-    distance		= diff.length();
-    diffNormalized	= diff;
-    diffNormalized.normalize();
-    
-    if( distance > 0 && distance < seperation.distance ){
-        seperation.sum += diffNormalized;
-        seperation.count++;
-    }
-    
-    if( distance > 0 && distance < alignment.distance ){
-        alignment.sum += p.vel.getNormalized();
-        alignment.count++;
-    }
-    
-    if( distance > 0 && distance < cohesion.distance ){
-        cohesion.sum += p.pos;
-        cohesion.count++;
-    }
-}
 
 //------------------------------------------------------------
 void particle::bounceOffWalls(){

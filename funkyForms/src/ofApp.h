@@ -10,6 +10,8 @@
 #include "MonsterScene.h"
 #include "ofxSVG.h"
 #include "renderManager.h"
+#include "eyesScene.hpp"
+#include "wavesScene.hpp"
 
 
 enum view {
@@ -20,6 +22,7 @@ enum view {
     VIEW_CENTER,
     VIEW_TOP
 };
+
 
 
 class ofApp : public ofBaseApp{

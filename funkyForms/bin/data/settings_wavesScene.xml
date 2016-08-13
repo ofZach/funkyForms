@@ -1,0 +1,46 @@
+<settings_wavesScene>
+		<waveManagerParameters>
+			<waveCount>3</waveCount>
+			<waveDistance>62.7041</waveDistance>
+			<amount>55</amount>
+			<strength>0.55</strength>
+			<restLength>16.92</restLength>
+			<invMass>0.277551</invMass>
+			<force>3.14592</force>
+			<density>2.14286</density>
+			<bounce>0.290816</bounce>
+			<friction>0.112245</friction>
+			<shadowRadius>100</shadowRadius>
+			<energyHighlightSize>79.0816</energyHighlightSize>
+			<shadowOpacity>37.7296</shadowOpacity>
+			<Ripples>
+				<damping>1</damping>
+				<pixelOffset>1</pixelOffset>
+			</Ripples>
+		</waveManagerParameters>
+<settings_wavesScene/>
+<wavesSceneParameters>
+		<isStencilWaveMode>1</isStencilWaveMode>
+		<isWaveManagerMode>0</isWaveManagerMode>
+	</wavesSceneParameters>
+	<stencilWavesParameters>
+		<amount>36.1735</amount>
+		<strength>0.551469</strength>
+		<restLength>6.79592</restLength>
+		<invMass>0.617857</invMass>
+		<force>4.87194</force>
+		<Refraction>
+			<offsetX>1</offsetX>
+			<offsetY>1</offsetY>
+			<offsetZ>1</offsetZ>
+			<multiply>1</multiply>
+			<noiseOffset>1</noiseOffset>
+			<noiseAmountX>1</noiseAmountX>
+			<noiseAmountY>1</noiseAmountY>
+			<noisePeriodX>1</noisePeriodX>
+			<noisePeriodY>1</noisePeriodY>
+			<noiseSpeedX>1</noiseSpeedX>
+			<noiseSpeedY>1</noiseSpeedY>
+		</Refraction>
+	</stencilWavesParameters>
+</settings_wavesScene>

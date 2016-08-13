@@ -37,8 +37,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 //    eyeParticles.draw();
-//    eyeLinker.draw();
-    eyePair.draw();
+    eyeLinker.draw();
+//    eyePair.draw();
     
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);

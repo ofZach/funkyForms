@@ -44,16 +44,30 @@ class cvPacket {
 public:
     
     map < int, trackedContour > * trackedContours;      // access tracked contours by ID
+    
     vector < int > idsThisFrame;                        // list of IDs
     map < int, int > idToBlobPos;                       // from ID, get position in this blob array
     vector < cvBlob > blobs;
+
     float width, height;                                // width and height of the tracked blobs
                                                         // use this to scale to a target
+
+    ofPoint getCentoidAt(int ID){
+        int whichBlob = idToBlobPos[ID];
+        return blobs[whichBlob].blob.getCentroid2D();
+    }
+    ofVec2f getVelAvgSmoothAt(int ID){
+        return (*(trackedContours))[ID].velAvgSmooth;
+    }
+    ofVec2f getTopPointAt(int ID){
+        int whichBlob = idToBlobPos[ID];
+        float x = blobs[whichBlob].blob.getBoundingBox().getCenter().x;
+        float y = blobs[whichBlob].blob.getBoundingBox().getTop();
+        return ofVec2f(x, y);
+    }
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
-    
 };
-
 
 
 
@@ -64,7 +78,7 @@ class cvManager {
 #endif
 
 public:
-  
+    
     void setup();
     void update(ofPixels & pixels);
     void draw();
@@ -72,7 +86,7 @@ public:
     map < int, trackedContour > trackedContours;
     
     ofParameterGroup cvParams;
-
+    
 #ifdef USE_OLDER_BLOB_TRACKER
     
     ofxCvColorImage imgColor;
@@ -83,7 +97,6 @@ public:
     ofParameter <int> rejectDistanceThreshold;
     ofParameter <int> ghostFrames;
     ofParameter <float> minimumDisplacementThreshold;
-    
     
     void blobOn( int x, int y, int bid, int order );
     void blobMoved( int x, int y, int bid, int order );
