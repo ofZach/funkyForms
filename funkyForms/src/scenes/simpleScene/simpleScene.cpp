@@ -2,7 +2,7 @@
 
 
 void simpleScene::setup(){
-    
+    sceneName = "simpleScene";
 }
 
 void simpleScene::update(){
@@ -24,12 +24,27 @@ void simpleScene::draw(){
     ofDrawRectangle(0,0,100,100);
     
     ofSetColor(255);
+    
+    
+    //---------------------------------------------------------  rempping
+    // note:
+    // rempap the contour data:
+    // baseScene::mapPt takes an input rectangle, an output rectangle
+    // and a pt and remaps the pt
+    
+    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle dst = src;
+    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+    dst.scaleTo(target);
+    
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofPolyline line = cvData->blobs[i].blob;
-        //cout << line.size() << " ??? " << endl;
-        
+        for (auto & pt : line.getVertices()){
+            pt = mapPt(src, dst, pt);
+        }
         line.draw();
     }
+    
     
     for (int i = 0; i < particles.size(); i++){
         int id = particles[i].id;
@@ -38,6 +53,8 @@ void simpleScene::draw(){
         int whichBlob = cvData->idToBlobPos[id];
         
         ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+        
+        centroid = mapPt(src, dst, centroid);
         
         ofNoFill();
         

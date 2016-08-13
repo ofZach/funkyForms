@@ -72,6 +72,7 @@ public:
     void updatePlantRemoval();
     void updatePeoples();
     
+    void drawGui();
     void draw();
     void drawPlants();
     void drawParticles();

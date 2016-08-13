@@ -20,6 +20,7 @@ public:
     void setup();
     void update();
     void draw();
+    void drawGui();
     
     void start();
     void stop();

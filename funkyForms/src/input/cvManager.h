@@ -4,6 +4,7 @@
 #include "ofxCv.h"
 #include "trackedContour.hpp"
 #include "cvSettings.h"
+#include "renderManager.h"
 
 
 // testing the original blob tracker
@@ -46,7 +47,8 @@ public:
     vector < int > idsThisFrame;                        // list of IDs
     map < int, int > idToBlobPos;                       // from ID, get position in this blob array
     vector < cvBlob > blobs;
-    
+    float width, height;                                // width and height of the tracked blobs
+                                                        // use this to scale to a target
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
     
@@ -101,5 +103,8 @@ public:
     vector < int > existThisFrame;
     
     cvPacket packet;
+    
+    renderManager * RM;
+    
     
 };

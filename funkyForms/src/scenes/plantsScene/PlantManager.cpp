@@ -248,8 +248,14 @@ void PlantManager::draw(){
     drawBgPlants();
     drawPlants();
 //    drawPeoples();
+//    gui.draw();
+}
+
+
+void PlantManager::drawGui(){
     gui.draw();
 }
+
 void PlantManager::drawParticles(){
     for (int i = 0; i < particles.size(); i++){
         particles[i].draw();

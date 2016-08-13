@@ -1,0 +1,9 @@
+<mainApp>
+	<!-- 0 = no, 1 = yes -->
+	<useCvNetworking>0</useCvNetworking>
+
+	<!-- 0 = client, 1 = server -->
+	<id>0</id>
+
+	<useDaito>1</useDaito>
+</mainApp >

@@ -8,6 +8,7 @@
 
 #include "plantsScene.hpp"
 void plantsScene::setup(){
+    sceneName = "plantsScene";
     plantManager.cvData = cvData;
     plantManager.setup();
 }
@@ -18,6 +19,10 @@ void plantsScene::draw(){
     plantManager.draw();
     drawPeople();
 }
+void plantsScene::drawGui(){
+    plantManager.drawGui();
+}
+
 void plantsScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofPath p;

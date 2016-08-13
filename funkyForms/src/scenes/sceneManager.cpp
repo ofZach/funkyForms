@@ -22,6 +22,10 @@ void sceneManager::draw(){
     scenes[currentScene]->draw();
 }
 
+void sceneManager::drawGui(){
+    scenes[currentScene]->drawGui();
+}
+
 void sceneManager::blobBorn(int id){
     scenes[currentScene]->blobBorn(id);
 }
