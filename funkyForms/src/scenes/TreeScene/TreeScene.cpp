@@ -141,11 +141,15 @@ void TreeScene::mouseReleased(int wx, int wy, int x, int y, int button){
 
 //--------------------------------------------------------------
 void TreeScene::updateFlocking() {
-	
-    float scalex =  1; //(float)OFFSCREEN_WIDTH / (float)packet.width;
-    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
-	
-	
+//	
+//    float scalex =  1; //(float)OFFSCREEN_WIDTH / (float)packet.width;
+//    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
+//	
+    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+    ofRectangle dst = src;    dst.scaleTo(target);
+    float scaleCoordinates = dst.getWidth() / src.getWidth();
+    
 	for (int i = 0; i < butterflys.size(); i++){
 		
         butterflys[i].scale = 0.09; //panel.getValueF("BUTTERFLY_SCALE");
@@ -165,15 +169,24 @@ void TreeScene::updateFlocking() {
 			
 			ofRectangle newRec = tracker->blobs[q].boundingRect;
 			
-            float forceFactor = 1; // 2016 (newRec.width * newRec.height) / (packet.width*packet.height);
+            ofPoint a = newRec.getTopLeft();
+            ofPoint b = newRec.getBottomRight();
+            
+//            a = mapPt(src, dst, a);
+//            b = mapPt(src, dst, b);
+//            
+//            ofRectangle newRecScaled;
+//            newRecScaled.set(a.x, a.y, b.x-a.x, b.y-a.y);
+            
+            float forceFactor = 1.0; // (newRec.width * newRec.height) / ((cvPacket->width)*(cvPacket->height));
 			
-			newRec.x		*= scalex;
-			newRec.y		*= scaley;
-			newRec.width	*= scalex;
-			newRec.height	*= scaley;
+//			newRec.x		*= scalex;
+//			newRec.y		*= scaley;
+//			newRec.width	*= scalex;
+//			newRec.height	*= scaley;
 			ofPoint center;
-			center.x = tracker->blobs[q].centroid.x * scalex;
-			center.y = tracker->blobs[q].centroid.y * scaley;
+			center.x = mapPt(src, dst, tracker->blobs[q].centroid).x;
+			center.y = mapPt(src, dst, tracker->blobs[q].centroid).y;
 			
 			
 			butterflys[i].addAttractionForce(center.x, center.y - 20, 300, 1.5);
@@ -200,8 +213,8 @@ void TreeScene::updateFlocking() {
 		float gap  = 20;
 		if (pos.x < 0)							pos.x = OFFSCREEN_WIDTH;
 		if (pos.x > OFFSCREEN_WIDTH)			pos.x = 0;
-		if (pos.y < 0)							pos.y = OFFSCREEN_HEIGHT;
-		if (pos.y > OFFSCREEN_HEIGHT)			pos.y = 0;
+		if (pos.y < 0)							pos.y = OFFSCREEN_HEIGHT*3;
+		if (pos.y > OFFSCREEN_HEIGHT*3)			pos.y = 0;
 		
 		butterflys[i].pos = pos;
 	}
@@ -215,9 +228,14 @@ void TreeScene::update() {
 	
 	//panel.update();
 	
-    float scalex = 1; //(float)OFFSCREEN_WIDTH / (float)packet.width;
-    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
+    //float scalex = 1; //(float)OFFSCREEN_WIDTH / (float)packet.width;
+    //float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
 	
+    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+    ofRectangle dst = src;    dst.scaleTo(target);
+    float scaleCoordinates = dst.getWidth() / src.getWidth();
+    
 	
 	// --------------------- Tree Blobs
 	for(int i=0; i<tracker->blobs.size(); i++) {
@@ -225,14 +243,23 @@ void TreeScene::update() {
 		int lookID = tracker->blobs[i].id;
 		
 		ofRectangle newRec = tracker->blobs[i].boundingRect;
-		newRec.x		*= scalex;
-		newRec.y		*= scaley;
-		newRec.width	*= scalex;
-		newRec.height	*= scaley;
+        
+        ofPoint a = newRec.getTopLeft();
+        ofPoint b = newRec.getBottomRight();
+    
+        a = mapPt(src, dst, a);
+        b = mapPt(src, dst, b);
+        ofRectangle newRecScaled;
+        newRec.set(a.x, a.y, b.x-a.x, b.y-a.y);
+        
+//		newRec.x		*= scalex;
+//		newRec.y		*= scaley;
+//		newRec.width	*= scalex;
+//		newRec.height	*= scaley;
 		
-		ofPoint center =  tracker->blobs[i].centroid;
-		center.x		= center.x * scalex;
-		center.y		= center.y * scaley;
+		ofPoint center =  mapPt(src, dst, tracker->blobs[i].centroid);
+//		center.x		= center.x * scalex;
+//		center.y		= center.y * scaley;
 		
 		
 		for(int j=0; j<treeBlobs.size(); j++) {
@@ -331,9 +358,16 @@ void TreeScene::drawTop() {
 
 // ---------------------------------------------------------
 void TreeScene::draw() {
+    
+    
+    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+    ofRectangle dst = src;    dst.scaleTo(target);
+    float scaleCoordinates = dst.getWidth() / src.getWidth();
+    
 	
-    float scalex = 1;// (float)OFFSCREEN_WIDTH / (float)packet.width;
-    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
+//    float scalex = 1;// (float)OFFSCREEN_WIDTH / (float)packet.width;
+//    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
 	
 	if(bDebug) {
 		ofSetColor(0, 25, 255);
@@ -363,8 +397,8 @@ void TreeScene::draw() {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			for (int j = 0; j < cvData->blobs[i].blob.size(); j+=2) {
-				float x = cvData->blobs[i].blob[j].x * scalex;
-				float y = cvData->blobs[i].blob[j].y * scaley;
+				float x =   mapPt(src, dst, cvData->blobs[i].blob[j]).x;
+                float y =   mapPt(src, dst, cvData->blobs[i].blob[j]).y;  //cvData->blobs[i].blob[j].y * scaley;
 				
 				ofSetRectMode(OF_RECTMODE_CENTER);
                 ofSetColor(255, 255, 255, 255); //panel.getValueF("PEOPLE_GLOW"));
@@ -382,8 +416,8 @@ void TreeScene::draw() {
 		ofBeginShape();
 		for (int j = 0; j < cvData->blobs[i].blob.size(); j++) {
 			
-			float x = cvData->blobs[i].blob[j].x * scalex;
-			float y = cvData->blobs[i].blob[j].y * scaley;
+            float x = mapPt(src, dst, cvData->blobs[i].blob[j]).x; //cvData->blobs[i].blob[j].x * scalex;
+            float y = mapPt(src, dst, cvData->blobs[i].blob[j]).y; //cvData->blobs[i].blob[j].y * scaley;
 			
 			ofVertex(x, y);
 		}
@@ -450,6 +484,8 @@ void TreeScene::draw() {
 // --------------------------------------------------------- blob events
 void TreeScene::blobOn( int x, int y, int bid, int order ) {
 	
+    
+    
 	ofCvTrackedBlob * blober = &tracker->getById(bid);
 	
     

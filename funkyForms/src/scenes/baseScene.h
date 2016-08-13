@@ -22,6 +22,7 @@ public:
     virtual void stop(){}
     virtual void start(){}
     
+    virtual void blobMoved(int id){}   // this is used in the old scenes. 
     virtual void blobBorn(int id){}
     virtual void blobDied(int id){}
     

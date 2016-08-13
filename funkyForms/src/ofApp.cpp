@@ -4,6 +4,7 @@
 void ofApp::setup(){
 
     
+    viewNames = { "debug", "overview", "left", "right", "center", "top" };
     
     ofRectangle bounds;
     
@@ -46,8 +47,14 @@ void ofApp::update(){
         for (auto a : IM.CVM.diedThisFrame){
             SM.blobDied(a);
         }
+    
+        for (auto a : IM.CVM.movedThisFrame){
+            SM.blobMoved(a);
+        }
+    
         IM.CVM.diedThisFrame.clear();
         IM.CVM.bornThisFrame.clear();
+        IM.CVM.movedThisFrame.clear();
     
     //-----------------------------------------------------------
     
@@ -129,10 +136,10 @@ void ofApp::draw(){
     SM.drawGui();       // draw the gui outside of the RM
     
     
-    ofDrawBitmapStringHighlight("current view " + ofToString(currentView) +  " : " + ofToString(ofGetFrameRate(),3), ofGetWidth()-400, 20);
+    ofDrawBitmapStringHighlight("current view " + viewNames[currentView] +  " : " + ofToString(ofGetFrameRate(),3), ofGetWidth()-400, 20);
     
       ofDrawBitmapStringHighlight("current scene " + SM.scenes[SM.currentScene]->sceneName, ofGetWidth()-400, 40);
-    ofDrawBitmapStringHighlight("pressed right / left arrow to advance scene\ntop / bottom arrow to advance view", ofGetWidth()-400, 60);
+    ofDrawBitmapStringHighlight("press right / left arrow to advance scene\ntop / bottom arrow to advance view", ofGetWidth()-400, 60);
     
     //RM.draw();
 }

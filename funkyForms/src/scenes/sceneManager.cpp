@@ -32,5 +32,8 @@ void sceneManager::blobBorn(int id){
 
 void sceneManager::blobDied(int id){
     scenes[currentScene]->blobDied(id);
+}
 
+void sceneManager::blobMoved(int id){
+    scenes[currentScene]->blobMoved(id);
 }

@@ -23,6 +23,7 @@ public:
     
     void blobBorn(int id);
     void blobDied(int id);
+    void blobMoved(int id);
     
     int currentScene;
     

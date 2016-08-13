@@ -40,6 +40,8 @@ void renderManager::setup(){
     ofLine(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
     
     fbo.end();
+    
+    
 }
 
 

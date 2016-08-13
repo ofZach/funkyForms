@@ -404,19 +404,20 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 			monsters[i].genNewRadius();
 			monsters[i].area = (float)(blober.boundingRect.height*blober.boundingRect.width) / (float)(cvData->width*cvData->height);
 
+            // 2016
 			//---------- add some particle love -- ewww
-			if(monsterParticles.size() < MAX_MONSTER_PARTICLES) {
-
-				float bx = (x*scalex) + ofRandom(-30, 30);
-				float by = (y*scaley) + ofRandom(-30, 30);
-
-				monsterParticles.push_back(MonsterParticles());
-				monsterParticles.back().setPhysics(3.0, 0.53, 0.1); // mass - bounce - friction
-				monsterParticles.back().setup(box2d.getWorld(), bx, by, ofRandom(4, 30));
-				monsterParticles.back().img = &dotImage;
-				monsterParticles.back().init();
-
-			}
+//			if(monsterParticles.size() < MAX_MONSTER_PARTICLES) {
+//
+//				float bx = (x*scalex) + ofRandom(-30, 30);
+//				float by = (y*scaley) + ofRandom(-30, 30);
+//
+//				monsterParticles.push_back(MonsterParticles());
+//				monsterParticles.back().setPhysics(3.0, 0.53, 0.1); // mass - bounce - friction
+//				monsterParticles.back().setup(box2d.getWorld(), bx, by, ofRandom(4, 30));
+//				monsterParticles.back().img = &dotImage;
+//				monsterParticles.back().init();
+//
+//			}
 		}
 	}
 

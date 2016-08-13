@@ -45,8 +45,9 @@ void cvManager::blobOn( int x, int y, int bid, int order ) {
     
 }
 void cvManager::blobMoved( int x, int y, int bid, int order ) {
-    
+    movedThisFrame.push_back(bid);
 }
+
 void cvManager::blobOff( int x, int y, int bid, int order ) {
     
     
@@ -73,6 +74,7 @@ void cvManager::update(ofPixels & pixels){
     
     bornThisFrame.clear();
     diedThisFrame.clear();
+    movedThisFrame.clear();
     existThisFrame.clear();
     
     packet.blobs.clear();

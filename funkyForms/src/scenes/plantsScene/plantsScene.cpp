@@ -38,6 +38,15 @@ void plantsScene::drawPeople(){
 void plantsScene::blobBorn(int id){
     int whichBlob = cvData->idToBlobPos[id];
     ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+    
+    //-------------------------------------
+//    ofRectangle src(0,0,cvData->width, cvData->height);
+//    ofRectangle dst = src;
+//    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+//    dst.scaleTo(target);
+//    centroid = mapPt(src, dst, centroid);
+    //-------------------------------------
+    
     plantManager.addPlant(centroid, id);
 }
 void plantsScene::blobDied(int id){

@@ -45,7 +45,7 @@ class ofApp : public ofBaseApp{
         sceneManager SM;
         renderManager RM;
     
-    
+        vector < string > viewNames;
         int currentView;
     
 };

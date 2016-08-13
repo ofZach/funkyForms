@@ -100,6 +100,7 @@ public:
     // per frame, what happened with IDs.
     vector < int > bornThisFrame;
     vector < int > diedThisFrame;
+    vector < int > movedThisFrame;
     vector < int > existThisFrame;
     
     cvPacket packet;
