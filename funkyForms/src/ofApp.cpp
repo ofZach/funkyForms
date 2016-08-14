@@ -8,7 +8,7 @@ void ofApp::setup(){
     
     ofRectangle bounds;
     
-
+    
     
     SM.scenes.push_back(new simpleScene());
     SM.scenes.push_back(new plantsScene());
@@ -18,6 +18,9 @@ void ofApp::setup(){
     SM.scenes.push_back(new wavesScene());
 
     IM.setup();
+    RM.setup();
+    
+    IM.CVM.packet.RM = &RM;
 
     for (int i = 0; i < SM.scenes.size(); i++){
         SM.scenes[i]->cvData = &IM.CVM.packet;
@@ -30,7 +33,7 @@ void ofApp::setup(){
     
     currentView = VIEW_DEBUG;
     
-    RM.setup();
+    
     
     IM.CVM.RM = &RM;
 
@@ -85,7 +88,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofBackground(0);
-<<<<<<< HEAD
+
     
     if (currentView == VIEW_DEBUG){
         IM.draw();

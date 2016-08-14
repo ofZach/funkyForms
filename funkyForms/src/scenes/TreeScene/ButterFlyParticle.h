@@ -4,6 +4,8 @@
 #include "ofMain.h"
 #include "particle.h"
 #include "ButterflyAnimation.h"
+#include "flockingForce.h"
+
 
 class ButterFlyParticle : public particle {
 	
@@ -17,6 +19,70 @@ public:
 	ButterflyAnimation	butterfly;
 	float				radius;
 	
+    
+    //------------------------------------------------------------
+    void addForFlocking(particle &p){
+        
+        ofVec3f diff, diffNormalized;
+        float distance;
+        
+        diff			= p.pos - pos;
+        distance		= diff.length();
+        diffNormalized	= diff;
+        diffNormalized.normalize();
+        
+        if( distance > 0 && distance < seperation.distance ){
+            seperation.sum += diffNormalized;
+            seperation.count++;
+        }
+        
+        if( distance > 0 && distance < alignment.distance ){
+            alignment.sum += p.vel.normalized();
+            alignment.count++;
+        }
+        
+        if( distance > 0 && distance < cohesion.distance ){
+            cohesion.sum += p.pos;
+            cohesion.count++;
+        }
+    }
+    
+    //------------------------------------------------------------
+    void addFlockingForce(){
+        
+        
+        // seperation
+        if(seperation.count > 0){
+            seperation.sum /= (float)seperation.count;
+        }
+        
+        // alignment
+        if(alignment.count > 0){
+            alignment.sum /= (float)alignment.count;
+        }
+        
+        // cohesion
+        if(cohesion.count > 0){
+            cohesion.sum /= (float)cohesion.count;
+            cohesion.sum -= pos;
+        }
+        
+        float sepFrc 	= seperation.strength;
+        float cohFrc 	= cohesion.strength;
+        float alignFrc 	= alignment.strength;
+        
+        frc -= (seperation.sum.normalized()		    * sepFrc);
+        frc += (alignment.sum.normalized()			* alignFrc);
+        frc += (cohesion.sum.normalized()			* cohFrc);
+    }
+    
+
+    
+    flockingForce cohesion;
+    flockingForce seperation;
+    flockingForce alignment;
+    
+    
 	ButterFlyParticle() {
 		img = NULL;
 		

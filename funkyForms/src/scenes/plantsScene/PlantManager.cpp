@@ -44,6 +44,13 @@ void PlantManager::addBgPlant(ofVec2f _pos){
     bgPlants[i].fadeIn();
 }
 void PlantManager::addPlant(ofVec2f _pos, int id){
+    
+    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle dst = src;
+    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+    dst.scaleTo(target);
+    
+    
     Plant plant;
     plants.push_back(plant );
     int i = plants.size()-1;
@@ -52,7 +59,10 @@ void PlantManager::addPlant(ofVec2f _pos, int id){
     plants[i].pointLinkId = ofRandom(pointLinkCount);
     
     // calc direction
-    ofPolyline &line = (*(cvData->trackedContours))[id].resampleSmoothed;
+    ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+    for (auto & pt : line){
+        pt = mapPt(src, dst, pt);
+    }
     
     ofVec2f *point = new ofVec2f[pointLinkCount];
     int step = line.size()/pointLinkCount;
@@ -176,9 +186,19 @@ void PlantManager::update(){
     updatePlantRemoval();
 }
 void PlantManager::updatePlants(){
+    
+    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle dst = src;
+    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+    dst.scaleTo(target);
+    
+    
     peoplePoints.clear();
     for(auto &id: cvData->idsThisFrame){
         ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+        for (auto & pt : line){
+            pt = mapPt(src, dst, pt);
+        }
         for (int j = 0; j < line.size(); j += line.size()/10 ) {
             peoplePoints.push_back(line.getVertices()[j]);
         }
@@ -188,7 +208,9 @@ void PlantManager::updatePlants(){
         int id = p.id;
         int whichBlob = cvData->idToBlobPos[id];
         ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
-        
+        for (auto & pt : line){
+            pt = mapPt(src, dst, pt);
+        }
         ofVec2f *point = new ofVec2f[pointLinkCount];
         int step = line.size()/pointLinkCount;
         int k = 0;
@@ -247,15 +269,13 @@ void PlantManager::draw(){
 }
 
 
-void PlantManager::drawGui(){
-    gui.draw();
-}
 
-void PlantManager::drawParticles(){
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].draw();
-    }
-}
+
+//void PlantManager::drawParticles(){
+//    for (int i = 0; i < particles.size(); i++){
+//        particles[i].draw();
+//    }
+//}
 void PlantManager::drawShadow(){
     for(auto &p: plants){
         p.drawShadow();

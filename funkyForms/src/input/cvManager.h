@@ -65,6 +65,21 @@ public:
         float y = blobs[whichBlob].blob.getBoundingBox().getTop();
         return ofVec2f(x, y);
     }
+    
+    renderManager * RM;
+    
+    ofPoint remapForScreen(screenName screen, ofPoint pt){
+        ofRectangle src(0,0, width, height);
+        ofRectangle dst = src;
+        ofRectangle target = RM->getRectForScreen(screen);
+        dst.scaleTo(target);
+        float newx = ofMap(pt.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
+        float newy = ofMap(pt.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
+        return ofPoint(newx, newy);
+    }
+    
+    
+    
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
 };

@@ -67,7 +67,9 @@ void eyeLinkerManager::updateEye(){
     for(auto &e : eyes ){
         for(auto &id : cv->idsThisFrame){
             if(id == e.id){
-                e.setPos(cv->getTopPointAt(id));
+                ofPoint pt = cv->getTopPointAt(id);
+                pt =  cv->remapForScreen(SCREEN_LEFT, pt);
+                e.setPos(pt);
                 float s = ofMap(e.vel.length(), -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
                 e.setScale(s);
             }

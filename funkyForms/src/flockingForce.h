@@ -1,13 +1,11 @@
-//
-//  flockingForce.h
-//  funkyForms
-//
-//  Created by zach on 8/13/16.
-//
-//
+#pragma once
 
-#ifndef flockingForce_h
-#define flockingForce_h
-
-
-#endif /* flockingForce_h */
+class flockingForce {
+public:
+    
+    int			count;
+    ofVec2f	sum;
+    float		distance;
+    float		strength;
+    
+};

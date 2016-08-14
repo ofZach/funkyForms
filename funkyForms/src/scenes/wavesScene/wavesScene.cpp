@@ -39,7 +39,11 @@ void wavesScene::draw(){
     if(isStencilWaveMode) stencilWaves.draw();
 
     drawPeople();
-    gui.draw();
+   
+}
+
+void wavesScene::drawGui(){
+     gui.draw();
 }
 
 void wavesScene::drawPeople(){

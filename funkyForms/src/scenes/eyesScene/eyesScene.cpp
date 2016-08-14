@@ -83,6 +83,7 @@ void eyesScene::updateAveragePos(){
     int size =  cvData->idsThisFrame.size();
     for(auto &id: cvData->idsThisFrame){
         ofVec2f pos = (*(cvData->trackedContours))[id].resampleSmoothed.getVertices()[0];
+        pos = cvData->remapForScreen(SCREEN_LEFT, pos);
         p += pos;
         if(pos.y < posYmax){
             posYmax = pos.y;
@@ -105,14 +106,22 @@ void eyesScene::updateFastestPos(){
         }
     }
     fastestPos = (*(cvData->trackedContours))[targetId].resampleSmoothed.getVertices()[0];
+    fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
+    
 }
 // ------------ draw
 void eyesScene::draw(){
     drawEyes();
     drawPeople();
 //    drawEyeLinker();
+   // gui.draw();
+}
+
+void eyesScene::drawGui(){
     gui.draw();
 }
+
+
 void eyesScene::drawEyeLinker(){
     eyeLinker.draw();
     ofSetColor(ofColor::red);
@@ -137,6 +146,9 @@ void eyesScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofSetColor(255);
         ofPolyline line = cvData->blobs[i].blob;
+        for (auto & pt : line){
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        }
         line.draw();
     }
 }
@@ -148,7 +160,9 @@ void eyesScene::stop(){
 
 }
 void eyesScene::blobBorn(int id){
-    if(isEyeLinkerMode) eyeLinkerManager.addEye(id, cvData->getTopPointAt(id));
+    ofPoint pt = cvData->getTopPointAt(id);
+    pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+    if(isEyeLinkerMode) eyeLinkerManager.addEye(id, pt);
     
 }
 void eyesScene::blobDied(int id){

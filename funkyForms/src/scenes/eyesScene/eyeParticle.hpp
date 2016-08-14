@@ -11,16 +11,8 @@
 
 #include "ofMain.h"
 #include "particle.h"
+#include "flockingForce.h"
 
-class flockingForce {
-public:
-    
-    int			count;
-    ofVec2f	sum;
-    float		distance;
-    float		strength;
-    
-};
 
 class eyeParticle : public particle{
 public:

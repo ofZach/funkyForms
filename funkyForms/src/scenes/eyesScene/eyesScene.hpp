@@ -48,6 +48,7 @@ public:
     void updateModeSwitch();
     
     void draw();
+    void drawGui();
     void drawEyeLinker();
     void drawPeople();
     void drawEyes();
