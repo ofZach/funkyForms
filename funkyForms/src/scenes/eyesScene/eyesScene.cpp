@@ -82,11 +82,13 @@ void eyesScene::updateAveragePos(){
     
     int size =  cvData->idsThisFrame.size();
     for(auto &id: cvData->idsThisFrame){
-        ofVec2f pos = (*(cvData->trackedContours))[id].resampleSmoothed.getVertices()[0];
+        if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
+        ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
         pos = cvData->remapForScreen(SCREEN_LEFT, pos);
         p += pos;
         if(pos.y < posYmax){
             posYmax = pos.y;
+        }
         }
     }
     p = ofVec2f(p.x/(size+1), posYmax);
@@ -105,7 +107,7 @@ void eyesScene::updateFastestPos(){
             targetId = id;
         }
     }
-    fastestPos = (*(cvData->trackedContours))[targetId].resampleSmoothed.getVertices()[0];
+    fastestPos = (*(cvData->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
     fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
     
 }

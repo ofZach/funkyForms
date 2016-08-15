@@ -59,7 +59,7 @@ void PlantManager::addPlant(ofVec2f _pos, int id){
     plants[i].pointLinkId = ofRandom(pointLinkCount);
     
     // calc direction
-    ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+    ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
     for (auto & pt : line){
         pt =cvData->remapForScreen(SCREEN_LEFT, pt);
     }
@@ -195,7 +195,7 @@ void PlantManager::updatePlants(){
     
     peoplePoints.clear();
     for(auto &id: cvData->idsThisFrame){
-        ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
         for (auto & pt : line){
             pt =cvData->remapForScreen(SCREEN_LEFT, pt);
         }
@@ -207,7 +207,7 @@ void PlantManager::updatePlants(){
         p.update();
         int id = p.id;
         int whichBlob = cvData->idToBlobPos[id];
-        ofPolyline line = (*(cvData->trackedContours))[id].resampleSmoothed;
+        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
         for (auto & pt : line){
             pt =cvData->remapForScreen(SCREEN_LEFT, pt);
         }

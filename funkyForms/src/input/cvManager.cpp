@@ -19,14 +19,8 @@ void cvManager::setup(){
     contourFinder.setInvert(true);
     contourFinder.getTracker().setPersistence(15);
     contourFinder.getTracker().setMaximumDistance(100);
-    
-    
-   
-    
-#else 
-    
+#else
     tracker.setListener(this);
-
 #endif
  
     
@@ -134,8 +128,8 @@ void cvManager::update(ofPixels & pixels){
         packet.idsThisFrame.push_back(blob.id);
         packet.idToBlobPos[blob.id] = i;
         
-        trackedContours[ tracker.blobs[i].id ].update(line);
-
+        trackedContours[ tracker.blobs[i].id ].analyze(line);
+        trackedContours[ tracker.blobs[i].id ].update();
     }
     
     packet.width = INPUT_WARP_TO_W;
