@@ -7,16 +7,15 @@
 //
 
 #include "gradientWaves.hpp"
-void gradientWaves::setup(){
-    int pos = ofGetHeight()-150;
-
-    for (int i = 0; i < 5; i++) {
-        pos += 10*i;
-        addWave(pos, swatch[i%5], swatchBase[i%5]);
-    }
+void gradientWaves::setup(int w, int h){
+    screenW = w;
+    screenH = h;
+    
+    float v = 0;
+    reload(v);
     
     // shader
-    bumpmap.allocate(ofGetWidth(), ofGetHeight());
+//    bumpmap.allocate(screenW, screenH);
 }
 void gradientWaves::setupGui(){
     bumpmap.setupParameters();
@@ -49,11 +48,12 @@ void gradientWaves::reloadInt(int &value){
 void gradientWaves::reload(float &value){
     waves.clear();
     for (int i = 0; i < waveCount; i++) {
-        addWave(waveDistance*i+ofGetHeight()-waveDistance*waveCount, swatch[i%5], swatchBase[i%5]);
+        addWave(waveDistance*i+screenH-waveDistance*waveCount, swatch[i%5], swatchBase[i%5]);
     }
 }
 void gradientWaves::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     FishWave wave;
+    
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
@@ -61,7 +61,7 @@ void gradientWaves::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     wave.force = force;
     wave.color = col;
     wave.baseColor = baseCol;
-    wave.setup(ypos, ofGetWidth());
+    wave.setup(ypos, screenW);
     wave.setupFishWave();
     waves.push_back(wave);
 }
@@ -148,7 +148,7 @@ void gradientWaves::drawSpikes(){
 //                }
 //            }
             ofSetColor(255, 255);
-            ofDrawCircle(ofVec2f(p.x, p.y+vel*10), ofMap(p.y, 0, ofGetHeight(), 10, 1, true));
+            ofDrawCircle(ofVec2f(p.x, p.y+vel*10), ofMap(p.y, 0, screenH, 10, 1, true));
         }
     }
 }

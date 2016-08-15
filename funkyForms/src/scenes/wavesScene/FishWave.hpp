@@ -24,6 +24,9 @@ public:
 
 class FishWave: public wave {
 public:
+    // w, h
+    int screenW, screenH;
+    
     // particles
     vector <particle2> particles;
     vector <particle> fishes;
@@ -51,6 +54,7 @@ public:
     ofVec2f fishPos;
     
     void setupFishWave();
+    void setSize(int w, int h){screenW = w; screenH = h;}
     void setBaseColor(ofColor _baseColor){baseColor = _baseColor;};
     
     void updateFishWave();

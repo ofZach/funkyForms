@@ -68,7 +68,7 @@ void FishWave::updateMesh(){
     
     for (int i = 0; i < polyline.getVertices().size(); i++) {
         ofVec2f p = polyline.getVertices()[i];
-        ofVec2f p2 = ofVec2f(p.x, ofGetHeight());
+        ofVec2f p2 = ofVec2f(p.x, screenH);
         ofVec3f dir = polyline.getTangentAtIndex(i);
         float angle = atan2(dir.x, dir.y)*(180)/pi;
         ofColor col = color;

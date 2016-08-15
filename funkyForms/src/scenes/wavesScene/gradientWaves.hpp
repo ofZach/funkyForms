@@ -21,6 +21,7 @@ class gradientWaves{
 public:
     // Input
     cvPacket * cvData;
+    int screenW, screenH;
     
     // Waves
     vector<FishWave> waves;
@@ -57,7 +58,7 @@ public:
     ofParameter<float> shadowOpacity = 100;
     ofParameter<float> energyHighlightSize = 100;
     
-    void setup();
+    void setup(int w, int h);
     void setupGui();
     void addWave( int ypos, ofFloatColor col, ofColor baseCol);
     void addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i);

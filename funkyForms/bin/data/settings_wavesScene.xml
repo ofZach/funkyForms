@@ -4,16 +4,16 @@
 		<isGradientWavesMode>1</isGradientWavesMode>
 	</wavesSceneParameters>
 	<gradientWavesParameters>
-		<waveCount>5</waveCount>
-		<waveDistance>10</waveDistance>
-		<amount>55</amount>
-		<strength>0.55</strength>
-		<restLength>16.92</restLength>
+		<waveCount>3</waveCount>
+		<waveDistance>71.6582</waveDistance>
+		<amount>44</amount>
+		<strength>0.770638</strength>
+		<restLength>6.61225</restLength>
 		<invMass>0.375</invMass>
-		<force>4</force>
+		<force>0.607653</force>
 		<shadowRadius>100</shadowRadius>
-		<energyHighlightSize>100</energyHighlightSize>
-		<shadowOpacity>100</shadowOpacity>
+		<energyHighlightSize>35.7143</energyHighlightSize>
+		<shadowOpacity>31.2245</shadowOpacity>
 		<Ripples>
 			<damping>1</damping>
 			<pixelOffset>1</pixelOffset>

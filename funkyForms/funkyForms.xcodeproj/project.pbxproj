@@ -763,6 +763,8 @@
 		0CE30F3A34DFED21132176AB /* eyesScene */ = {
 			isa = PBXGroup;
 			children = (
+				7B2ECAD5611A303021075B9E /* eyesScene.cpp */,
+				D62A1FCC6471A5FEBFA0840C /* eyesScene.hpp */,
 				0E117D1250BD4DEEAC3AC32B /* eye.cpp */,
 				4E51E691743C41B677D5E58C /* eye.hpp */,
 				797A6083C68CD183DBB6C91D /* EyeLinker.cpp */,
@@ -775,8 +777,6 @@
 				28845215EA0DF7AB0BE2B485 /* eyeParticle.hpp */,
 				6AFE1EBAA7741A9E96558BA9 /* EyeParticles.cpp */,
 				31671E3267618760C7D66946 /* EyeParticles.hpp */,
-				7B2ECAD5611A303021075B9E /* eyesScene.cpp */,
-				D62A1FCC6471A5FEBFA0840C /* eyesScene.hpp */,
 				E53D7AEBC1B46D0C0320A17D /* lid.cpp */,
 				DEEBE1ACF429F1D9885CB29C /* lid.hpp */,
 			);
@@ -1688,8 +1688,12 @@
 			children = (
 				768B54B25E7C9593BA8F2102 /* wavesScene.cpp */,
 				CBC3A15722D374D2BE520866 /* wavesScene.hpp */,
+				0EB9C04A466B1443A4D4B7B9 /* gradientWaves.cpp */,
+				8B878B9434BBA903FBFB20D7 /* gradientWaves.hpp */,
 				4E1EC3FC95531206DDC2E72A /* FishWave.cpp */,
 				A23E25D7ABAE4C8A39D3B16B /* FishWave.hpp */,
+				070257EA72F2AAAB6D53EC2C /* StencilWaves.cpp */,
+				F7F82DA8C8A695452F75E266 /* StencilWaves.hpp */,
 				0A5D62C81991D7D016C6CF71 /* ofxRefract.h */,
 				E0A63D9C8714386D56CB2B8C /* ofxRipple.cpp */,
 				6DFD35EF84160592FA2D9FE7 /* ofxRipple.hpp */,
@@ -1697,12 +1701,8 @@
 				67C4ED906A2F718F1E5EDB85 /* Shapes.hpp */,
 				8D9B9C17385056FE04099F02 /* Spring.cpp */,
 				DC53AE607647952C7BCDFA1B /* Spring.hpp */,
-				070257EA72F2AAAB6D53EC2C /* StencilWaves.cpp */,
-				F7F82DA8C8A695452F75E266 /* StencilWaves.hpp */,
 				6D2DF423F2CF09D6FBD34F85 /* wave.cpp */,
 				A24964394FCFB74A533E9490 /* wave.hpp */,
-				0EB9C04A466B1443A4D4B7B9 /* gradientWaves.cpp */,
-				8B878B9434BBA903FBFB20D7 /* gradientWaves.hpp */,
 			);
 			name = wavesScene;
 			sourceTree = "<group>";

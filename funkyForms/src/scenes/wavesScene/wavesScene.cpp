@@ -9,16 +9,19 @@
 #include "wavesScene.hpp"
 // ------------ Setup
 void wavesScene::setup(){
+    // size
+    int w = RM->getWidth();
+    int h = RM->getHeight();
+    
     // setup parameters
     stencilWaves.setupGui();
-
     gradientWaves.setupGui();
     
     // setup gui
     setupGui();
     
     // setup obj
-    gradientWaves.setup();
+    gradientWaves.setup(w, h);
     stencilWaves.setup();
 }
 void wavesScene::setupGui(){
@@ -42,20 +45,19 @@ void wavesScene::updateInput(){
         // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
         // have any vertices... adding a check.
         if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-            int size = cvData->idsThisFrame.size();
-            
             ofPolyline &line =  (*(cvData->trackedContours))[id].data.resampleSmoothed;
             for (int i = 0; i < line.size(); i += line.size()/10 ) {
-                ofVec2f pos = line.getVertices()[i];
+                ofPoint pt = line.getVertices()[i];
+                pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
                 ofVec2f vel = (*(cvData->trackedContours))[id].data.velPts[i];
                 if(isGradientWavesMode){
                     for(auto &w: gradientWaves.waves){
-                        w.addTarget(pos, vel);
+                        w.addTarget(pt, vel);
                     }
                 }
                 if(isStencilWaveMode){
                     for(auto &w: stencilWaves.waves){
-                        w.addTarget(pos, vel);
+                        w.addTarget(pt, vel);
                     }
                 }
             }
