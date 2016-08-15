@@ -24,11 +24,15 @@ public:
     ofParameter<float> outputScaleRange;
     ofParameter<bool> scaleClip;
     
-    // Input
-    cvPacket * cv;
+    // target
+    struct Target{
+        ofVec2f pos;
+        ofVec2f vel;
+    };
+    map<int, Target> targets;
     
-    // Eyes
-    vector <EyeLinker> eyes;
+    // eyeLinkers
+    vector <EyeLinker> eyeLinkers;
     
     // Gui
     ofParameterGroup parameters;
@@ -40,6 +44,8 @@ public:
     ofParameter<float>  glowOpacity = 120;
 
     void setup();
+    void setTargetPos(int id, ofVec2f pos); // should call before update
+    void setTargetVel(int id, ofVec2f vel); // should call before update
     void setupGui();
     void setupParameters(float &v);
     void addEye(int id, ofVec2f pos);

@@ -31,9 +31,7 @@ void plantsScene::update(){
 void plantsScene::draw(){
     plantManager.draw();
     drawPeople();
- 
     //   gui.draw();       // do this seperately so we don't draw into renderManager.
-    
 }
 void plantsScene::drawGui(){
     gui.draw();
@@ -41,8 +39,6 @@ void plantsScene::drawGui(){
 }
 
 void plantsScene::drawPeople(){
-    
-    
     // rempap the contour data:
     // baseScene::mapPt takes an input rectangle, an output rectangle
     // and a pt and remaps the pt

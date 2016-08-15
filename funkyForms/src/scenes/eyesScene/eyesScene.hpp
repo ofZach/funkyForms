@@ -42,9 +42,11 @@ public:
     
     void update();
     void updateAveragePos();
+    void updateTargets();
     void updateEyes();
     void updateFastestPos();
     void updateEyeLinker();
+    void updateEyeLinkerManager();
     void updateModeSwitch();
     
     void draw();

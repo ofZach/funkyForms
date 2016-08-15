@@ -141,12 +141,6 @@ void PlantManager::remove(int id){
             p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
         }
     }
-//    plants.erase(
-//                    std::remove_if(
-//                                   plants.begin(),
-//                                   plants.end(),
-//                                   [&](Plant & p){return p.id == id;}),
-//                    plants.end());
 }
 void PlantManager::reset(){
     bgPlants.clear();

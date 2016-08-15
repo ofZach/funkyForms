@@ -16,7 +16,13 @@
 
 class EyeParticles{
 public:
-    cvPacket * cvData;
+    // target
+    struct Target{
+        ofVec2f pos;
+        ofVec2f vel;
+    };
+    map<int, Target> targets;
+    
     ofParameterGroup parameters;
     
     enum Behavior{
@@ -26,6 +32,8 @@ public:
     };
     
     void setup();
+    void setTargetPos(int id, ofVec2f pos); // should call before update
+    void setTargetVel(int id, ofVec2f vel); // should call before update
     void setupGui();
     
     void update();

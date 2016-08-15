@@ -27,35 +27,42 @@ void eyeLinkerManager::setupGui(){
 //    scale.addListener(this, &eyeLinkerManager::setupParameters);
 }
 void eyeLinkerManager::setupParameters(float &v){
-    for(auto &e : eyes){
+    for(auto &e : eyeLinkers){
         e.setScale(scale);
     }
 }
 void eyeLinkerManager::addEye(int id, ofVec2f pos){
     EyeLinker eyelinker;
-    eyes.push_back(eyelinker);
-    int i = eyes.size()-1;
-    eyes[i].id = id;
-    eyes[i].pos = pos;
-    eyes[i].setSize(width, height);
-    eyes[i].setup();
-    eyes[i].setScale(scale);
+    eyeLinkers.push_back(eyelinker);
+    int i = eyeLinkers.size()-1;
+    eyeLinkers[i].id = id;
+    eyeLinkers[i].pos = pos;
+    eyeLinkers[i].setSize(width, height);
+    eyeLinkers[i].setup();
+    eyeLinkers[i].setScale(scale);
 }
 void eyeLinkerManager::removeEye(int id){
-    for(auto &e : eyes ){
+    for(auto &e : eyeLinkers ){
         if(e.id == id){
             e.out();
         }
     }
+}
+void eyeLinkerManager::setTargetPos(int id, ofVec2f pos){
+    targets[id].pos = pos;
+}
+void eyeLinkerManager::setTargetVel(int id, ofVec2f vel){
+    targets[id].vel = vel;
 }
 // ------------------- udpate
 void eyeLinkerManager::update(){
     updateParameters();
     updateEyeRemoval();
     updateEye();
+    targets.clear();
 }
 void eyeLinkerManager::updateParameters(){
-    for(auto &e : eyes ){
+    for(auto &e : eyeLinkers ){
         e.isGlow = isGlow;
         e.glowRadius = glowRadius;
         e.glowOpacity = glowOpacity;
@@ -64,29 +71,28 @@ void eyeLinkerManager::updateParameters(){
     }
 }
 void eyeLinkerManager::updateEye(){
-    for(auto &e : eyes ){
-        for(auto &id : cv->idsThisFrame){
-            if(id == e.id){
-                ofPoint pt = cv->getTopPointAt(id);
-                pt =  cv->remapForScreen(SCREEN_LEFT, pt);
-                e.setPos(pt);
-                float s = ofMap(e.vel.length(), -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
-                e.setScale(s);
+    for(auto &e : eyeLinkers ){
+        for(auto &t : targets){
+            if(t.first == e.id){
+                ofVec2f pos = t.second.pos;
+                e.setPos(pos);
             }
         }
+        float s = ofMap(e.vel.length(), -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
+        e.setScale(s);
         e.update();
     }
 }
 void eyeLinkerManager::updateEyeRemoval(){
-    for(int i = 0; i < eyes.size(); i++){
-        if(eyes[i].isFinished()){
-            eyes.erase(eyes.begin() + i);
+    for(int i = 0; i < eyeLinkers.size(); i++){
+        if(eyeLinkers[i].isFinished()){
+            eyeLinkers.erase(eyeLinkers.begin() + i);
         }
     }
 }
 // ------------------- draw
 void eyeLinkerManager::draw(){
-    for(auto &e : eyes ){
+    for(auto &e : eyeLinkers ){
         e.draw();
     }
 }

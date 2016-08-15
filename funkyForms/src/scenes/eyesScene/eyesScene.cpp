@@ -16,12 +16,10 @@ void eyesScene::setup(){
     
     // setup
     eyePair.setup();
-    eyeLinkerManager.cv = cvData;
 
     eyeLinker.setSize(eyeLinkerManager.width, eyeLinkerManager.height);
     eyeLinkerManager.setup();
     
-    eyeParticles.cvData = cvData;
     eyeParticles.setup();
     
     eyeLinker.setup();
@@ -39,6 +37,7 @@ void eyesScene::setupGui(){
 }
 // ------------ update
 void eyesScene::update(){
+    updateTargets();
     updateModeSwitch();
     updateAveragePos();
     updateFastestPos();
@@ -46,6 +45,17 @@ void eyesScene::update(){
 //    updateEyeLinker();
 }
 void eyesScene::updateModeSwitch(){
+}
+void eyesScene::updateTargets(){
+    for(auto &id : cvData->idsThisFrame){
+        ofPoint pt = cvData->getTopPointAt(id);
+        ofVec2f vel = cvData->getVelAvgSmoothAt(id);
+        pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
+        
+        eyeLinkerManager.setTargetPos(id, pt);
+        eyeParticles.setTargetPos(id, pt);
+        eyeParticles.setTargetVel(id, vel);
+    }
 }
 void eyesScene::updateEyes(){
     if(isEyePairMode){
@@ -56,8 +66,11 @@ void eyesScene::updateEyes(){
         eyeParticles.update();
     }
     if(isEyeLinkerMode){
-        eyeLinkerManager.update();
+        updateEyeLinkerManager();
     }
+}
+void eyesScene::updateEyeLinkerManager(){
+    eyeLinkerManager.update();
 }
 void eyesScene::updateEyeLinker(){
     eyeLinker.setPos(ofVec2f(ofGetMouseX(), ofGetMouseY()));
@@ -107,8 +120,10 @@ void eyesScene::updateFastestPos(){
             targetId = id;
         }
     }
-    fastestPos = (*(cvData->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
-    fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
+    if ((*(cvData->trackedContours))[targetId].data.resampleSmoothed.size() > 0){
+        fastestPos = (*(cvData->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
+        fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
+    }
     
 }
 // ------------ draw
@@ -118,12 +133,9 @@ void eyesScene::draw(){
 //    drawEyeLinker();
    // gui.draw();
 }
-
 void eyesScene::drawGui(){
     gui.draw();
 }
-
-
 void eyesScene::drawEyeLinker(){
     eyeLinker.draw();
     ofSetColor(ofColor::red);
