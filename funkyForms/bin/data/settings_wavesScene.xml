@@ -1,9 +1,9 @@
 <settings_wavesScene>
 	<wavesSceneParameters>
-		<isStencilWaveMode>1</isStencilWaveMode>
-		<isWaveManagerMode>0</isWaveManagerMode>
+		<isStencilWaveMode>0</isStencilWaveMode>
+		<isGradientWavesMode>1</isGradientWavesMode>
 	</wavesSceneParameters>
-	<waveManagerParameters>
+	<gradientWavesParameters>
 		<waveCount>5</waveCount>
 		<waveDistance>10</waveDistance>
 		<amount>55</amount>
@@ -18,7 +18,7 @@
 			<damping>1</damping>
 			<pixelOffset>1</pixelOffset>
 		</Ripples>
-	</waveManagerParameters>
+	</gradientWavesParameters>
 	<stencilWavesParameters>
 		<amount>23.3</amount>
 		<strength>0.045955</strength>
@@ -38,9 +38,9 @@
 			<noiseSpeedX>0.142857</noiseSpeedX>
 			<noiseSpeedY>0.357143</noiseSpeedY>
 		</refractParameters>
-	<glowRadius>70</glowRadius>
+		<glowRadius>70</glowRadius>
 		<glowOpacity>120.995</glowOpacity>
-	<peopleOpacity>157.423</peopleOpacity>
+		<peopleOpacity>157.423</peopleOpacity>
 	</stencilWavesParameters>
 <settings_wavesScene/>
 </settings_wavesScene>

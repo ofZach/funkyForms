@@ -6,8 +6,8 @@
 //
 //
 
-#include "WaveManager.hpp"
-void WaveManager::setup(){
+#include "gradientWaves.hpp"
+void gradientWaves::setup(){
     int pos = ofGetHeight()-150;
 
     for (int i = 0; i < 5; i++) {
@@ -18,9 +18,9 @@ void WaveManager::setup(){
     // shader
     bumpmap.allocate(ofGetWidth(), ofGetHeight());
 }
-void WaveManager::setupGui(){
+void gradientWaves::setupGui(){
     bumpmap.setupParameters();
-    parameters.setName("waveManagerParameters");
+    parameters.setName("gradientWavesParameters");
     parameters.add(waveCount.set("waveCount", 5, 1, 20));
     parameters.add(waveDistance.set("waveDistance", 10, 5, 200));
     parameters.add(amount.set("amount", 55, 10, 200));
@@ -33,26 +33,26 @@ void WaveManager::setupGui(){
     parameters.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
     parameters.add(bumpmap.parameters);
     
-    waveCount.addListener(this, &WaveManager::reloadInt);
-    amount.addListener(this, &WaveManager::reloadInt);
+    waveCount.addListener(this, &gradientWaves::reloadInt);
+    amount.addListener(this, &gradientWaves::reloadInt);
     
-    waveDistance.addListener(this, &WaveManager::reload);
-    force.addListener(this, &WaveManager::reload);
-    restLength.addListener(this, &WaveManager::reload);
-    strength.addListener(this, &WaveManager::reload);
-    invMass.addListener(this, &WaveManager::reload);
+    waveDistance.addListener(this, &gradientWaves::reload);
+    force.addListener(this, &gradientWaves::reload);
+    restLength.addListener(this, &gradientWaves::reload);
+    strength.addListener(this, &gradientWaves::reload);
+    invMass.addListener(this, &gradientWaves::reload);
 }
-void WaveManager::reloadInt(int &value){
+void gradientWaves::reloadInt(int &value){
     float val = 0;
     reload(val);
 }
-void WaveManager::reload(float &value){
+void gradientWaves::reload(float &value){
     waves.clear();
     for (int i = 0; i < waveCount; i++) {
         addWave(waveDistance*i+ofGetHeight()-waveDistance*waveCount, swatch[i%5], swatchBase[i%5]);
     }
 }
-void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
+void gradientWaves::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     FishWave wave;
     wave.restLength = restLength;
     wave.strength = strength;
@@ -65,7 +65,7 @@ void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     wave.setupFishWave();
     waves.push_back(wave);
 }
-void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
+void gradientWaves::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
     ofFloatColor col = ofColor::white;
     
     float mix = cos(i*3);
@@ -79,14 +79,14 @@ void WaveManager::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
     m->addColor(col);
 }
 // -------------- update
-void WaveManager::update(){
+void gradientWaves::update(){
     updateWaveParameters();
     for (int i = 0; i < waves.size(); i++) {
         waves[i].update();
         waves[i].updateFishWave();
     }
 }
-void WaveManager::updateWaveParameters(){
+void gradientWaves::updateWaveParameters(){
     for(auto &w: waves){
         w.shadowRadius = shadowRadius;
         w.shadowOpacity = shadowOpacity;
@@ -94,7 +94,7 @@ void WaveManager::updateWaveParameters(){
     }
 
 }
-void WaveManager::updateRipples(){
+void gradientWaves::updateRipples(){
     bumpmap.begin();
     ofPushMatrix();
 //    ofTranslate(IM->pos);
@@ -115,14 +115,14 @@ void WaveManager::updateRipples(){
     bumpmap.update();
 }
 // -------------- draw
-void WaveManager::draw(){
+void gradientWaves::draw(){
     for (int i = 0; i < waves.size(); i++) {
         waves[i].draw();
     }
 //    drawBox2d();
     ofSetColor(255, 255);
 }
-void WaveManager::drawSpikes(){
+void gradientWaves::drawSpikes(){
     for (int i = 0; i < waves.size(); i++) {
         ofPolyline *line = &waves[i].polyline;
         float index  = 5.0;
@@ -152,7 +152,7 @@ void WaveManager::drawSpikes(){
         }
     }
 }
-void WaveManager::drawCircles(ofPolyline *line, int i){
+void gradientWaves::drawCircles(ofPolyline *line, int i){
     int index  = 5;
     while (index < waves[0].amount) {
         ofVec2f p = line->getPointAtIndexInterpolated(index);
@@ -177,7 +177,7 @@ void WaveManager::drawCircles(ofPolyline *line, int i){
         index += ofNoise((i*index)/20.01)*60;
     }
 }
-void WaveManager::drawRipples(){
+void gradientWaves::drawRipples(){
     bumpmap.draw();
 }
 

@@ -11,7 +11,7 @@
 
 #include "ofMain.h"
 #include "baseScene.h"
-#include "WaveManager.hpp"
+#include "gradientWaves.hpp"
 #include "StencilWaves.hpp"
 #include "ofxGui.h"
 
@@ -19,13 +19,13 @@ class wavesScene : public baseScene {
 public:
     // Waves
     StencilWaves stencilWaves;
-    WaveManager waveManager;
+    gradientWaves gradientWaves;
     
     // Gui
     ofParameterGroup parameters;
 
     // Modes
-    ofParameter<bool> isWaveManagerMode = false;
+    ofParameter<bool> isGradientWavesMode = false;
     ofParameter<bool> isStencilWaveMode = true;
     
     ofxPanel gui;

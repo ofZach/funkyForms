@@ -67,7 +67,7 @@
 		6F0D599D9FD124B23D0E0F8D /* baseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10E77EFB672AD13F3F3639CB /* baseScene.cpp */; };
 		71D96252BF144A83E815606F /* b2MouseJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62EB1B88992A3AF9F75AE626 /* b2MouseJoint.cpp */; };
 		72380480D6306BE3EFCE4B54 /* b2StackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC67FC14E85C32FCADB36D2 /* b2StackAllocator.cpp */; };
-		7264272A89DEEB47ADFF3820 /* WaveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB9C04A466B1443A4D4B7B9 /* WaveManager.cpp */; };
+		7264272A89DEEB47ADFF3820 /* gradientWaves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB9C04A466B1443A4D4B7B9 /* gradientWaves.cpp */; };
 		727833E11D62549C004384CC /* plantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 727833DF1D62549C004384CC /* plantsScene.cpp */; };
 		76FB9AEEC937544F851C5DF4 /* b2DynamicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963C37E4EFD8B74BD1537702 /* b2DynamicTree.cpp */; };
 		7A01C01BDA17CA2059C99A14 /* RandomFern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99A35A691593602D8250B5E2 /* RandomFern.cpp */; };
@@ -205,7 +205,7 @@
 		0CEC1FE946DBDBAB82AF6FE3 /* global_motion.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = global_motion.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/global_motion.hpp; sourceTree = SOURCE_ROOT; };
 		0CF0AA3895D28E97D8A1E4A9 /* ground_truth.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ground_truth.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/ground_truth.h; sourceTree = SOURCE_ROOT; };
 		0E117D1250BD4DEEAC3AC32B /* eye.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = eye.cpp; path = src/scenes/eyesScene/eye.cpp; sourceTree = SOURCE_ROOT; };
-		0EB9C04A466B1443A4D4B7B9 /* WaveManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = WaveManager.cpp; path = src/scenes/wavesScene/WaveManager.cpp; sourceTree = SOURCE_ROOT; };
+		0EB9C04A466B1443A4D4B7B9 /* gradientWaves.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = gradientWaves.cpp; path = src/scenes/wavesScene/gradientWaves.cpp; sourceTree = SOURCE_ROOT; };
 		1054B4574F75C1F693C147C6 /* optical_flow.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = optical_flow.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/optical_flow.hpp; sourceTree = SOURCE_ROOT; };
 		10E77EFB672AD13F3F3639CB /* baseScene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = baseScene.cpp; path = src/scenes/baseScene.cpp; sourceTree = SOURCE_ROOT; };
 		114B872696817CC33990FC83 /* imgproc.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imgproc.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc/imgproc.hpp; sourceTree = SOURCE_ROOT; };
@@ -429,7 +429,7 @@
 		893C0817129AA7A409E0CFE8 /* b2PolygonAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2PolygonAndCircleContact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		89449E3044D456F7DE7BEA14 /* ofxPanel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxPanel.h; path = ../../../addons/ofxGui/src/ofxPanel.h; sourceTree = SOURCE_ROOT; };
 		8A4DD23693DFAB8EC05FAA5D /* ofxCvShortImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCvShortImage.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.cpp; sourceTree = SOURCE_ROOT; };
-		8B878B9434BBA903FBFB20D7 /* WaveManager.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = WaveManager.hpp; path = src/scenes/wavesScene/WaveManager.hpp; sourceTree = SOURCE_ROOT; };
+		8B878B9434BBA903FBFB20D7 /* gradientWaves.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = gradientWaves.hpp; path = src/scenes/wavesScene/gradientWaves.hpp; sourceTree = SOURCE_ROOT; };
 		8B937310616AA72F64AEF5C4 /* b2GearJoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2GearJoint.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Joints/b2GearJoint.cpp; sourceTree = SOURCE_ROOT; };
 		8C3DF85D2918587E29DCB562 /* b2Collision.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2Collision.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Collision/b2Collision.cpp; sourceTree = SOURCE_ROOT; };
 		8D9B9C17385056FE04099F02 /* Spring.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Spring.cpp; path = src/scenes/wavesScene/Spring.cpp; sourceTree = SOURCE_ROOT; };
@@ -1701,8 +1701,8 @@
 				F7F82DA8C8A695452F75E266 /* StencilWaves.hpp */,
 				6D2DF423F2CF09D6FBD34F85 /* wave.cpp */,
 				A24964394FCFB74A533E9490 /* wave.hpp */,
-				0EB9C04A466B1443A4D4B7B9 /* WaveManager.cpp */,
-				8B878B9434BBA903FBFB20D7 /* WaveManager.hpp */,
+				0EB9C04A466B1443A4D4B7B9 /* gradientWaves.cpp */,
+				8B878B9434BBA903FBFB20D7 /* gradientWaves.hpp */,
 			);
 			name = wavesScene;
 			sourceTree = "<group>";
@@ -2003,7 +2003,7 @@
 				C329AEF01223174F8602D131 /* Spring.cpp in Sources */,
 				22A0B57FF1C551D719B3202B /* StencilWaves.cpp in Sources */,
 				89B4F1C4B07004E2E4A4D37A /* wave.cpp in Sources */,
-				7264272A89DEEB47ADFF3820 /* WaveManager.cpp in Sources */,
+				7264272A89DEEB47ADFF3820 /* gradientWaves.cpp in Sources */,
 				8BA21C42AE20EE1B034D78DE /* wavesScene.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,

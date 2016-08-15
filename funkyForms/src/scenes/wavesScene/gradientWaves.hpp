@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef WaveManager_hpp
-#define WaveManager_hpp
+#ifndef gradientWaves_hpp
+#define gradientWaves_hpp
 
 #include "ofMain.h"
 #include "FishWave.hpp"
@@ -17,7 +17,7 @@
 #include "cvManager.h"
 
 
-class WaveManager{
+class gradientWaves{
 public:
     // Input
     cvPacket * cvData;
@@ -77,4 +77,4 @@ public:
 
 };
 
-#endif /* WaveManager_hpp */
+#endif /* gradientWaves_hpp */

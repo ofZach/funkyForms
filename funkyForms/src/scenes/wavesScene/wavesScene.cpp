@@ -12,29 +12,29 @@ void wavesScene::setup(){
     // setup parameters
     stencilWaves.setupGui();
 
-    waveManager.setupGui();
+    gradientWaves.setupGui();
     
     // setup gui
     setupGui();
     
     // setup obj
-    waveManager.setup();
+    gradientWaves.setup();
     stencilWaves.setup();
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
     parameters.add(isStencilWaveMode.set("isStencilWaveMode", true));
-    parameters.add(isWaveManagerMode.set("isWaveManagerMode", false));
+    parameters.add(isGradientWavesMode.set("isGradientWavesMode", false));
     parameters.setName("wavesSceneParameters");
     gui.add(parameters);
-    gui.add(waveManager.parameters);
+    gui.add(gradientWaves.parameters);
     gui.add(stencilWaves.parameters);
     gui.loadFromFile("settings_wavesScene.xml");
 }
 // ------------ Update
 void wavesScene::update(){
     updateInput();
-    if(isWaveManagerMode) waveManager.update();
+    if(isGradientWavesMode) gradientWaves.update();
     if(isStencilWaveMode) stencilWaves.update();
 }
 void wavesScene::updateInput(){
@@ -48,8 +48,8 @@ void wavesScene::updateInput(){
             for (int i = 0; i < line.size(); i += line.size()/10 ) {
                 ofVec2f pos = line.getVertices()[i];
                 ofVec2f vel = (*(cvData->trackedContours))[id].data.velPts[i];
-                if(isWaveManagerMode){
-                    for(auto &w: waveManager.waves){
+                if(isGradientWavesMode){
+                    for(auto &w: gradientWaves.waves){
                         w.addTarget(pos, vel);
                     }
                 }
@@ -64,7 +64,7 @@ void wavesScene::updateInput(){
 }
 // ------------ Draw
 void wavesScene::draw(){
-    if(isWaveManagerMode) waveManager.draw();
+    if(isGradientWavesMode) gradientWaves.draw();
     if(isStencilWaveMode) stencilWaves.draw();
 
     drawPeople();
