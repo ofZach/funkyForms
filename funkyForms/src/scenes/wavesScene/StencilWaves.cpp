@@ -61,7 +61,6 @@ void StencilWaves::reload(float &v){
 }
 void StencilWaves::addWave(int y){
     class wave wave;
-    wave.cvData = cvData;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
@@ -171,15 +170,15 @@ void StencilWaves::updateRefract(){
 }
 void StencilWaves::updateContours(){
     contours.clear();
-    for(auto &id : cvData->idsThisFrame){
-        ofPolyline l = cvData->getResampledLineAt(id, 2);
-        ofPath path;
-        for (auto &p : l) {
-            path.lineTo(p);
-        }
-        path.setFillColor(ofColor::white);
-        contours.push_back(path);
-    }
+//    for(auto &id : cvData->idsThisFrame){
+//        ofPolyline l = cvData->getResampledLineAt(id, 2);
+//        ofPath path;
+//        for (auto &p : l) {
+//            path.lineTo(p);
+//        }
+//        path.setFillColor(ofColor::white);
+//        contours.push_back(path);
+//    }
 }
 // -------------- draw
 void StencilWaves::draw(){
@@ -192,25 +191,25 @@ void StencilWaves::draw(){
     drawUpperPeople();
 }
 void StencilWaves::drawUpperPeople(){
-    for(auto &id : cvData->idsThisFrame){
-        ofPolyline l = cvData->getResampledLineAt(id, 50);
-        ofPath path;
-        for (int i = 0; i < l.size(); i++){
-            int i_n = ofClamp(i+1, 0, l.size()-1);
-            int i_p = ofClamp(i-1, 0, l.size()-1);
-            ofVec2f pp = l.getVertices()[i_p];
-            ofVec2f pc = l.getVertices()[i];
-            ofVec2f pn = l.getVertices()[i_n];
-            ofVec2f deltaP1 = pc - pp;
-            ofVec2f deltaP2 = pn - pc;
-            
-            if(deltaP1.dot(deltaP2)>0){
-                
-            }
-        }
-        path.setFillColor(ofColor::white);
-        path.draw();
-    }
+//    for(auto &id : cvData->idsThisFrame){
+//        ofPolyline l = cvData->getResampledLineAt(id, 50);
+//        ofPath path;
+//        for (int i = 0; i < l.size(); i++){
+//            int i_n = ofClamp(i+1, 0, l.size()-1);
+//            int i_p = ofClamp(i-1, 0, l.size()-1);
+//            ofVec2f pp = l.getVertices()[i_p];
+//            ofVec2f pc = l.getVertices()[i];
+//            ofVec2f pn = l.getVertices()[i_n];
+//            ofVec2f deltaP1 = pc - pp;
+//            ofVec2f deltaP2 = pn - pc;
+//            
+//            if(deltaP1.dot(deltaP2)>0){
+//                
+//            }
+//        }
+//        path.setFillColor(ofColor::white);
+//        path.draw();
+//    }
 }
 void StencilWaves::drawPlainWaveMesh(){
     ofMesh mesh;
@@ -228,12 +227,12 @@ void StencilWaves::drawGlow(){
     for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
         ofVec2f p = waves[0].polyline.getVertices()[i];
         float r = 0;
-        for(auto &id : cvData->idsThisFrame){
-            ofVec2f pos = cvData->getCentoidAt(id);
-            if(pos.distance(p)<glowRadius){
-                r = ofMap(pos.distance(p), 0, glowRadius, glowRadius, 0);
-            }
-        }
+//        for(auto &id : cvData->idsThisFrame){
+//            ofVec2f pos = cvData->getCentoidAt(id);
+//            if(pos.distance(p)<glowRadius){
+//                r = ofMap(pos.distance(p), 0, glowRadius, glowRadius, 0);
+//            }
+//        }
         ofSetColor(255, glowOpacity);
         r *= 3;
 //        ofDrawCircle(p-ofVec2f(r, r), r*2);

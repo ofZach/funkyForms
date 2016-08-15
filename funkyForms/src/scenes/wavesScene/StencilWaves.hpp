@@ -21,7 +21,6 @@
 class StencilWaves{
 public:
     // input
-    cvPacket * cvData;
     vector<ofPath> contours;
     
     // colors

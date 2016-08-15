@@ -21,6 +21,15 @@ public:
     // Input
     cvPacket * cvData;
     
+    
+    // Target
+    // target
+    struct Target{
+        ofVec2f pos;
+        ofVec2f vel;
+    };
+    vector<Target> targets;
+    
     int ypos;
     
     ofVec2f pos;
@@ -42,6 +51,13 @@ public:
     ofPolyline polyline;
     
     void setup(int _ypos, int _width);
+    
+    void addTarget(ofVec2f pos, ofVec2f vel){
+        Target t;
+        t.pos = pos;
+        t.vel = vel;
+        targets.push_back(t);
+    }
     
     void update();
     void updatePolyline();

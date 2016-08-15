@@ -34,6 +34,7 @@ public:
     void setupGui();
     
     void update();
+    void updateInput();
     
     void draw();
     void drawGui();

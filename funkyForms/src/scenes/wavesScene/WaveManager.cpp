@@ -54,7 +54,6 @@ void WaveManager::reload(float &value){
 }
 void WaveManager::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     FishWave wave;
-    wave.cvData = cvData;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;

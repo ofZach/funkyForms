@@ -1686,6 +1686,8 @@
 		E2374740275403BA43278B7F /* wavesScene */ = {
 			isa = PBXGroup;
 			children = (
+				768B54B25E7C9593BA8F2102 /* wavesScene.cpp */,
+				CBC3A15722D374D2BE520866 /* wavesScene.hpp */,
 				4E1EC3FC95531206DDC2E72A /* FishWave.cpp */,
 				A23E25D7ABAE4C8A39D3B16B /* FishWave.hpp */,
 				0A5D62C81991D7D016C6CF71 /* ofxRefract.h */,
@@ -1701,8 +1703,6 @@
 				A24964394FCFB74A533E9490 /* wave.hpp */,
 				0EB9C04A466B1443A4D4B7B9 /* WaveManager.cpp */,
 				8B878B9434BBA903FBFB20D7 /* WaveManager.hpp */,
-				768B54B25E7C9593BA8F2102 /* wavesScene.cpp */,
-				CBC3A15722D374D2BE520866 /* wavesScene.hpp */,
 			);
 			name = wavesScene;
 			sourceTree = "<group>";

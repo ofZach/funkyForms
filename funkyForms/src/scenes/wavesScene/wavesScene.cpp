@@ -11,8 +11,7 @@
 void wavesScene::setup(){
     // setup parameters
     stencilWaves.setupGui();
-    stencilWaves.cvData = cvData;
-    waveManager.cvData = cvData;
+
     waveManager.setupGui();
     
     // setup gui
@@ -34,8 +33,34 @@ void wavesScene::setupGui(){
 }
 // ------------ Update
 void wavesScene::update(){
+    updateInput();
     if(isWaveManagerMode) waveManager.update();
     if(isStencilWaveMode) stencilWaves.update();
+}
+void wavesScene::updateInput(){
+    for(auto &id: cvData->idsThisFrame){
+        // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
+        // have any vertices... adding a check.
+        if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
+            int size = cvData->idsThisFrame.size();
+            
+            ofPolyline &line =  (*(cvData->trackedContours))[id].data.resampleSmoothed;
+            for (int i = 0; i < line.size(); i += line.size()/10 ) {
+                ofVec2f pos = line.getVertices()[i];
+                ofVec2f vel = (*(cvData->trackedContours))[id].data.velPts[i];
+                if(isWaveManagerMode){
+                    for(auto &w: waveManager.waves){
+                        w.addTarget(pos, vel);
+                    }
+                }
+                if(isStencilWaveMode){
+                    for(auto &w: stencilWaves.waves){
+                        w.addTarget(pos, vel);
+                    }
+                }
+            }
+        }
+    }
 }
 // ------------ Draw
 void wavesScene::draw(){
@@ -44,11 +69,9 @@ void wavesScene::draw(){
 
     drawPeople();
 }
-
 void wavesScene::drawGui(){
      gui.draw();
 }
-
 void wavesScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofSetColor(255);
