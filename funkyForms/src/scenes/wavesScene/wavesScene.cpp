@@ -9,12 +9,16 @@
 #include "wavesScene.hpp"
 // ------------ Setup
 void wavesScene::setup(){
-//    stencilWaves.setup();
+    // setup parameters
     stencilWaves.setupGui();
     stencilWaves.cvData = cvData;
     waveManager.cvData = cvData;
     waveManager.setupGui();
+    
+    // setup gui
     setupGui();
+    
+    // setup obj
     waveManager.setup();
     stencilWaves.setup();
 }
@@ -38,7 +42,7 @@ void wavesScene::draw(){
     if(isWaveManagerMode) waveManager.draw();
     if(isStencilWaveMode) stencilWaves.draw();
 
-    drawPeople();
+//    drawPeople();
     gui.draw();
 }
 

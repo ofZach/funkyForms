@@ -11,7 +11,7 @@
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
-class ofxRefract : public ofxFXObject {
+class patternShader : public ofxFXObject {
 public:
     ofxRefract(){
         passes = 1;

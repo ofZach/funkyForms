@@ -43,6 +43,9 @@ public:
     ofParameter<float> invMass;
     ofParameter<float> force;
     ofParameter<float> amount;
+    
+    // People
+    ofParameter<float> peopleOpacity;
 
     // gui
     ofxPanel gui;
@@ -53,8 +56,10 @@ public:
     // refraction
     ofxRefract refract;
     
-    // images
+    // Effects
     ofImage glowImg;
+    ofParameter<float> glowRadius;
+    ofParameter<float> glowOpacity;
     
     
     void setup();
@@ -72,7 +77,8 @@ public:
     void updateMeshes();
 
     void draw();
-    void drawWaveMesh();
+    void drawUpperPeople();
+    void drawPlainWaveMesh();
     void drawGlow();
     void drawBg();
 };

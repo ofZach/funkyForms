@@ -61,6 +61,10 @@ public:
         float y = blobs[whichBlob].blob.getBoundingBox().getTop();
         return ofVec2f(x, y);
     }
+    ofPolyline getResampledLineAt(int ID, float spacing){
+        int whichBlob = idToBlobPos[ID];
+        return blobs[whichBlob].blob.getResampledBySpacing(spacing);
+    }
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
 };

@@ -191,6 +191,7 @@
 		722542BCDC94162B6A8B9B72 /* defines.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = defines.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/defines.h; sourceTree = SOURCE_ROOT; };
 		723A73DF1D5B88330080D303 /* eyeLinkerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eyeLinkerManager.cpp; sourceTree = "<group>"; };
 		723A73E01D5B88330080D303 /* eyeLinkerManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = eyeLinkerManager.hpp; sourceTree = "<group>"; };
+		72535DD11D5E3C6A00EEC76D /* patternShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = patternShader.h; sourceTree = "<group>"; };
 		7279658ADA9582251CB1D783 /* log.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = log.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/log.hpp; sourceTree = SOURCE_ROOT; };
 		72835E781D5A5DD800A71A0E /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
 		72835E791D5A5DD800A71A0E /* particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particle.h; sourceTree = "<group>"; };
@@ -769,6 +770,7 @@
 				72835EA11D5A80E700A71A0E /* StencilWaves.hpp */,
 				72835E971D5A80E700A71A0E /* FishWave.cpp */,
 				72835E981D5A80E700A71A0E /* FishWave.hpp */,
+				72535DD11D5E3C6A00EEC76D /* patternShader.h */,
 				72835E991D5A80E700A71A0E /* ofxRefract.h */,
 				72835E9A1D5A80E700A71A0E /* ofxRipple.cpp */,
 				72835E9B1D5A80E700A71A0E /* ofxRipple.hpp */,
