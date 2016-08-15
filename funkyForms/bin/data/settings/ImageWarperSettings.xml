@@ -1,0 +1,5 @@
+<warpDebug>0</warpDebug>
+<resolution>30</resolution>
+<mass>2</mass>
+<damping>.3</damping>
+<stiffness>1</stiffness>

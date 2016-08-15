@@ -1,0 +1,57 @@
+<TREE_DELAY>
+    <val_0>1.555556</val_0>
+</TREE_DELAY>
+<BOTTOM_OFFSET>
+    <val_0>358.333313</val_0>
+</BOTTOM_OFFSET>
+<PEOPLE_SCALE>
+    <val_0>2.088889</val_0>
+</PEOPLE_SCALE>
+<PEOPLE_GLOW>
+    <val_0>89.250000</val_0>
+</PEOPLE_GLOW>
+<BPEOPLE_GLOW>
+    <val_0>1.000000</val_0>
+</BPEOPLE_GLOW>
+<TREE_OFF>
+    <val_0>8.888916</val_0>
+</TREE_OFF>
+<TREE_GROW_W>
+    <val_0>105.555557</val_0>
+</TREE_GROW_W>
+<TREE_GROW_H>
+    <val_0>27.777779</val_0>
+</TREE_GROW_H>
+<TREE_MIN>
+    <val_0>5.222222</val_0>
+</TREE_MIN>
+<TREE_MAX>
+    <val_0>39.111111</val_0>
+</TREE_MAX>
+<GROW_RATE>
+    <val_0>0.155556</val_0>
+</GROW_RATE>
+<GROW_C_X>
+    <val_0>30.000000</val_0>
+</GROW_C_X>
+<GROW_C_Y>
+    <val_0>10.980000</val_0>
+</GROW_C_Y>
+<GROW_T>
+    <val_0>0.355556</val_0>
+</GROW_T>
+<FADE_RATE>
+    <val_0>39.783333</val_0>
+</FADE_RATE>
+<BUTTERFLY_SPEED>
+    <val_0>0.055556</val_0>
+</BUTTERFLY_SPEED>
+<PEOPLE_COLOR>
+    <val_0>0.000000</val_0>
+</PEOPLE_COLOR>
+<BUTTERFLY_SCALE>
+    <val_0>0.100000</val_0>
+</BUTTERFLY_SCALE>
+<TREE_ADD_TIME>
+    <val_0>0.333333</val_0>
+</TREE_ADD_TIME>

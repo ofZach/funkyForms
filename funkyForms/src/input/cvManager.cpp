@@ -19,14 +19,8 @@ void cvManager::setup(){
     contourFinder.setInvert(true);
     contourFinder.getTracker().setPersistence(15);
     contourFinder.getTracker().setMaximumDistance(100);
-    
-    
-   
-    
-#else 
-    
+#else
     tracker.setListener(this);
-
 #endif
  
     
@@ -45,8 +39,9 @@ void cvManager::blobOn( int x, int y, int bid, int order ) {
     
 }
 void cvManager::blobMoved( int x, int y, int bid, int order ) {
-    
+    movedThisFrame.push_back(bid);
 }
+
 void cvManager::blobOff( int x, int y, int bid, int order ) {
     
     
@@ -68,18 +63,12 @@ void cvManager::blobOff( int x, int y, int bid, int order ) {
 #endif
 
 
-inline ofPoint mapPt(ofRectangle src, ofRectangle dst, ofPoint input){
-    
-    float newx = ofMap(input.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
-    float newy = ofMap(input.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
-    
-    return ofPoint(newx, newy);
-}
 
 void cvManager::update(ofPixels & pixels){
     
     bornThisFrame.clear();
     diedThisFrame.clear();
+    movedThisFrame.clear();
     existThisFrame.clear();
     
     packet.blobs.clear();
@@ -107,11 +96,6 @@ void cvManager::update(ofPixels & pixels){
     
     
     
-    ofRectangle inputRect(0,0,INPUT_WARP_TO_W, INPUT_WARP_TO_H);
-    ofRectangle inputRectScaled(0,0,INPUT_WARP_TO_W, INPUT_WARP_TO_H);
-    ofRectangle targetRect(OUTPUT_TARGET_X, OUTPUT_TARGET_Y, OUTPUT_TARGET_W, OUTPUT_TARGET_H);
-    
-    inputRectScaled.scaleTo(targetRect);
     
     
     
@@ -120,31 +104,36 @@ void cvManager::update(ofPixels & pixels){
     
     vector<ofxCvBlob> blobs = finder.blobs;
     
-    for (auto & a : blobs){
-        
-        a.centroid = mapPt(inputRect, inputRectScaled, a.centroid);
-        
-        for (auto & b : a.pts){
-            b = mapPt(inputRect, inputRectScaled, b);
-        }
-    
-    }
+//    for (auto & a : blobs){
+//        
+//        a.centroid = mapPt(inputRect, inputRectScaled, a.centroid);
+//        
+//        for (auto & b : a.pts){
+//            b = mapPt(inputRect, inputRectScaled, b);
+//        }
+//    
+//    }
     
     tracker.trackBlobs(blobs);
     
     for (int i = 0; i < tracker.blobs.size(); i++){
         ofPolyline line(tracker.blobs[i].pts);
-        trackedContours[ tracker.blobs[i].id ].update(line);
         
         cvBlob blob;
         blob.blob = line;
         blob.id = tracker.blobs[i].id;
         blob.age = ofGetElapsedTimef() - trackedContours[ tracker.blobs[i].id ].startTime;
+        
         packet.blobs.push_back(blob);
         packet.idsThisFrame.push_back(blob.id);
         packet.idToBlobPos[blob.id] = i;
         
+        trackedContours[ tracker.blobs[i].id ].analyze(line);
+        trackedContours[ tracker.blobs[i].id ].update();
     }
+    
+    packet.width = INPUT_WARP_TO_W;
+    packet.height = INPUT_WARP_TO_H;
     
     
 

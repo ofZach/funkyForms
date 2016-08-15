@@ -10,24 +10,26 @@
 
 #include "ofMain.h"
 
+typedef struct {
+    ofPolyline resampleSmoothed;
+    vector < ofPoint > velPts;
+} trackedData;
 
-class trackedContour {
+class trackedContour : public ofThread{
     
 public:
     
     trackedContour();
-    
-    ofPoint midPt;
-    ofPolyline prevFrame;
-    ofPolyline resampleSmoothed;
+    ~trackedContour();
 
-    vector < ofPoint > velPts;
+    trackedData data;
     
-    void update( ofPolyline line);
+    void analyze( ofPolyline line);
+    void update();
+    bool isFrameNew();
     
     ofPoint velAvg;
     ofPoint velAvgSmooth;
-    
     float smoothingRate;
     int resampleInternal;
     int resampleTarget;
@@ -35,4 +37,35 @@ public:
     
     float startTime;
     
+private:
+    ofPolyline input;
+    ofPoint midPt;
+    ofPolyline prevFrame;
+    void threadedFunction();
+    ofThreadChannel<ofPolyline> toAnalyze;
+    ofThreadChannel<trackedData> analyzed;
+    bool newFrame;
 };
+
+
+
+//class ImgAnalysisThread: public ofThread {
+//public:
+//    ImgAnalysisThread();
+//    ~ImgAnalysisThread();
+//    void analyze(ofPixels & pixels);
+//    void update();
+//    bool isFrameNew();
+//    ofPixels & getPixels();
+//    ofTexture & getTexture();
+//    void draw(float x, float y);
+//    void draw(float x, float y, float w, float h);
+//    
+//private:
+//    void threadedFunction();
+//    ofThreadChannel<ofPixels> toAnalyze;
+//    ofThreadChannel<ofPixels> analyzed;
+//    ofPixels pixels;
+//    ofTexture texture;
+//    bool newFrame;
+//};

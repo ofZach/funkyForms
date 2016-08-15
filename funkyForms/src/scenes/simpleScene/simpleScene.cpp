@@ -2,7 +2,7 @@
 
 
 void simpleScene::setup(){
-    
+    sceneName = "simpleScene";
 }
 
 void simpleScene::update(){
@@ -24,12 +24,18 @@ void simpleScene::draw(){
     ofDrawRectangle(0,0,100,100);
     
     ofSetColor(255);
+    
+    
+
+    
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofPolyline line = cvData->blobs[i].blob;
-        //cout << line.size() << " ??? " << endl;
-        
+        for (auto & pt : line.getVertices()){
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        }
         line.draw();
     }
+    
     
     for (int i = 0; i < particles.size(); i++){
         int id = particles[i].id;
@@ -38,6 +44,8 @@ void simpleScene::draw(){
         int whichBlob = cvData->idToBlobPos[id];
         
         ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+        
+        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
         
         ofNoFill();
         

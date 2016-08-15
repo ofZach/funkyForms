@@ -1,0 +1,24 @@
+<MONSTER_AGE>
+    <val_0>1.333333</val_0>
+</MONSTER_AGE>
+<BOTTOM_OFFSET>
+    <val_0>113.888893</val_0>
+</BOTTOM_OFFSET>
+<SCALE>
+    <val_0>0.998333</val_0>
+</SCALE>
+<REBUILD>
+    <val_0>0.000000</val_0>
+</REBUILD>
+<DEBUG>
+    <val_0>1.000000</val_0>
+</DEBUG>
+<BALL_AGE>
+    <val_0>18.833332</val_0>
+</BALL_AGE>
+<BALL_GLOW>
+    <val_0>0.566667</val_0>
+</BALL_GLOW>
+<BALL_SIZE_PCT>
+    <val_0>0.838889</val_0>
+</BALL_SIZE_PCT>

@@ -19,9 +19,11 @@ public:
     void setup();
     void update();
     void draw();
+    void drawGui();
     
     void blobBorn(int id);
     void blobDied(int id);
+    void blobMoved(int id);
     
     int currentScene;
     
@@ -31,7 +33,15 @@ public:
         currentScene %= scenes.size();
         scenes[currentScene]->start();
     }
-    void reverseScene();
+    void reverseScene(){
+        scenes[currentScene]->stop();   // hide gui,etc
+        currentScene --;
+        if (currentScene < 0){
+            currentScene += scenes.size();
+        }
+        scenes[currentScene]->start();
+        
+    }
     
 };
 

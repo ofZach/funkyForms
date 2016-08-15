@@ -5,8 +5,24 @@
 #include "sceneManager.h"
 #include "simpleScene.h"
 #include "plantsScene.hpp"
+#include "treeScene.h"
+#include "TreeScene.h"
+#include "MonsterScene.h"
+#include "ofxSVG.h"
+#include "renderManager.h"
 #include "eyesScene.hpp"
 #include "wavesScene.hpp"
+
+
+enum view {
+    VIEW_DEBUG,
+    VIEW_OVERVIEW,
+    VIEW_LEFT,
+    VIEW_RIGHT,
+    VIEW_CENTER,
+    VIEW_TOP
+};
+
 
 
 class ofApp : public ofBaseApp{
@@ -29,10 +45,10 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         inputManager IM;
-    
-        bool bDrawDebug;
-    
         sceneManager SM;
+        renderManager RM;
     
-		
+        vector < string > viewNames;
+        int currentView;
+    
 };

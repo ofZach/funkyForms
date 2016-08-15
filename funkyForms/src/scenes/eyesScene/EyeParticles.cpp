@@ -91,6 +91,7 @@ void EyeParticles::behaveRandom(){
     }
     for(auto &id: cvData->idsThisFrame){
         ofPoint pos = cvData->getCentoidAt(id);
+        pos = cvData->remapForScreen(SCREEN_LEFT, pos);
         for (int i = 0; i < particles.size(); i++){
             eyes[i].lookAtNear(pos);
             eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
@@ -114,6 +115,7 @@ void EyeParticles::behaveWait(){
         for(auto &id: cvData->idsThisFrame){
             ofVec2f vel = cvData->getVelAvgSmoothAt(id);
             ofPoint pos = cvData->getCentoidAt(id);
+            pos = cvData->remapForScreen(SCREEN_LEFT, pos);
             eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
             eyes[i].lookAtNear(pos);
         }
@@ -130,6 +132,7 @@ void EyeParticles::behaveWait(){
         for(auto &id: cvData->idsThisFrame){
             ofVec2f vel = cvData->getVelAvgSmoothAt(id);
             ofPoint pos = cvData->getCentoidAt(id);
+            pos = cvData->remapForScreen(SCREEN_LEFT, pos);
             particles[i].addRepulsionForce(pos.x, pos.y, 100, ofMap(vel.y, -10, 10, 0, 0.2, true));
         }
     }
@@ -143,6 +146,7 @@ void EyeParticles::behaveAttack(){
     for (int i = 0; i < particles.size(); i++){
         for(auto &id: cvData->idsThisFrame){
             ofPoint centroid = cvData->getCentoidAt(id);
+            centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
             eyes[i].lookAtNear(centroid);
             eyes[i].addScaleForce(centroid, scaleRadius, scaleSpeed, scaleMax);
         }
@@ -159,7 +163,7 @@ void EyeParticles::behaveAttack(){
         for(auto &id: cvData->idsThisFrame){
             ofVec2f vel = cvData->getVelAvgSmoothAt(id);
             ofPoint pos = cvData->getCentoidAt(id);
-            
+            pos = cvData->remapForScreen(SCREEN_LEFT, pos);
             eyes[i].lookAtNear(pos);
             particles[i].addAttractionForce(pos.x, pos.y, 1000, attractionForce);
         }

@@ -13,6 +13,8 @@
 #include "Plant.hpp"
 #include "cvManager.h"
 #include "ofxGui.h"
+#include "renderManager.h"
+
 
 class PlantManager{
 public:
@@ -74,12 +76,23 @@ public:
     void updatePlantsParameters();
     void updatePlantRemoval();
 
+    
+    inline ofPoint mapPt(ofRectangle src, ofRectangle dst, ofPoint input){
+        float newx = ofMap(input.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
+        float newy = ofMap(input.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
+        return ofPoint(newx, newy);
+    }
+
+    
     ofVec2f getClosestPoint(ofVec2f target, vector<ofVec2f> &points);
     
     void draw();
     void drawPlants();
     void drawBgPlants();
     void drawShadow();
+    
+    renderManager * RM;
+    
 };
 
 #endif /* PlantManager_hpp */

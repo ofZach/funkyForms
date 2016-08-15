@@ -4,6 +4,7 @@
 #include "ofxCv.h"
 #include "trackedContour.hpp"
 #include "cvSettings.h"
+#include "renderManager.h"
 
 
 // testing the original blob tracker
@@ -48,6 +49,9 @@ public:
     map < int, int > idToBlobPos;                       // from ID, get position in this blob array
     vector < cvBlob > blobs;
 
+    float width, height;                                // width and height of the tracked blobs
+                                                        // use this to scale to a target
+
     ofPoint getCentoidAt(int ID){
         int whichBlob = idToBlobPos[ID];
         return blobs[whichBlob].blob.getCentroid2D();
@@ -65,6 +69,20 @@ public:
         int whichBlob = idToBlobPos[ID];
         return blobs[whichBlob].blob.getResampledBySpacing(spacing);
     }
+    
+    renderManager * RM;
+    
+    ofPoint remapForScreen(screenName screen, ofPoint pt){
+        ofRectangle src(0,0, width, height);
+        ofRectangle dst = src;
+        ofRectangle target = RM->getRectForScreen(screen);
+        dst.scaleTo(target);
+        dst.y = (target.y + target.height) - dst.height;    // snap to bottom
+        float newx = ofMap(pt.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
+        float newy = ofMap(pt.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
+        return ofPoint(newx, newy);
+    }
+    
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
 };
@@ -113,8 +131,12 @@ public:
     // per frame, what happened with IDs.
     vector < int > bornThisFrame;
     vector < int > diedThisFrame;
+    vector < int > movedThisFrame;
     vector < int > existThisFrame;
     
     cvPacket packet;
+    
+    renderManager * RM;
+    
     
 };

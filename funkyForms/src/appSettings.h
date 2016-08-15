@@ -1,4 +1,15 @@
 
 
 
-//#define OUTPUT_ASPECT_RATIO (2261.0 / 424.0)      // three projectors
+
+
+
+
+
+
+
+#define OFFSCREEN_WIDTH 1793
+#define OFFSCREEN_HEIGHT 1024
+#define OFFSCREEN_SCALE 1.0f
+
+

@@ -25,7 +25,6 @@ class particle
 		void addClockwiseForce(particle &p, float radius, float scale);
 		void addCounterClockwiseForce(particle &p, float radius, float scale);
 	
-		
 		void addDampingForce();
         
 		void setInitialCondition(float px, float py, float vx, float vy);

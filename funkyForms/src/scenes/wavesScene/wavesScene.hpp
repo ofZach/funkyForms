@@ -36,6 +36,7 @@ public:
     void update();
     
     void draw();
+    void drawGui();
     void drawPeople();
     
     void start();

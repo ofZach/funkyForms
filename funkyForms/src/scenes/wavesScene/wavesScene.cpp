@@ -42,14 +42,20 @@ void wavesScene::draw(){
     if(isWaveManagerMode) waveManager.draw();
     if(isStencilWaveMode) stencilWaves.draw();
 
-//    drawPeople();
-    gui.draw();
+    drawPeople();
+}
+
+void wavesScene::drawGui(){
+     gui.draw();
 }
 
 void wavesScene::drawPeople(){
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofSetColor(255);
         ofPolyline line = cvData->blobs[i].blob;
+        for (auto & pt : line){
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        }
         line.draw();
     }
 }
