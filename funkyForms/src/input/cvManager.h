@@ -73,6 +73,7 @@ public:
         ofRectangle dst = src;
         ofRectangle target = RM->getRectForScreen(screen);
         dst.scaleTo(target);
+        dst.y = (target.y + target.height) - dst.height;    // snap to bottom
         float newx = ofMap(pt.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
         float newy = ofMap(pt.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
         return ofPoint(newx, newy);

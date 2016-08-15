@@ -108,7 +108,8 @@ public:
 	}
 
 	//-------------------------------------------------------------- init
-	void init(ofCvTrackedBlob &blob) {
+	//void init(ofCvTrackedBlob &blob) {
+    void init(ofPolyline &blob, int id) {
 
         float scalex = 1;
         float scaley = 1;
@@ -122,15 +123,15 @@ public:
 
 		//monsterMode  = (int)ofRandom(0, 2);
 
-		pos.x			 = blob.centroid.x * scalex;
-		pos.y			 = blob.centroid.y * scaley;
+		pos.x			 = blob.getCentroid2D().x;
+		pos.y			 = blob.getCentroid2D().y;
 
-		monsterID    = blob.id;
+		monsterID    = id;
 
 		printf("	monster %i made\n", monsterID);
 
 		// init the points
-		updateContourPnts(blob.pts);
+		updateContourPnts(blob.getVertices());
 
 		// set initial radius
 		for(int i=0; i<NUM_BUBBLE_PNTS; i++) {

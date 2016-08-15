@@ -24,7 +24,6 @@ void ofApp::setup(){
 
     for (int i = 0; i < SM.scenes.size(); i++){
         SM.scenes[i]->cvData = &IM.CVM.packet;
-        SM.scenes[i]->tracker = &IM.CVM.tracker;
         SM.scenes[i]->RM = &RM;
     }
     

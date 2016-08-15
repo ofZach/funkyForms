@@ -59,7 +59,7 @@ void plantsScene::drawPeople(){
         ofPolyline line = cvData->blobs[i].blob;
         
         for (auto & pt : line){
-            pt = mapPt(src, dst, pt);
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
         }
         
         line.simplify();
@@ -82,7 +82,7 @@ void plantsScene::blobBorn(int id){
 //    ofRectangle dst = src;
 //    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
 //    dst.scaleTo(target);
-//    centroid = mapPt(src, dst, centroid);
+//    centroid =cvData->remapForScreen(SCREEN_LEFT, centroid);
     //-------------------------------------
     
     plantManager.addPlant(centroid, id);

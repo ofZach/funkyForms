@@ -29,15 +29,16 @@ public:
     cvPacket * cvData;
     
     // this is needed for OLD scenes.
-    ofCvBlobTracker * tracker;
+    //ofCvBlobTracker * tracker;    // remove this to get everyone on the same page :) 
     
     
     // useful for remapping
-    inline ofPoint mapPt(ofRectangle src, ofRectangle dst, ofPoint input){
-        float newx = ofMap(input.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
-        float newy = ofMap(input.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
-        return ofPoint(newx, newy);
-    }
+    // move this to cvPacket ... please use that functon
+//    inline ofPoint mapPt(ofRectangle src, ofRectangle dst, ofPoint input){
+//        float newx = ofMap(input.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
+//        float newy = ofMap(input.y, src.y, src.y + src.getHeight(), dst.y, dst.y + dst.getHeight());
+//        return ofPoint(newx, newy);
+//    }
 
     renderManager * RM;
     

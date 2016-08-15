@@ -165,19 +165,20 @@ void TreeScene::updateFlocking() {
 		}
 		
 		
-		for(int q=0; q<tracker->blobs.size(); q++) {
+		for(int q=0; q<cvData->blobs.size(); q++) {
 			
-			ofRectangle newRec = tracker->blobs[q].boundingRect;
+			ofRectangle newRec = cvData->blobs[q].blob.getBoundingBox();
 			
             ofPoint a = newRec.getTopLeft();
             ofPoint b = newRec.getBottomRight();
             
-//            a = mapPt(src, dst, a);
-//            b = mapPt(src, dst, b);
-//            
-//            ofRectangle newRecScaled;
-//            newRecScaled.set(a.x, a.y, b.x-a.x, b.y-a.y);
+            a =cvData->remapForScreen(SCREEN_LEFT, a);
+            b =cvData->remapForScreen(SCREEN_LEFT, b);
+//
+            ofRectangle newRecScaled;
+            newRecScaled.set(a.x, a.y, b.x-a.x, b.y-a.y);
             
+#pragma mark tofix
             float forceFactor = 1.0; // (newRec.width * newRec.height) / ((cvPacket->width)*(cvPacket->height));
 			
 //			newRec.x		*= scalex;
@@ -185,9 +186,8 @@ void TreeScene::updateFlocking() {
 //			newRec.width	*= scalex;
 //			newRec.height	*= scaley;
 			ofPoint center;
-			center.x = mapPt(src, dst, tracker->blobs[q].centroid).x;
-			center.y = mapPt(src, dst, tracker->blobs[q].centroid).y;
-			
+			center.x =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[q].blob.getCentroid2D()).x;
+			center.y =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[q].blob.getCentroid2D()).y;
 			
 			butterflys[i].addAttractionForce(center.x, center.y - 20, 300, 1.5);
 			
@@ -238,17 +238,17 @@ void TreeScene::update() {
     
 	
 	// --------------------- Tree Blobs
-	for(int i=0; i<tracker->blobs.size(); i++) {
+	for(int i=0; i<cvData->blobs.size(); i++) {
 		
-		int lookID = tracker->blobs[i].id;
+		int lookID = cvData->blobs[i].id;
 		
-		ofRectangle newRec = tracker->blobs[i].boundingRect;
+		ofRectangle newRec = cvData->blobs[i].blob.getBoundingBox();
         
         ofPoint a = newRec.getTopLeft();
         ofPoint b = newRec.getBottomRight();
     
-        a = mapPt(src, dst, a);
-        b = mapPt(src, dst, b);
+        a =cvData->remapForScreen(SCREEN_LEFT, a);
+        b =cvData->remapForScreen(SCREEN_LEFT, b);
         ofRectangle newRecScaled;
         newRec.set(a.x, a.y, b.x-a.x, b.y-a.y);
         
@@ -257,7 +257,7 @@ void TreeScene::update() {
 //		newRec.width	*= scalex;
 //		newRec.height	*= scaley;
 		
-		ofPoint center =  mapPt(src, dst, tracker->blobs[i].centroid);
+		ofPoint center = cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob.getCentroid2D());
 //		center.x		= center.x * scalex;
 //		center.y		= center.y * scaley;
 		
@@ -397,8 +397,8 @@ void TreeScene::draw() {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			for (int j = 0; j < cvData->blobs[i].blob.size(); j+=2) {
-				float x =   mapPt(src, dst, cvData->blobs[i].blob[j]).x;
-                float y =   mapPt(src, dst, cvData->blobs[i].blob[j]).y;  //cvData->blobs[i].blob[j].y * scaley;
+				float x =  cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).x;
+                float y =  cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).y;  //cvData->blobs[i].blob[j].y * scaley;
 				
 				ofSetRectMode(OF_RECTMODE_CENTER);
                 ofSetColor(255, 255, 255, 255); //panel.getValueF("PEOPLE_GLOW"));
@@ -416,8 +416,8 @@ void TreeScene::draw() {
 		ofBeginShape();
 		for (int j = 0; j < cvData->blobs[i].blob.size(); j++) {
 			
-            float x = mapPt(src, dst, cvData->blobs[i].blob[j]).x; //cvData->blobs[i].blob[j].x * scalex;
-            float y = mapPt(src, dst, cvData->blobs[i].blob[j]).y; //cvData->blobs[i].blob[j].y * scaley;
+            float x =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).x; //cvData->blobs[i].blob[j].x * scalex;
+            float y =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).y; //cvData->blobs[i].blob[j].y * scaley;
 			
 			ofVertex(x, y);
 		}
@@ -486,19 +486,17 @@ void TreeScene::blobOn( int x, int y, int bid, int order ) {
 	
     
     
-	ofCvTrackedBlob * blober = &tracker->getById(bid);
+    ofPolyline line = cvData->blobs[ cvData->idToBlobPos[bid] ].blob;//&tracker->getById(bid);
 	
+    for (auto & pt: line){
+        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+    }
     
 	// if i am hole make a shape instead
-	if(blober->hole) {
+    if(true){
 		
-	}
-	
-	// else make a Tree
-	else {
-		
-		if(blober->boundingRect.width >= 100 /*panel.getValueI("TREE_GROW_W")*/ ||
-		   blober->boundingRect.height >= 100 /* panel.getValueI("TREE_GROW_H")*/ ) {
+		if(line.getBoundingBox().width >= 100 /*panel.getValueI("TREE_GROW_W")*/ ||
+		   line.getBoundingBox().height >= 100 /* panel.getValueI("TREE_GROW_H")*/ ) {
 			
 			treeBlobs.push_back(TreeBlob());
 			treeBlobs.back().id = bid;

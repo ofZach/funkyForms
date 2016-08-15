@@ -195,21 +195,27 @@ void MonsterScene::update(){
 
 
 	// --------------------- update the monster contour pnts
-	for(int i=0; i<tracker->blobs.size(); i++) {
+	for(int i=0; i<cvData->blobs.size(); i++) {
 
-		int lookID = tracker->blobs[i].id;
+		int lookID = cvData->blobs[i].id;
 
 		for(int j=monsters.size()-1; j>=0; j--) {
 
 			// yes we match
 			if(monsters[j].monsterID == lookID) {
+                
+                
+                ofPolyline line  = cvData->blobs[i].blob;
+                for (auto & pt : line){
+                    pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+                }
+    
+				ofRectangle newRec = line.getBoundingBox();
 
-				ofRectangle& newRec = tracker->blobs[i].boundingRect;
-
-				newRec.x		*= scalex;
-				newRec.y		*= scaley;
-				newRec.width	*= scalex;
-				newRec.height	*= scaley;
+//				newRec.x		*= scalex;
+//				newRec.y		*= scaley;
+//				newRec.width	*= scalex;
+//				newRec.height	*= scaley;
 				
 				/*
 				sclContour.assign(tracker->blobs[i].pts.size(), ofPoint());
@@ -220,8 +226,8 @@ void MonsterScene::update(){
 
 
 				// the contour (fixed)
-				monsters[j].pos.x  = tracker->blobs[i].centroid.x * scalex;
-				monsters[j].pos.y  = tracker->blobs[i].centroid.y * scaley;
+				monsters[j].pos.x  = line.getCentroid2D().x;
+				monsters[j].pos.y  = line.getCentroid2D().y;
 				
 				monsters[j].rect = newRec;
 				
@@ -231,9 +237,9 @@ void MonsterScene::update(){
                 ofPolyline simp;
                 ofPolyline smooth;
                 ofPolyline convex;
-                simp.addVertices(tracker->blobs[i].pts);
-                smooth.addVertices(tracker->blobs[i].pts);
-                convex.addVertices(tracker->blobs[i].pts);
+                simp.addVertices(line.getVertices());
+                smooth.addVertices(line.getVertices());
+                convex.addVertices(line.getVertices());
         
                 simp.simplify(0.5);
                 smooth = smooth.getSmoothed(3);
@@ -254,7 +260,7 @@ void MonsterScene::update(){
 				//monsters[j].contourConvex.assign(monsters[j].contourSimple.size(), ofPoint());
 				//contourAnalysis.convexHull(monsters[j].contourSimple, monsters[j].contourConvex);
 
-                monsters[j].updateContourPnts(tracker->blobs[i].pts);
+                monsters[j].updateContourPnts(line.getVertices());
 
 				
 			}
@@ -306,16 +312,15 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 	
 	printf("monster on - %i\n", bid);
 
-
-	ofxCvBlob blober = tracker->getById(bid);
+    
+    ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+    for (auto & pt : line){
+        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+    }
+	//ofxCvBlob blober = tracker->getById(bid);
 
 	// if i am hole make a shape instead
-	if(blober.hole) {
-
-	}
-
-	// else make a monster
-	else {
+	if(true) {
 
 		BubbleMonster monster;
 		monster.monsterID = bid;
@@ -338,8 +343,8 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 		monster.packetH = cvData->height;
 		
 		monster.parts = &parts;
-		monster.init( tracker->getById(bid) );
-		monster.area = (float)(blober.boundingRect.height*blober.boundingRect.width) / (float)(cvData->width*cvData->height);
+        monster.init( line, bid ) ;//tracker->getById(bid) );
+		monster.area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData->width*cvData->height);
 		monster.initAge = ofGetElapsedTimef();
 		monsters.push_back(monster);
 
@@ -387,7 +392,10 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 		if(monsters[i].monsterID == bid) {
 
 			// tell daito that the monster just moved
-			ofxCvBlob blober = tracker->getById(bid);
+			
+            ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+            
+            //ofxCvBlob blober = tracker->getById(bid);
 
 //			ofxOscMessage msg;
 //			msg.setAddress("/bang");														//	bang
@@ -402,7 +410,7 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 //			ofxDaito::sendCustom(msg);
 
 			monsters[i].genNewRadius();
-			monsters[i].area = (float)(blober.boundingRect.height*blober.boundingRect.width) / (float)(cvData->width*cvData->height);
+			monsters[i].area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData->width*cvData->height);
 
             // 2016
 			//---------- add some particle love -- ewww
