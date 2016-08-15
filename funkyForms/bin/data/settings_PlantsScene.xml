@@ -2,8 +2,6 @@
 	<plantsSceneParameters>
 		<glowRadius>22.25</glowRadius>
 		<glowOpacity>68.9541</glowOpacity>
-	</plantsSceneParameters>
-	<PlantManager>
 		<plantScale>0.585485</plantScale>
 		<mainBranchWMin>26.9836</mainBranchWMin>
 		<mainBranchWMax>46.6681</mainBranchWMax>
@@ -16,6 +14,6 @@
 		<createBgPlant>1</createBgPlant>
 		<shadowRadius>5</shadowRadius>
 		<shadowOpacity>100</shadowOpacity>
-	</PlantManager>
+	</plantsSceneParameters>
 <settings_plantsScene/>
 </settings_plantsScene>

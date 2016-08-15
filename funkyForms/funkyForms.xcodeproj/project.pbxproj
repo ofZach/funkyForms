@@ -48,11 +48,9 @@
 		47A8865BB7E1D709650A1966 /* b2Contact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7D97FD1E3738611891220AE0 /* b2Contact.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		4B4225923196A68ED56267ED /* b2GearJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B937310616AA72F64AEF5C4 /* b2GearJoint.cpp */; };
-		4C29EF6B0DB0FD06E824C27C /* plantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56124F18CF002504B3BBE055 /* plantsScene.cpp */; };
 		51E49193E9212775CF74638C /* b2ContactSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A4E45E2066A102266C36B1A0 /* b2ContactSolver.cpp */; };
 		5214788DA4E89024804AE1F7 /* inputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC249FB4B342D9F1A1A82D7 /* inputManager.cpp */; };
 		561C25C14D3B7856D04EFFD4 /* b2Distance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DD2CB1BA7D0AD6335D4DF7A /* b2Distance.cpp */; };
-		58AAB42C6DDCECA1832C0999 /* PlantManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E9049CF5FA01C64ADBF3552 /* PlantManager.cpp */; };
 		58C9A021B2EB024271E083D2 /* b2DistanceJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A08C3A4AC469B82F2A9D990 /* b2DistanceJoint.cpp */; };
 		58D4E629BE52002C071966E3 /* b2RopeJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 53B1589EA32418859386EF5D /* b2RopeJoint.cpp */; };
 		5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC5DA1C87211D4F6377DA719 /* tinyxmlparser.cpp */; };
@@ -70,6 +68,7 @@
 		71D96252BF144A83E815606F /* b2MouseJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62EB1B88992A3AF9F75AE626 /* b2MouseJoint.cpp */; };
 		72380480D6306BE3EFCE4B54 /* b2StackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC67FC14E85C32FCADB36D2 /* b2StackAllocator.cpp */; };
 		7264272A89DEEB47ADFF3820 /* WaveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB9C04A466B1443A4D4B7B9 /* WaveManager.cpp */; };
+		727833E11D62549C004384CC /* plantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 727833DF1D62549C004384CC /* plantsScene.cpp */; };
 		76FB9AEEC937544F851C5DF4 /* b2DynamicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963C37E4EFD8B74BD1537702 /* b2DynamicTree.cpp */; };
 		7A01C01BDA17CA2059C99A14 /* RandomFern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99A35A691593602D8250B5E2 /* RandomFern.cpp */; };
 		7B18C2018880058B02493051 /* b2Draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EDFB574BF5B9CBDB22D319D /* b2Draw.cpp */; };
@@ -244,7 +243,6 @@
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
 		28845215EA0DF7AB0BE2B485 /* eyeParticle.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = eyeParticle.hpp; path = src/scenes/eyesScene/eyeParticle.hpp; sourceTree = SOURCE_ROOT; };
 		293D553B5067FBB8DEFA84D9 /* cap_ios.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cap_ios.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/highgui/cap_ios.h; sourceTree = SOURCE_ROOT; };
-		29DBE1CF0E33C93725C457FB /* plantsScene.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = plantsScene.hpp; path = src/scenes/plantsScene/plantsScene.hpp; sourceTree = SOURCE_ROOT; };
 		2A8EA8B2DDD1B3A3D56ECDDA /* ofxGrayScott.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGrayScott.h; path = ../localAddons/ofxFx/src/generative/ofxGrayScott.h; sourceTree = SOURCE_ROOT; };
 		2AC74EB0DBD6C8D80A8F9FBA /* PlantRig.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = PlantRig.hpp; path = src/scenes/plantsScene/PlantRig.hpp; sourceTree = SOURCE_ROOT; };
 		2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
@@ -252,7 +250,6 @@
 		2B7B8613CA7DDBA0905C60B3 /* b2WorldCallbacks.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2WorldCallbacks.h; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/b2WorldCallbacks.h; sourceTree = SOURCE_ROOT; };
 		2BCC2DE82ECEFD04DF8B25D0 /* b2EdgeAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2EdgeAndCircleContact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		2E411F99E3AB7154484B4F96 /* kmeans_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = kmeans_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/kmeans_index.h; sourceTree = SOURCE_ROOT; };
-		2E9049CF5FA01C64ADBF3552 /* PlantManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = PlantManager.cpp; path = src/scenes/plantsScene/PlantManager.cpp; sourceTree = SOURCE_ROOT; };
 		2FA660EC700471E58D45DFF7 /* b2ChainAndPolygonContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndPolygonContact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp; sourceTree = SOURCE_ROOT; };
 		30884ECD9C171AB1B1BDFC3F /* cv.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cv.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv/cv.hpp; sourceTree = SOURCE_ROOT; };
 		30DDE82FC43BD63C2F1765AC /* svgtiny_list.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = svgtiny_list.cpp; path = ../localAddons/ofxSVG/libs/svgTiny/src/svgtiny_list.cpp; sourceTree = SOURCE_ROOT; };
@@ -318,7 +315,6 @@
 		5339C466E1C35EB8D6257AAA /* cvManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = cvManager.cpp; path = src/input/cvManager.cpp; sourceTree = SOURCE_ROOT; };
 		53B1589EA32418859386EF5D /* b2RopeJoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2RopeJoint.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Joints/b2RopeJoint.cpp; sourceTree = SOURCE_ROOT; };
 		541912A4AA44A4D3098A753F /* b2PolygonAndCircleContact.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2PolygonAndCircleContact.h; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.h; sourceTree = SOURCE_ROOT; };
-		56124F18CF002504B3BBE055 /* plantsScene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = plantsScene.cpp; path = src/scenes/plantsScene/plantsScene.cpp; sourceTree = SOURCE_ROOT; };
 		56ED74AD5FC73867F5E046F0 /* photo_c.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = photo_c.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/photo/photo_c.h; sourceTree = SOURCE_ROOT; };
 		571247E9F72FD2FD02E6CAC5 /* particle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = particle.h; path = src/particles/particle.h; sourceTree = SOURCE_ROOT; };
 		5717FDBFEC97560BDC4A23AA /* b2Timer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2Timer.h; path = ../localAddons/ofxBox2d/libs/Box2D/Common/b2Timer.h; sourceTree = SOURCE_ROOT; };
@@ -377,6 +373,8 @@
 		7101CF2125B8B2BF46AA2662 /* cxcore.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cxcore.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv/cxcore.hpp; sourceTree = SOURCE_ROOT; };
 		71C98C3F44D63B39F1482A54 /* background_segm.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = background_segm.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/background_segm.hpp; sourceTree = SOURCE_ROOT; };
 		722542BCDC94162B6A8B9B72 /* defines.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = defines.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/defines.h; sourceTree = SOURCE_ROOT; };
+		727833DF1D62549C004384CC /* plantsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = plantsScene.cpp; path = scenes/plantsScene/plantsScene.cpp; sourceTree = "<group>"; };
+		727833E01D62549C004384CC /* plantsScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = plantsScene.hpp; path = scenes/plantsScene/plantsScene.hpp; sourceTree = "<group>"; };
 		7279658ADA9582251CB1D783 /* log.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = log.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/log.hpp; sourceTree = SOURCE_ROOT; };
 		73157AAE32787C63313C7D8E /* Wrappers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Wrappers.h; path = ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Wrappers.h; sourceTree = SOURCE_ROOT; };
 		73CB9E4F6812598081C2FE01 /* opengl_interop.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = opengl_interop.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/opengl_interop.hpp; sourceTree = SOURCE_ROOT; };
@@ -402,7 +400,6 @@
 		7B6A03390302D5A2C9F0E4AB /* ofxCvFloatImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCvFloatImage.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvFloatImage.cpp; sourceTree = SOURCE_ROOT; };
 		7B823F891CADBBBEC614D751 /* ofxBox2dJoint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxBox2dJoint.h; path = ../localAddons/ofxBox2d/src/ofxBox2dJoint.h; sourceTree = SOURCE_ROOT; };
 		7C3D9C0EAC738ED2624D264B /* ml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ml.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv/ml.h; sourceTree = SOURCE_ROOT; };
-		7C93C7CDB22A32BEA11F2D8D /* PlantManager.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = PlantManager.hpp; path = src/scenes/plantsScene/PlantManager.hpp; sourceTree = SOURCE_ROOT; };
 		7D86D41170A02B361853AB73 /* vec_distance.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = vec_distance.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/device/vec_distance.hpp; sourceTree = SOURCE_ROOT; };
 		7D97FD1E3738611891220AE0 /* b2Contact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2Contact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2Contact.cpp; sourceTree = SOURCE_ROOT; };
 		7DC570C8F4AB44FA5DCBFEDF /* b2WheelJoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2WheelJoint.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Joints/b2WheelJoint.cpp; sourceTree = SOURCE_ROOT; };
@@ -957,18 +954,16 @@
 		32D753393D894AF32F412DC5 /* plantsScene */ = {
 			isa = PBXGroup;
 			children = (
+				727833DF1D62549C004384CC /* plantsScene.cpp */,
+				727833E01D62549C004384CC /* plantsScene.hpp */,
 				ECFAA61B7CB751BEE27E1E2A /* Animator.cpp */,
 				0212D6B6202CF23024F67164 /* Animator.hpp */,
 				01C922390F21DEDA4BD59D71 /* iColor.cpp */,
 				744DDA98B1B42D6717F0335D /* iColor.hpp */,
 				97832501E607668119D55938 /* Plant.cpp */,
 				960FC197062825ACDDB37F8C /* Plant.hpp */,
-				2E9049CF5FA01C64ADBF3552 /* PlantManager.cpp */,
-				7C93C7CDB22A32BEA11F2D8D /* PlantManager.hpp */,
 				6912F9DEC30FAE1DAB1BE184 /* PlantRig.cpp */,
 				2AC74EB0DBD6C8D80A8F9FBA /* PlantRig.hpp */,
-				56124F18CF002504B3BBE055 /* plantsScene.cpp */,
-				29DBE1CF0E33C93725C457FB /* plantsScene.hpp */,
 			);
 			name = plantsScene;
 			sourceTree = "<group>";
@@ -1994,9 +1989,7 @@
 				B000BDD9167F481CE51728A7 /* Animator.cpp in Sources */,
 				F2A9F942DBFA1C7025B4A65F /* iColor.cpp in Sources */,
 				331F6F9EE6BACCE6CA39E4D0 /* Plant.cpp in Sources */,
-				58AAB42C6DDCECA1832C0999 /* PlantManager.cpp in Sources */,
 				832BD85AA8131ABAE0046EAE /* PlantRig.cpp in Sources */,
-				4C29EF6B0DB0FD06E824C27C /* plantsScene.cpp in Sources */,
 				A77E66349C2EFEF104A382AF /* sceneManager.cpp in Sources */,
 				A718D791EF73BACE1D2B6972 /* simpleScene.cpp in Sources */,
 				5BBFEAED9F9CB1B6C71C1805 /* ButterflyAnimation.cpp in Sources */,
@@ -2068,6 +2061,7 @@
 				7B18C2018880058B02493051 /* b2Draw.cpp in Sources */,
 				476FF744953DE1EC45247EFD /* b2Math.cpp in Sources */,
 				8EEF819F1864DB3992BD99D1 /* b2Settings.cpp in Sources */,
+				727833E11D62549C004384CC /* plantsScene.cpp in Sources */,
 				72380480D6306BE3EFCE4B54 /* b2StackAllocator.cpp in Sources */,
 				004BDF998B3E81C6108007AC /* b2Timer.cpp in Sources */,
 				9A147C0594D8CCB153FDFD10 /* b2Body.cpp in Sources */,
