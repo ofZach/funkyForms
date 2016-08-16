@@ -1,7 +1,7 @@
 <settings_wavesScene>
 	<wavesSceneParameters>
-		<isStencilWaveMode>0</isStencilWaveMode>
-		<isGradientWavesMode>1</isGradientWavesMode>
+		<isStencilWaveMode>1</isStencilWaveMode>
+		<isGradientWavesMode>0</isGradientWavesMode>
 	</wavesSceneParameters>
 	<gradientWavesParameters>
 		<waveCount>3</waveCount>
@@ -41,6 +41,7 @@
 		<glowRadius>70</glowRadius>
 		<glowOpacity>120.995</glowOpacity>
 		<peopleOpacity>157.423</peopleOpacity>
+	<screenScale>1</screenScale>
 	</stencilWavesParameters>
 <settings_wavesScene/>
 </settings_wavesScene>

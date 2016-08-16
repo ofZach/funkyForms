@@ -8,15 +8,18 @@
 
 #include "StencilWaves.hpp"
 // -------------- setup
-void StencilWaves::setup(){
+void StencilWaves::setup(int w, int h){
+    screenW = w;
+    screenH = h;
+    
     // refract
-    refract.allocate(ofGetWidth(), ofGetHeight());
-    refract.setup(ofGetWidth(), ofGetHeight());
+    refract.allocate(screenW*screenScale, screenH*screenScale);
+    refract.setup(screenW*screenScale, screenH*screenScale);
     
     // fbo
-    peopleFbo.allocate(ofGetWidth(), ofGetHeight());
+    peopleFbo.allocate(screenW*screenScale, screenH*screenScale);
     peopleFbo.begin(); ofClear(0, 0); peopleFbo.end();
-    mainWaveFbo.allocate(ofGetWidth(), ofGetHeight());
+    mainWaveFbo.allocate(screenW*screenScale, screenH*screenScale);
     mainWaveFbo.begin(); ofClear(0, 0); mainWaveFbo.end();
     
     // meshes
@@ -24,11 +27,11 @@ void StencilWaves::setup(){
     strokeMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     
     // waves
-    addWave(ofGetHeight()-150);
-    addWave(ofGetHeight()-100);
+    float v;
+    reload(v);
     
     // masks
-    mask.allocate(ofGetWidth(), ofGetHeight());
+    mask.allocate(screenW*screenScale, screenH*screenScale);
     
     // colors
     peopleColor = ofColor::lavender;
@@ -39,6 +42,7 @@ void StencilWaves::setup(){
 void StencilWaves::setupGui(){
     refract.setupParameters();
     parameters.setName("stencilWavesParameters");
+    parameters.add(screenScale.set("screenScale", 1.0, 0.05, 1.0));
     parameters.add(amount.set("amount", 55, 10, 200));
     parameters.add(strength.set("strength", 0.55, 0.001, 1));
     parameters.add(restLength.set("restLength", 16.92, 0, 18));
@@ -56,8 +60,8 @@ void StencilWaves::setupGui(){
 }
 void StencilWaves::reload(float &v){
     waves.clear();
-    addWave(ofGetHeight()-150);
-    addWave(ofGetHeight()-100);
+    addWave(screenH*screenScale-150);
+    addWave(screenH*screenScale-100);
 }
 void StencilWaves::addWave(int y){
     class wave wave;
@@ -66,12 +70,11 @@ void StencilWaves::addWave(int y){
     wave.invMass = invMass;
     wave.amount = amount;
     wave.force = force;
-    wave.setup(y, ofGetWidth());
+    wave.setup(y, screenW*screenScale);
     waves.push_back(wave);
 }
 // -------------- update
 void StencilWaves::update(){
-    updateContours();
     updateWaveParameters();
     updateWaves();
     updateMeshes();
@@ -99,7 +102,7 @@ void StencilWaves::updateMeshes(){
     strokeMesh.clear();
     for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
         ofVec2f p = waves[0].polyline.getVertices()[i];
-        ofVec2f p2 = ofVec2f(p.x, ofGetHeight());
+        ofVec2f p2 = ofVec2f(p.x, screenH*screenScale);
         ofVec3f dir = waves[0].polyline.getTangentAtIndex(i);
         float angle = atan2(dir.x, dir.y)*(180)/pi;
         
@@ -132,7 +135,7 @@ void StencilWaves::updateFbos(){
     ofFill();
     peopleFbo.begin();
     ofClear(0, 0);
-    for(auto &p: contours){
+    for(auto &p: paths){
         p.draw();
     }
     peopleFbo.end();
@@ -148,7 +151,7 @@ void StencilWaves::updateMasks(){
     
     mask.begin(1); // img to be masked
     ofClear(0, 0);
-    for(auto &p: contours){
+    for(auto &p: paths){
         p.setFillColor(ofColor(peopleColor, peopleOpacity));
         p.draw();
     }
@@ -168,55 +171,36 @@ void StencilWaves::updateRefract(){
     refract.setTexture(mainWaveFbo.getTexture(), 1);
     refract.update();
 }
-void StencilWaves::updateContours(){
-    contours.clear();
-//    for(auto &id : cvData->idsThisFrame){
-//        ofPolyline l = cvData->getResampledLineAt(id, 2);
-//        ofPath path;
-//        for (auto &p : l) {
-//            path.lineTo(p);
-//        }
-//        path.setFillColor(ofColor::white);
-//        contours.push_back(path);
-//    }
+void StencilWaves::addPath(ofPolyline &contour){
+    ofPath path;
+    for (auto &p : contour) {
+        path.lineTo(p);
+    }
+    path.setFillColor(ofColor::white);
+    paths.push_back(path);
 }
 // -------------- draw
 void StencilWaves::draw(){
-
-//    mainWaveMesh.draw();
-//    ofEnableBlendMode(OF_BLENDMODE_ADD);
-//    refract.draw(0, 0);
-//    drawGlow();
-//    ofDisableBlendMode();
+    ofFill();
+    mainWaveMesh.draw();
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    refract.draw(0, 0);
+    drawGlow();
+    ofDisableBlendMode();
     drawUpperPeople();
+    paths.clear();
 }
 void StencilWaves::drawUpperPeople(){
-//    for(auto &id : cvData->idsThisFrame){
-//        ofPolyline l = cvData->getResampledLineAt(id, 50);
-//        ofPath path;
-//        for (int i = 0; i < l.size(); i++){
-//            int i_n = ofClamp(i+1, 0, l.size()-1);
-//            int i_p = ofClamp(i-1, 0, l.size()-1);
-//            ofVec2f pp = l.getVertices()[i_p];
-//            ofVec2f pc = l.getVertices()[i];
-//            ofVec2f pn = l.getVertices()[i_n];
-//            ofVec2f deltaP1 = pc - pp;
-//            ofVec2f deltaP2 = pn - pc;
-//            
-//            if(deltaP1.dot(deltaP2)>0){
-//                
-//            }
-//        }
-//        path.setFillColor(ofColor::white);
-//        path.draw();
-//    }
+    for(auto &p: paths){
+        p.draw();
+    }
 }
 void StencilWaves::drawPlainWaveMesh(){
     ofMesh mesh;
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
         ofVec2f p = waves[0].polyline.getVertices()[i];
-        ofVec2f p2 = ofVec2f(p.x, ofGetHeight());
+        ofVec2f p2 = ofVec2f(p.x, screenH*screenScale);
         
         mesh.addVertex(p);
         mesh.addVertex(p2);
@@ -244,9 +228,9 @@ void StencilWaves::drawBg(){
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     int count = 5;
     for (int i = 0; i < count; i++) {
-        float x1 = ofGetWidth()/count*i;
+        float x1 = screenW*screenScale/count*i;
         float y1 = 0;
-        float y2 = ofGetHeight();
+        float y2 = screenH*screenScale;
         mesh.addVertex(ofVec2f(x1, y1));
         mesh.addColor(ofColor::lightBlue);
         mesh.addVertex(ofVec2f(x1, y2));

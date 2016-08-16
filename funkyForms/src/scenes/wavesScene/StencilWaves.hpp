@@ -21,8 +21,10 @@
 class StencilWaves{
 public:
     // input
-    vector<ofPath> contours;
-    
+    vector<ofPath> paths;
+    int screenW, screenH;
+    ofParameter<float> screenScale;
+
     // colors
     ofColor peopleColor;
 
@@ -60,17 +62,16 @@ public:
     ofParameter<float> glowRadius;
     ofParameter<float> glowOpacity;
     
-    
-    void setup();
+    void setup(int w, int h);
     void setupGui();
     void addWave(int y);
     void reload(float &v);
+    void addPath(ofPolyline &contour);
     
     void update();
     void updateFbos();
     void updateMasks();
     void updateRefract();
-    void updateContours();
     void updateWaves();
     void updateWaveParameters();
     void updateMeshes();

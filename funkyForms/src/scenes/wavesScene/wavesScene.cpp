@@ -22,7 +22,7 @@ void wavesScene::setup(){
     
     // setup obj
     gradientWaves.setup(w, h);
-    stencilWaves.setup();
+    stencilWaves.setup(w, h);
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
@@ -46,6 +46,7 @@ void wavesScene::updateInput(){
         // have any vertices... adding a check.
         if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
             ofPolyline &line =  (*(cvData->trackedContours))[id].data.resampleSmoothed;
+            
             for (int i = 0; i < line.size(); i += line.size()/10 ) {
                 ofPoint pt = line.getVertices()[i];
                 pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
@@ -60,6 +61,16 @@ void wavesScene::updateInput(){
                         w.addTarget(pt, vel);
                     }
                 }
+            }
+            if(isStencilWaveMode){
+                ofPolyline line2 = cvData->getResampledLineAt(id, 2);
+                ofPolyline lineOffset;
+                for(auto &p : line2 ){
+                    ofPoint point = p;
+                    point = cvData->remapForScreen(SCREEN_LEFT, point);
+                    lineOffset.lineTo(point);
+                }
+                stencilWaves.addPath(lineOffset);
             }
         }
     }
