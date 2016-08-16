@@ -9,14 +9,29 @@
 #include "plantsScene.hpp"
 // --------------- setup
 void plantsScene::setup(){
+    setupGui();
+    setupBackground();
     for (int i = 0; i < 4; i++) {
-        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
+        addBgPlantRandom();
     }
     for (int i = 0; i < 40; i++) {
         randSwatchIndex.push_back((int)ofRandom(4));
     }
     glow.load("assets/glow.png");
-    setupGui();
+}
+void plantsScene::setupBackground(){
+    skyImage.load("sceneAssets/plants/sky.png");
+    hillsImage.load("sceneAssets/plants/hills.png");
+    // set center
+    float x = RM->getWholeRectangle().getCenter().x;
+    float y = RM->getWholeRectangle().getBottom();
+    bgCenterPos.set(x, y);
+}
+void plantsScene::addBgPlantRandom(){
+    ofRectangle r = RM->getWholeRectangle();
+    float x = ofRandom(r.getX(), r.getRight());
+    float y = RM->getRectForScreen(SCREEN_LEFT).getBottom();
+    addBgPlant(ofVec2f(x,y));
 }
 void plantsScene::addBgPlant(ofVec2f _pos){
     Plant plant;
@@ -134,11 +149,15 @@ void plantsScene::setupGui(){
     // shadow
     parameters.add(shadowRadius.set("shadowRadius", 5, 1, 300));
     parameters.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
-    
+    // background
+    bgParameters.setName("bgParameters");
+    bgParameters.add(bgChangeSpeed.set("bgChangeSpeed", 0.5, 0.1, 1.0));
+
     createBgPlant.addListener(this, &plantsScene::triggerBgPlant);
     
     gui.setup("settings_plantsScene", "settings_plantsScene.xml");
     gui.add(parameters);
+    gui.add(bgParameters);
     gui.loadFromFile("settings_plantsScene.xml");
 
 }
@@ -154,16 +173,12 @@ void plantsScene::reset(){
     bgPlants.clear();
     plants.clear();
     for (int i = 0; i < 4; i++) {
-        addBgPlant( ofVec2f(ofRandomWidth(), ofGetHeight() ) );
+        addBgPlantRandom();
     }
 }
 void plantsScene::triggerBgPlant(bool &b){
     if(plants.size()>0){
-        int pId = (int)ofRandom(plants.size());
-        int id = plants[pId].id;
-        float x = plants[pId].getPos().x;
-        ofVec2f pos = ofVec2f(x, ofGetHeight());
-        addBgPlant(pos);
+        addBgPlantRandom();
         bgPlants.erase(bgPlants.begin());
     }
 }
@@ -235,11 +250,11 @@ void plantsScene::updateBgPlants(){
 void plantsScene::updateBgPlantsRemoval(){
     for (int i =0; i < bgPlants.size(); i++) {
         if(bgPlants[i].isFadeFinished()){
-            int pId = (int)ofRandom(plants.size());
-            int id = plants[pId].id;
-            float x = plants[pId].getPos().x;
-            ofVec2f pos = ofVec2f(x, ofGetHeight());
-            addBgPlant(pos);
+            // add bg plant behind the person
+//            int pId = (int)ofRandom(plants.size());
+//            int id = plants[pId].id;
+//            float x = plants[pId].getPos().x;
+            addBgPlantRandom();
             bgPlants.erase(bgPlants.begin()+i);
         }
     }
@@ -264,19 +279,46 @@ void plantsScene::updatePlantRemoval(){
 // --------------- draw
 void plantsScene::draw(){
     ofFill();
+    drawBackground();
     drawBgPlants();
+    drawHills();
     drawPlants();
     drawPeople();
 }
 void plantsScene::drawGui(){
     gui.draw();
 }
-
 //void plantsScene::drawParticles(){
 //    for (int i = 0; i < particles.size(); i++){
 //        particles[i].draw();
 //    }
 //}
+void plantsScene::drawBackground(){
+    ofRectangle rect = RM->getWholeRectangle();
+    // draw gradient
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    float skyRadius = rect.getHeight();
+    
+    ofPushMatrix();
+    ofTranslate(rect.getCenter().x, rect.getBottom());
+    ofRotateZ(ofGetFrameNum()*bgChangeSpeed);
+    
+    ofSetColor(ofColor::white);
+    skyImage.draw(0, 0, skyRadius*2, skyRadius*2);
+    
+    ofPopMatrix();
+    
+    ofSetRectMode(OF_RECTMODE_CORNER);
+
+}
+void plantsScene::drawHills(){
+    ofRectangle rect = RM->getWholeRectangle();
+    
+    float k = rect.getWidth() / hillsImage.getWidth();
+    float h = k * hillsImage.getHeight();
+    
+    hillsImage.draw(0, rect.getBottomLeft().y - h, rect.getWidth(), h);
+}
 void plantsScene::drawShadow(){
     for(auto &p: plants){
         p.drawShadow();
@@ -301,7 +343,6 @@ void plantsScene::drawPeople(){
     ofRectangle dst = src;
     ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
     dst.scaleTo(target);
-    
     
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofPath p;
@@ -329,11 +370,11 @@ void plantsScene::blobBorn(int id){
     ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
     
     //-------------------------------------
-    //    ofRectangle src(0,0,cvData->width, cvData->height);
-    //    ofRectangle dst = src;
-    //    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-    //    dst.scaleTo(target);
-    //    centroid =cvData->remapForScreen(SCREEN_LEFT, centroid);
+//        ofRectangle src(0,0,cvData->width, cvData->height);
+//        ofRectangle dst = src;
+//        ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
+//        dst.scaleTo(target);
+        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
     //-------------------------------------
     
     addPlant(centroid, id);

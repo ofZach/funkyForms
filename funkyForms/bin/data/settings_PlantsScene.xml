@@ -7,13 +7,16 @@
 		<mainBranchWMax>46.6681</mainBranchWMax>
 		<childBranchWMin>21.8034</childBranchWMin>
 		<childBranchWMax>28.0196</childBranchWMax>
-		<bgMainBranchWMin>88.1091</bgMainBranchWMin>
-		<bgMainBranchWMax>123.334</bgMainBranchWMax>
+		<bgMainBranchWMin>62.9337</bgMainBranchWMin>
+		<bgMainBranchWMax>108.622</bgMainBranchWMax>
 		<bgChildBranchWMin>39.4159</bgChildBranchWMin>
 		<bgChildBranchWMax>43.56</bgChildBranchWMax>
-		<createBgPlant>1</createBgPlant>
+		<createBgPlant>0</createBgPlant>
 		<shadowRadius>5</shadowRadius>
 		<shadowOpacity>100</shadowOpacity>
 	</plantsSceneParameters>
 <settings_plantsScene/>
+<bgParameters>
+		<bgChangeSpeed>0.320408</bgChangeSpeed>
+	</bgParameters>
 </settings_plantsScene>

@@ -63,10 +63,25 @@ public:
     ofParameter<float> shadowRadius;
     ofParameter<float> shadowOpacity;
     
+    // background
+    ofImage skyImage;
+    ofImage hillsImage;
+    ofParameterGroup bgParameters;
+    ofVec2f bgCenterPos;
+    ofMesh bgCircle;
+    vector<ofPath> clouds;
+    ofParameter<float> bgChangeSpeed;
+    ofParameter<ofColor> dayColorBottom;
+    ofParameter<ofColor> dayColorTop;
+    ofParameter<ofColor> nightColorTop;
+    ofParameter<ofColor> nightColorBottom;
+    
     void setup();
+    void setupBackground();
     void setupGui();
     void addPlant(ofVec2f _pos, int id);
     void addBgPlant(ofVec2f _pos);
+    void addBgPlantRandom();
     void onNewPlant();
     void remove(int id);
     void reset();
@@ -96,12 +111,13 @@ public:
     ofVec2f getClosestPoint(ofVec2f target, vector<ofVec2f> &points);
     
     void draw();
+    void drawHills();
+    void drawBackground();
     void drawPlants();
     void drawPeople();
     void drawBgPlants();
     void drawShadow();
     void drawGui();
-
 };
 
 #endif /* PlantManager_hpp */
