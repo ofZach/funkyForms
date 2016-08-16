@@ -143,6 +143,10 @@ public:
 	vector <MonsterBall>		balls;
 	//vector <MonsterRect>		rects;
 	vector <ofPoint>			sclContour;
+    
+    virtual void stop(){
+        monsters.clear();
+    }
 };
 
 
