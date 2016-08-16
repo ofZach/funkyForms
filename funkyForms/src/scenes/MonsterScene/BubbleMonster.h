@@ -59,7 +59,7 @@ public:
 
 	// monster
 	int					monsterID;
-	ofVec2f			points;
+	ofVec2f             points;
 	GiggleBubble		bubbles[NUM_BUBBLE_PNTS];
 	MonsterSVGParts *   parts;
 
@@ -570,7 +570,7 @@ public:
 
 				if(spikeMode) {
 					ofPushStyle();
-					glLineWidth(10.0 * OFFSCREEN_SCALE);
+					glLineWidth(10.0 * 1.0);
 					ofLine(contourConvex[k].x*scalex, contourConvex[k].y*scaley,
 						   (contourConvex[k].x*scalex) + normalScaled.x,
 						   (contourConvex[k].y*scaley) + normalScaled.y);

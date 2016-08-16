@@ -41,7 +41,7 @@ void inputManager::draw(){
    // inputWarped.draw(player.getWidth(),0);
     
     ofPushMatrix();
-    ofTranslate(player.getWidth(), inputWarped.getHeight());
+    //ofTranslate(player.getWidth(), inputWarped.getHeight());
     CVM.draw();
     ofPopMatrix();
     

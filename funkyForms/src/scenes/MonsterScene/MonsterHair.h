@@ -36,7 +36,7 @@ public:
 	void draw() {
 		ofPushStyle();
 		ofSetColor(255, 0, 0);
-		glLineWidth(4.09 * OFFSCREEN_SCALE);
+		glLineWidth(4.09 * 1.0);
 		ofLine(pos1.x, pos1.y, p.x, p.y);
 		ofPopStyle();
 	}

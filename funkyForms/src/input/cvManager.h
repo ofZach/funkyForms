@@ -6,6 +6,7 @@
 #include "cvSettings.h"
 #include "renderManager.h"
 
+#include "ofxGui.h"
 
 // testing the original blob tracker
 #define USE_OLDER_BLOB_TRACKER
@@ -138,5 +139,15 @@ public:
     
     renderManager * RM;
     
+    
+    
+    ofxPanel gui;
+    ofParameter<float> fbPyrScale, lkQualityLevel, fbPolySigma;
+    ofParameter<int> fbLevels, lkWinSize, fbIterations, fbPolyN, fbWinSize, lkMaxLevel, lkMaxFeatures, lkMinDistance;
+    ofParameter<bool> fbUseGaussian, usefb;
+    
+    ofxCv::FlowFarneback fb;
+    ofxCv::FlowPyrLK lk;
+    ofxCv::Flow* curFlow;
     
 };

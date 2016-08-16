@@ -87,6 +87,9 @@ public:
     void blobMoved( int x, int y, int bid, int order );     // blob moved??????
     void blobOff( int x, int y, int bid, int order );
 	
+    void stop(){
+        cleanUpScene();
+    }
 	// ---------------------- box2d bump ---- !a bit of a hack
 //	void Add(const b2ContactPoint* point);  // 2016
 //	void Remove(const b2ContactPoint* point);
@@ -130,23 +133,30 @@ public:
 	int							lastTypeofMonster;
 	
 	
+//    vector   <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
+//    vector   <shared_ptr<ofxBox2dRect> >   boxes;   // defalut box2d rects
+//    
+//    
+//    boxes.push_back(shared_ptr<ofxBox2dRect>(new ofxBox2dRect));
+//    boxes.back().get()->setPhysics(3.0, 0.53, 0.1);
+//    boxes.back().get()->setup(box2d.getWorld(), mouseX, mouseY, w, h);
+
+    
 	// particles
 	ofxBox2d					box2d;
 	int							particleCount;
-	vector <MonsterParticles>	monsterParticles;
+	vector <shared_ptr<MonsterParticles>>	monsterParticles;
 	vector <MonsterDust>		dust;
 	
 	// monsters
 	MonsterSVGParts				parts;
 	//ofxContourAnalysis			contourAnalysis;       //2016
 	vector <BubbleMonster>		monsters;
-	vector <MonsterBall>		balls;
+	vector <shared_ptr<MonsterBall>>		balls;
 	//vector <MonsterRect>		rects;
 	vector <ofPoint>			sclContour;
     
-    virtual void stop(){
-        monsters.clear();
-    }
+    
 };
 
 
