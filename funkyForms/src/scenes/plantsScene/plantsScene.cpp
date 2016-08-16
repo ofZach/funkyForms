@@ -213,11 +213,13 @@ void plantsScene::updatePlants(){
     peoplePoints.clear();
     for(auto &id: cvData->idsThisFrame){
         ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
-        for (auto & pt : line){
-            pt =cvData->remapForScreen(SCREEN_LEFT, pt);
-        }
-        for (int j = 0; j < line.size(); j += line.size()/10 ) {
-            peoplePoints.push_back(line.getVertices()[j]);
+        if(line.size() > 0){
+            for (auto & pt : line){
+                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+            }
+            for (int j = 0; j < line.size(); j += line.size()/10 ) {
+                peoplePoints.push_back(line.getVertices()[j]);
+            }
         }
     }
     for(auto &p: plants){
@@ -225,20 +227,22 @@ void plantsScene::updatePlants(){
         int id = p.id;
         int whichBlob = cvData->idToBlobPos[id];
         ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
-        for (auto & pt : line){
-            pt =cvData->remapForScreen(SCREEN_LEFT, pt);
-        }
-        ofVec2f *point = new ofVec2f[pointLinkCount];
-        int step = line.size()/pointLinkCount;
-        int k = 0;
-        for (int j = 0; j < line.size(); j += step ) {
-            point[k] = line.getVertices()[j];
-            k++;
-        }
-        if(!p.isFading){
-            p.setPos(point[p.pointLinkId], 0.5);
-        }else{
-            p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
+        if(line.size() > 0){
+            for (auto & pt : line){
+                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+            }
+            ofVec2f *point = new ofVec2f[pointLinkCount];
+            int step = line.size()/pointLinkCount;
+            int k = 0;
+            for (int j = 0; j < line.size(); j += step ) {
+                point[k] = line.getVertices()[j];
+                k++;
+            }
+            if(!p.isFading){
+                p.setPos(point[p.pointLinkId], 0.5);
+            }else{
+                p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
+            }
         }
     }
 }
