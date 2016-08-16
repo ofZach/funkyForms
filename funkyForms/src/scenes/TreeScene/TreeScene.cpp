@@ -78,7 +78,7 @@ void TreeScene::setup() {
 	if(butterflys.size() < MAX_BUTTERFLYS) {
 		for (int i = 0; i < MAX_BUTTERFLYS; i++){
 			ButterFlyParticle bf;
-			bf.setInitialCondition(ofRandom(200, OFFSCREEN_WIDTH), ofRandom(0, OFFSCREEN_HEIGHT), 0,0);
+			bf.setInitialCondition(ofRandom(200, RM->getWidth()), ofRandom(0, RM->getHeight()), 0,0);
 			bf.setupButterfly();
             bf.scale = 0.09; //panel.getValueF("BUTTERFLY_SCALE");
 			butterflys.push_back(bf);
@@ -142,8 +142,8 @@ void TreeScene::mouseReleased(int wx, int wy, int x, int y, int button){
 //--------------------------------------------------------------
 void TreeScene::updateFlocking() {
 //	
-//    float scalex =  1; //(float)OFFSCREEN_WIDTH / (float)packet.width;
-//    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
+//    float scalex =  1; //(float)RM->getWidth() / (float)packet.width;
+//    float scaley = 1; //(float)RM->getHeight() / (float)packet.height;
 //	
     ofRectangle src(0,0,cvData->width, cvData->height);
     ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
@@ -208,13 +208,13 @@ void TreeScene::updateFlocking() {
 		float screenW = 0;
 		float screenH = 0;
 		
-		float offx = 0;//((OFFSCREEN_WIDTH - screenW)/2);
-		float offy = 0;//(OFFSCREEN_HEIGHT - screenH);
+		float offx = 0;//((RM->getWidth() - screenW)/2);
+		float offy = 0;//(RM->getHeight() - screenH);
 		float gap  = 20;
-		if (pos.x < 0)							pos.x = OFFSCREEN_WIDTH;
-		if (pos.x > OFFSCREEN_WIDTH)			pos.x = 0;
-		if (pos.y < 0)							pos.y = OFFSCREEN_HEIGHT*3;
-		if (pos.y > OFFSCREEN_HEIGHT*3)			pos.y = 0;
+		if (pos.x < 0)							pos.x = RM->getWidth();
+		if (pos.x > RM->getWidth())			pos.x = 0;
+		if (pos.y < 0)							pos.y = RM->getHeight()*3;
+		if (pos.y > RM->getHeight()*3)			pos.y = 0;
 		
 		butterflys[i].pos = pos;
 	}
@@ -228,8 +228,8 @@ void TreeScene::update() {
 	
 	//panel.update();
 	
-    //float scalex = 1; //(float)OFFSCREEN_WIDTH / (float)packet.width;
-    //float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
+    //float scalex = 1; //(float)RM->getWidth() / (float)packet.width;
+    //float scaley = 1; //(float)RM->getHeight() / (float)packet.height;
 	
     ofRectangle src(0,0,cvData->width, cvData->height);
     ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
@@ -300,8 +300,8 @@ void TreeScene::update() {
 //					msg.addIntArg(2);									    //	SCENE 3
 //					msg.addIntArg(trees.back().id);									    //	SCENE 3
 //					
-//					msg.addFloatArg((float)center.x/(float)OFFSCREEN_WIDTH);		//  x (normalize)
-//					msg.addFloatArg((float)center.y/(float)OFFSCREEN_HEIGHT);	// centroid y (normalize)
+//					msg.addFloatArg((float)center.x/(float)RM->getWidth());		//  x (normalize)
+//					msg.addFloatArg((float)center.y/(float)RM->getHeight());	// centroid y (normalize)
 //					
 //					ofxDaito::sendCustom(msg);
 					
@@ -366,8 +366,8 @@ void TreeScene::draw() {
     float scaleCoordinates = dst.getWidth() / src.getWidth();
     
 	
-//    float scalex = 1;// (float)OFFSCREEN_WIDTH / (float)packet.width;
-//    float scaley = 1; //(float)OFFSCREEN_HEIGHT / (float)packet.height;
+//    float scalex = 1;// (float)RM->getWidth() / (float)packet.width;
+//    float scaley = 1; //(float)RM->getHeight() / (float)packet.height;
 	
 	if(bDebug) {
 		ofSetColor(0, 25, 255);
@@ -463,6 +463,7 @@ void TreeScene::draw() {
 		}
 	}
 	
+
 	
 	glPopMatrix();
 	
@@ -471,7 +472,7 @@ void TreeScene::draw() {
 		float screenH = 0;
 		ofNoFill();
 		ofSetColor(245, 2, 2);
-		ofRect(((OFFSCREEN_WIDTH - screenW)/2), (OFFSCREEN_HEIGHT-screenH), screenW, screenH);
+		ofRect(((RM->getWidth() - screenW)/2), (RM->getHeight()-screenH), screenW, screenH);
 	}
 }
 
