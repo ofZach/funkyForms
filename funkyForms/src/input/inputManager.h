@@ -25,4 +25,5 @@ public:
     ofParameter < int > inputTargetWidth;
     ofParameter < int > inputTargetHeight;
 
+    
 };

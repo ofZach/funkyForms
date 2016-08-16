@@ -77,6 +77,16 @@ void ofApp::update(){
     ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
     ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
     ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
+    
+    float scale = RM.getWidth() / (float)RM.windows.getWidth();
+    
+    ofPushMatrix();
+    
+    ofScale(scale, scale, 1.0);
+    RM.windows.draw();
+    
+    ofPopMatrix();
+    
     ofClearAlpha();
     RM.fbo.end();
 

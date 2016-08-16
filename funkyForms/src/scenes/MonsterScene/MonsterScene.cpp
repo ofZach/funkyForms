@@ -31,7 +31,7 @@ void MonsterScene::setup(){
 	
 	// box2d
 	box2d.init();
-	box2d.setGravity(0, 20);
+	box2d.setGravity(0, 10);
 	box2d.checkBounds(true);
 	box2d.setFPS(30.0);
 	printf("monster box2d allocated\n");
@@ -62,8 +62,10 @@ void MonsterScene::setup(){
 void MonsterScene::update(){
 
 	
-    float scalex = 1;
-    float scaley = 1;
+    cout << "body count " << box2d.getBodyCount() << endl;
+    
+    //float scalex = 1;
+    //float scaley = 1;
 	
 	
 //	bDebug = panel.getValueB("DEBUG");
@@ -78,25 +80,28 @@ void MonsterScene::update(){
 
 
 	// add some balls
-    if(false){ //ballCounter >= 20) {
+    if(ballCounter >= 20) {
 
 
 		// Add Ball every 20 times
 		for(int i=0; i<(int)ofRandom(1, 5); i++) {
 
-			float bx = (OFFSCREEN_WIDTH/2) + ofRandom(-20, 20);
+			float bx = (RM->getWidth()/2) + ofRandom(-20, 20);
 			float by = (100 + ofRandom(-20, 20));
 
-			//bx -= ((OFFSCREEN_WIDTH - W)/2);
-			//by -= (OFFSCREEN_HEIGHT - H);
-			MonsterBall bub;
+			//bx -= ((RM->getWidth() - W)/2);
+			//by -= (RM->getHeight() - H);
+			//MonsterBall bub;
 			
+            shared_ptr<MonsterBall> bub =  shared_ptr<MonsterBall> (new MonsterBall());
+            
+            
 			balls.push_back(bub);
             
-            balls.back().initTime = ofGetElapsedTimef();
-             balls.back().setPhysics(13.0, 0.03, 0.1); // mass - bounce - friction
-             balls.back().setup(box2d.getWorld(), bx, by, ofRandom(5, 15));
-             balls.back().img = &dotImage;
+            balls.back()->initTime = ofGetElapsedTimef();
+             balls.back()->setPhysics(13.0, 0.03, 0.1); // mass - bounce - friction
+             balls.back()->setup(box2d.getWorld(), bx, by, ofRandom(5, 15));
+             balls.back()->img = &dotImage;
             
             
 		}
@@ -109,17 +114,19 @@ void MonsterScene::update(){
 
 			for(int i=0; i<(int)ofRandom(20, 100); i++) {
 				
-				float bx = ofRandom(0, OFFSCREEN_WIDTH);// ofRandom(-520, 520);
+				float bx = ofRandom(0, RM->getWidth());// ofRandom(-520, 520);
 				float by = 500;
 
-				//bx -= ((OFFSCREEN_WIDTH - W)/2);
-				//by -= (OFFSCREEN_HEIGHT - H);
+				//bx -= ((RM->getWidth() - W)/2);
+				//by -= (RM->getHeight() - H);
 
-				MonsterBall bub;
-				bub.initTime = ofGetElapsedTimef();
-				bub.setPhysics(13.0, 0.03, 0.1); // mass - bounce - friction
-				bub.setup(box2d.getWorld(), bx, by, ofRandom(5, 35));
-				bub.img = &dotImage;
+                //MonsterBall bub;
+                shared_ptr<MonsterBall> bub =  shared_ptr<MonsterBall> (new MonsterBall());
+            
+                bub->initTime = ofGetElapsedTimef();
+				bub->setPhysics(13.0, 0.03, 0.1); // mass - bounce - friction
+				bub->setup(box2d.getWorld(), bx, by, ofRandom(5, 35));
+				bub->img = &dotImage;
 				balls.push_back(bub);
 			}
 			
@@ -127,17 +134,19 @@ void MonsterScene::update(){
 				
 				for(int i=0; i<(int)ofRandom(80, 100); i++) {
 					
-					float bx = ofRandom(0, OFFSCREEN_WIDTH);// ofRandom(-520, 520);
+					float bx = ofRandom(0, RM->getWidth());// ofRandom(-520, 520);
 					float by = 500;
 					
-					//bx -= ((OFFSCREEN_WIDTH - W)/2);
-					//by -= (OFFSCREEN_HEIGHT - H);
+					//bx -= ((RM->getWidth() - W)/2);
+					//by -= (RM->getHeight() - H);
 					
-					MonsterBall bub;
-					bub.initTime = ofGetElapsedTimef();
-					bub.setPhysics(13.0, 0.03, 0.1); // mass - bounce - friction
-					bub.setup(box2d.getWorld(), bx, by, ofRandom(5, 6));
-					bub.img = &dotImage;
+					//MonsterBall bub;
+                    shared_ptr<MonsterBall> bub =  shared_ptr<MonsterBall> (new MonsterBall());
+                    
+                    bub->initTime = ofGetElapsedTimef();
+					bub->setPhysics(13.0, 0.03, 0.1); // mass - bounce - friction
+					bub->setup(box2d.getWorld(), bx, by, ofRandom(5, 6));
+					bub->img = &dotImage;
 					balls.push_back(bub);
 				}
 				
@@ -154,38 +163,39 @@ void MonsterScene::update(){
 
 	// --------------------- particles
 	for(int i = 0; i < monsterParticles.size(); i++) {
-		monsterParticles[i].update();
+		monsterParticles[i]->update();
 
 	}
 	for(int i=monsterParticles.size()-1; i>=0; i--) {
 		// sorry time to go away
-		if(monsterParticles[i].bDead) {
-			monsterParticles[i].cleanUp();
-            monsterParticles[i].destroy();   // 2016;
+		if(monsterParticles[i]->bDead) {
+            cout << "------------------------------------------" << endl;
+			monsterParticles[i]->cleanUp();
+            monsterParticles[i]->destroy();   // 2016;
 			monsterParticles.erase(monsterParticles.begin() + i);
 		}
 
-		ofPoint mpos = monsterParticles[i].getPosition();
-		if(mpos.y > OFFSCREEN_HEIGHT) {
-			monsterParticles[i].bDead = true;
+		ofPoint mpos = monsterParticles[i]->getPosition();
+		if(mpos.y > RM->getHeight()) {
+			monsterParticles[i]->bDead = true;
 		}
 	}
 	for(int i=balls.size()-1; i>=0; i--) {
 
-		ofPoint ps = balls[i].getPosition();
+		ofPoint ps = balls[i]->getPosition();
 		
-		balls[i].age = ofGetElapsedTimef() - balls[i].initTime;
-        balls[i].alphaPct = 1.0; //panel.getValueF("BALL_GLOW");
-        balls[i].sizePct  = 1.0; //panel.getValueF("BALL_SIZE_PCT");
+		balls[i]->age = ofGetElapsedTimef() - balls[i]->initTime;
+        balls[i]->alphaPct = 1.0; //panel.getValueF("BALL_GLOW");
+        balls[i]->sizePct  = 1.0; //panel.getValueF("BALL_SIZE_PCT");
 		
-        if(balls[i].age > 10){  // 2016  ///panel.getValueF("BALL_AGE")) {
-			balls[i].color.a -= 10.0;
+        if(balls[i]->age > 10){  // 2016  ///panel.getValueF("BALL_AGE")) {
+			balls[i]->color.a -= 10.0;
 			
 		}
 		
-		if(ps.y > OFFSCREEN_HEIGHT || balls[i].color.a <= 0.0) {
+		if(ps.y > RM->getHeight() || balls[i]->color.a <= 0.0) {
 
-			balls[i].destroy();
+			balls[i]->destroy();
 			balls.erase(balls.begin() + i);
 		}
 		
@@ -380,20 +390,30 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 //--------------------------------------------------------------
 void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 	
+    
 	
 	if(!bMonsterTimer) return;
 	
+    
+	//float scalex = (float)RM->getWidth() / (float)cvData->width;
+	//float scaley = (float)RM->getHeight() / (float)cvData->height;
 	
-	float scalex = (float)OFFSCREEN_WIDTH / (float)cvData->width;
-	float scaley = (float)OFFSCREEN_HEIGHT / (float)cvData->height;
-	
+    
+    ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+    ofPoint centroid = line.getCentroid2D();
+    ofPoint newPT  = cvData->remapForScreen(SCREEN_LEFT, centroid);
+    
+    
 	
 	for(int i=monsters.size()-1; i>=0; i--) {
 		if(monsters[i].monsterID == bid) {
 
 			// tell daito that the monster just moved
 			
-            ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+            //ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+//            for (auto & pt : line){
+//                pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//            }
             
             //ofxCvBlob blober = tracker->getById(bid);
 
@@ -414,18 +434,19 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 
             // 2016
 			//---------- add some particle love -- ewww
-//			if(monsterParticles.size() < MAX_MONSTER_PARTICLES) {
-//
-//				float bx = (x*scalex) + ofRandom(-30, 30);
-//				float by = (y*scaley) + ofRandom(-30, 30);
-//
-//				monsterParticles.push_back(MonsterParticles());
-//				monsterParticles.back().setPhysics(3.0, 0.53, 0.1); // mass - bounce - friction
-//				monsterParticles.back().setup(box2d.getWorld(), bx, by, ofRandom(4, 30));
-//				monsterParticles.back().img = &dotImage;
-//				monsterParticles.back().init();
-//
-//			}
+			if(monsterParticles.size() < MAX_MONSTER_PARTICLES) {
+
+				float bx = (newPT.x) + ofRandom(-30, 30);
+				float by = (newPT.y) + ofRandom(-30, 30);
+
+				monsterParticles.push_back(shared_ptr<MonsterParticles> (new MonsterParticles()));
+				monsterParticles.back()->setPhysics(3.0, 0.53, 0.1); // mass - bounce - friction
+				monsterParticles.back()->setup(box2d.getWorld(), bx, by, ofRandom(4, 30));
+				monsterParticles.back()->img = &dotImage;
+				monsterParticles.back()->init();
+                monsterParticles.back()->enableGravity(false);
+
+			}
 		}
 	}
 
@@ -486,8 +507,8 @@ void MonsterScene::draw() {
 	ofEnableAlphaBlending();
 
 	
-	float scalex = (float)OFFSCREEN_WIDTH / (float)cvData->width;
-	float scaley = (float)OFFSCREEN_HEIGHT / (float)cvData->height;
+	//float scalex = (float)RM->getWidth() / (float)cvData->width;
+	//float scaley = (float)RM->getHeight() / (float)cvData->height;
 	
 	if(bDebug) {
 	//	ofSetColor(0, 25, 255);
@@ -499,7 +520,7 @@ void MonsterScene::draw() {
 	// --------------------- People
 	glPushMatrix();
 	glTranslatef(0 , 0, 0);
-	//glTranslatef(((OFFSCREEN_WIDTH - W)/2), (OFFSCREEN_HEIGHT-H), 0);
+	//glTranslatef(((RM->getWidth() - W)/2), (RM->getHeight()-H), 0);
 
 	bool bDrawPeople = false;
 	if(bDrawPeople) {
@@ -510,10 +531,12 @@ void MonsterScene::draw() {
 			ofBeginShape();
 			for (int j = 0; j < cvData->blobs[i].blob.size(); j++) {
 
-				float x = cvData->blobs[i].blob[j].x * scalex;
-				float y = cvData->blobs[i].blob[j].y * scaley;
+				float x = cvData->blobs[i].blob[j].x;
+				float y = cvData->blobs[i].blob[j].y;
 
-				ofVertex(x, y);
+                ofPoint pt(x,y);
+                cvData->remapForScreen(SCREEN_LEFT, pt);
+				ofVertex(pt.x, pt.y);
 			}
 			ofEndShape(true);
 		}
@@ -526,13 +549,13 @@ void MonsterScene::draw() {
 	}
 
 	for(int i=0; i<balls.size(); i++) {
-		balls[i].draw();
+		balls[i]->draw();
 	}
 
 
 	// --------------------- particles
 	for(int i=0; i<monsterParticles.size(); i++) {
-		monsterParticles[i].draw();
+		monsterParticles[i]->draw();
 	}
 
 
@@ -591,8 +614,8 @@ void MonsterScene::createBuildingContour() {
 //			float bx = ferryBuilding.shapes[i].pnts[j].x;
 //			float by = ferryBuilding.shapes[i].pnts[j].y;
 //
-//			//bx -= ((OFFSCREEN_WIDTH - W)/2);
-//			//by -= (OFFSCREEN_HEIGHT - H);
+//			//bx -= ((RM->getWidth() - W)/2);
+//			//by -= (RM->getHeight() - H);
 //
 //			box2dBuilding.back().addPoint(bx, by);
 //		}
@@ -644,15 +667,18 @@ void MonsterScene::keyPressed(int key) {
 		float bx = ofGetMouseX();
 		float by = ofGetMouseY();
 
-		//bx -= ((OFFSCREEN_WIDTH - W)/2);
-		//by -= (OFFSCREEN_HEIGHT - H);
+		//bx -= ((RM->getWidth() - W)/2);
+		//by -= (RM->getHeight() - H);
 
 
-		MonsterBall bub;
-		bub.initTime = ofGetElapsedTimef();
-		bub.setPhysics(30.0, 0.53, 0.1); // mass - bounce - friction
-		bub.setup(box2d.getWorld(), bx, by, ofRandom(10, 20));
-		bub.img = &dotImage;
+        //shared_ptr<ofxBox2dRect>(new ofxBox2dRect)
+        
+        shared_ptr<MonsterBall> bub =  shared_ptr<MonsterBall> (new MonsterBall());
+		//MonsterBall bub;
+		bub->initTime = ofGetElapsedTimef();
+		bub->setPhysics(30.0, 0.53, 0.1); // mass - bounce - friction
+		bub->setup(box2d.getWorld(), bx, by, ofRandom(10, 20));
+		bub->img = &dotImage;
 		balls.push_back(bub);
 
 	}
@@ -683,8 +709,8 @@ void MonsterScene::mousePressed(int wx, int wy, int x, int y, int button) {
 		//ferryBuilding.mousePressed(x, y, button);
 
 
-		//bx -= ((OFFSCREEN_WIDTH - W)/2);
-	//	by -= (OFFSCREEN_HEIGHT - H);
+		//bx -= ((RM->getWidth() - W)/2);
+	//	by -= (RM->getHeight() - H);
 
 		//printf("windddddddddd = %i, %i", x, y);
 		//windowPnts.push_back(MonsterWindow());
@@ -802,8 +828,8 @@ void MonsterScene::saveMonsterSettings() {
 //			 msg.setAddress("/bang");							    //	bang
 //			 msg.addStringArg("particleHit");					    //	hit
 //			 msg.addIntArg(3);									    //	SCENE 3
-//			 msg.addFloatArg((float)p.x/(float)OFFSCREEN_WIDTH);		//  x (normalize)
-//			 msg.addFloatArg((float)p.y/(float)OFFSCREEN_HEIGHT);	// centroid y (normalize)
+//			 msg.addFloatArg((float)p.x/(float)RM->getWidth());		//  x (normalize)
+//			 msg.addFloatArg((float)p.y/(float)RM->getHeight());	// centroid y (normalize)
 //
 //			 ofxDaito::sendCustom(msg);
 //			 */
@@ -825,14 +851,14 @@ void MonsterScene::cleanUpScene() {
 
 
 	for(int i=monsterParticles.size()-1; i>=0; i--) {
-		monsterParticles[i].destroy();
+		monsterParticles[i]->destroy();
 		monsterParticles.erase(monsterParticles.begin() + i);
 	}
 	monsterParticles.clear();
 
 
 	for(int i=balls.size()-1; i>=0; i--) {
-		balls[i].destroy();
+		balls[i]->destroy();
 		balls.erase(balls.begin() + i);
 	}
 	balls.clear();

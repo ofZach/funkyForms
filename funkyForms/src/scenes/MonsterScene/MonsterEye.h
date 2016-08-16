@@ -26,7 +26,7 @@ public:
 		size = ofRandom(20, 30);
         pos.set(0,0);
         
-        cout << "eye cons" << p << " " << pos << endl;
+      //  cout << "eye cons" << p << " " << pos << endl;
         
 	}
 
@@ -36,7 +36,7 @@ public:
 		p.set(_x, _y);
 		eb.set(_x, _y);
         
-        cout << "eye init" << p << " " << pos << endl;
+      //  cout << "eye init" << p << " " << pos << endl;
         
 	}
 
@@ -52,7 +52,7 @@ public:
 		v = D * (v + a);
 		p = p + v;
 		*/
-        cout << "eye update" << p << " " << pos << endl;
+        //cout << "eye update" << p << " " << pos << endl;
         
         
 		p += (pos-p) / 3.0;

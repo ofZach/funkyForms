@@ -24,7 +24,8 @@ public:
 	bool		bGoPop;
 	bool		bDead;
 	ofColor		clr;
-	
+    int alpha;
+    
 	int			numPopBits;
 	float		deadDate, age;
 	float		r;
@@ -82,6 +83,7 @@ public:
 		clr.g = (hex >> 8)  & 0xff;
 		clr.b = (hex >> 0)  & 0xff;
 		clr.a = 255;
+        alpha = 255;
 		
 		age			= 0;
 		deadDate	= ofRandom(30, 120);
@@ -101,12 +103,15 @@ public:
 				popBits[i].bits[j].set(ofRandom(-br,br), ofRandom(-br, br));
 			}
 		}
+        
+        enableGravity(false);
 	}
 	
 	// ----------------------------------------
 	void update() {
 		
-		
+        //cout << (int)clr.a << endl;
+        
 		age ++;
 		if(age >= deadDate && !bGoPop) {
 			bGoPop = true;	
@@ -133,7 +138,8 @@ public:
 			
 			r += (getRadius() / 3.3);
 			clr.a -= 50.0;
-			if(r <= 2 || clr.a <= 0.0) {
+            alpha -= 50;
+			if(r <= 2 || alpha <= 0.0) {
 				bDead = true;
 			}
 			

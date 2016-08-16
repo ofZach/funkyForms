@@ -39,6 +39,7 @@ public:
     
     ofFbo fbo;
     ofxSVG blocks;
+    ofxSVG windows;
     
     
     

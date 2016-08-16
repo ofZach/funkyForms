@@ -6,6 +6,8 @@
 void renderManager::setup(){
 
     blocks.load("building/blocks.svg");
+    windows.load("building/main-window.svg");
+    
     
     float width = blocks.getWidth();
     float scale = RENDER_WIDTH / width;

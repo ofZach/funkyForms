@@ -59,7 +59,7 @@ public:
 
 	// monster
 	int					monsterID;
-	ofVec2f			points;
+	ofVec2f             points;
 	GiggleBubble		bubbles[NUM_BUBBLE_PNTS];
 	MonsterSVGParts *   parts;
 
