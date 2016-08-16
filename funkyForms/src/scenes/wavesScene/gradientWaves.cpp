@@ -53,7 +53,6 @@ void gradientWaves::reload(float &value){
 }
 void gradientWaves::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     FishWave wave;
-    
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
