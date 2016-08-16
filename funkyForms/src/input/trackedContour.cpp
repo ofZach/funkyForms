@@ -6,7 +6,7 @@
 
 trackedContour::trackedContour(){
     smoothingRate = 0.75;
-    resampleInternal = 480;
+    resampleInternal = 200;
     resampleTarget = 100;
     velSmoothingRate = 0.9;
     startTime = ofGetElapsedTimef();
