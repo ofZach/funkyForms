@@ -53,8 +53,9 @@ void PlantRig::makeChild2(){
         s.points = &points;
         s.pos = *p1 + delta / ofMap(randomFloats[i], 0, 1, 1, 5);
         s.dir = dir;
-        s.lengthMin = cbLengthMin;
-        s.lengthMax = cbLengthMax;
+        s.width = cbWidth;
+        s.height = cbHeight;
+        s.lengthVariation = lengthVariation;
         s.branchCount = ofRandom(3, 3);
         
         makeBranch(s);
@@ -72,8 +73,10 @@ void PlantRig::makeMainBranch(){
     s.points = &mainBranchPoints;
     s.pos = pos;
     s.dir = dir;
-    s.lengthMin = mbLengthMin;
-    s.lengthMax = mbLengthMax;
+    s.width = mbWidth;
+    s.height = mbHeight;
+    s.lengthVariation = lengthVariation;
+
     s.branchCount = mbCount;
     
     makeBranch(s);
@@ -109,8 +112,10 @@ void PlantRig::makeChildBranches(){
         s.points = &points;
         s.pos = p1 + delta / ofMap(randomFloats[i], 0, 1, 1, 5);
         s.dir = dir;
-        s.lengthMin = cbLengthMin;
-        s.lengthMax = cbLengthMax;
+        s.width = cbWidth;
+        s.height = cbHeight;
+        s.lengthVariation = lengthVariation;
+        
         s.branchCount = ofRandom(3, cbCount);
         
         makeBranch(s);
@@ -122,7 +127,11 @@ void PlantRig::makeBranch(BranchSettings s){
     ofVec2f curdir = ofVec2f(0, 0);
     ofVec2f curPos = s.pos;
     for(int i = 0; i< s.branchCount; i++ ){
-        curPos = curPos+curdir * (s.lengthMin + ofRandom(1) * s.lengthMax);
+        if(curdir == ofVec2f(0, -1)){ // up
+            curPos = curPos+curdir * (s.height + ofRandom(1) * s.lengthVariation);
+        }else{ // left or right
+            curPos = curPos+curdir * (s.width + ofRandom(1) * s.lengthVariation);
+        }
         
         s.points->push_back(curPos);
         

@@ -38,18 +38,20 @@ void plantsScene::addBgPlant(ofVec2f _pos){
     bgPlants.push_back(plant);
     int i = bgPlants.size()-1;
     
-    bgPlants[i].rig.cbCount = ofRandom(5, 7) ;
-    bgPlants[i].rig.mbCount = ofRandom(4, 6) ;
+    bgPlants[i].rig.cbCount = ofRandom(bgChildBranchCountMin, bgChildBranchCountMax) ;
+    bgPlants[i].rig.mbCount = ofRandom(bgMainBranchCountMin, bgMainBranchCountMax) ;
     
     bgPlants[i].rig.dir = ofVec2f(0, -1);
-    bgPlants[i].rig.mbLengthMax = bgMainBranchWMax ;
-    bgPlants[i].rig.mbLengthMin = bgMainBranchWMin ;
-    bgPlants[i].rig.cbLengthMax = bgChildBranchWMax ;
-    bgPlants[i].rig.cbLengthMin = bgChildBranchWMin ;
+    bgPlants[i].rig.mbWidth = bgmainBranchWidth ;
+    bgPlants[i].rig.mbHeight = bgmainBranchHeight ;
+    bgPlants[i].rig.cbHeight = bgchildBranchHeight ;
+    bgPlants[i].rig.cbWidth = bgchildBranchWidth ;
+    bgPlants[i].rig.lengthVariation = branchLengthVariation;
+    
     bgPlants[i].rig.timeSpeed = 0.01;
     
-    bgPlants[i].mbWidth = bgMainBranchWMin;
-    bgPlants[i].cbWidth = bgChildBranchWMin;
+    bgPlants[i].mbWidth = bgmainBranchStrokeWidth;
+    bgPlants[i].cbWidth = bgchildBranchStrokeWidth;
     bgPlants[i].rig.pos = _pos;
     
     ofFloatColor col = swatch[(int)ofRandom(4)];
@@ -111,16 +113,17 @@ void plantsScene::addPlant(ofVec2f _pos, int id){
     
     plants[i].rig.dir = dir;
     
-    plants[i].rig.cbCount = 3;
-    plants[i].rig.mbCount = ofRandom(5, 6) ;
+    plants[i].rig.cbCount = ofRandom(childBranchCountMin, childBranchCountMax);
+    plants[i].rig.mbCount = ofRandom(mainBranchCountMin, mainBranchCountMax) ;
     
-    plants[i].rig.mbLengthMax = mainBranchWMax ;
-    plants[i].rig.mbLengthMin = mainBranchWMin ;
-    plants[i].rig.cbLengthMax = childBranchWMax ;
-    plants[i].rig.cbLengthMin = childBranchWMin ;
+    plants[i].rig.mbWidth = mainBranchWidth ;
+    plants[i].rig.mbHeight = mainBranchHeight ;
+    plants[i].rig.cbWidth = childBranchWidth ;
+    plants[i].rig.cbHeight = childBranchHeight ;
+    plants[i].rig.lengthVariation = branchLengthVariation ;
     
-    plants[i].mbWidth = mainBranchWMin;
-    plants[i].cbWidth = childBranchWMin;
+    plants[i].mbWidth = mainBranchStrokeWidth;
+    plants[i].cbWidth = childBranchStrokeWidth;
     plants[i].rig.pos = _pos;
     
     plants[i].color = swatch[(int)ofRandom(4)];
@@ -132,16 +135,34 @@ void plantsScene::addPlant(ofVec2f _pos, int id){
 void plantsScene::setupGui(){
     parameters.setName("plantsSceneParameters");
     // plant
-    parameters.add(plantScale.set("plantScale", 1.0, 0.1, 2.0));
-    parameters.add(mainBranchWMin.set("mainBranchWMin", 5, 1, 200));
-    parameters.add(mainBranchWMax.set("mainBranchWMax", 5, 1, 200));
-    parameters.add(childBranchWMin.set("childBranchWMin", 5, 1, 200));
-    parameters.add(childBranchWMax.set("childBranchWMax", 5, 1, 200));
+    parameters.add(plantScale.set("plantScale", 1.0, 0.1, 2));
+    
+    parameters.add(mainBranchCountMin.set("mainBranchCountMin", 5, 1, 20));
+    parameters.add(mainBranchCountMax.set("mainBranchCountMax", 5, 1, 20));
+    
+    parameters.add(childBranchCountMin.set("childBranchCountMin", 5, 1, 20));
+    parameters.add(childBranchCountMax.set("childBranchCountMax", 5, 1, 20));
+
+    parameters.add(bgMainBranchCountMin.set("bgMainBranchCountMin", 5, 1, 20));
+    parameters.add(bgMainBranchCountMax.set("bgMainBranchCountMax", 5, 1, 20));
+    
+    parameters.add(bgChildBranchCountMin.set("bgChildBranchCountMin", 5, 1, 20));
+    parameters.add(bgChildBranchCountMax.set("bgChildBranchCountMax", 5, 1, 20));
+    
+    parameters.add(branchLengthVariation.set("branchLengthVariation", 5, 1, 200));
+    parameters.add(mainBranchStrokeWidth.set("mainBranchStrokeWidth", 5, 1, 50));
+    parameters.add(childBranchStrokeWidth.set("childBranchStrokeWidth", 5, 1, 50));
+    parameters.add(mainBranchHeight.set("mainBranchHeight", 5, 1, 200));
+    parameters.add(mainBranchWidth.set("mainBranchWidth", 5, 1, 200));
+    parameters.add(childBranchWidth.set("childBranchWidth", 5, 1, 200));
+    parameters.add(childBranchHeight.set("childBranchHeight", 5, 1, 200));
     // bgPlant
-    parameters.add(bgMainBranchWMin.set("bgMainBranchWMin", 5, 1, 200));
-    parameters.add(bgMainBranchWMax.set("bgMainBranchWMax", 5, 1, 200));
-    parameters.add(bgChildBranchWMin.set("bgChildBranchWMin", 5, 1, 200));
-    parameters.add(bgChildBranchWMax.set("bgChildBranchWMax", 5, 1, 200));
+    parameters.add(bgchildBranchStrokeWidth.set("bgchildBranchStrokeWidth", 5, 1, 50));
+    parameters.add(bgmainBranchStrokeWidth.set("bgmainBranchStrokeWidth", 5, 1, 50));
+    parameters.add(bgmainBranchHeight.set("bgmainBranchHeight", 5, 1, 200));
+    parameters.add(bgmainBranchWidth.set("bgmainBranchWidth", 5, 1, 200));
+    parameters.add(bgchildBranchWidth.set("bgchildBranchWidth", 5, 1, 200));
+    parameters.add(bgchildBranchHeight.set("bgchildBranchHeight", 5, 1, 200));
     parameters.add(createBgPlant.set("createBgPlant", false));
     // people glow
     parameters.add(glowRadius.set("glowRadius", 10, 1, 50));

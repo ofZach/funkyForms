@@ -21,6 +21,8 @@ public:
     // plants
     vector<Plant> plants;
     ofParameter<float> plantScale;
+    ofParameter<float> mainBranchStrokeWidth;
+    ofParameter<float> childBranchStrokeWidth;
     vector<Plant> bgPlants;
     int pointLinkCount = 4;
     
@@ -37,14 +39,27 @@ public:
     ofParameterGroup parameters;
     ofxPanel gui;
     
-    ofParameter<float> mainBranchWMax;
-    ofParameter<float> mainBranchWMin;
-    ofParameter<float> childBranchWMin;
-    ofParameter<float> childBranchWMax;
-    ofParameter<float> bgMainBranchWMax;
-    ofParameter<float> bgMainBranchWMin;
-    ofParameter<float> bgChildBranchWMin;
-    ofParameter<float> bgChildBranchWMax;
+    // branchcount
+    ofParameter<int> mainBranchCountMin;
+    ofParameter<int> mainBranchCountMax;
+    ofParameter<int> childBranchCountMin;
+    ofParameter<int> childBranchCountMax;
+    ofParameter<int> bgMainBranchCountMin;
+    ofParameter<int> bgMainBranchCountMax;
+    ofParameter<int> bgChildBranchCountMin;
+    ofParameter<int> bgChildBranchCountMax;
+
+    ofParameter<float> mainBranchWidth;
+    ofParameter<float> branchLengthVariation;
+    ofParameter<float> mainBranchHeight;
+    ofParameter<float> childBranchWidth;
+    ofParameter<float> childBranchHeight;
+    ofParameter<float> bgmainBranchWidth;
+    ofParameter<float> bgmainBranchHeight;
+    ofParameter<float> bgchildBranchWidth;
+    ofParameter<float> bgchildBranchHeight;
+    ofParameter<float> bgmainBranchStrokeWidth;
+    ofParameter<float> bgchildBranchStrokeWidth;
     ofParameter<bool> createBgPlant;
     
     // colors

@@ -43,21 +43,24 @@ public:
         vector<ofVec2f> *points;
         ofVec2f pos;
         ofVec2f dir;
-        float lengthMin;
-        float lengthMax;
+        float width;
+        float height;
+        float lengthVariation;
         int branchCount;
     };
     float timeSpeed = 0.93;
     
     // mainbranch
-    float mbLengthMin = 70;
-    float mbLengthMax = 100;
+    float mbWidth = 70;
+    float mbHeight = 100;
     int mbCount = 6;
     
     // childbranch
-    float cbLengthMin = 30;
-    float cbLengthMax = 50;
+    float cbWidth = 30;
+    float cbHeight = 50;
     int cbCount = 3;
+    
+    float lengthVariation = 10;
     
     void setup();
     void setupRandom();

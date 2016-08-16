@@ -1,6 +1,6 @@
 <settings_plantsScene>
 	<plantsSceneParameters>
-		<glowRadius>22.25</glowRadius>
+		<glowRadius>24</glowRadius>
 		<glowOpacity>68.9541</glowOpacity>
 		<plantScale>0.585485</plantScale>
 		<mainBranchWMin>26.9836</mainBranchWMin>
@@ -14,6 +14,27 @@
 		<createBgPlant>0</createBgPlant>
 		<shadowRadius>5</shadowRadius>
 		<shadowOpacity>100</shadowOpacity>
+	<mainBranchStrokeWidth>15.2143</mainBranchStrokeWidth>
+		<childBranchStrokeWidth>10.1378</childBranchStrokeWidth>
+		<mainBranchHeight>28.4133</mainBranchHeight>
+		<mainBranchWidth>25.3673</mainBranchWidth>
+		<childBranchWidth>7.09184</childBranchWidth>
+		<childBranchHeight>18.2602</childBranchHeight>
+		<bgmainBranchHeight>200</bgmainBranchHeight>
+		<bgmainBranchWidth>30.4439</bgmainBranchWidth>
+		<bgchildBranchWidth>34.5051</bgchildBranchWidth>
+		<bgchildBranchHeight>77.148</bgchildBranchHeight>
+	<bgchildBranchStrokeWidth>14</bgchildBranchStrokeWidth>
+		<bgmainBranchStrokeWidth>28</bgmainBranchStrokeWidth>
+	<mainBranchCountMin>3</mainBranchCountMin>
+		<mainBranchCountMax>5</mainBranchCountMax>
+		<childBranchCountMin>3</childBranchCountMin>
+		<childBranchCountMax>4</childBranchCountMax>
+		<bgMainBranchCountMin>5</bgMainBranchCountMin>
+		<bgMainBranchCountMax>7</bgMainBranchCountMax>
+		<bgChildBranchCountMin>5</bgChildBranchCountMin>
+		<bgChildBranchCountMax>5</bgChildBranchCountMax>
+		<branchLengthVariation>5</branchLengthVariation>
 	</plantsSceneParameters>
 <settings_plantsScene/>
 <bgParameters>
