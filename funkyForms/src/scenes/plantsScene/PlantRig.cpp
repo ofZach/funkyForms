@@ -55,7 +55,7 @@ void PlantRig::makeChild2(){
         s.dir = dir;
         s.lengthMin = cbLengthMin;
         s.lengthMax = cbLengthMax;
-        s.branchCount = ofRandom(3, 5);
+        s.branchCount = ofRandom(3, 3);
         
         makeBranch(s);
         child2pts.push_back(points);

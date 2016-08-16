@@ -111,7 +111,7 @@ void plantsScene::addPlant(ofVec2f _pos, int id){
     
     plants[i].rig.dir = dir;
     
-    plants[i].rig.cbCount = ofRandom(3, 6) ;
+    plants[i].rig.cbCount = 3;
     plants[i].rig.mbCount = ofRandom(5, 6) ;
     
     plants[i].rig.mbLengthMax = mainBranchWMax ;
