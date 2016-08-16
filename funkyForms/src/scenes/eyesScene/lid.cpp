@@ -20,6 +20,7 @@ void lid::open(){
     scaleVel = scaleSpeed;
 }
 void lid::close(){
+
     scaleVel = -scaleSpeed;
 }
 void lid::updateScaleForce(){
