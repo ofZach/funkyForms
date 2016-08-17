@@ -69,6 +69,7 @@
 		72380480D6306BE3EFCE4B54 /* b2StackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC67FC14E85C32FCADB36D2 /* b2StackAllocator.cpp */; };
 		7264272A89DEEB47ADFF3820 /* gradientWaves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB9C04A466B1443A4D4B7B9 /* gradientWaves.cpp */; };
 		727833E11D62549C004384CC /* plantsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 727833DF1D62549C004384CC /* plantsScene.cpp */; };
+		727833E51D64FB7B004384CC /* gParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 727833E31D64FB7B004384CC /* gParticle.cpp */; };
 		76FB9AEEC937544F851C5DF4 /* b2DynamicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 963C37E4EFD8B74BD1537702 /* b2DynamicTree.cpp */; };
 		7A01C01BDA17CA2059C99A14 /* RandomFern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99A35A691593602D8250B5E2 /* RandomFern.cpp */; };
 		7B18C2018880058B02493051 /* b2Draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EDFB574BF5B9CBDB22D319D /* b2Draw.cpp */; };
@@ -375,6 +376,8 @@
 		722542BCDC94162B6A8B9B72 /* defines.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = defines.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/defines.h; sourceTree = SOURCE_ROOT; };
 		727833DF1D62549C004384CC /* plantsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = plantsScene.cpp; path = scenes/plantsScene/plantsScene.cpp; sourceTree = "<group>"; };
 		727833E01D62549C004384CC /* plantsScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = plantsScene.hpp; path = scenes/plantsScene/plantsScene.hpp; sourceTree = "<group>"; };
+		727833E31D64FB7B004384CC /* gParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gParticle.cpp; path = scenes/eyesScene/gParticle.cpp; sourceTree = "<group>"; };
+		727833E41D64FB7B004384CC /* gParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gParticle.hpp; path = scenes/eyesScene/gParticle.hpp; sourceTree = "<group>"; };
 		7279658ADA9582251CB1D783 /* log.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = log.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/videostab/log.hpp; sourceTree = SOURCE_ROOT; };
 		73157AAE32787C63313C7D8E /* Wrappers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Wrappers.h; path = ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/Wrappers.h; sourceTree = SOURCE_ROOT; };
 		73CB9E4F6812598081C2FE01 /* opengl_interop.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = opengl_interop.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/opengl_interop.hpp; sourceTree = SOURCE_ROOT; };
@@ -769,6 +772,8 @@
 				4E51E691743C41B677D5E58C /* eye.hpp */,
 				797A6083C68CD183DBB6C91D /* EyeLinker.cpp */,
 				07F00729F18AE0F2AD9BA7DF /* EyeLinker.hpp */,
+				727833E31D64FB7B004384CC /* gParticle.cpp */,
+				727833E41D64FB7B004384CC /* gParticle.hpp */,
 				9B53A07E7AB4341EDBC197D5 /* eyeLinkerManager.cpp */,
 				E4C8C878443E5C1976E9296E /* eyeLinkerManager.hpp */,
 				506C94976224A4AA31387D2B /* EyePair.cpp */,
@@ -1987,6 +1992,7 @@
 				D09D60B01FAEAE1D6BB22CF0 /* MonsterScene.cpp in Sources */,
 				27C74A50A8CA50EB41D20962 /* contourSimplify.cpp in Sources */,
 				B000BDD9167F481CE51728A7 /* Animator.cpp in Sources */,
+				727833E51D64FB7B004384CC /* gParticle.cpp in Sources */,
 				F2A9F942DBFA1C7025B4A65F /* iColor.cpp in Sources */,
 				331F6F9EE6BACCE6CA39E4D0 /* Plant.cpp in Sources */,
 				832BD85AA8131ABAE0046EAE /* PlantRig.cpp in Sources */,

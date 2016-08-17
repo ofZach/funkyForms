@@ -73,6 +73,28 @@ void EyeLinker::out(){
         e.close();
     }
 }
+void EyeLinker::addFireworksParticle(ofVec2f _pos){
+    gParticle p;
+    p.id = curParticleId;
+    float angle = ofRandom(-PI, PI);
+    float x = sin(angle);
+    float y = cos(angle);
+    p.setInitialCondition(_pos.x, _pos.y, x, y);
+    fireParticles.push_back(p);
+}
+void EyeLinker::addFireObject(){
+    ofPolyline line;
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    fireObject f;
+    f.mesh = mesh;
+    f.color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255) );
+    f.line = line;
+    f.isDead = false;
+    f.radius = ofRandom(1, 5);
+    f.id = curParticleId;
+    fireObjects.push_back(f);
+}
 // ------------- update
 void EyeLinker::update(){
     updateVelocity();
@@ -80,6 +102,100 @@ void EyeLinker::update(){
     updatePhysics();
     updateEye();
     updateFading();
+    updateFireworks();
+}
+void EyeLinker::updateFireworks(){
+    // add particles
+    if(vel.length() > 0.5){
+        addFireworksParticle(pos);
+        addFireObject();
+    }
+    curParticleId++;
+    
+    updateTrailParticles();
+    updateTrailLines();
+    updateTrailMeshes();
+    updateFireObjectRemoval();
+}
+void EyeLinker::updateFireObjectRemoval(){
+    // clear particles
+    fireObjects.erase(std::remove_if(
+                                       fireObjects.begin(),
+                                       fireObjects.end(),
+                                       
+                                       [&](fireObject & f){
+                                           return f.isDead;
+                                       }
+                                       ),
+                        fireObjects.end()
+                        );
+}
+void EyeLinker::updateTrailLines(){
+    // create line
+    for (auto &f : fireObjects){
+        for(auto &p : fireParticles){
+            if ( p.id == f.id ) {
+                f.line.lineTo(p.pos);
+            }
+        }
+    }
+}
+void EyeLinker::updateTrailMeshes(){
+    for (auto &f : fireObjects){
+        
+        // create trail mesh
+        f.mesh.clear();
+        int index = ofMap(f.fadePct, 0, 1, 0, f.line.size()-1);
+        for (int i = index; i < f.line.size(); i++) {
+            ofVec2f tangent = f.line.getTangentAtIndex(i);
+            ofVec2f p = f.line.getPointAtIndexInterpolated(i);
+            
+            float radius = ofMap(i, index, f.line.size()-1, 0, f.radius);
+
+            ofVec2f p1 = p + tangent.getRotated(90)*radius;
+            ofVec2f p2 = p + tangent.getRotated(-90)*radius;
+            
+            f.mesh.addVertex(p1);
+            f.mesh.addVertex(p2);
+        }
+        
+        // update fade
+        f.fadePct += 0.01;
+        if(f.fadePct > 1){
+            f.fadePct = 1;
+            f.isDead = true;
+        }
+    }
+}
+void EyeLinker::updateTrailParticles(){
+    
+    // update particles
+    for(auto &p : fireParticles){
+        p.resetForce();
+    }
+    for(auto &p : fireParticles){
+        for(auto &p2 : fireParticles){
+//            p.addRepulsionForce(p2, 10, 0.2);
+            p.addClockwiseForce(p2, 50, 0.1);
+        }
+    }
+    for(auto &p : fireParticles){
+        p.addDampingForce();
+        p.update();
+    }
+    
+    // clear particles
+    fireParticles.erase(std::remove_if(
+                                       fireParticles.begin(),
+                                       fireParticles.end(),
+                                       
+                                       [&](particle & p){
+                                           return (p.vel.length() < 0.5);
+                                       }
+                                       ),
+                        fireParticles.end()
+                        );
+
 }
 void EyeLinker::updateEye(){
     for (int i = 0; i < eyes.size(); i++){
@@ -137,11 +253,27 @@ bool EyeLinker::isFinished(){
 }
 // ------------- draw
 void EyeLinker::draw(){
+    drawFireworks();
     if(isGlow) drawGlow();
     for(auto eye: eyes){
         eye.draw();
     }
+    
 //    drawParticles();
+}
+void EyeLinker::drawFireworks(){
+    ofFill();
+    for(auto &p : fireParticles){
+//        p.draw();
+    }
+    for (auto &f : fireObjects){
+        float opacity = ofMap(f.fadePct, 0.5, 1, 255, 0, true);
+        ofSetColor(f.color, opacity);
+        f.mesh.draw();
+        if(f.line.size()>0){
+//            ofDrawCircle(f.line.getVertices()[f.line.size()-1], f.radius);
+        }
+    }
 }
 void EyeLinker::drawGlow(){
     ofPushMatrix();

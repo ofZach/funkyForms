@@ -14,6 +14,7 @@
 #include "particle.h"
 #include "spring.h"
 #include "cvManager.h"
+#include "gParticle.hpp"
 
 class EyeLinker{
 public:
@@ -54,7 +55,19 @@ public:
     bool isFading = false;
     bool isFinished();
     
-    // Gui
+    // Fireworks
+    struct fireObject{
+        ofPolyline line;
+        ofColor color;
+        ofMesh mesh;
+        float fadePct = 0;
+        bool isDead = false;
+        float radius;
+        int id;
+    };
+    vector <gParticle> fireParticles;
+    vector <fireObject> fireObjects;
+    int curParticleId = 0;
     
     void setup();
     void initValues();
@@ -63,9 +76,17 @@ public:
     void setPos(ofVec2f _pos);
     void setSize(float w, float h);
     void setScale(float scale);
+    void addFireworksParticle(ofVec2f _pos);
+    void addFireObject();
+    
     void out();
 
     void update();
+    void updateFireworks();
+    void updateFireObjectRemoval();
+    void updateTrailParticles();
+    void updateTrailLines();
+    void updateTrailMeshes();
     void updateEye();
     void updateParameters();
     void updateVelocity();
@@ -75,6 +96,7 @@ public:
     void draw();
     void drawParticles();
     void drawGlow();
+    void drawFireworks();
     
 };
 
