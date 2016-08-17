@@ -1,8 +1,8 @@
 <settings_eyesScene>
 	<eyesSceneParameters>
 		<isEyePairMode>0</isEyePairMode>
-		<isEyeParticleMode>1</isEyeParticleMode>
-		<isEyeLinkerMode>0</isEyeLinkerMode>
+		<isEyeParticleMode>0</isEyeParticleMode>
+		<isEyeLinkerMode>1</isEyeLinkerMode>
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
 		<behaviorMode>0</behaviorMode>

@@ -27,6 +27,7 @@ public:
     float width = 100;
     float height = 100;
     float scale = 1.0;
+    int counter = 0;
     
     // Input
     cvPacket * cvData;

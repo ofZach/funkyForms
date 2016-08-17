@@ -165,8 +165,9 @@ void eye::update(ofVec2f _pos){
     width = initWidth*scale;
     height = initHeight*scale;
     lids.setSize(width, height);
+    lids.updateScaleForce();
     lids.update();
-    if(isUpdateBlink) lids.updateScaleForce();
+//    if(isUpdateBlink)
     
     blinking();
     

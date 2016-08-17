@@ -77,7 +77,7 @@ void eyesScene::updateEyeLinker(){
     if(ofGetKeyPressed('k')){
         eyeLinker.out();
     }
-    if(ofGetKeyPressed('o')){
+    if(ofGetKeyPressed('p')){
         eyeLinker.eyes[0].open();
     }
     eyeLinker.setScale(eyeLinkerManager.scale);
@@ -131,7 +131,6 @@ void eyesScene::draw(){
     drawEyes();
     drawPeople();
 //    drawEyeLinker();
-   // gui.draw();
 }
 void eyesScene::drawGui(){
     gui.draw();

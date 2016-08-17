@@ -38,7 +38,11 @@ void EyeLinker::initValues(){
 }
 void EyeLinker::setPos(ofVec2f _pos){
     float s = 0.9;
+    if(counter==0){
+        posPrev = _pos;
+    }
     pos = pos * s + (1-s) * _pos;
+    counter++;
     updateVelocity();
 }
 void EyeLinker::setVel(ofVec2f _vel){
@@ -83,16 +87,16 @@ void EyeLinker::updateEye(){
         eyes[i].lookAt(particles[particles.size()-1].pos);
         if(fabsf(vel.y)>5){
             eyes[i].setUpdateBlink(false);
-            eyes[i].addAngryForce(true, 0.2, 0.6);
+//            eyes[i].addAngryForce(true, 0.2, 0.6);
             eyes[i].lookAt(pos+ofVec2f(0, 100));
         }else{
             if(isSleep){
                 eyes[i].setUpdateBlink(false);
                 eyes[i].lookAt(pos+ofVec2f(0, 100));
-                eyes[i].addAngryForce(true, 0.01, 0.99);
+//                eyes[i].addAngryForce(true, 0.01, 0.99);
             }else{
                 eyes[i].setUpdateBlink(true);
-                eyes[i].addAngryForce(false, 0.1, 0.6);
+//                eyes[i].addAngryForce(false, 0.1, 0.6);
             }
         }
 //        eyes[i].setScale(ofMap(vel.y, 20, -20, 0.5, 3., true));
