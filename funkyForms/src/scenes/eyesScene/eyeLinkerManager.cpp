@@ -54,6 +54,9 @@ void eyeLinkerManager::setTargetPos(int id, ofVec2f pos){
 void eyeLinkerManager::setTargetVel(int id, ofVec2f vel){
     targets[id].vel = vel;
 }
+void eyeLinkerManager::clear(){
+    eyeLinkers.clear();
+}
 // ------------------- udpate
 void eyeLinkerManager::update(){
     updateParameters();

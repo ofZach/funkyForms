@@ -170,7 +170,7 @@ void eyesScene::start(){
     
 }
 void eyesScene::stop(){
-
+    eyeLinkerManager.clear();
 }
 void eyesScene::blobBorn(int id){
     ofPoint pt = cvData->getTopPointAt(id);
