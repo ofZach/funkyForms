@@ -62,7 +62,10 @@ void plantsScene::addBgPlant(ofVec2f _pos){
     bgPlants[i].ageMax = ofRandom(600, 1000);
     bgPlants[i].fadeIn();
 }
-void plantsScene::addPlant(ofVec2f _pos, int id){
+
+
+
+void plantsScene::addPlant(ofVec2f _pos, int id, bool bLeftSide){
     
     ofRectangle src(0,0,cvData->width, cvData->height);
     ofRectangle dst = src;
@@ -104,7 +107,7 @@ void plantsScene::addPlant(ofVec2f _pos, int id){
     if (abs(y) > abs(x)) {
         dir.set(0, -1); // up or down
     } else {
-        if (false){ // right
+        if (!bLeftSide){ // right
             dir.set(1, 0);
         } else{ // left
             dir.set(-1, 0);
@@ -129,7 +132,8 @@ void plantsScene::addPlant(ofVec2f _pos, int id){
     plants[i].color = swatch[(int)ofRandom(4)];
 
     plants[i].setup();
-    plants[i].fadeIn();
+    //plants[i].fadeIn();
+    plants[i].bLeftSide = bLeftSide;
     
 }
 void plantsScene::setupGui(){
@@ -329,7 +333,7 @@ void plantsScene::draw(){
     drawHills();
     
     ofFill();
-    ofSetColor(0,0,0, ofGetMouseY());
+    ofSetColor(0,0,0, 230);
     ofRect(0,0,RM->getWidth(), RM->getHeight());
     
     drawPlants();
@@ -398,7 +402,7 @@ void plantsScene::drawPeople(){
     
     for (int i = 0; i < cvData->blobs.size(); i++){
     
-        
+        float age = cvData->blobs[i].age;
         ofPolyline line = cvData->blobs[i].blob;
         for (auto & pt : line.getVertices()){
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
@@ -413,6 +417,7 @@ void plantsScene::drawPeople(){
         
         
         ofPoint firstPt;
+        ofPoint lastPt;
         
         ofSetColor(255,255,255, 50);
         line.draw();
@@ -477,6 +482,7 @@ void plantsScene::drawPeople(){
         
         
         firstPt = circlePositions[0];
+        lastPt = circlePositions[circlePositions.size()-1];
         
         for (int j = 0; j < circlePositions.size(); j++){
             
@@ -532,29 +538,44 @@ void plantsScene::drawPeople(){
         
         line = line.getSmoothed(5);
         
-        ofSetColor(colorMap[id]);
-        ofBeginShape();
-        for (auto & pp : hmm){
-            ofVertex(pp);
+        if (age > 0.8){
+            ofSetColor(colorMap[id]);
+            ofBeginShape();
+            for (auto & pp : hmm){
+                ofVertex(pp);
+            }
+    //        ofNextContour();
+    //        for (auto & pp : line){
+    //            ofVertex(pp);
+    //        }
+            ofEndShape();
+            
+            ofSetColor(0,0,0);
+            ofBeginShape();
+            for (auto & pp : line){
+                ofVertex(pp);
+            }
+            ofEndShape();
+            
+            
+            for (int j = 0; j < plants.size(); j++){
+                if(plants[j].id == id){
+                    if (plants[j].bGrewUp == false){
+                        plants[j].fadeIn();
+                    }
+                }
+            }
         }
-//        ofNextContour();
-//        for (auto & pp : line){
-//            ofVertex(pp);
-//        }
-        ofEndShape();
-        
-        ofSetColor(0,0,0);
-        ofBeginShape();
-        for (auto & pp : line){
-            ofVertex(pp);
-        }
-        ofEndShape();
-        
         
         for (int j = 0; j < plants.size(); j++){
             if(plants[j].id == id){
-                plants[j].setPos(firstPt, 0.5);
-                plants[j].color = colorMap[id];
+                if (plants[j].bLeftSide == true){
+                    plants[j].setPos(firstPt, 0.5);
+                    plants[j].color = colorMap[id];
+                } else {
+                    plants[j].setPos(lastPt, 0.5);
+                    plants[j].color = colorMap[id];
+                }
             }
         }
         
@@ -730,7 +751,8 @@ void plantsScene::blobBorn(int id){
         centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
     //-------------------------------------
     
-    addPlant(centroid, id);
+    addPlant(centroid, id, true);
+    addPlant(centroid, id, false);
 }
 void plantsScene::blobDied(int id){
     remove(id);

@@ -16,6 +16,7 @@ void Plant::setup(){
     setupAnimators();
     ageMax = 100000000; //(int)ofRandom(300, 600);
     shadow.load("assets/glow.png");
+    bGrewUp = false;
 }
 void Plant::setupAnimators(){
     fadeAnimator.setup(0, 1);

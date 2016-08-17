@@ -94,7 +94,7 @@ public:
     void setup();
     void setupBackground();
     void setupGui();
-    void addPlant(ofVec2f _pos, int id);
+    void addPlant(ofVec2f _pos, int id, bool bLeftSide);
     void addBgPlant(ofVec2f _pos);
     void addBgPlantRandom();
     void onNewPlant();

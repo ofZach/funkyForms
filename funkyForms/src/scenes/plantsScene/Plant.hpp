@@ -16,6 +16,12 @@
 
 class Plant{
 public:
+    
+    // zach added
+    bool bLeftSide;     // am I left side plant or a right side one
+    bool bGrewUp;
+    
+    
     // rig
     PlantRig rig;
     
@@ -100,7 +106,7 @@ public:
                     ofPolyline *line2
                     );
     
-    void fadeIn(){mbGrowAnimator.in();};
+    void fadeIn(){mbGrowAnimator.in();  bGrewUp = true;};
     void fadeOut(){isFading = true;};
     void updateAnimators();
     bool isFadeFinished() { return fadeAnimator.isFinished; }
