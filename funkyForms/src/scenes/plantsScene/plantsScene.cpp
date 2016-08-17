@@ -226,6 +226,27 @@ void plantsScene::update(){
     updateBgPlantsRemoval();
     updatePlants();
     updatePlantRemoval();
+    
+    
+    // are there any people without plants???
+    
+    for (int i = 0; i < cvData->blobs.size(); i++){
+        int id = cvData->blobs[i].id;
+       
+        bool bAny = false;
+        for (auto & plant : plants){
+            if (plant.id == id){
+                bAny = true;
+            }
+        }
+        if (!bAny){
+            ofPoint centroid = cvData->blobs[i].blob.getCentroid2D();
+            centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+            addPlant(centroid, id, true);
+            addPlant(centroid, id, false);
+            
+        }
+    }
 }
 void plantsScene::updatePlants(){
     
