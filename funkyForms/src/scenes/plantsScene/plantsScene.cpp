@@ -412,7 +412,7 @@ void plantsScene::drawPeople(){
         
         auto inThere = colorMap.find(id);
         if (inThere ==colorMap.end()){
-            colorMap[id] = ofColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255));
+            colorMap[id] = ofColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), 0);
         }
         
         
@@ -539,6 +539,8 @@ void plantsScene::drawPeople(){
         line = line.getSmoothed(5);
         
         if (age > 0.8){
+            
+            colorMap[id].a = 0.9f * colorMap[id].a + 0.1 * 255;
             ofSetColor(colorMap[id]);
             ofBeginShape();
             for (auto & pp : hmm){
