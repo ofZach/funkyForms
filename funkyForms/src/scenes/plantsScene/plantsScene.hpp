@@ -61,6 +61,7 @@ public:
     ofParameter<float> bgmainBranchStrokeWidth;
     ofParameter<float> bgchildBranchStrokeWidth;
     ofParameter<bool> createBgPlant;
+    ofParameter<bool> clearPlants;
     
     // colors
     ofFloatColor swatch[4] = {

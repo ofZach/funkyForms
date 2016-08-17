@@ -168,6 +168,7 @@ void plantsScene::setupGui(){
     parameters.add(bgchildBranchWidth.set("bgchildBranchWidth", 5, 1, 200));
     parameters.add(bgchildBranchHeight.set("bgchildBranchHeight", 5, 1, 200));
     parameters.add(createBgPlant.set("createBgPlant", false));
+    parameters.add(clearPlants.set("clearPlants", false));
     // people glow
     parameters.add(glowRadius.set("glowRadius", 10, 1, 50));
     parameters.add(glowOpacity.set("glowOpacity", 100, 0, 255));
@@ -177,7 +178,7 @@ void plantsScene::setupGui(){
     // background
     bgParameters.setName("bgParameters");
     bgParameters.add(bgChangeSpeed.set("bgChangeSpeed", 0.5, 0.1, 1.0));
-
+    
     createBgPlant.addListener(this, &plantsScene::triggerBgPlant);
     
     gui.setup("settings_plantsScene", "settings_plantsScene.xml");
@@ -229,7 +230,6 @@ void plantsScene::update(){
     
     
     // are there any people without plants???
-    
     for (int i = 0; i < cvData->blobs.size(); i++){
         int id = cvData->blobs[i].id;
        
@@ -246,6 +246,11 @@ void plantsScene::update(){
             addPlant(centroid, id, false);
             
         }
+    }
+    
+    if (clearPlants == true){
+        plants.clear();
+        clearPlants = false;
     }
 }
 void plantsScene::updatePlants(){
