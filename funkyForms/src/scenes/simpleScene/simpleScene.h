@@ -5,12 +5,12 @@
 #include "baseScene.h"
 
 
-typedef struct {
-  
-    float age;
-    int id;
-    
-} bornParticle;
+//typedef struct {
+//  
+//    float age;
+//    int id;
+//    
+//} bornParticle;
 
 
 class simpleScene : public baseScene {
@@ -27,8 +27,8 @@ public:
     void blobBorn(int id);
     void blobDied(int id);
     
-    vector < bornParticle > particles;
-        
+//   vector < bornParticle > particles;
+    
 };
 
 

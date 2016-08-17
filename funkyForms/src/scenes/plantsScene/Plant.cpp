@@ -14,14 +14,15 @@ void Plant::setup(){
     setupChildBranches();
     mbMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     setupAnimators();
-    ageMax = (int)ofRandom(300, 600);
+    ageMax = 100000000; //(int)ofRandom(300, 600);
     shadow.load("assets/glow.png");
 }
 void Plant::setupAnimators(){
     fadeAnimator.setup(0, 1);
     fadeAnimator.setIn();
+    
     mbGrowAnimator.setup(0, 1);
-    fadingDelay = ofRandom(20, 50);
+    fadingDelay = 0;//ofRandom(20, 50);
     for (int i = 0; i < rig.childBranchesPoints.size()  + rig.child2pts.size(); i++) {
         Animator animator;
         cbGrowAnimators.push_back(animator);

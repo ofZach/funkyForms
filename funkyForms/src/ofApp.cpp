@@ -83,7 +83,7 @@ void ofApp::update(){
     ofPushMatrix();
     
     ofScale(scale, scale, 1.0);
-    RM.windows.draw();
+    //RM.windows.draw();
     
     ofPopMatrix();
     
