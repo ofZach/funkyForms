@@ -50,6 +50,7 @@ public:
     void setupParameters(float &v);
     void addEye(int id, ofVec2f pos);
     void removeEye(int id);
+    void clear();
     
     void update();
     void updateParameters();

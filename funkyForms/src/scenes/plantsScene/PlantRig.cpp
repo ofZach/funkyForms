@@ -95,12 +95,30 @@ void PlantRig::makeChildBranches(){
     for(int i = 0; i < bCount; i++){
         vector<ofVec2f> points;
         
-        ofVec2f p1 = mainBranchPoints[i*2+indexOffset];
-        ofVec2f p2 = mainBranchPoints[i*2+(indexOffset+1)];
+        //   +--- main branch
+        //   |
+        //   |
+        // p3+----+p2  +-- child branch
+        //        |    |
+        //        |    |
+        //        +----+
+        //        |
+        //        |
+        //        +p1
         
-        ofVec2f p3 = p2+ofVec2f(1, 0);
+        ofVec2f p1 = mainBranchPoints[i*2+indexOffset];
+        ofVec2f p2 = mainBranchPoints[i*2+(indexOffset+1)]; // next
+        ofVec2f p3;
+        
         if((i*2+(indexOffset+2)) < mainBranchPoints.size()-1){
             p3 = mainBranchPoints[i*2+(indexOffset+2)];
+        }else{
+            // if there is no point at mainBranch
+            if (dir.x > 0){ // right
+                p3 = p2+ofVec2f(-1, 0);
+            } else{ // left
+                p3 = p2+ofVec2f(1, 0);
+            }
         }
         
         ofVec2f dir = -(p3-p2);
