@@ -1,13 +1,13 @@
 //
-//  EyePair.cpp
+//  eyePairMode.cpp
 //  EyeScene
 //
 //  Created by Zerc on 7/15/16.
 //
 //
 
-#include "EyePair.hpp"
-void EyePair::setup(){
+#include "eyePairMode.hpp"
+void eyePairMode::setup(){
     for (int i = 0; i < 2; i++) {
         eye eye;
         eye.setup(ofVec2f(100, 100), 200, 200);
@@ -16,7 +16,17 @@ void EyePair::setup(){
     }
     eyes[1].setSyncEye(&eyes[0]);
 }
-void EyePair::addScaleForce(){
+void eyePairMode::fadeIn(){
+    for(auto &e : eyes){
+        e.open();
+    }
+}
+void eyePairMode::fadeOut(){
+    for(auto &e : eyes){
+        e.close();
+    }
+}
+void eyePairMode::addScaleForce(){
 //    float diff = targetManager->getLeftEnergy() - targetManager->getRightEnergy();
     float diff = 0;
     float mid = (scaleMax+scaleMin)/2;
@@ -58,18 +68,35 @@ void EyePair::addScaleForce(){
     eyes[0].setAngle(angleL);
     eyes[1].setAngle(angleR);
 }
-void EyePair::update(ofVec2f _pos){
+
+void eyePairMode::update(ofVec2f _pos){
+    updateFadeCheck();
     int dist = 200;
     eyes[0].update(_pos-ofVec2f(dist, 0));
     eyes[1].update(_pos+ofVec2f(dist, 0));
     addScaleForce();
 }
-void EyePair::setLookAt(ofVec2f _pos){
+void eyePairMode::updateFadeCheck(){
+    bool isFin = true;
+    for(auto &eye: eyes){
+        if(!eye.isCloseFinished()){
+            isFin = false;
+            break;
+        }
+    }
+    if(isFin){
+        isFadeFinished = true;
+    }else{
+        isFadeFinished = false;
+    }
+}
+void eyePairMode::setLookAt(ofVec2f _pos){
     for(auto &e: eyes){
         e.lookAt(_pos);
     }
 }
-void EyePair::draw(){
+
+void eyePairMode::draw(){
     for(auto &e: eyes){
         e.draw();
     }

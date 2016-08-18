@@ -11,19 +11,19 @@
 
 #include "ofMain.h"
 #include "baseScene.h"
-#include "eyeLinkerManager.hpp"
-#include "EyeParticles.hpp"
-#include "EyePair.hpp"
+#include "eyeLinkerMode.hpp"
+#include "eyeParticlesMode.hpp"
+#include "eyePairMode.hpp"
 #include "EyeLinker.hpp"
+#include "modeBase.hpp"
 #include "ofxGui.h"
 
 class eyesScene : public baseScene{
 public:
-    
     // eyes
-    EyeParticles eyeParticles;
-    eyeLinkerManager eyeLinkerManager;
-    EyePair eyePair;
+    eyeParticlesMode eyeParticlesMode;
+    eyeLinkerMode eyeLinkerMode;
+    eyePairMode eyePairMode;
     EyeLinker eyeLinker;
     
     // people calculation
@@ -31,22 +31,25 @@ public:
     ofVec2f fastestPos;
     
     // gui
-    ofParameter<bool> isEyePairMode;
-    ofParameter<bool> isEyeLinkerMode;
-    ofParameter<bool> isEyeParticleMode;
     ofParameterGroup parameters;
     ofxPanel gui;
     
+    // change mode
+    vector<modeBase *> modes;
+    int curMode = 0;
+    
     void setup();
     void setupGui();
+    void advanceMode();
     
+    modeBase *getMode(string name);
     void update();
+    void updateModes();
     void updateAveragePos();
     void updateTargets();
     void updateEyes();
     void updateFastestPos();
     void updateEyeLinker();
-    void updateEyeLinkerManager();
     void updateModeSwitch();
     
     void draw();

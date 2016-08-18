@@ -1,17 +1,17 @@
 //
-//  eyeLinkerManager.cpp
+//  eyeLinkerMode.cpp
 //  funkyForms
 //
 //  Created by Gordey on 8/10/16.
 //
 //
 
-#include "eyeLinkerManager.hpp"
+#include "eyeLinkerMode.hpp"
 // ------------------- setup
-void eyeLinkerManager::setup(){
+void eyeLinkerMode::setup(){
     
 }
-void eyeLinkerManager::setupGui(){
+void eyeLinkerMode::setupGui(){
     parameters.setName("eyeLinkerParameters");
     parameters.add(width.set("width", 100, 10, 600));
     parameters.add(height.set("height", 100, 10, 600));
@@ -24,14 +24,14 @@ void eyeLinkerManager::setupGui(){
     parameters.add(glowRadius.set("glowRadius", 20, 5, 70));
     parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
     parameters.add(glowResolution.set("glowResolution", 20, 5, 200));
-//    scale.addListener(this, &eyeLinkerManager::setupParameters);
+//    scale.addListener(this, &eyeLinkerMode::setupParameters);
 }
-void eyeLinkerManager::setupParameters(float &v){
+void eyeLinkerMode::setupParameters(float &v){
     for(auto &e : eyeLinkers){
         e.setScale(scale);
     }
 }
-void eyeLinkerManager::addEye(int id, ofVec2f pos){
+void eyeLinkerMode::addEye(int id, ofVec2f pos){
     EyeLinker eyelinker;
     eyeLinkers.push_back(eyelinker);
     int i = eyeLinkers.size()-1;
@@ -41,30 +41,59 @@ void eyeLinkerManager::addEye(int id, ofVec2f pos){
     eyeLinkers[i].setup();
     eyeLinkers[i].setScale(scale);
 }
-void eyeLinkerManager::removeEye(int id){
+void eyeLinkerMode::removeEye(int id){
     for(auto &e : eyeLinkers ){
         if(e.id == id){
             e.out();
         }
     }
 }
-void eyeLinkerManager::setTargetPos(int id, ofVec2f pos){
+void eyeLinkerMode::fadeIn(){
+    for(auto &e : eyeLinkers ){
+        for(auto &ee: e.eyes){
+            ee.open();
+        }
+    }
+}
+void eyeLinkerMode::fadeOut(){
+    for(auto &e : eyeLinkers ){
+        e.out();
+    }
+}
+void eyeLinkerMode::setTargetPos(int id, ofVec2f pos){
     targets[id].pos = pos;
 }
-void eyeLinkerManager::setTargetVel(int id, ofVec2f vel){
+void eyeLinkerMode::setTargetVel(int id, ofVec2f vel){
     targets[id].vel = vel;
 }
-void eyeLinkerManager::clear(){
+void eyeLinkerMode::clear(){
     eyeLinkers.clear();
 }
 // ------------------- udpate
-void eyeLinkerManager::update(){
+void eyeLinkerMode::update(){
+    updateFadeCheck();
     updateParameters();
     updateEyeRemoval();
     updateEye();
     targets.clear();
 }
-void eyeLinkerManager::updateParameters(){
+void eyeLinkerMode::updateFadeCheck(){
+    bool isFin = true;
+    for(auto &e : eyeLinkers ){
+        for(auto &eye: e.eyes){
+            if(!eye.isCloseFinished()){
+                isFin = false;
+                break;
+            }
+        }
+    }
+    if(isFin){
+        isFadeFinished = true;
+    }else{
+        isFadeFinished = false;
+    }
+}
+void eyeLinkerMode::updateParameters(){
     for(auto &e : eyeLinkers ){
         e.isGlow = isGlow;
         e.glowRadius = glowRadius;
@@ -73,7 +102,7 @@ void eyeLinkerManager::updateParameters(){
         e.velSmooth = velSmooth;
     }
 }
-void eyeLinkerManager::updateEye(){
+void eyeLinkerMode::updateEye(){
     for(auto &e : eyeLinkers ){
         for(auto &t : targets){
             if(t.first == e.id){
@@ -86,7 +115,7 @@ void eyeLinkerManager::updateEye(){
         e.update();
     }
 }
-void eyeLinkerManager::updateEyeRemoval(){
+void eyeLinkerMode::updateEyeRemoval(){
     for(int i = 0; i < eyeLinkers.size(); i++){
         if(eyeLinkers[i].isFinished()){
             eyeLinkers.erase(eyeLinkers.begin() + i);
@@ -94,7 +123,7 @@ void eyeLinkerManager::updateEyeRemoval(){
     }
 }
 // ------------------- draw
-void eyeLinkerManager::draw(){
+void eyeLinkerMode::draw(){
     for(auto &e : eyeLinkers ){
         e.draw();
     }

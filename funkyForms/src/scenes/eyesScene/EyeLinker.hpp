@@ -16,7 +16,7 @@
 #include "cvManager.h"
 #include "gParticle.hpp"
 
-class EyeLinker{
+class EyeLinker {
 public:
     // Pos, Vel, ID, Size
     ofVec2f pos;
@@ -70,6 +70,8 @@ public:
     int curParticleId = 0;
     
     void setup();
+    void fadeIn();
+    void fadeOut();
     void initValues();
     void setupGui();
     void setVel(ofVec2f _vel);

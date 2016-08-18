@@ -1,20 +1,21 @@
 //
-//  EyeParticles.hpp
+//  eyeParticlesMode.hpp
 //  EyeScene
 //
 //  Created by Zerc on 7/12/16.
 //
 //
 
-#ifndef EyeParticles_hpp
-#define EyeParticles_hpp
+#ifndef eyeParticlesMode_hpp
+#define eyeParticlesMode_hpp
 
 #include "ofMain.h"
 #include "eye.hpp"
 #include "eyeParticle.hpp"
 #include "cvManager.h"
+#include "modeBase.hpp"
 
-class EyeParticles{
+class eyeParticlesMode : public modeBase {
 public:
     // target
     struct Target{
@@ -32,11 +33,14 @@ public:
     };
     
     void setup();
+    void fadeIn();
+    void fadeOut();
     void setTargetPos(int id, ofVec2f pos); // should call before update
     void setTargetVel(int id, ofVec2f vel); // should call before update
     void setupGui();
     
     void update();
+    void updateFadeCheck();
     
     void draw();
     
@@ -44,8 +48,6 @@ public:
     
     void reset(bool &i);
     void setBehavior(Behavior b){behavior = b;};
-    void close(); // close all eyes
-    void open(); // open all eyes
 
     void behaveWait();
     void behaveAttack();
@@ -71,4 +73,4 @@ private:
     Behavior behavior;
 };
 
-#endif /* EyeParticles_hpp */
+#endif /* eyeParticlesMode_hpp */
