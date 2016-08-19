@@ -22,8 +22,10 @@ class StencilWaves{
 public:
     // input
     vector<ofPath> paths;
+    vector<ofVec2f> centroids;
     int screenW, screenH;
     ofParameter<float> screenScale;
+    ofRectangle screenLeft, screenRight;
 
     // colors
     ofColor peopleColor;

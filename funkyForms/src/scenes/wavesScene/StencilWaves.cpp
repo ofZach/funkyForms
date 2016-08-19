@@ -13,8 +13,8 @@ void StencilWaves::setup(int w, int h){
     screenH = h;
     
     // refract
-    refract.allocate(screenW*screenScale, screenH*screenScale);
-    refract.setup(screenW*screenScale, screenH*screenScale);
+    refract.allocate(screenLeft.getWidth(),screenLeft.getHeight());
+    refract.setup(screenLeft.getWidth(), screenLeft.getHeight());
     
     // fbo
     peopleFbo.allocate(screenW*screenScale, screenH*screenScale);
@@ -31,7 +31,7 @@ void StencilWaves::setup(int w, int h){
     reload(v);
     
     // masks
-    mask.allocate(screenW*screenScale, screenH*screenScale);
+    mask.allocate(screenW, screenH);
     
     // colors
     peopleColor = ofColor::lavender;
@@ -166,29 +166,39 @@ void StencilWaves::updateMasks(){
     mask.update();
 }
 void StencilWaves::updateRefract(){
-    refract.setTexture(mask.getTexture(), 0);
-//    refract.setTexture(peopleFbo.getTexture(), 0);
-    refract.setTexture(mainWaveFbo.getTexture(), 1);
+    refract.begin(0);
+    mask.getTexture().drawSubsection(0, 0,  screenLeft.getWidth() ,  screenLeft.getHeight(), screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
+    refract.end(0);
+    
+    refract.begin(1);
+    mainWaveFbo.getTexture().drawSubsection(0, 0,  screenLeft.getWidth() ,  screenLeft.getHeight(), screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
+    refract.end(1);
+  
     refract.update();
 }
 void StencilWaves::addPath(ofPolyline &contour){
     ofPath path;
+    ofVec2f centroid  = contour.getCentroid2D();
     for (auto &p : contour) {
         path.lineTo(p);
     }
     path.setFillColor(ofColor::white);
     paths.push_back(path);
+    centroids.push_back(centroid);
 }
 // -------------- draw
 void StencilWaves::draw(){
     ofFill();
+    drawUpperPeople();
     mainWaveMesh.draw();
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-    refract.draw(0, 0);
     drawGlow();
     ofDisableBlendMode();
-    drawUpperPeople();
+ 
+    refract.draw(screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
+    
     paths.clear();
+    centroids.clear();
 }
 void StencilWaves::drawUpperPeople(){
     for(auto &p: paths){
@@ -211,12 +221,11 @@ void StencilWaves::drawGlow(){
     for (int i = 0; i < waves[0].polyline.getVertices().size(); i++) {
         ofVec2f p = waves[0].polyline.getVertices()[i];
         float r = 0;
-//        for(auto &id : cvData->idsThisFrame){
-//            ofVec2f pos = cvData->getCentoidAt(id);
-//            if(pos.distance(p)<glowRadius){
-//                r = ofMap(pos.distance(p), 0, glowRadius, glowRadius, 0);
-//            }
-//        }
+        for(auto &c : centroids){
+            if(c.distance(p)<glowRadius){
+                r = ofMap(c.distance(p), 0, glowRadius, glowRadius, 0);
+            }
+        }
         ofSetColor(255, glowOpacity);
         r *= 3;
 //        ofDrawCircle(p-ofVec2f(r, r), r*2);

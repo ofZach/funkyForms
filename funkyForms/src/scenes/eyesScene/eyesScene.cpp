@@ -79,12 +79,7 @@ void eyesScene::updateModes(){
         if(m->isFading && m->isFadeFinished){
             m->isEnabled = false;
         }
-    }
-
-    ofLog() << "eyePairMode enabled:" << getMode("eyePairMode")->isEnabled;
-    ofLog() << "eyeParticlesMode enabled:" << getMode("eyeParticlesMode")->isEnabled;
-    ofLog() << "eyeLinkerMode enabled:" << getMode("eyeLinkerMode")->isEnabled;
-    
+    }    
 }
 void eyesScene::updateModeSwitch(){
 }
