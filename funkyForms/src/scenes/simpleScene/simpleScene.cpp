@@ -31,18 +31,65 @@ void simpleScene::update(){
         
     }
     
+    
+    ofRectangle target = cvData->getScreenRemapRectangle(SCREEN_LEFT);
+    
     for (int i = 0; i < particles.size(); i++){
         particles[i].resetForce();
         particles[i].addDampingForce();
-    }
-    
-    for (int i = 0; i < particles.size(); i++){
-    
-        ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
-        particles[i].addForce(vel.x*0.1, vel.y*0.1);
-    //    particles[i].pos;
         
+        particles[i].addAttractionForce(target.getCenter().x, target.getCenter().y, 10000, 0.02);
     }
+    
+    
+    // get flow from the field:
+//    for (int i = 0; i < particles.size(); i++){
+//        ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
+//        particles[i].addForce(vel.x*0.1, vel.y*0.1);
+//    }
+    
+    // alternatively search for the closest pt...  we can simplify things by looking in a thin way:
+    
+    vector < ofPolyline > blobsRemapped;
+    for (auto & blob : cvData->blobs){
+        ofPolyline temp;
+        for (auto & pt : blob.blob){
+            ofPoint newPt = cvData->remapForScreen(SCREEN_LEFT, pt);
+            temp.addVertex(newPt);
+        }
+        blobsRemapped.push_back(temp);
+    }
+    
+    
+     for (int i = 0; i < particles.size(); i++){
+         ofPoint pos = particles[i].pos;
+         ofPoint closestVel;
+         float minDistance = 1000000;
+         for (int j = 0; j < blobsRemapped.size(); j++){ // : blobsRemapped){
+             for (int k = 0; k < blobsRemapped[j].size(); k+=10){
+                 float dist = (    blobsRemapped[j][k] - pos).length();
+                 if (dist < minDistance){
+                     minDistance = dist;
+                     closestVel = cvData->blobs[j].vel[k];
+                 }
+             }
+             
+         }
+         float invScale = ofMap(minDistance, 0, 50, 1, 0, true);
+         //cout << closestVel << endl;
+         particles[i].addForce(closestVel.x*0.3 * invScale, closestVel.y*0.3 * invScale);
+    
+     }
+    for (int i = 0; i < cvData->blobs.size(); i++){
+        ofPolyline line = cvData->blobs[i].blob;
+        for (auto & pt : line.getVertices()){
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        }
+        line.draw();
+    }
+
+    
+    
     
     for (int i = 0; i < particles.size(); i++){
         particles[i].update();
