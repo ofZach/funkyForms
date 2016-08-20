@@ -64,7 +64,7 @@ void simpleScene::update(){
     }
     
     
-    // get flow from the field: 
+    // get flow from the field:
     for (int i = 0; i < particles.size(); i++){
         ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
         particles[i].addForce(vel.x*0.03, vel.y*0.03);
@@ -129,9 +129,9 @@ void simpleScene::draw(){
     
     for (int i = 0; i < particles.size(); i++){
         
-        float alpha = ofMap(time - particles[i].age, 0,2, 255, 0, true);
+        float alpha = ofMap(time - particles[i].age, 0,4, 1, 0, true);
         if (alpha > 0){
-            ofSetColor(255,255, 255, alpha);
+            ofSetColor(255,255, 255, powf(alpha, 5)*255);
             
             float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
             
