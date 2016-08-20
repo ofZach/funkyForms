@@ -11,19 +11,14 @@ void simpleScene::update(){
     
     for (int i = 0; i < cvData->blobs.size(); i++){
         
-        ofPoint avgVel;
-        
-        for (int j = 0; j < cvData->blobs[i].vel.size(); j++){
-            avgVel += cvData->blobs[i].vel[j];
-        }
-        
-        avgVel /= (float)max((int)cvData->blobs[i].vel.size(), 1);
-        
+        ofPoint avgVelSmoothed = cvData->blobs[i].avgVelSmoothed;
         
         
         ofPolyline & line = cvData->blobs[i].blob;
         
-        if (avgVel.getNormalized().dot(ofPoint(0,-1)) > 0.7){
+        // different ways to use it...
+        //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
+        if (avgVelSmoothed.y < -1){
         for (int j = 0; j < line.size(); j++){
             ofPoint pt = line[j];
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
@@ -38,8 +33,8 @@ void simpleScene::update(){
                 
                     particleWithAge temp;
                     temp.age = ofGetElapsedTimef();
-                    temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*2); // reduce the x vel
-                    temp.damping = 0.05;
+                    temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*0.5); // reduce the x vel
+                    temp.damping = 0.01;
                     particles.push_back(temp);
                     if (particles.size() > 4000){
                         particles.erase(particles.begin());
@@ -159,14 +154,7 @@ void simpleScene::draw(){
     
     for (int i = 0; i < cvData->blobs.size(); i++){
         
-        ofPoint avgVel;
-        
-        for (int j = 0; j < cvData->blobs[i].vel.size(); j++){
-            avgVel += cvData->blobs[i].vel[j];
-        }
-        
-        avgVel /= (float)max((int)cvData->blobs[i].vel.size(), 1);
-        
+        ofPoint avgVelSmoothed = cvData->blobs[i].avgVelSmoothed;
         
         ofPolyline line = cvData->blobs[i].blob;
         for (auto & pt : line.getVertices()){
@@ -177,7 +165,7 @@ void simpleScene::draw(){
         ofPoint centroid = cvData->blobs[i].blob.getCentroid2D();
         centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
         
-        ofLine(centroid, centroid + avgVel * 10);
+        ofLine(centroid, centroid + avgVelSmoothed * 10);
     }
     
     
