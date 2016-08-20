@@ -17,7 +17,7 @@ void simpleScene::update(){
             ofPoint vel = cvData->blobs[i].vel[j];
             ofPoint velNorm = vel.getNormalized();
             float dot = velNorm.dot(ofPoint(0,-1)); // up
-            if (dot > 0.44 && vel.length() > 0.7 && ofRandom(0,1) > 0.95){
+            if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > 0.9){
                 
                 // is this FACING up
                 ofPoint tan = cvData->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
@@ -64,10 +64,10 @@ void simpleScene::update(){
     }
     
     
-    // get flow from the field:
+    // get flow from the field: 
     for (int i = 0; i < particles.size(); i++){
         ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
-       // particles[i].addForce(vel.x*0.1, vel.y*0.1);
+        particles[i].addForce(vel.x*0.03, vel.y*0.03);
     }
     
     // alternatively search for the closest pt...  we can simplify things by looking in a thin way:
@@ -129,13 +129,13 @@ void simpleScene::draw(){
     
     for (int i = 0; i < particles.size(); i++){
         
-        float alpha = ofMap(time - particles[i].age, 1,3, 255, 0, true);
+        float alpha = ofMap(time - particles[i].age, 0,2, 255, 0, true);
         if (alpha > 0){
             ofSetColor(255,255, 255, alpha);
             
             float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
             
-            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 10 * startScale);
+            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 3 * startScale);
             //ofCircle(particles[i].pos, 2); //draw();
         }
     }
