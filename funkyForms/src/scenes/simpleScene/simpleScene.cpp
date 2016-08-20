@@ -23,6 +23,7 @@ void simpleScene::update(){
             ofPoint pos (r.x + r.width * x, r.y + r.height * y);
             
             particle p;
+            p.damping = 0.15;
             p.setInitialCondition(pos.x, pos.y, 0,0);
             particles.push_back(p);
             

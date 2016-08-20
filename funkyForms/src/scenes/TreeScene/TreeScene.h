@@ -14,7 +14,7 @@
 #include "particle.h"
 #include "ButterFlyParticle.h"
 #include "ButterflyAnimation.h"
-
+#include "ofxGui.h"
 
 class TreeScene : public baseScene {
 	
@@ -26,6 +26,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+    void drawGui();
 	void drawTop();
 	void updateFlocking();
 	
@@ -65,8 +66,28 @@ public:
 	// ---------------------- Pcket info
 	bool					bGotMyFirstPacket;
 	//ofxControlPanel			panel;
-
+    ofxPanel gui;
 	
+    ofParameter<float> treeDelay;
+    ofParameter<float> peopleGlow;
+    ofParameter<float> treeBottomOffset;
+    ofParameter<float> treeGrowW;
+    ofParameter<float> treeGrowH;
+    ofParameter<float> treeMin;
+    ofParameter<float> treeMax;
+    ofParameter<float> growRate;
+    ofParameter<float> curveX;
+    ofParameter<float> curveY;
+    ofParameter<float> thetaG;
+    ofParameter<float> fadeRate;
+    ofParameter<float> butterFlyScale;
+    ofParameter<float> butterFlySpeed;
+    ofParameter<float> peopleColor;
+    ofParameter<float> treeAddingTime;
+    ofParameter<bool> bDoPeopleGlow;
+    
+    ofParameterGroup group;
+    
 };
 
 

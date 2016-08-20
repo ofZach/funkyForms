@@ -99,7 +99,6 @@ void wavesScene::drawPeople(){
 }
 // ------------ Events
 void wavesScene::start(){
-    
 }
 void wavesScene::stop(){
     

@@ -22,6 +22,7 @@
 #include "MonsterDust.h"
 //#include "ofxControlPanel.h"
 
+#include "ofxGui.h"
 
 
 
@@ -66,6 +67,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+    void drawGui();
 	
 	void saveMonsterSettings();
 	void loadMonsterSettings();
@@ -131,16 +133,6 @@ public:
 	// tracking
 	int							lastFrameRendered;
 	int							lastTypeofMonster;
-	
-	
-//    vector   <shared_ptr<ofxBox2dCircle> > circles; // default box2d circles
-//    vector   <shared_ptr<ofxBox2dRect> >   boxes;   // defalut box2d rects
-//    
-//    
-//    boxes.push_back(shared_ptr<ofxBox2dRect>(new ofxBox2dRect));
-//    boxes.back().get()->setPhysics(3.0, 0.53, 0.1);
-//    boxes.back().get()->setup(box2d.getWorld(), mouseX, mouseY, w, h);
-
     
 	// particles
 	ofxBox2d					box2d;
@@ -155,6 +147,18 @@ public:
 	vector <shared_ptr<MonsterBall>>		balls;
 	//vector <MonsterRect>		rects;
 	vector <ofPoint>			sclContour;
+    
+    
+    ofParameterGroup group;
+    ofParameter<float> monsterAge;
+    ofParameter<float> maxBallAge;
+    ofParameter<float> ballGlow;
+    ofParameter<float> ballSizePct;
+    ofParameter<bool> rebuildBuilding;
+    ofParameter<bool> debug;
+    
+    ofxPanel gui;
+   
     
     
 };

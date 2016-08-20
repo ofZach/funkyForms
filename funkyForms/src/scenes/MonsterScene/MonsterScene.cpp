@@ -9,6 +9,32 @@ void MonsterScene::setup(){
 
     sceneName = "monsterScene";
     
+    
+    gui.setup("settings_monsterScene", "settings_monsterScene.xml");
+
+    
+    group.add(monsterAge.set("monsterAge", 1.3, 0, 10));
+    group.add(maxBallAge.set("maxBallAge", 5.3, 0, 30));
+    group.add(ballGlow.set("ballGlow", 1.0, 0, 1));
+    group.add(ballSizePct.set("ballSizePct", 1.0, 0.0, 1.0));
+    group.add(rebuildBuilding.set("rebuildBuilding", false));
+    group.add(debug.set("debug", false));
+    
+    gui.add(group);
+    gui.loadFromFile("settings_monsterScene.xml");
+    
+    
+    //	panel.setWhichPanel("Triggers");
+    //	panel.addSlider("Monster Age", "MONSTER_AGE", 1.3, 0.0, 10.0, false);
+    //	panel.addSlider("Max Ball Age", "BALL_AGE", 5.3, 0.0, 30.0, false);
+    //	panel.addSlider("Ball Glow", "BALL_GLOW", 1.0, 0.0, 1.0, false);
+    //	panel.addSlider("Ball Size Offect", "BALL_SIZE_PCT", 1.0, 0.0, 1.0, false);
+    //	panel.addToggle("Building", "REBUILD", 0);
+    //	panel.addToggle("debug", "DEBUG", 0);
+    
+    
+    
+    
     // 2016
 //	panel.setup("Monster Scene", 700, 10, 300, 750);
 //	panel.addPanel("Triggers", 1, false);
@@ -481,6 +507,9 @@ void MonsterScene::blobOff( int x, int y, int bid, int order ) {
 	}
 }
 
+void MonsterScene::drawGui(){
+    gui.draw();
+}
 
 //-------------------------------------------------------------- debug drawing
 void MonsterScene::drawTop() {

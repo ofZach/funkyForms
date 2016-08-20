@@ -19,30 +19,39 @@ void TreeScene::setup() {
 	theDotS.loadImage("sceneAssets/trees/littleDot.png");
 	
 	
-	
-	// ------------ Control Panel For Trees
-//	panel.setup("Tree Scene", 700, 10, 300, 850);
-//	panel.addPanel("Triggers", 1, false);
-//	
-//	panel.setWhichPanel("Triggers");
-//	panel.addSlider("Tree Delay", "TREE_DELAY", 1.3, 0.0, 10.0, false);
-//	panel.addSlider("people glow", "PEOPLE_GLOW", 20.4, 0.0, 255.0, false);
-//	panel.addSlider("tree bottom offset", "TREE_OFF", 20.4, -800, 800.0, false);
-//	
-//	panel.addSlider("tree grow w", "TREE_GROW_W", 100.0, 0.0, 1000.0, false);
-//	panel.addSlider("tree grow h", "TREE_GROW_H", 100.0, 0.0, 1000.0, false);
-//	panel.addSlider("tree min pts", "TREE_MIN", 10.0, 0.0, 20.0, false);
-//	panel.addSlider("tree max pts", "TREE_MAX", 20.0, 20.0, 100.0, false);
-//	panel.addSlider("GrowRate", "GROW_RATE", 0.98, 0.0, 2.0, false);
-//	
-//	panel.addSlider("Curve X", "GROW_C_X", 10.98, 0.0, 30.0, false);
-//	panel.addSlider("Curve Y", "GROW_C_Y", 10.98, 0.0, 30.0, false);
-//	panel.addSlider("Theta G", "GROW_T", 0.08, 0.0, 2.0, false);
-//	panel.addSlider("Fade Rate", "FADE_RATE", 6.0, 1.0, 40.0, false);
-//	panel.addSlider("Butterfly Scale", "BUTTERFLY_SCALE", 0.09, 0.0, 2.0, false);
-//	panel.addSlider("Butterfly Speed", "BUTTERFLY_SPEED", 0.09, 0.0, 2.0, false);
-//	panel.addSlider("People Color", "PEOPLE_COLOR", 0.0, 0.0, 255.0, false);
-//	panel.addSlider("Tree Adding Time", "TREE_ADD_TIME", 1.0, 0.0, 2.0, false);
+
+    gui.setup("settings_treeScene", "settings_treeScene.xml");
+    
+    
+    
+    
+    
+    
+    
+    
+    group.add(treeDelay.set("treeDelay", 1.3, 0.0, 10.0 ));
+    group.add(peopleGlow.set("peopleGlow", 20.4, 0.0, 255.0 ));
+    group.add(treeBottomOffset.set("treeBottomOffset", 20.4, -800, 800.0 ));
+    //	
+    group.add(treeGrowW.set("treeGrowW", 100.0, 0.0, 1000.0 ));
+    group.add(treeGrowH.set("treeGrowH", 100.0, 0.0, 1000.0 ));
+    group.add(treeMin.set("treeMin", 10.0, 0.0, 20.0 ));
+    group.add(treeMax.set("treeMax", 20.0, 20.0, 100.0 ));
+    group.add(growRate.set("growRate", 0.98, 0.0, 2.0 ));
+    //	
+    group.add(curveX.set("curveX", 10.98, 0.0, 30.0 ));
+    group.add(curveY.set("curveY", 10.98, 0.0, 30.0 ));
+    group.add(thetaG.set("thetaG", 0.08, 0.0, 2.0 ));
+    group.add(fadeRate.set("fadeRate", 6.0, 1.0, 40.0 ));
+    group.add(butterFlyScale.set("butterFlyScale", 0.09, 0.0, 2.0 ));
+    group.add(butterFlySpeed.set("butterFlySpeed", 0.09, 0.0, 2.0 ));
+    group.add(peopleColor.set("peopleColor", 0.0, 0.0, 255.0 ));
+    group.add(treeAddingTime.set("treeAddingTime", 1.0, 0.0, 2.0 ));
+    group.add(bDoPeopleGlow.set("bDoPeopleGlow", true));
+    
+    gui.add(group);
+    gui.loadFromFile("settings_treeScene.xml");
+    
 //	
 //	
 //	panel.addToggle("do people glow", "BPEOPLE_GLOW", 1);
@@ -351,6 +360,10 @@ void TreeScene::update() {
 	
 }
 
+
+void TreeScene::drawGui(){
+    gui.draw();
+}
 // ---------------------------------------------------------
 void TreeScene::drawTop() {
 	//if(bDebug) panel.draw();
