@@ -19,13 +19,15 @@ void simpleScene::update(){
         // different ways to use it...
         //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
         if (avgVelSmoothed.y < -1){
+        
+            float mapMe = ofMap(avgVelSmoothed.y, -1, -3, 0.99, 0.9);
         for (int j = 0; j < line.size(); j++){
             ofPoint pt = line[j];
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
             ofPoint vel = cvData->blobs[i].vel[j];
             ofPoint velNorm = vel.getNormalized();
             float dot = velNorm.dot(ofPoint(0,-1)); // up
-            if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > 0.9){
+            if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > mapMe){
                 
                 // is this FACING up
                 ofPoint tan = cvData->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
