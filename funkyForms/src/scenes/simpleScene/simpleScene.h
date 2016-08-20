@@ -3,6 +3,7 @@
 
 #include "ofMain.h"
 #include "baseScene.h"
+#include "particle.h"
 
 
 //typedef struct {
@@ -26,6 +27,9 @@ public:
     
     void blobBorn(int id);
     void blobDied(int id);
+    
+    
+    vector < particle > particles;
     
 //   vector < bornParticle > particles;
     

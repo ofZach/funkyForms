@@ -82,6 +82,37 @@ public:
         return ofPoint(newx, newy);
     }
     
+    
+    // may be useul if you want to know if a point is inside the CV remapped to screen...
+    ofRectangle getScreenRemapRectangle( screenName screen ){
+        ofRectangle src(0,0, width, height);
+        ofRectangle dst = src;
+        ofRectangle target = RM->getRectForScreen(screen);
+        dst.scaleTo(target);
+        dst.y = (target.y + target.height) - dst.height;    // snap to bottom
+        return dst;
+    }
+    
+    // useful if you want to the 2d position in the cv image from this rectangle.
+    // clamps to edges
+    ofPoint remapFromScreen(screenName screen, ofPoint pt){
+        ofRectangle src(0,0, width, height);
+        ofRectangle dst = src;
+        ofRectangle target = RM->getRectForScreen(screen);
+        dst.scaleTo(target);
+        dst.y = (target.y + target.height) - dst.height;    // snap to bottom
+        float xPct = ofMap(pt.x, dst.x, dst.x + dst.width, 0, 1, true);
+        float yPct = ofMap(pt.y, dst.y, dst.y + dst.height, 0, 1, true);
+        return ofPoint((int)(xPct*(width-1)), (int)(yPct*(height-1)));
+    }
+    
+    // get flow amount for this screen position...
+    ofPoint getFlowAtScreenPos( screenName screen, ofPoint screenPos){
+        ofPoint remap = remapFromScreen(screen, screenPos);
+        //cout << remap << endl;
+        return opticalFlow[ remap.y * width + remap.x];
+    }
+    
     // todo:
     // vectors that sort horizontally, by age, by size, etc....
 };
