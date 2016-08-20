@@ -22,6 +22,8 @@ void wavesScene::setup(){
     
     // setup obj
     gradientWaves.setup(w, h);
+    stencilWaves.screenLeft = RM->getRectForScreen(SCREEN_LEFT);
+    stencilWaves.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
     stencilWaves.setup(w, h);
 }
 void wavesScene::setupGui(){
@@ -80,7 +82,7 @@ void wavesScene::draw(){
     if(isGradientWavesMode) gradientWaves.draw();
     if(isStencilWaveMode) stencilWaves.draw();
 
-    drawPeople();
+//    drawPeople();
 }
 void wavesScene::drawGui(){
      gui.draw();

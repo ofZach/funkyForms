@@ -1,19 +1,19 @@
 //
-//  EyeParticles.cpp
+//  eyeParticlesMode.cpp
 //  EyeScene
 //
 //  Created by Zerc on 7/12/16.
 //
 //
 
-#include "EyeParticles.hpp"
+#include "eyeParticlesMode.hpp"
 // ---------------------------------- setup
-void EyeParticles::setup(){
+void eyeParticlesMode::setup(){
     behavior = B_ATTACK;
     init();
 }
-void EyeParticles::setupGui(){
-    parameters.setName("EyeParticlesParameters");
+void eyeParticlesMode::setupGui(){
+    parameters.setName("eyeParticlesModeParameters");
     parameters.add(behaviorMode.set("behaviorMode", 0, 0, 2));
     parameters.add(count.set("count", 50, 1, 500));
     parameters.add(initButton.set("initButton", true));
@@ -24,12 +24,12 @@ void EyeParticles::setupGui(){
     parameters.add(scaleSpeed.set("scaleSpeed", 0.07, 0.01, 0.2));
     parameters.add(scaleMax.set("scaleMax", 3., 1.0, 7));
     parameters.add(scaleRadius.set("scaleRadius", 200, 10, 2000));
-    initButton.addListener(this, &EyeParticles::reset);
+    initButton.addListener(this, &eyeParticlesMode::reset);
 }
-void EyeParticles::reset(bool &b){
+void eyeParticlesMode::reset(bool &b){
     init();
 }
-void EyeParticles::init(){
+void eyeParticlesMode::init(){
     eyes.clear();
     particles.clear();
     for (int i = 0; i < count; i++){
@@ -42,29 +42,30 @@ void EyeParticles::init(){
         eye eye;
         eyes.push_back(eye);
         eyes[i].setup(ofVec2f(x, y), 50, 50);
+        eyes[i].delay = ofRandom(20);
         eyes[i].setEyeColor(ofColor::darkGray);
         eyes[i].setScale(ofRandom(1, 2));
     }
 }
-void EyeParticles::open(){
+void eyeParticlesMode::setTargetPos(int id, ofVec2f pos){
+    targets[id].pos = pos;
+}
+void eyeParticlesMode::setTargetVel(int id, ofVec2f vel){
+    targets[id].vel = vel;
+}
+void eyeParticlesMode::fadeIn(){
     for(auto &eye: eyes){
         eye.open();
     }
 }
-void EyeParticles::close(){
+void eyeParticlesMode::fadeOut(){
     for(auto &eye: eyes){
         eye.close();
     }
 }
-void EyeParticles::setTargetPos(int id, ofVec2f pos){
-    targets[id].pos = pos;
-}
-void EyeParticles::setTargetVel(int id, ofVec2f vel){
-    targets[id].vel = vel;
-}
-
 // ---------------------------------- Update
-void EyeParticles::update(){
+void eyeParticlesMode::update(){
+    updateFadeCheck();
     switch (behaviorMode) {
         case 0:
             behaveAttack();
@@ -80,8 +81,22 @@ void EyeParticles::update(){
     }
     targets.clear();
 }
+void eyeParticlesMode::updateFadeCheck(){
+    bool isFin = true;
+    for(auto &eye: eyes){
+        if(!eye.isCloseFinished()){
+            isFin = false;
+            break;
+        }
+    }
+    if(isFin){
+        isFadeFinished = true;
+    }else{
+        isFadeFinished = false;
+    }
+}
 // ---------------------------------- Behavior
-void EyeParticles::behaveRandom(){
+void eyeParticlesMode::behaveRandom(){
     for (int i = 0; i < particles.size(); i++){
         eyes[i].update(particles[i].getPos());
         eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
@@ -118,7 +133,7 @@ void EyeParticles::behaveRandom(){
         particles[i].pos = pos;
     }
 }
-void EyeParticles::behaveWait(){
+void eyeParticlesMode::behaveWait(){
     for (int i = 0; i < particles.size(); i++){
         for(auto &t: targets){
             ofPoint pos = t.second.pos;
@@ -148,7 +163,7 @@ void EyeParticles::behaveWait(){
     }
     
 }
-void EyeParticles::behaveAttack(){
+void eyeParticlesMode::behaveAttack(){
     for (int i = 0; i < particles.size(); i++){
         for(auto &t: targets){
             ofPoint pos = t.second.pos;
@@ -180,7 +195,7 @@ void EyeParticles::behaveAttack(){
     }
 }
 // ---------------------------------- Draw
-void EyeParticles::draw(){
+void eyeParticlesMode::draw(){
     ofSetColor(ofColor::lightBlue);
     for (int i = 0; i < particles.size(); i++){
         eyes[i].draw();

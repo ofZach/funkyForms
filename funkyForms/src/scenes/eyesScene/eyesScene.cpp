@@ -10,39 +10,76 @@
 // ------------ setup
 void eyesScene::setup(){
     // gui
-    eyeParticles.setupGui();
-    eyeLinkerManager.setupGui();
+    eyeParticlesMode.setupGui();
+    eyeLinkerMode.setupGui();
     setupGui();
     
     // setup
-    eyePair.setup();
+    eyePairMode.setup();
 
-    eyeLinker.setSize(eyeLinkerManager.width, eyeLinkerManager.height);
-    eyeLinkerManager.setup();
+    eyeLinker.setSize(eyeLinkerMode.width, eyeLinkerMode.height);
+    eyeLinkerMode.setup();
     
-    eyeParticles.setup();
+    eyeParticlesMode.setup();
     
     eyeLinker.setup();
+    
+    eyeLinkerMode.isEnabled = true; // first showed
+    eyePairMode.isEnabled = false;
+    eyeLinkerMode.isEnabled = false;
+    
+    modes.push_back(&eyeLinkerMode);
+    modes.push_back(&eyeParticlesMode);
+    modes.push_back(&eyePairMode);
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
-    parameters.add(isEyePairMode.set("isEyePairMode", true));
-    parameters.add(isEyeParticleMode.set("isEyeParticleMode", true));
-    parameters.add(isEyeLinkerMode.set("isEyeLinkerMode", true));
     gui.setup("settings_eyesScene", "settings_eyesScene.xml");
     gui.add(parameters);
-    gui.add(eyeParticles.parameters);
-    gui.add(eyeLinkerManager.parameters);
+    gui.add(eyeParticlesMode.parameters);
+    gui.add(eyeLinkerMode.parameters);
     gui.loadFromFile("settings_eyesScene.xml");
+}
+modeBase *eyesScene::getMode(string name){
+    if(name == "eyeLinkerMode") return modes[0];
+    if(name == "eyeParticlesMode") return modes[1];
+    if(name == "eyePairMode") return modes[2];
+}
+void eyesScene::advanceMode(){
+    // 1. fade out cur mode
+    // 2. whait till it finished
+    // 3. fade in next mode
+    
+    modes[curMode]->fadeOut();
+    modes[curMode]->isFading = true;
+    curMode++ ;
+    curMode = curMode%3 ;
+    ofLog() << "curMode: " << curMode;
+    modes[curMode]->fadeIn();
+    modes[curMode]->isEnabled = true;
+    modes[curMode]->isFading = false;
+    modes[curMode]->isFadeFinished = false;
 }
 // ------------ update
 void eyesScene::update(){
+   
     updateTargets();
     updateModeSwitch();
     updateAveragePos();
     updateFastestPos();
     updateEyes();
+    updateModes();
 //    updateEyeLinker();
+}
+void eyesScene::updateModes(){
+    if((ofGetFrameNum()+3)%380 == 0){
+        advanceMode();
+    }
+    for(auto &m : modes){
+        if(m->isFading && m->isFadeFinished){
+            m->isEnabled = false;
+        }
+    }    
 }
 void eyesScene::updateModeSwitch(){
 }
@@ -52,25 +89,22 @@ void eyesScene::updateTargets(){
         ofVec2f vel = cvData->getVelAvgSmoothAt(id);
         pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
         
-        eyeLinkerManager.setTargetPos(id, pt);
-        eyeParticles.setTargetPos(id, pt);
-        eyeParticles.setTargetVel(id, vel);
+        eyeLinkerMode.setTargetPos(id, pt);
+        eyeParticlesMode.setTargetPos(id, pt);
+        eyeParticlesMode.setTargetVel(id, vel);
     }
 }
 void eyesScene::updateEyes(){
-    if(isEyePairMode){
-        eyePair.update(averagePos);
-        eyePair.lookAtSmart(fastestPos);
+    if(getMode("eyePairMode")->isEnabled){
+        eyePairMode.update(averagePos);
+        eyePairMode.lookAtSmart(fastestPos);
     }
-    if(isEyeParticleMode){
-        eyeParticles.update();
+    if(getMode("eyeParticlesMode")->isEnabled){
+        eyeParticlesMode.update();
     }
-    if(isEyeLinkerMode){
-        updateEyeLinkerManager();
+    if(getMode("eyeLinkerMode")->isEnabled){
+        eyeLinkerMode.update();
     }
-}
-void eyesScene::updateEyeLinkerManager(){
-    eyeLinkerManager.update();
 }
 void eyesScene::updateEyeLinker(){
     eyeLinker.setPos(ofVec2f(ofGetMouseX(), ofGetMouseY()));
@@ -80,11 +114,11 @@ void eyesScene::updateEyeLinker(){
     if(ofGetKeyPressed('p')){
         eyeLinker.eyes[0].open();
     }
-    eyeLinker.setScale(eyeLinkerManager.scale);
-    eyeLinker.isGlow = eyeLinkerManager.isGlow;
-    eyeLinker.glowRadius = eyeLinkerManager.glowRadius;
-    eyeLinker.glowResolution = eyeLinkerManager.glowResolution;
-    eyeLinker.glowOpacity = eyeLinkerManager.glowOpacity;
+    eyeLinker.setScale(eyeLinkerMode.scale);
+    eyeLinker.isGlow = eyeLinkerMode.isGlow;
+    eyeLinker.glowRadius = eyeLinkerMode.glowRadius;
+    eyeLinker.glowResolution = eyeLinkerMode.glowResolution;
+    eyeLinker.glowOpacity = eyeLinkerMode.glowOpacity;
     
     eyeLinker.eyes[0].setAngle(ofGetFrameNum()%360);
     eyeLinker.update();
@@ -177,14 +211,10 @@ void eyesScene::drawEyeLinker(){
     ofPopMatrix();
 }
 void eyesScene::drawEyes(){
-    if(isEyePairMode){
-        eyePair.draw();
-    }
-    if(isEyeParticleMode){
-        eyeParticles.draw();
-    }
-    if(isEyeLinkerMode){
-        eyeLinkerManager.draw();
+    for(auto &m : modes){
+        if(m->isEnabled){
+            m->draw();
+        }
     }
 }
 void eyesScene::drawPeople(){
@@ -202,15 +232,14 @@ void eyesScene::start(){
     
 }
 void eyesScene::stop(){
-    eyeLinkerManager.clear();
+    eyeLinkerMode.clear();
 }
 void eyesScene::blobBorn(int id){
     ofPoint pt = cvData->getTopPointAt(id);
     pt = cvData->remapForScreen(SCREEN_LEFT, pt);
-    if(isEyeLinkerMode) eyeLinkerManager.addEye(id, pt);
-    
+    if(!getMode("eyeLinkerMode")->isFading) eyeLinkerMode.addEye(id, pt);
 }
 void eyesScene::blobDied(int id){
-    if(isEyeLinkerMode) eyeLinkerManager.removeEye(id);
+    if(!getMode("eyeLinkerMode")->isFading) eyeLinkerMode.removeEye(id);
 }
 

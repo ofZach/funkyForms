@@ -258,7 +258,6 @@ void EyeLinker::draw(){
     for(auto eye: eyes){
         eye.draw();
     }
-    
 //    drawParticles();
 }
 void EyeLinker::drawFireworks(){

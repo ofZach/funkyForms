@@ -20,11 +20,11 @@
 		</Ripples>
 	</gradientWavesParameters>
 	<stencilWavesParameters>
-		<amount>23.3</amount>
-		<strength>0.045955</strength>
-		<restLength>4.41</restLength>
+		<amount>30.3571</amount>
+		<strength>0.164102</strength>
+		<restLength>10.7449</restLength>
 		<invMass>0.2885</invMass>
-		<force>5.672</force>
+		<force>1.72449</force>
 		<refractParameters>
 			<offsetX>0.901083</offsetX>
 			<offsetY>0.68763</offsetY>
@@ -38,9 +38,9 @@
 			<noiseSpeedX>0.142857</noiseSpeedX>
 			<noiseSpeedY>0.357143</noiseSpeedY>
 		</refractParameters>
-		<glowRadius>70</glowRadius>
-		<glowOpacity>120.995</glowOpacity>
-		<peopleOpacity>157.423</peopleOpacity>
+		<glowRadius>82.5</glowRadius>
+		<glowOpacity>232.883</glowOpacity>
+		<peopleOpacity>255</peopleOpacity>
 	<screenScale>1</screenScale>
 	</stencilWavesParameters>
 <settings_wavesScene/>

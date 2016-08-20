@@ -1,19 +1,20 @@
 //
-//  eyeLinkerManager.hpp
+//  eyeLinkerMode.hpp
 //  funkyForms
 //
 //  Created by Gordey on 8/10/16.
 //
 //
 
-#ifndef eyeLinkerManager_hpp
-#define eyeLinkerManager_hpp
+#ifndef eyeLinkerMode_hpp
+#define eyeLinkerMode_hpp
 
 #include "ofMain.h"
 #include "EyeLinker.hpp"
 #include "cvManager.h"
+#include "modeBase.hpp"
 
-class eyeLinkerManager{
+class eyeLinkerMode : public modeBase {
 public:
     // Pos, size, vel
     ofParameter<float> velSmooth;
@@ -44,6 +45,8 @@ public:
     ofParameter<float>  glowOpacity = 120;
 
     void setup();
+    void fadeIn();
+    void fadeOut();
     void setTargetPos(int id, ofVec2f pos); // should call before update
     void setTargetVel(int id, ofVec2f vel); // should call before update
     void setupGui();
@@ -53,6 +56,7 @@ public:
     void clear();
     
     void update();
+    void updateFadeCheck();
     void updateParameters();
     void updateEye();
     void updateEyeRemoval();
@@ -60,4 +64,4 @@ public:
     void draw();
 };
 
-#endif /* eyeLinkerManager_hpp */
+#endif /* eyeLinkerMode_hpp */
