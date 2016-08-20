@@ -24,31 +24,6 @@ void MonsterScene::setup(){
     gui.loadFromFile("settings_monsterScene.xml");
     
     
-    //	panel.setWhichPanel("Triggers");
-    //	panel.addSlider("Monster Age", "MONSTER_AGE", 1.3, 0.0, 10.0, false);
-    //	panel.addSlider("Max Ball Age", "BALL_AGE", 5.3, 0.0, 30.0, false);
-    //	panel.addSlider("Ball Glow", "BALL_GLOW", 1.0, 0.0, 1.0, false);
-    //	panel.addSlider("Ball Size Offect", "BALL_SIZE_PCT", 1.0, 0.0, 1.0, false);
-    //	panel.addToggle("Building", "REBUILD", 0);
-    //	panel.addToggle("debug", "DEBUG", 0);
-    
-    
-    
-    
-    // 2016
-//	panel.setup("Monster Scene", 700, 10, 300, 750);
-//	panel.addPanel("Triggers", 1, false);
-//
-//	panel.setWhichPanel("Triggers");
-//	panel.addSlider("Monster Age", "MONSTER_AGE", 1.3, 0.0, 10.0, false);
-//	panel.addSlider("Max Ball Age", "BALL_AGE", 5.3, 0.0, 30.0, false);
-//	panel.addSlider("Ball Glow", "BALL_GLOW", 1.0, 0.0, 1.0, false);
-//	panel.addSlider("Ball Size Offect", "BALL_SIZE_PCT", 1.0, 0.0, 1.0, false);
-//	panel.addToggle("Building", "REBUILD", 0);
-//	panel.addToggle("debug", "DEBUG", 0);
-//
-//	panel.loadSettings("settings/panels_xml/monsterScenePanel.xml");
-
 	bMonsterTimer	  = true;
 	bDebug			  = false;
 	bGotMyFirstPacket = false;
@@ -211,10 +186,10 @@ void MonsterScene::update(){
 		ofPoint ps = balls[i]->getPosition();
 		
 		balls[i]->age = ofGetElapsedTimef() - balls[i]->initTime;
-        balls[i]->alphaPct = 1.0; //panel.getValueF("BALL_GLOW");
-        balls[i]->sizePct  = 1.0; //panel.getValueF("BALL_SIZE_PCT");
+        balls[i]->alphaPct = ballGlow; //panel.getValueF("BALL_GLOW");
+        balls[i]->sizePct  = ballSizePct; //panel.getValueF("BALL_SIZE_PCT");
 		
-        if(balls[i]->age > 10){  // 2016  ///panel.getValueF("BALL_AGE")) {
+        if(balls[i]->age > maxBallAge){  // 2016  ///panel.getValueF("BALL_AGE")) {
 			balls[i]->color.a -= 10.0;
 			
 		}
@@ -312,7 +287,7 @@ void MonsterScene::update(){
 		monsters[i].bDebug = bDebug;
         monsters[i].packetW = 1024; // 2016 packet.width;
         monsters[i].packetH = 1024; // 2016 packet.height;
-        monsters[i].monsterDelayAge = 1.3; //panel.getValueF("MONSTER_AGE");
+        monsters[i].monsterDelayAge = monsterAge; //panel.getValueF("MONSTER_AGE");
 		monsters[i].update();
 
 	}

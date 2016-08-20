@@ -13,6 +13,15 @@
 //    
 //} bornParticle;
 
+class particleWithAge : public particle{
+    
+public:
+    
+    float age;
+    
+    
+} ;
+
 
 class simpleScene : public baseScene {
     
@@ -29,7 +38,7 @@ public:
     void blobDied(int id);
     
     
-    vector < particle > particles;
+    vector < particleWithAge > particles;
     
 //   vector < bornParticle > particles;
     

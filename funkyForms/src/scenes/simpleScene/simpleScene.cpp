@@ -9,28 +9,35 @@ void simpleScene::update(){
     
     
     
-    if (ofGetFrameNum() % 200 == 0 || particles.size() == 0){
-        
-        particles.clear();
-        
-        ofRectangle r = cvData->getScreenRemapRectangle(SCREEN_LEFT);
-        
-        for (int i = 0; i < 1000; i++){
-            
-            float x = ofRandom(0.0, 1.0);
-            float y = ofRandom(0.0, 1.0);
-            
-            ofPoint pos (r.x + r.width * x, r.y + r.height * y);
-            
-            particle p;
-            p.damping = 0.15;
-            p.setInitialCondition(pos.x, pos.y, 0,0);
-            particles.push_back(p);
-            
+    for (int i = 0; i < cvData->blobs.size(); i++){
+        ofPolyline & line = cvData->blobs[i].blob;
+        for (int j = 0; j < line.size(); j++){
+            ofPoint pt = line[j];
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+            ofPoint vel = cvData->blobs[i].vel[j];
+            ofPoint velNorm = vel.getNormalized();
+            float dot = velNorm.dot(ofPoint(0,-1)); // up
+            if (dot > 0.44 && vel.length() > 0.7 && ofRandom(0,1) > 0.95){
+                
+                // is this FACING up
+                ofPoint tan = cvData->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
+                if (tan.dot(ofPoint(0,-1)) > 0.1){
+                
+                    particleWithAge temp;
+                    temp.age = ofGetElapsedTimef();
+                    temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*2); // reduce the x vel
+                    temp.damping = 0.05;
+                    particles.push_back(temp);
+                    if (particles.size() > 4000){
+                        particles.erase(particles.begin());
+                    }
+                }
+            }
         }
         
-        
+        //line.draw();
     }
+
     
     
     ofRectangle target = cvData->getScreenRemapRectangle(SCREEN_LEFT);
@@ -39,55 +46,63 @@ void simpleScene::update(){
         particles[i].resetForce();
         particles[i].addDampingForce();
         
-        particles[i].addAttractionForce(target.getCenter().x, target.getCenter().y, 10000, 0.02);
+        
+      //  particles[i].addAttractionForce(target.getCenter().x, target.getCenter().y, 10000, 0.02);
+    }
+    
+    // add some noise!
+    
+    float time = ofGetElapsedTimef();
+    
+    for (int i = 0; i < particles.size(); i++){
+        ofPoint pos = particles[i].pos;
+        float speed = ofMap(time-particles[i].age, 1, 5, 1, 0, true);
+        float xNoise = ofSignedNoise(pos.x * 0.1, pos.y * 0.1, i, time * 0.1);
+        float yNoise = ofSignedNoise(pos.x * 0.1, pos.y * 0.1, i, time * 0.1 + 100000);
+        
+        particles[i].addForce(xNoise*0.2 * speed, -fabs(yNoise) * 0.2 * speed);
     }
     
     
     // get flow from the field:
-//    for (int i = 0; i < particles.size(); i++){
-//        ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
-//        particles[i].addForce(vel.x*0.1, vel.y*0.1);
-//    }
+    for (int i = 0; i < particles.size(); i++){
+        ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
+       // particles[i].addForce(vel.x*0.1, vel.y*0.1);
+    }
     
     // alternatively search for the closest pt...  we can simplify things by looking in a thin way:
     
-    vector < ofPolyline > blobsRemapped;
-    for (auto & blob : cvData->blobs){
-        ofPolyline temp;
-        for (auto & pt : blob.blob){
-            ofPoint newPt = cvData->remapForScreen(SCREEN_LEFT, pt);
-            temp.addVertex(newPt);
-        }
-        blobsRemapped.push_back(temp);
-    }
-    
-    
-     for (int i = 0; i < particles.size(); i++){
-         ofPoint pos = particles[i].pos;
-         ofPoint closestVel;
-         float minDistance = 1000000;
-         for (int j = 0; j < blobsRemapped.size(); j++){ // : blobsRemapped){
-             for (int k = 0; k < blobsRemapped[j].size(); k+=10){
-                 float dist = (    blobsRemapped[j][k] - pos).length();
-                 if (dist < minDistance){
-                     minDistance = dist;
-                     closestVel = cvData->blobs[j].vel[k];
-                 }
-             }
-             
-         }
-         float invScale = ofMap(minDistance, 0, 50, 1, 0, true);
-         //cout << closestVel << endl;
-         particles[i].addForce(closestVel.x*0.3 * invScale, closestVel.y*0.3 * invScale);
-    
-     }
-    for (int i = 0; i < cvData->blobs.size(); i++){
-        ofPolyline line = cvData->blobs[i].blob;
-        for (auto & pt : line.getVertices()){
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
-        }
-        line.draw();
-    }
+//    vector < ofPolyline > blobsRemapped;
+//    for (auto & blob : cvData->blobs){
+//        ofPolyline temp;
+//        for (auto & pt : blob.blob){
+//            ofPoint newPt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//            temp.addVertex(newPt);
+//        }
+//        blobsRemapped.push_back(temp);
+//    }
+//    
+//    
+//     for (int i = 0; i < particles.size(); i++){
+//         ofPoint pos = particles[i].pos;
+//         ofPoint closestVel;
+//         float minDistance = 1000000;
+//         for (int j = 0; j < blobsRemapped.size(); j++){ // : blobsRemapped){
+//             for (int k = 0; k < blobsRemapped[j].size(); k+=10){
+//                 float dist = (    blobsRemapped[j][k] - pos).length();
+//                 if (dist < minDistance){
+//                     minDistance = dist;
+//                     closestVel = cvData->blobs[j].vel[k];
+//                 }
+//             }
+//             
+//         }
+//         float invScale = ofMap(minDistance, 0, 50, 1, 0, true);
+//         //cout << closestVel << endl;
+//         particles[i].addForce(closestVel.x*0.3 * invScale, closestVel.y*0.3 * invScale);
+//    
+//     }
+
 
     
     
@@ -110,9 +125,22 @@ void simpleScene::update(){
 void simpleScene::draw(){
     
     
+    float time = ofGetElapsedTimef();
+    
     for (int i = 0; i < particles.size(); i++){
-        ofCircle(particles[i].pos, 2); //draw();
+        
+        float alpha = ofMap(time - particles[i].age, 1,3, 255, 0, true);
+        if (alpha > 0){
+            ofSetColor(255,255, 255, alpha);
+            
+            float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
+            
+            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 10 * startScale);
+            //ofCircle(particles[i].pos, 2); //draw();
+        }
     }
+    
+    ofSetColor(255,255,255);
     
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofPolyline line = cvData->blobs[i].blob;
