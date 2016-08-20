@@ -10,7 +10,20 @@ void simpleScene::update(){
     
     
     for (int i = 0; i < cvData->blobs.size(); i++){
+        
+        ofPoint avgVel;
+        
+        for (int j = 0; j < cvData->blobs[i].vel.size(); j++){
+            avgVel += cvData->blobs[i].vel[j];
+        }
+        
+        avgVel /= (float)max((int)cvData->blobs[i].vel.size(), 1);
+        
+        
+        
         ofPolyline & line = cvData->blobs[i].blob;
+        
+        if (avgVel.getNormalized().dot(ofPoint(0,-1)) > 0.7){
         for (int j = 0; j < line.size(); j++){
             ofPoint pt = line[j];
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
@@ -33,6 +46,7 @@ void simpleScene::update(){
                     }
                 }
             }
+        }
         }
         
         //line.draw();
@@ -135,19 +149,35 @@ void simpleScene::draw(){
             
             float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
             
-            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 3 * startScale);
-            //ofCircle(particles[i].pos, 2); //draw();
+            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 10 * startScale);
+            ofFill();
+            ofCircle(particles[i].pos, 2); //draw();
         }
     }
     
     ofSetColor(255,255,255);
     
     for (int i = 0; i < cvData->blobs.size(); i++){
+        
+        ofPoint avgVel;
+        
+        for (int j = 0; j < cvData->blobs[i].vel.size(); j++){
+            avgVel += cvData->blobs[i].vel[j];
+        }
+        
+        avgVel /= (float)max((int)cvData->blobs[i].vel.size(), 1);
+        
+        
         ofPolyline line = cvData->blobs[i].blob;
         for (auto & pt : line.getVertices()){
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
         }
         line.draw();
+        
+        ofPoint centroid = cvData->blobs[i].blob.getCentroid2D();
+        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+        
+        ofLine(centroid, centroid + avgVel * 10);
     }
     
     
