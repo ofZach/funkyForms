@@ -44,35 +44,35 @@ void wavesScene::updateInput(){
     for(auto &id: cvData->idsThisFrame){
         // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
         // have any vertices... adding a check.
-        if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-            ofPolyline &line =  (*(cvData->trackedContours))[id].data.resampleSmoothed;
-            
-            for (int i = 0; i < line.size(); i += line.size()/10 ) {
-                ofPoint pt = line.getVertices()[i];
-                pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
-                ofVec2f vel = (*(cvData->trackedContours))[id].data.velPts[i];
-                if(isGradientWavesMode){
-                    for(auto &w: gradientWaves.waves){
-                        w.addTarget(pt, vel);
-                    }
-                }
-                if(isStencilWaveMode){
-                    for(auto &w: stencilWaves.waves){
-                        w.addTarget(pt, vel);
-                    }
-                }
-            }
-            if(isStencilWaveMode){
-                ofPolyline line2 = cvData->getResampledLineAt(id, 2);
-                ofPolyline lineOffset;
-                for(auto &p : line2 ){
-                    ofPoint point = p;
-                    point = cvData->remapForScreen(SCREEN_LEFT, point);
-                    lineOffset.lineTo(point);
-                }
-                stencilWaves.addPath(lineOffset);
-            }
-        }
+//        if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
+//            ofPolyline &line =  (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//            
+//            for (int i = 0; i < line.size(); i += line.size()/10 ) {
+//                ofPoint pt = line.getVertices()[i];
+//                pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
+//                ofVec2f vel = (*(cvData->trackedContours))[id].data.velPts[i];
+//                if(isGradientWavesMode){
+//                    for(auto &w: gradientWaves.waves){
+//                        w.addTarget(pt, vel);
+//                    }
+//                }
+//                if(isStencilWaveMode){
+//                    for(auto &w: stencilWaves.waves){
+//                        w.addTarget(pt, vel);
+//                    }
+//                }
+//            }
+//            if(isStencilWaveMode){
+//                ofPolyline line2 = cvData->getResampledLineAt(id, 2);
+//                ofPolyline lineOffset;
+//                for(auto &p : line2 ){
+//                    ofPoint point = p;
+//                    point = cvData->remapForScreen(SCREEN_LEFT, point);
+//                    lineOffset.lineTo(point);
+//                }
+//                stencilWaves.addPath(lineOffset);
+//            }
+//        }
     }
 }
 // ------------ Draw

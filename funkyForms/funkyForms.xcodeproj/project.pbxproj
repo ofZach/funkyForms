@@ -83,6 +83,8 @@
 		8BA21C42AE20EE1B034D78DE /* wavesScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 768B54B25E7C9593BA8F2102 /* wavesScene.cpp */; };
 		8E0D433DE33D9C320E8DA746 /* src_colors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4860A3BABF4A4074A90E644F /* src_colors.cpp */; };
 		8EEF819F1864DB3992BD99D1 /* b2Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC03F2456AED72717B3FEA2C /* b2Settings.cpp */; };
+		92937BB01D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */; };
+		92937BB31D687B90006C8F56 /* opticalFlowThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */; };
 		933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */; };
 		94222B52DE5A22ADFE77F863 /* b2Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C3DF85D2918587E29DCB562 /* b2Collision.cpp */; };
 		9581FB6D79085EBAFD7CBEE9 /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EDAA2FD6614A3BB1223B948 /* spring.cpp */; };
@@ -444,6 +446,10 @@
 		907C5B5E104864A2D3A25745 /* ofxToggle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxToggle.cpp; path = ../../../addons/ofxGui/src/ofxToggle.cpp; sourceTree = SOURCE_ROOT; };
 		91964971761F95A91CC5261C /* b2ChainAndCircleContact.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = b2ChainAndCircleContact.h; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.h; sourceTree = SOURCE_ROOT; };
 		925CE0801D5FE45100CDB01B /* flockingForce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flockingForce.h; sourceTree = "<group>"; };
+		92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOpticalFlowFarneback.cpp; sourceTree = "<group>"; };
+		92937BAE1D687A81006C8F56 /* ofxOpticalFlowFarneback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOpticalFlowFarneback.h; sourceTree = "<group>"; };
+		92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = opticalFlowThread.cpp; sourceTree = "<group>"; };
+		92937BB21D687B90006C8F56 /* opticalFlowThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opticalFlowThread.h; sourceTree = "<group>"; };
 		929643B4C251FAB2FB415537 /* b2PolygonShape.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2PolygonShape.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Collision/Shapes/b2PolygonShape.cpp; sourceTree = SOURCE_ROOT; };
 		92C0275DAF376332618A2B12 /* ofxFire.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxFire.h; path = ../localAddons/ofxFx/src/generative/ofxFire.h; sourceTree = SOURCE_ROOT; };
 		944CB9367CE0E849F1113815 /* ofxGlow.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGlow.h; path = ../localAddons/ofxFx/src/filters/ofxGlow.h; sourceTree = SOURCE_ROOT; };
@@ -1311,6 +1317,18 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
+		92937BAA1D687A81006C8F56 /* flow */ = {
+			isa = PBXGroup;
+			children = (
+				92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */,
+				92937BB21D687B90006C8F56 /* opticalFlowThread.h */,
+				92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */,
+				92937BAE1D687A81006C8F56 /* ofxOpticalFlowFarneback.h */,
+			);
+			name = flow;
+			path = input/flow;
+			sourceTree = "<group>";
+		};
 		961A625BD21068033782887C /* legacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1582,6 +1600,7 @@
 		C8F905A850B56EB1DCC856BB /* input */ = {
 			isa = PBXGroup;
 			children = (
+				92937BAA1D687A81006C8F56 /* flow */,
 				5339C466E1C35EB8D6257AAA /* cvManager.cpp */,
 				1C50809BD4955A7EFA31E1A6 /* cvManager.h */,
 				5EC249FB4B342D9F1A1A82D7 /* inputManager.cpp */,
@@ -2020,6 +2039,7 @@
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
 				311DF864378748129984EA1D /* Kalman.cpp in Sources */,
 				C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */,
+				92937BB01D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp in Sources */,
 				7CDAD32BE4FA46701E3552C7 /* RunningBackground.cpp in Sources */,
 				10B69DE456AED1288FC9316B /* Tracker.cpp in Sources */,
 				A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */,
@@ -2100,6 +2120,7 @@
 				3FB0E46D5E577C83C2B47C3C /* b2Rope.cpp in Sources */,
 				D4931B8942968A26FCDFDCA7 /* del_impl.cpp in Sources */,
 				2F48651BC9D96056D41EE52C /* ofxSVG.cpp in Sources */,
+				92937BB31D687B90006C8F56 /* opticalFlowThread.cpp in Sources */,
 				8E0D433DE33D9C320E8DA746 /* src_colors.cpp in Sources */,
 				0005085BE93AFE3AF33D8831 /* svgtiny.cpp in Sources */,
 				A046BE15C00FB1E60308293E /* svgtiny_gradient.cpp in Sources */,

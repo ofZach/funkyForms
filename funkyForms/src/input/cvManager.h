@@ -7,17 +7,10 @@
 #include "renderManager.h"
 
 #include "ofxGui.h"
-
-// testing the original blob tracker
-#define USE_OLDER_BLOB_TRACKER
-
-
-#ifdef USE_OLDER_BLOB_TRACKER
-    #include "ofxOpenCv.h"
-    #include "ofCvBlobTracker.h"
-    #include "ofCvBlobListener.h"
-
-#endif 
+#include "opticalFlowThread.h"
+#include "ofxOpenCv.h"
+#include "ofCvBlobTracker.h"
+#include "ofCvBlobListener.h"
 
 
 // todo:
@@ -35,6 +28,7 @@ class cvBlob {
 public:
     
     ofPolyline blob;
+    ofPolyline vel;         // velocities for the points of this blob...
     int id;
     float age;
 
@@ -53,6 +47,10 @@ public:
     float width, height;                                // width and height of the tracked blobs
                                                         // use this to scale to a target
 
+    vector < ofVec2f > opticalFlow;                     // vel info at pt.  this is 
+    
+    
+    
     ofPoint getCentoidAt(int ID){
         int whichBlob = idToBlobPos[ID];
         return blobs[whichBlob].blob.getCentroid2D();
@@ -90,11 +88,8 @@ public:
 
 
 
-#ifdef USE_OLDER_BLOB_TRACKER
+
 class cvManager : public ofCvBlobListener {
-#else 
-class cvManager {
-#endif
 
 public:
     
@@ -106,7 +101,6 @@ public:
     
     ofParameterGroup cvParams;
     
-#ifdef USE_OLDER_BLOB_TRACKER
     
     ofxCvColorImage imgColor;
     ofxCvGrayscaleImage imgGray;
@@ -121,13 +115,6 @@ public:
     void blobMoved( int x, int y, int bid, int order );
     void blobOff( int x, int y, int bid, int order );
     
-#else 
-    
-    ofxCv::ContourFinder contourFinder;
-    ofParameter <int> persistance;
-    ofParameter <int> maximumDistance;
-    
-#endif
     
     // per frame, what happened with IDs.
     vector < int > bornThisFrame;
@@ -149,5 +136,10 @@ public:
     ofxCv::FlowFarneback fb;
     ofxCv::FlowPyrLK lk;
     ofxCv::Flow* curFlow;
+    
+    ofPixels pastFrame;
+    
+    opticalFlowThread OFT;
+    analyzeFrame frame;
     
 };

@@ -80,33 +80,34 @@ void plantsScene::addPlant(ofVec2f _pos, int id, bool bLeftSide){
     plants[i].id = id;
     plants[i].pointLinkId = ofRandom(pointLinkCount);
     
-    // calc direction
-    ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
-    for (auto & pt : line){
-        pt =cvData->remapForScreen(SCREEN_LEFT, pt);
-    }
-    
-    ofVec2f *point = new ofVec2f[pointLinkCount];
-    int step = line.size()/pointLinkCount;
-    int k = 0;
-    ofVec2f a(0, 0);
-    for (int j = 0; j < line.size(); j += step ) {
-        point[k] = line.getVertices()[j];
-        a += point[k];
-        k++;
-    }
-    ofVec2f centroid = a/pointLinkCount;
-    // find centroid
-    
-    ofVec2f &p1 = point[plants[i].pointLinkId];
-    ofVec2f delta = p1 - centroid;
-    float x = delta.x;
-    float y = delta.y;
+//    // calc direction
+//    ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//    for (auto & pt : line){
+//        pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+//    }
+//    
+//    ofVec2f *point = new ofVec2f[pointLinkCount];
+//    int step = line.size()/pointLinkCount;
+//    int k = 0;
+//    ofVec2f a(0, 0);
+//    for (int j = 0; j < line.size(); j += step ) {
+//        point[k] = line.getVertices()[j];
+//        a += point[k];
+//        k++;
+//    }
+//    ofVec2f centroid = a/pointLinkCount;
+//    // find centroid
+//    
+//    ofVec2f &p1 = point[plants[i].pointLinkId];
+//    ofVec2f delta = p1 - centroid;
+//    float x = delta.x;
+//    float y = delta.y;
     
     ofVec2f dir;
-    if (abs(y) > abs(x)) {
-        dir.set(0, -1); // up or down
-    } else {
+//    if (abs(y) > abs(x)) {
+//        dir.set(0, -1); // up or down
+//    } else {
+    if (true){
         if (!bLeftSide){ // right
             dir.set(1, 0);
         } else{ // left
@@ -191,7 +192,7 @@ void plantsScene::remove(int id){
     for(auto &p : plants){
         if(p.id == id){
             p.fadeOut();
-            p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
+            //p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
         }
     }
 }
@@ -260,62 +261,65 @@ void plantsScene::updatePlants(){
     ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
     dst.scaleTo(target);
     
-    
-    peoplePoints.clear();
-    for(auto &id: cvData->idsThisFrame){
-        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
-        if(line.size() > 0){
-            for (auto & pt : line){
-                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
-            }
-            for (int j = 0; j < line.size(); j += line.size()/10 ) {
-                peoplePoints.push_back(line.getVertices()[j]);
-            }
-        }
-    }
     for(auto &p: plants){
-        p.update();
-        int id = p.id;
-        int whichBlob = cvData->idToBlobPos[id];
-        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
-        
-        bool bUseHighestPt = true;
-        
-        if(line.size() > 0){
-            for (auto & pt : line){
-                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
-            }
-            
-            ofPoint highestPt;
-            
-            if (bUseHighestPt){
-                highestPt.x = 0;
-                highestPt.y = 10000000;
-                
-                for (auto pt : line){
-                    if (pt.y < highestPt.y){
-                        highestPt = pt;
-                    }
-                }
-            }
-            
-            ofVec2f *point = new ofVec2f[pointLinkCount];
-            int step = line.size()/pointLinkCount;
-            int k = 0;
-            for (int j = 0; j < line.size(); j += step ) {
-                point[k] = line.getVertices()[j];
-                k++;
-            }
-            if(!p.isFading){
-                
-                //p.setPos(highestPt, 0.4);
-                //p.setPos(point[p.pointLinkId], 0.5);
-            }else{
-                
-                //p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
-            }
-        }
+            p.update();
     }
+
+//    peoplePoints.clear();
+//    for(auto &id: cvData->idsThisFrame){
+//        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//        if(line.size() > 0){
+//            for (auto & pt : line){
+//                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+//            }
+//            for (int j = 0; j < line.size(); j += line.size()/10 ) {
+//                peoplePoints.push_back(line.getVertices()[j]);
+//            }
+//        }
+//    }
+//    for(auto &p: plants){
+//        p.update();
+//        int id = p.id;
+//        int whichBlob = cvData->idToBlobPos[id];
+//        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//        
+//        bool bUseHighestPt = true;
+//        
+//        if(line.size() > 0){
+//            for (auto & pt : line){
+//                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+//            }
+//            
+//            ofPoint highestPt;
+//            
+//            if (bUseHighestPt){
+//                highestPt.x = 0;
+//                highestPt.y = 10000000;
+//                
+//                for (auto pt : line){
+//                    if (pt.y < highestPt.y){
+//                        highestPt = pt;
+//                    }
+//                }
+//            }
+//            
+//            ofVec2f *point = new ofVec2f[pointLinkCount];
+//            int step = line.size()/pointLinkCount;
+//            int k = 0;
+//            for (int j = 0; j < line.size(); j += step ) {
+//                point[k] = line.getVertices()[j];
+//                k++;
+//            }
+//            if(!p.isFading){
+//                
+//                //p.setPos(highestPt, 0.4);
+//                //p.setPos(point[p.pointLinkId], 0.5);
+//            }else{
+//                
+//                //p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
+//            }
+//        }
+//    }
 }
 void plantsScene::updateBgPlants(){
     for(auto &p: bgPlants){

@@ -90,40 +90,72 @@ void eyesScene::updateEyeLinker(){
     eyeLinker.update();
 }
 void eyesScene::updateAveragePos(){
-    ofVec2f p;
-    float posYmax = ofGetHeight();
     
-    int size =  cvData->idsThisFrame.size();
-    for(auto &id: cvData->idsThisFrame){
-        if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-        ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
-        pos = cvData->remapForScreen(SCREEN_LEFT, pos);
-        p += pos;
-        if(pos.y < posYmax){
-            posYmax = pos.y;
+//    ofVec2f p;
+//    float posYmax = ofGetHeight();
+//    
+//    int size =  cvData->idsThisFrame.size();
+//    for(auto &id: cvData->idsThisFrame){
+//        
+//        
+//        //if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
+//        ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
+//        pos = cvData->remapForScreen(SCREEN_LEFT, pos);
+//        p += pos;
+//        if(pos.y < posYmax){
+//            posYmax = pos.y;
+//        }
+//        //}
+//    }
+//    p = ofVec2f(p.x/(size+1), posYmax);
+//    float s = 0.9;
+//    averagePos = averagePos*s + (1-s)*p;
+    
+    // rewritten without trackers
+    
+    ofPoint p;
+    float posYmax = ofGetHeight();
+
+    int size = 0;
+    for(auto &blob: cvData->blobs){
+
+        for (auto pos : blob.blob){
+            //if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
+            //ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
+            pos = cvData->remapForScreen(SCREEN_LEFT, pos);
+            p += pos;
+            size++;
+            if(pos.y < posYmax){
+                posYmax = pos.y;
+            }
         }
-        }
+        //}
     }
-    p = ofVec2f(p.x/(size+1), posYmax);
+    p = ofPoint(p.x/(size+1), posYmax);
     float s = 0.9;
     averagePos = averagePos*s + (1-s)*p;
 }
-void eyesScene::updateFastestPos(){
-    int targetId = 0;
-    ofVec2f zero(0, 0);
-    ofVec2f vel(0, 0);
 
-    for(auto &id: cvData->idsThisFrame){
-        ofVec2f curVel = (*(cvData->trackedContours))[id].velAvgSmooth;
-        if(curVel.distance(zero) > vel.distance(zero)){
-            vel = curVel;
-            targetId = id;
-        }
-    }
-    if ((*(cvData->trackedContours))[targetId].data.resampleSmoothed.size() > 0){
-        fastestPos = (*(cvData->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
-        fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
-    }
+
+void eyesScene::updateFastestPos(){
+    
+    // need something better here!
+    
+//    int targetId = 0;
+//    ofVec2f zero(0, 0);
+//    ofVec2f vel(0, 0);
+//
+//    for(auto &id: cvData->idsThisFrame){
+//        ofVec2f curVel = (*(cvData->trackedContours))[id].velAvgSmooth;
+//        if(curVel.distance(zero) > vel.distance(zero)){
+//            vel = curVel;
+//            targetId = id;
+//        }
+//    }
+//    if ((*(cvData->trackedContours))[targetId].data.resampleSmoothed.size() > 0){
+//        fastestPos = (*(cvData->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
+//        fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
+//    }
     
 }
 // ------------ draw
