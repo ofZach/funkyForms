@@ -29,7 +29,7 @@ void simpleScene::update(){
             float dot = velNorm.dot(ofPoint(0,-1)); // up
             if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > mapMe){
                 
-                // is this FACING up
+                // is this FACING up ?
                 ofPoint tan = cvData->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
                 if (tan.dot(ofPoint(0,-1)) > 0.1){
                 
@@ -146,9 +146,9 @@ void simpleScene::draw(){
             
             float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
             
-            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 10 * startScale);
-            ofFill();
-            ofCircle(particles[i].pos, 2); //draw();
+            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 3 * startScale);
+            //ofFill();
+            //ofCircle(particles[i].pos, 2); //draw();
         }
     }
     
