@@ -89,7 +89,7 @@ void TreeScene::setup() {
 			ButterFlyParticle bf;
 			bf.setInitialCondition(ofRandom(200, RM->getWidth()), ofRandom(0, RM->getHeight()), 0,0);
 			bf.setupButterfly();
-            bf.scale = 0.09; //panel.getValueF("BUTTERFLY_SCALE");
+            bf.scale = butterFlyScale; //panel.getValueF("BUTTERFLY_SCALE");
 			butterflys.push_back(bf);
 			butterflys.back().img = &theDot;
 			butterflys.back().color = butterFlyColor[(int)ofRandom(0, butterFlyColor.size()-1)];
@@ -161,8 +161,8 @@ void TreeScene::updateFlocking() {
     
 	for (int i = 0; i < butterflys.size(); i++){
 		
-        butterflys[i].scale = 0.09; //panel.getValueF("BUTTERFLY_SCALE");
-        butterflys[i].damping = 0.09; //panel.getValueF("BUTTERFLY_SPEED");
+        butterflys[i].scale = butterFlySpeed; //panel.getValueF("BUTTERFLY_SCALE");
+        butterflys[i].damping = butterFlySpeed; //panel.getValueF("BUTTERFLY_SPEED");
 		butterflys[i].resetForce();
 	}
 	
@@ -281,7 +281,7 @@ void TreeScene::update() {
 				treeBlobs[j].center     = center;
 				
 				// ok we are old enough lets make a blob
-                if(treeBlobs[j].age >= 1.3){ //panel.getValueF("TREE_DELAY")) {
+                if(treeBlobs[j].age >= treeDelay){ //panel.getValueF("TREE_DELAY")) {
 					
 					treeBlobs[j].initTime = ofGetElapsedTimef();
 					treeBlobs[j].numTreesMade ++;
@@ -291,7 +291,7 @@ void TreeScene::update() {
 					printf("--- time to grow a tree:%i---\n", treeBlobs[j].id);
 					trees.push_back(MagicTree());
 					
-                    trees.back().initTree(0, 0, ofRandom(10,20)); // /*(int)ofRandom(panel.getValueF("TREE_MIN")*/ /* panel.getValueF("TREE_MAX")*/));	// <--- i need a init pos
+                    trees.back().initTree(0, 0, ofRandom( treeMin,treeMax)); // /*(int)ofRandom(panel.getValueF("TREE_MIN")*/ /* panel.getValueF("TREE_MAX")*/));	// <--- i need a init pos
 					trees.back().img	= &theDot;
 					trees.back().id		= treeBlobs[j].id; 
 					trees.back().rect	= treeBlobs[j].rect;
@@ -325,12 +325,12 @@ void TreeScene::update() {
 	// --------------------- Tree People
 	for(int i=0; i<trees.size(); i++) {
 		
-        trees[i].curveRateX = 10.98; //panel.getValueF("GROW_C_X");
-        trees[i].curveRateY = 10.98; //panel.getValueF("GROW_C_Y");
-        trees[i].thetaRate = 0.08; //panel.getValueF("GROW_T");
-        trees[i].fadeRate = 6.0; //panel.getValueF("FADE_RATE");
-        trees[i].addTime = 1.0; //panel.getValueF("TREE_ADD_TIME");
-        trees[i].growRate = 0.98; //panel.getValueF("GROW_RATE");
+        trees[i].curveRateX = curveX; //panel.getValueF("GROW_C_X");
+        trees[i].curveRateY = curveY; //panel.getValueF("GROW_C_Y");
+        trees[i].thetaRate = thetaG; //panel.getValueF("GROW_T");
+        trees[i].fadeRate = fadeRate; //panel.getValueF("FADE_RATE");
+        trees[i].addTime = treeAddingTime; //panel.getValueF("TREE_ADD_TIME");
+        trees[i].growRate = growRate; //panel.getValueF("GROW_RATE");
 		trees[i].update();	
 	}
 	// clean up the trees
@@ -394,7 +394,7 @@ void TreeScene::draw() {
 	
 	// the big trees - funky style
 	glPushMatrix();
-	glTranslatef(0, 20.4 /*panel.getValueF("TREE_OFF")*/, 0);
+	glTranslatef(0, treeBottomOffset /*panel.getValueF("TREE_OFF")*/, 0);
 	for (int i = 0; i < trees.size(); i++){
 		trees[i].draw();
 	}
@@ -414,7 +414,7 @@ void TreeScene::draw() {
                 float y =  cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).y;  //cvData->blobs[i].blob[j].y * scaley;
 				
 				ofSetRectMode(OF_RECTMODE_CENTER);
-                ofSetColor(255, 255, 255, 255); //panel.getValueF("PEOPLE_GLOW"));
+                ofSetColor(255, 255, 255, peopleGlow); //panel.getValueF("PEOPLE_GLOW"));
 				theDotS.draw(x, y, 55, 55);
 				ofSetRectMode(OF_RECTMODE_CORNER);
 			}
@@ -423,7 +423,7 @@ void TreeScene::draw() {
 		}
 		
 		// people
-        float bc = 0; //panel.getValueF("PEOPLE_COLOR");
+        float bc = peopleColor; //panel.getValueF("PEOPLE_COLOR");
 		ofSetColor(bc, bc, bc);
 		ofFill();
 		ofBeginShape();
