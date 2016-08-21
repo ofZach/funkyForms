@@ -34,11 +34,18 @@ void eyesScene::setup(){
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
+    parameters.add(changeMode.set("changeMode", true));
+    parameters.add(isAutoChangeMode.set("isAutoChangeMode", false));
     gui.setup("settings_eyesScene", "settings_eyesScene.xml");
     gui.add(parameters);
     gui.add(eyeParticlesMode.parameters);
     gui.add(eyeLinkerMode.parameters);
     gui.loadFromFile("settings_eyesScene.xml");
+    
+    changeMode.addListener( this, &eyesScene::triggerAdvance);
+}
+void eyesScene::triggerAdvance(bool &b){
+    advanceMode();
 }
 modeBase *eyesScene::getMode(string name){
     if(name == "eyeLinkerMode") return modes[0];
@@ -72,7 +79,7 @@ void eyesScene::update(){
 //    updateEyeLinker();
 }
 void eyesScene::updateModes(){
-    if((ofGetFrameNum()+3)%380 == 0){
+    if(isAutoChangeMode && ofGetFrameNum()%360 == 0){
         advanceMode();
     }
     for(auto &m : modes){
@@ -84,20 +91,20 @@ void eyesScene::updateModes(){
 void eyesScene::updateModeSwitch(){
 }
 void eyesScene::updateTargets(){
-    int id = 0;
+    int idCounter = 0;
+
     for (int z = 0; z < 2; z++){
-        for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            
-            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
+        for(auto &id : cvData[z]->idsThisFrame){
+            int blobId = cvData[z]->idToBlobPos[id];
+            ofVec2f pt = cvData[z]->blobs[blobId].blob.getCentroid2D();
+            ofVec2f ptTop = cvData[z]->getTopPointAt(id);
+            ptTop = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, ptTop);
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
-            
-            ofVec2f vel = cvData[z]->blobs[i].avgVel;
-            
-            eyeLinkerMode.setTargetPos(id, pt);
-            eyeParticlesMode.setTargetPos(id, pt);
-            eyeParticlesMode.setTargetVel(id, vel);
-            
-            id++;
+            ofVec2f vel = cvData[z]->blobs[blobId].avgVel;
+            eyeLinkerMode.setTargetPos(z, id, ptTop);
+            eyeParticlesMode.setTargetPos(idCounter, pt);
+            eyeParticlesMode.setTargetVel(idCounter, vel);
+            idCounter++;
         }
     }
 }

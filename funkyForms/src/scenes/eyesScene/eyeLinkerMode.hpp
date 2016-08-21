@@ -30,7 +30,8 @@ public:
         ofVec2f pos;
         ofVec2f vel;
     };
-    map<int, Target> targets;
+    map<int, Target> targets[2];
+
     
     // eyeLinkers
     vector <EyeLinker> eyeLinkers;
@@ -47,8 +48,8 @@ public:
     void setup();
     void fadeIn();
     void fadeOut();
-    void setTargetPos(int id, ofVec2f pos); // should call before update
-    void setTargetVel(int id, ofVec2f vel); // should call before update
+    void setTargetPos(int packetId, int id, ofVec2f pos); // should call before update
+    void setTargetVel(int packetId, int id, ofVec2f vel); // should call before update
     void setupGui();
     void setupParameters(float &v);
     void addEye(int packetId, int id, ofVec2f pos);

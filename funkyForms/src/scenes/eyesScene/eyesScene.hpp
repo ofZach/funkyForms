@@ -35,11 +35,14 @@ public:
     ofxPanel gui;
     
     // change mode
+    ofParameter<bool> changeMode;
+    ofParameter<bool> isAutoChangeMode;
     vector<modeBase *> modes;
     int curMode = 0;
     
     void setup();
     void setupGui();
+    void triggerAdvance(bool &b);
     void advanceMode();
     
     modeBase *getMode(string name);

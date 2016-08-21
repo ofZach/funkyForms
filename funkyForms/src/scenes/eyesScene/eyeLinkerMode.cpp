@@ -61,11 +61,11 @@ void eyeLinkerMode::fadeOut(){
         e.out();
     }
 }
-void eyeLinkerMode::setTargetPos(int id, ofVec2f pos){
-    targets[id].pos = pos;
+void eyeLinkerMode::setTargetPos(int packetId, int id, ofVec2f pos){
+    targets[packetId][id].pos = pos;
 }
-void eyeLinkerMode::setTargetVel(int id, ofVec2f vel){
-    targets[id].vel = vel;
+void eyeLinkerMode::setTargetVel(int packetId, int id, ofVec2f vel){
+    targets[packetId][id].vel = vel;
 }
 void eyeLinkerMode::clear(){
     eyeLinkers.clear();
@@ -76,7 +76,8 @@ void eyeLinkerMode::update(){
     updateParameters();
     updateEyeRemoval();
     updateEye();
-    targets.clear();
+    targets[0].clear();
+    targets[1].clear();
 }
 void eyeLinkerMode::updateFadeCheck(){
     bool isFin = true;
@@ -105,10 +106,12 @@ void eyeLinkerMode::updateParameters(){
 }
 void eyeLinkerMode::updateEye(){
     for(auto &e : eyeLinkers ){
-        for(auto &t : targets){
-            if(t.first == e.id){
-                ofVec2f pos = t.second.pos;
-                e.setPos(pos);
+        for (int i = 0; i < 2; i++) {
+            for(auto &t : targets[i]){
+                if(i == e.packetId && t.first == e.id ){
+                    ofVec2f pos = t.second.pos;
+                    e.setPos(pos);
+                }
             }
         }
         float s = ofMap(e.vel.length(), -inputScaleRange, inputScaleRange, scale-outputScaleRange, scale+outputScaleRange, scaleClip);
@@ -117,11 +120,16 @@ void eyeLinkerMode::updateEye(){
     }
 }
 void eyeLinkerMode::updateEyeRemoval(){
-    for(int i = 0; i < eyeLinkers.size(); i++){
-        if(eyeLinkers[i].isFinished()){
-            eyeLinkers.erase(eyeLinkers.begin() + i);
-        }
-    }
+    eyeLinkers.erase(std::remove_if(
+                                     eyeLinkers.begin(),
+                                     eyeLinkers.end(),
+                                     
+                                     [&](EyeLinker & e){
+                                         return e.isFinished();
+                                     }
+                                     ),
+                      eyeLinkers.end()
+                      );
 }
 // ------------------- draw
 void eyeLinkerMode::draw(){
