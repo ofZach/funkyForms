@@ -61,8 +61,8 @@ public:
     void start();
     void stop();
     
-    void blobBorn(int id);
-    void blobDied(int id);
+    void blobBorn(int packetId, int id);
+    void blobDied(int packetId, int id);
 };
 
 #endif /* eyesScene_hpp */

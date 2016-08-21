@@ -84,10 +84,10 @@ void eyesScene::updateModes(){
 void eyesScene::updateModeSwitch(){
 }
 void eyesScene::updateTargets(){
-    for(auto &id : cvData->idsThisFrame){
-        ofPoint pt = cvData->getTopPointAt(id);
-        ofVec2f vel = cvData->getVelAvgSmoothAt(id);
-        pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
+    for(auto &id : cvData[0]->idsThisFrame){
+        ofPoint pt = cvData[0]->getTopPointAt(id);
+        ofVec2f vel = cvData[0]->getVelAvgSmoothAt(id);
+        pt =  cvData[0]->remapForScreen(SCREEN_LEFT, pt);
         
         eyeLinkerMode.setTargetPos(id, pt);
         eyeParticlesMode.setTargetPos(id, pt);
@@ -128,13 +128,13 @@ void eyesScene::updateAveragePos(){
 //    ofVec2f p;
 //    float posYmax = ofGetHeight();
 //    
-//    int size =  cvData->idsThisFrame.size();
-//    for(auto &id: cvData->idsThisFrame){
+//    int size =  cvData[0]->idsThisFrame.size();
+//    for(auto &id: cvData[0]->idsThisFrame){
 //        
 //        
-//        //if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-//        ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
-//        pos = cvData->remapForScreen(SCREEN_LEFT, pos);
+//        //if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){
+//        ofVec2f pos = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
+//        pos = cvData[0]->remapForScreen(SCREEN_LEFT, pos);
 //        p += pos;
 //        if(pos.y < posYmax){
 //            posYmax = pos.y;
@@ -151,12 +151,12 @@ void eyesScene::updateAveragePos(){
     float posYmax = ofGetHeight();
 
     int size = 0;
-    for(auto &blob: cvData->blobs){
+    for(auto &blob: cvData[0]->blobs){
 
         for (auto pos : blob.blob){
-            //if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-            //ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
-            pos = cvData->remapForScreen(SCREEN_LEFT, pos);
+            //if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){
+            //ofVec2f pos = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
+            pos = cvData[0]->remapForScreen(SCREEN_LEFT, pos);
             p += pos;
             size++;
             if(pos.y < posYmax){
@@ -179,16 +179,16 @@ void eyesScene::updateFastestPos(){
 //    ofVec2f zero(0, 0);
 //    ofVec2f vel(0, 0);
 //
-//    for(auto &id: cvData->idsThisFrame){
-//        ofVec2f curVel = (*(cvData->trackedContours))[id].velAvgSmooth;
+//    for(auto &id: cvData[0]->idsThisFrame){
+//        ofVec2f curVel = (*(cvData[0]->trackedContours))[id].velAvgSmooth;
 //        if(curVel.distance(zero) > vel.distance(zero)){
 //            vel = curVel;
 //            targetId = id;
 //        }
 //    }
-//    if ((*(cvData->trackedContours))[targetId].data.resampleSmoothed.size() > 0){
-//        fastestPos = (*(cvData->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
-//        fastestPos = cvData->remapForScreen(SCREEN_LEFT, fastestPos);
+//    if ((*(cvData[0]->trackedContours))[targetId].data.resampleSmoothed.size() > 0){
+//        fastestPos = (*(cvData[0]->trackedContours))[targetId].data.resampleSmoothed.getVertices()[0];
+//        fastestPos = cvData[0]->remapForScreen(SCREEN_LEFT, fastestPos);
 //    }
     
 }
@@ -218,11 +218,11 @@ void eyesScene::drawEyes(){
     }
 }
 void eyesScene::drawPeople(){
-    for (int i = 0; i < cvData->blobs.size(); i++){
+    for (int i = 0; i < cvData[0]->blobs.size(); i++){
         ofSetColor(255);
-        ofPolyline line = cvData->blobs[i].blob;
+        ofPolyline line = cvData[0]->blobs[i].blob;
         for (auto & pt : line){
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
         }
         line.draw();
     }
@@ -234,12 +234,18 @@ void eyesScene::start(){
 void eyesScene::stop(){
     eyeLinkerMode.clear();
 }
-void eyesScene::blobBorn(int id){
-    ofPoint pt = cvData->getTopPointAt(id);
-    pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+void eyesScene::blobBorn(int packetId, int id){
+    
+    if (packetId == 1) return;
+    
+    ofPoint pt = cvData[0]->getTopPointAt(id);
+    pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
     if(!getMode("eyeLinkerMode")->isFading) eyeLinkerMode.addEye(id, pt);
 }
-void eyesScene::blobDied(int id){
+void eyesScene::blobDied(int packetId, int id){
+    
+    if (packetId == 1) return;
+    
     if(!getMode("eyeLinkerMode")->isFading) eyeLinkerMode.removeEye(id);
 }
 

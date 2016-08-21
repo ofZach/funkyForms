@@ -9,12 +9,12 @@ void simpleScene::update(){
     
     
     
-    for (int i = 0; i < cvData->blobs.size(); i++){
+    for (int i = 0; i < cvData[0]->blobs.size(); i++){
         
-        ofPoint avgVelSmoothed = cvData->blobs[i].avgVelSmoothed;
+        ofPoint avgVelSmoothed = cvData[0]->blobs[i].avgVelSmoothed;
         
         
-        ofPolyline & line = cvData->blobs[i].blob;
+        ofPolyline & line = cvData[0]->blobs[i].blob;
         
         // different ways to use it...
         //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
@@ -23,14 +23,14 @@ void simpleScene::update(){
             float mapMe = ofMap(avgVelSmoothed.y, -1, -3, 0.99, 0.9);
         for (int j = 0; j < line.size(); j++){
             ofPoint pt = line[j];
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
-            ofPoint vel = cvData->blobs[i].vel[j];
+            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
+            ofPoint vel = cvData[0]->blobs[i].vel[j];
             ofPoint velNorm = vel.getNormalized();
             float dot = velNorm.dot(ofPoint(0,-1)); // up
             if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > mapMe){
                 
                 // is this FACING up ?
-                ofPoint tan = cvData->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
+                ofPoint tan = cvData[0]->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
                 if (tan.dot(ofPoint(0,-1)) > 0.1){
                 
                     particleWithAge temp;
@@ -51,7 +51,7 @@ void simpleScene::update(){
 
     
     
-    ofRectangle target = cvData->getScreenRemapRectangle(SCREEN_LEFT);
+    ofRectangle target = cvData[0]->getScreenRemapRectangle(SCREEN_LEFT);
     
     for (int i = 0; i < particles.size(); i++){
         particles[i].resetForce();
@@ -77,17 +77,17 @@ void simpleScene::update(){
     
     // get flow from the field:
     for (int i = 0; i < particles.size(); i++){
-        ofPoint vel = cvData->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
+        ofPoint vel = cvData[0]->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
         particles[i].addForce(vel.x*0.03, vel.y*0.03);
     }
     
     // alternatively search for the closest pt...  we can simplify things by looking in a thin way:
     
 //    vector < ofPolyline > blobsRemapped;
-//    for (auto & blob : cvData->blobs){
+//    for (auto & blob : cvData[0]->blobs){
 //        ofPolyline temp;
 //        for (auto & pt : blob.blob){
-//            ofPoint newPt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//            ofPoint newPt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //            temp.addVertex(newPt);
 //        }
 //        blobsRemapped.push_back(temp);
@@ -103,7 +103,7 @@ void simpleScene::update(){
 //                 float dist = (    blobsRemapped[j][k] - pos).length();
 //                 if (dist < minDistance){
 //                     minDistance = dist;
-//                     closestVel = cvData->blobs[j].vel[k];
+//                     closestVel = cvData[0]->blobs[j].vel[k];
 //                 }
 //             }
 //             
@@ -154,18 +154,18 @@ void simpleScene::draw(){
     
     ofSetColor(255,255,255);
     
-    for (int i = 0; i < cvData->blobs.size(); i++){
+    for (int i = 0; i < cvData[0]->blobs.size(); i++){
         
-        ofPoint avgVelSmoothed = cvData->blobs[i].avgVelSmoothed;
+        ofPoint avgVelSmoothed = cvData[0]->blobs[i].avgVelSmoothed;
         
-        ofPolyline line = cvData->blobs[i].blob;
+        ofPolyline line = cvData[0]->blobs[i].blob;
         for (auto & pt : line.getVertices()){
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
         }
         line.draw();
         
-        ofPoint centroid = cvData->blobs[i].blob.getCentroid2D();
-        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+        ofPoint centroid = cvData[0]->blobs[i].blob.getCentroid2D();
+        centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
         
         ofLine(centroid, centroid + avgVelSmoothed * 10);
     }
@@ -178,10 +178,10 @@ void simpleScene::draw(){
 //    
 //
 //    
-//    for (int i = 0; i < cvData->blobs.size(); i++){
-//        ofPolyline line = cvData->blobs[i].blob;
+//    for (int i = 0; i < cvData[0]->blobs.size(); i++){
+//        ofPolyline line = cvData[0]->blobs[i].blob;
 //        for (auto & pt : line.getVertices()){
-//            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //        }
 //        
 //        ofSetColor(255,255,255, 50);
@@ -325,11 +325,11 @@ void simpleScene::draw(){
 ////        int id = particles[i].id;
 ////        float age = ofGetElapsedTimef() - particles[i].age;
 ////        
-////        int whichBlob = cvData->idToBlobPos[id];
+////        int whichBlob = cvData[0]->idToBlobPos[id];
 ////        
-////        ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+////        ofPoint centroid = cvData[0]->blobs[whichBlob].blob.getCentroid2D();
 ////        
-////        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+////        centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
 ////        
 ////        ofNoFill();
 ////        
@@ -345,7 +345,7 @@ void simpleScene::draw(){
 }
 
 
-void simpleScene::blobBorn(int id){
+void simpleScene::blobBorn(int packetId, int id){
     
 //    bornParticle p;
 //    p.id = id;
@@ -353,7 +353,7 @@ void simpleScene::blobBorn(int id){
 //    particles.push_back(p);
 }
 
-void simpleScene::blobDied(int id){
+void simpleScene::blobDied(int packetId, int id){
  
     
     

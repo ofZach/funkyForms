@@ -52,6 +52,7 @@ void wave::updateForces(){
     float force2 = 1 - friction * timeStep * timeStep;
     
     for (int i = 0; i < points.size(); i++) {
+
 //        for(auto &t : targets){
 //            if(t.pos.distance(points[i].p)<30){
 //                if (!points[i].isFixed) {
@@ -60,12 +61,14 @@ void wave::updateForces(){
 //            }
 //        }
 //        for(auto &id: cvData->idsThisFrame){
+
+
 //            // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
 //            // have any vertices... adding a check.
-//            if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-//                ofVec2f pos = (*(cvData->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
-//                pos = cvData->remapForScreen(SCREEN_LEFT, pos);
-//                ofVec2f vel =  (*(cvData->trackedContours))[id].velAvgSmooth;
+//            if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){
+//                ofVec2f pos = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
+//                pos = cvData[0]->remapForScreen(SCREEN_LEFT, pos);
+//                ofVec2f vel =  (*(cvData[0]->trackedContours))[id].velAvgSmooth;
 //                if(pos.distance(points[i].p)<30){
 //                    if (!points[i].isFixed) {
 //                        points[i].p.y += vel.normalize().y*force;

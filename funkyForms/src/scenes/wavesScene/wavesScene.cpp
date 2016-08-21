@@ -43,42 +43,70 @@ void wavesScene::update(){
     if(isStencilWaveMode) stencilWaves.update();
 }
 void wavesScene::updateInput(){
-    for (int i = 0; i < cvData->blobs.size(); i++){
-        ofPolyline line = cvData->blobs[i].blob;
-        
-        ofVec2f pt = cvData->blobs[i].centroidSmoothed;
-        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
-
-        for (auto & p : line.getVertices()){
-            p = cvData->remapForScreen(SCREEN_LEFT, p);
-        }
-        if(isStencilWaveMode){
-            stencilWaves.addPath(line);
-            
-            ofVec2f vel = cvData->blobs[i].avgVel;
-
-            for(auto &w: stencilWaves.waves){
-                for(auto &p: w.points){
-                    if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
-                        w.addForceTo(&p, vel.normalize().y);
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            ofPolyline line = cvData[z]->blobs[i].blob;
+    
+            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
+            pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+    
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            }
+            if(isStencilWaveMode){
+                stencilWaves.addPath(line);
+    
+                ofVec2f vel = cvData[z]->blobs[i].avgVel;
+    
+                for(auto &w: stencilWaves.waves){
+                    for(auto &p: w.points){
+                        if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                            w.addForceTo(&p, vel.normalize().y);
+                        }
                     }
                 }
+                
             }
             
         }
-
     }
+//    for (int i = 0; i < cvData->blobs.size(); i++){
+//        ofPolyline line = cvData->blobs[i].blob;
+//        
+//        ofVec2f pt = cvData->blobs[i].centroidSmoothed;
+//        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//
+//        for (auto & p : line.getVertices()){
+//            p = cvData->remapForScreen(SCREEN_LEFT, p);
+//        }
+//        if(isStencilWaveMode){
+//            stencilWaves.addPath(line);
+//            
+//            ofVec2f vel = cvData->blobs[i].avgVel;
+//
+//            for(auto &w: stencilWaves.waves){
+//                for(auto &p: w.points){
+//                    if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+//                        w.addForceTo(&p, vel.normalize().y);
+//                    }
+//                }
+//            }
+//            
+//        }
+//
+//    }
 
-    for(auto &id: cvData->idsThisFrame){
+
+
         // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
         // have any vertices... adding a check.
-//        if ((*(cvData->trackedContours))[id].data.resampleSmoothed.size() > 0){
-//            ofPolyline &line =  (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//        if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){
+//            ofPolyline &line =  (*(cvData[0]->trackedContours))[id].data.resampleSmoothed;
 //            
 //            for (int i = 0; i < line.size(); i += line.size()/10 ) {
 //                ofPoint pt = line.getVertices()[i];
-//                pt =  cvData->remapForScreen(SCREEN_LEFT, pt);
-//                ofVec2f vel = (*(cvData->trackedContours))[id].data.velPts[i];
+//                pt =  cvData[0]->remapForScreen(SCREEN_LEFT, pt);
+//                ofVec2f vel = (*(cvData[0]->trackedContours))[id].data.velPts[i];
 //                if(isGradientWavesMode){
 //                    for(auto &w: gradientWaves.waves){
 //                        w.addTarget(pt, vel);
@@ -91,17 +119,17 @@ void wavesScene::updateInput(){
 //                }
 //            }
 //            if(isStencilWaveMode){
-//                ofPolyline line2 = cvData->getResampledLineAt(id, 2);
+//                ofPolyline line2 = cvData[0]->getResampledLineAt(id, 2);
 //                ofPolyline lineOffset;
 //                for(auto &p : line2 ){
 //                    ofPoint point = p;
-//                    point = cvData->remapForScreen(SCREEN_LEFT, point);
+//                    point = cvData[0]->remapForScreen(SCREEN_LEFT, point);
 //                    lineOffset.lineTo(point);
 //                }
 //                stencilWaves.addPath(lineOffset);
 //            }
 //        }
-    }
+
 }
 // ------------ Draw
 void wavesScene::draw(){
@@ -115,11 +143,11 @@ void wavesScene::drawGui(){
      gui.draw();
 }
 void wavesScene::drawPeople(){
-    for (int i = 0; i < cvData->blobs.size(); i++){
+    for (int i = 0; i < cvData[0]->blobs.size(); i++){
         ofSetColor(255);
-        ofPolyline line = cvData->blobs[i].blob;
+        ofPolyline line = cvData[0]->blobs[i].blob;
         for (auto & pt : line){
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
         }
         line.draw();
     }
@@ -130,9 +158,9 @@ void wavesScene::start(){
 void wavesScene::stop(){
     
 }
-void wavesScene::blobBorn(int id){
+void wavesScene::blobBorn(int packetId, int id){
     
 }
-void wavesScene::blobDied(int id){
+void wavesScene::blobDied(int packetId, int id){
     
 }

@@ -112,8 +112,8 @@ public:
     void updatePlantsParameters();
     void updatePlantRemoval();
 
-    void blobBorn(int id);
-    void blobDied(int id);
+    void blobBorn(int packetId, int id);
+    void blobDied(int packetId, int id);
     
     void start();
     void stop();

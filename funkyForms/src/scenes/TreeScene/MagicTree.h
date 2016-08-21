@@ -32,6 +32,7 @@ public:
 	// blob information
 	int					frameAge;
 	int					id;
+    int                 packetId;
 	bool				bDead;
 	bool				bNoBlobAnymore;
 	ofVec2f			center;

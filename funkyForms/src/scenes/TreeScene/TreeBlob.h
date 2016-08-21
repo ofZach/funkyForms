@@ -8,6 +8,7 @@ public:
 	ofRectangle rect;
 	ofPoint center;
 	int id;
+    int packetId;
 	float initTime;
 	float age;
 	

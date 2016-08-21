@@ -16,12 +16,11 @@ void ofApp::setup(){
     
     ofRectangle bounds;
     
-    
-    
-    SM.scenes.push_back(new simpleScene());
-     SM.scenes.push_back(new simpleScene2());
-    SM.scenes.push_back(new plantsScene());
     SM.scenes.push_back(new TreeScene());
+    SM.scenes.push_back(new plantsScene());
+    SM.scenes.push_back(new simpleScene());
+    SM.scenes.push_back(new simpleScene2());
+    
     SM.scenes.push_back(new MonsterScene());
     SM.scenes.push_back(new eyesScene());
     SM.scenes.push_back(new wavesScene());
@@ -29,10 +28,13 @@ void ofApp::setup(){
     IM.setup();
     RM.setup();
     
-    IM.CVM.packet.RM = &RM;
+    IM.CVM[0].packet.RM = &RM;
+    IM.CVM[1].packet.RM = &RM;
 
     for (int i = 0; i < SM.scenes.size(); i++){
-        SM.scenes[i]->cvData = &IM.CVM.packet;
+        SM.scenes[i]->cvData[0] = &IM.CVM[0].packet;
+        SM.scenes[i]->cvData[1] = &IM.CVM[1].packet;
+        //SM.scenes[i]->cvData[0]
         SM.scenes[i]->RM = &RM;
     }
     
@@ -43,7 +45,9 @@ void ofApp::setup(){
     
     
     
-    IM.CVM.RM = &RM;
+    IM.CVM[0].RM = &RM;
+    IM.CVM[1].RM = &RM;
+
 
 }
 
@@ -54,21 +58,23 @@ void ofApp::update(){
     
     //-----------------------------------------------------------
     // check for new or dead blobs;
-        for (auto a : IM.CVM.bornThisFrame){
-            SM.blobBorn(a);
+    for (int i = 0; i < 2; i++){
+        for (auto a : IM.CVM[i].bornThisFrame){
+            SM.blobBorn(i, a);
         }
         
-        for (auto a : IM.CVM.diedThisFrame){
-            SM.blobDied(a);
+        for (auto a : IM.CVM[i].diedThisFrame){
+            SM.blobDied(i, a);
         }
     
-        for (auto a : IM.CVM.movedThisFrame){
-            SM.blobMoved(a);
+        for (auto a : IM.CVM[i].movedThisFrame){
+            SM.blobMoved(i, a);
         }
     
-        IM.CVM.diedThisFrame.clear();
-        IM.CVM.bornThisFrame.clear();
-        IM.CVM.movedThisFrame.clear();
+        IM.CVM[i].diedThisFrame.clear();
+        IM.CVM[i].bornThisFrame.clear();
+        IM.CVM[i].movedThisFrame.clear();
+    }
     
     //-----------------------------------------------------------
     

@@ -26,14 +26,14 @@ void sceneManager::drawGui(){
     scenes[currentScene]->drawGui();
 }
 
-void sceneManager::blobBorn(int id){
-    scenes[currentScene]->blobBorn(id);
+void sceneManager::blobBorn(int packetId, int id){
+    scenes[currentScene]->blobBorn(packetId, id);
 }
 
-void sceneManager::blobDied(int id){
-    scenes[currentScene]->blobDied(id);
+void sceneManager::blobDied(int packetId, int id){
+    scenes[currentScene]->blobDied(packetId, id);
 }
 
-void sceneManager::blobMoved(int id){
-    scenes[currentScene]->blobMoved(id);
+void sceneManager::blobMoved(int packetId, int id){
+    scenes[currentScene]->blobMoved(packetId, id);
 }

@@ -125,7 +125,8 @@ public:
 
 		pos.x			 = blob.getCentroid2D().x;
 		pos.y			 = blob.getCentroid2D().y;
-
+        
+        
 		monsterID    = id;
 
 		printf("	monster %i made\n", monsterID);
@@ -387,8 +388,10 @@ public:
 
 		// ---------------------------------- move the eyes into position
 		if(bMonster) {
-			float dy = rect.y+pos.y;
-			highestPnt.y = dy/2;
+//			float dy = rect.y+pos.y;
+//            cout << "why " << dy << rect << " " << pos << endl;
+//            
+//			highestPnt.y = dy/2;
 
 			// update the eyes
 			for(int i=0; i<numEyes; i++) {
