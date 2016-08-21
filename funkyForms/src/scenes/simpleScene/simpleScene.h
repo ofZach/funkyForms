@@ -3,7 +3,7 @@
 
 #include "ofMain.h"
 #include "baseScene.h"
-#include "particle.h"
+#include "particleWithAge.hpp"
 
 
 //typedef struct {
@@ -13,14 +13,7 @@
 //    
 //} bornParticle;
 
-class particleWithAge : public particle{
-    
-public:
-    
-    float age;
-    
-    
-} ;
+
 
 
 class simpleScene : public baseScene {

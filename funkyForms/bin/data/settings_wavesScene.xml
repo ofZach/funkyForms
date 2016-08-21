@@ -21,9 +21,9 @@
 	</gradientWavesParameters>
 	<stencilWavesParameters>
 		<amount>30.3571</amount>
-		<strength>0.164102</strength>
+		<strength>0.209974</strength>
 		<restLength>10.7449</restLength>
-		<invMass>0.2885</invMass>
+		<invMass>0.617857</invMass>
 		<force>1.72449</force>
 		<refractParameters>
 			<offsetX>0.901083</offsetX>
@@ -39,9 +39,10 @@
 			<noiseSpeedY>0.357143</noiseSpeedY>
 		</refractParameters>
 		<glowRadius>82.5</glowRadius>
-		<glowOpacity>232.883</glowOpacity>
+		<glowOpacity>209.464</glowOpacity>
 		<peopleOpacity>255</peopleOpacity>
 	<screenScale>1</screenScale>
+	<wavePos>91.3775</wavePos>
 	</stencilWavesParameters>
 <settings_wavesScene/>
 </settings_wavesScene>
