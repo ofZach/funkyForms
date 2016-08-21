@@ -16,7 +16,8 @@ void iColor::init(){
     colors.clear();
     length = 1;
     for (int i = 0; i < colorCounts; i++) {
-        colors.push_back(*new Color);
+        Color col;
+        colors.push_back(col);
         if (i == 0) {
             colors[i].isGrow = true;
         }

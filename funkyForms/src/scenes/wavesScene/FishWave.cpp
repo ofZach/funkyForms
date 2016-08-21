@@ -37,6 +37,9 @@ void FishWave::addSplash(){
 void FishWave::addFish(){
     fishPos = polyline.getPointAtPercent(ofRandom(0, 1));
     fishes.clear();
+    for(auto &s : shapes){
+        delete s;
+    }
     shapes.clear();
     particle myParticle;
     myParticle.setInitialCondition(fishPos.x, fishPos.y, 0, ofRandom(-0.7, -0.8));
