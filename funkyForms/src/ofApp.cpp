@@ -54,6 +54,17 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
+//
+//    cout << "------------------" << endl;
+//    for (int i = 0; i < 2; i++){
+//        cout << "packet " << i << " : " << endl;
+//        for (auto id : IM.CVM[i].packet.idsThisFrame){
+//            cout << id << ",";
+//        }
+//        cout << endl;
+//    }
+    
+    
     IM.update();
     
     //-----------------------------------------------------------

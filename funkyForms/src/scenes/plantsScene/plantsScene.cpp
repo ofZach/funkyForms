@@ -431,6 +431,8 @@ void plantsScene::drawPeople(){
         for (int i = 0; i < cvData[packetId]->blobs.size(); i++){
         
             float age = cvData[packetId]->blobs[i].age;
+            cout << "my age " << age << endl;
+            
             ofPolyline line = cvData[packetId]->blobs[i].blob;
             for (auto & pt : line.getVertices()){
                 pt = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
