@@ -45,17 +45,30 @@ void wavesScene::update(){
 void wavesScene::updateInput(){
     for (int i = 0; i < cvData->blobs.size(); i++){
         ofPolyline line = cvData->blobs[i].blob;
-        for (auto & pt : line.getVertices()){
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        
+        ofVec2f pt = cvData->blobs[i].centroidSmoothed;
+        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+
+        for (auto & p : line.getVertices()){
+            p = cvData->remapForScreen(SCREEN_LEFT, p);
         }
         if(isStencilWaveMode){
             stencilWaves.addPath(line);
-            ofVec2f pt = cvData->blobs[i].point;
+            
+            ofVec2f vel = cvData->blobs[i].avgVel;
+
             for(auto &w: stencilWaves.waves){
-                w.addTarget(pt, vel);
+                for(auto &p: w.points){
+                    if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                        w.addForceTo(&p, vel.normalize().y);
+                    }
+                }
             }
+            
         }
+
     }
+
     for(auto &id: cvData->idsThisFrame){
         // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
         // have any vertices... adding a check.
@@ -92,6 +105,7 @@ void wavesScene::updateInput(){
 }
 // ------------ Draw
 void wavesScene::draw(){
+
     if(isGradientWavesMode) gradientWaves.draw();
     if(isStencilWaveMode) stencilWaves.draw();
 

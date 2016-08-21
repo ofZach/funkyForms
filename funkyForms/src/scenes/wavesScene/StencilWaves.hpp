@@ -69,7 +69,7 @@ public:
     void addWave(int y);
     void reload(float &v);
     void addPath(ofPolyline &contour);
-    
+        
     void update();
     void updateFbos();
     void updateMasks();

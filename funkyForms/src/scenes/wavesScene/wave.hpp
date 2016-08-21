@@ -58,6 +58,7 @@ public:
         t.vel = vel;
         targets.push_back(t);
     }
+    void addForceTo(Point_ *p, float _force);
     
     void update();
     void updatePolyline();
