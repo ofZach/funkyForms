@@ -9,7 +9,12 @@ void inputManager::setup(){
     player.load("testFootage/bodies0.mov");
     player.play();
     
-    CVM.setup();
+    player2.load("testFootage/bodies1.mov");
+    player2.play();
+
+    
+    CVM[0].setup();
+    CVM[1].setup();
     
     inputQuad.push_back( cv::Point2f(  15,58 ));
     inputQuad.push_back( cv::Point2f( 308,54  ));
@@ -24,12 +29,18 @@ void inputManager::setup(){
 void inputManager::update(){
     
     player.update();
+    player2.update();
+    
     if (player.isFrameNew()){
-        
         ofxCv::unwarpPerspective(player, inputWarped, inputQuad);
         inputWarped.update();
-        CVM.update(inputWarped.getPixels());
-        
+        CVM[0].update(inputWarped.getPixels());
+    }
+    
+    if (player2.isFrameNew()){
+        ofxCv::unwarpPerspective(player2, inputWarped, inputQuad);
+        inputWarped.update();
+        CVM[1].update(inputWarped.getPixels());
     }
 }
 
@@ -42,7 +53,8 @@ void inputManager::draw(){
     
     ofPushMatrix();
     //ofTranslate(player.getWidth(), inputWarped.getHeight());
-    CVM.draw();
+    CVM[0].draw();
+    ofTranslate(500,0);
+    CVM[1].draw();
     ofPopMatrix();
-    
 }

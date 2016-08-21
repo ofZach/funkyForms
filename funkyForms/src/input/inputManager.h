@@ -13,9 +13,11 @@ public:
     void update();
     void draw();
     
-    cvManager CVM;
+    cvManager CVM[2];
     
     ofVideoPlayer player;
+    ofVideoPlayer player2;
+    
     
     vector < cv::Point2f > inputQuad;
 

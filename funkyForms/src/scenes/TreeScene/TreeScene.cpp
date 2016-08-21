@@ -156,12 +156,7 @@ void TreeScene::updateFlocking() {
 //	
 //    float scalex =  1; //(float)RM->getWidth() / (float)packet.width;
 //    float scaley = 1; //(float)RM->getHeight() / (float)packet.height;
-//	
-    ofRectangle src(0,0,cvData->width, cvData->height);
-    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-    ofRectangle dst = src;    dst.scaleTo(target);
-    float scaleCoordinates = dst.getWidth() / src.getWidth();
-    
+//
     
     ofRectangle bottomScreen = RM->getRectForScreen(SCREEN_CENTER);
     ofRectangle leftScreen = RM->getRectForScreen(SCREEN_LEFT);
@@ -170,7 +165,6 @@ void TreeScene::updateFlocking() {
     ofRectangle leftScreenBig = RM->getRectForScreen(SCREEN_LEFT);
     ofRectangle rightScreenBig = RM->getRectForScreen(SCREEN_RIGHT);
     ofRectangle topScreenBig = RM->getRectForScreen(SCREEN_TOP);
-    
     ofRectangle topScreen = RM->getRectForScreen(SCREEN_CENTER);
     
     
@@ -217,37 +211,39 @@ void TreeScene::updateFlocking() {
 		}
 		
 		
-		for(int q=0; q<cvData->blobs.size(); q++) {
-			
-            
-            float velLen = cvData->blobs[q].avgVelSmoothed.length();
-            
-			ofRectangle newRec = cvData->blobs[q].blob.getBoundingBox();
-			
-            ofPoint a = newRec.getTopLeft();
-            ofPoint b = newRec.getBottomRight();
-            
-            a =cvData->remapForScreen(SCREEN_LEFT, a);
-            b =cvData->remapForScreen(SCREEN_LEFT, b);
-//
-            ofRectangle newRecScaled;
-            newRecScaled.set(a.x, a.y, b.x-a.x, b.y-a.y);
-            
-#pragma mark tofix
-            float forceFactor = (float)(newRec.getWidth() * newRec.getHeight()) / (float)((cvData->width)*(cvData->height));
-			
-//			newRec.x		*= scalex;
-//			newRec.y		*= scaley;
-//			newRec.width	*= scalex;
-//			newRec.height	*= scaley;
-			ofPoint center;
-			center.x =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[q].blob.getCentroid2D()).x;
-			center.y =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[q].blob.getCentroid2D()).y;
-			
-			butterflys[i].addAttractionForce(center.x, center.y - 20, 400, velLen*0.3);
-			
-			
-		}
+        for (int z=0; z < 2; z++){
+            for(int q=0; q<cvData[z]->blobs.size(); q++) {
+                
+                
+                float velLen = cvData[z]->blobs[q].avgVelSmoothed.length();
+                
+                ofRectangle newRec = cvData[z]->blobs[q].blob.getBoundingBox();
+                
+                ofPoint a = newRec.getTopLeft();
+                ofPoint b = newRec.getBottomRight();
+                
+                a =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, a);
+                b =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, b);
+    //
+                ofRectangle newRecScaled;
+                newRecScaled.set(a.x, a.y, b.x-a.x, b.y-a.y);
+                
+    #pragma mark tofix
+                float forceFactor = (float)(newRec.getWidth() * newRec.getHeight()) / (float)((cvData[z]->width)*(cvData[z]->height));
+                
+    //			newRec.x		*= scalex;
+    //			newRec.y		*= scaley;
+    //			newRec.width	*= scalex;
+    //			newRec.height	*= scaley;
+                ofPoint center;
+                center.x =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[q].blob.getCentroid2D()).x;
+                center.y =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[q].blob.getCentroid2D()).y;
+                
+                butterflys[i].addAttractionForce(center.x, center.y - 20, 400, velLen*0.3);
+                
+                
+            }
+        }
 	}
     
     for (int i = 0; i < butterflys.size(); i++){
@@ -300,86 +296,78 @@ void TreeScene::update() {
     //float scalex = 1; //(float)RM->getWidth() / (float)packet.width;
     //float scaley = 1; //(float)RM->getHeight() / (float)packet.height;
 	
-    ofRectangle src(0,0,cvData->width, cvData->height);
-    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-    ofRectangle dst = src;    dst.scaleTo(target);
-    float scaleCoordinates = dst.getWidth() / src.getWidth();
     
 	
 	// --------------------- Tree Blobs
-	for(int i=0; i<cvData->blobs.size(); i++) {
-		
-		int lookID = cvData->blobs[i].id;
-		
-		ofRectangle newRec = cvData->blobs[i].blob.getBoundingBox();
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i < cvData[z]->blobs.size(); i++) {
+            
+            int lookID = cvData[z]->blobs[i].id;
+            
+            ofRectangle newRec = cvData[z]->blobs[i].blob.getBoundingBox();
+            
+            ofPoint a = newRec.getTopLeft();
+            ofPoint b = newRec.getBottomRight();
         
-        ofPoint a = newRec.getTopLeft();
-        ofPoint b = newRec.getBottomRight();
-    
-        a =cvData->remapForScreen(SCREEN_LEFT, a);
-        b =cvData->remapForScreen(SCREEN_LEFT, b);
-        ofRectangle newRecScaled;
-        newRec.set(a.x, a.y, b.x-a.x, b.y-a.y);
-        
-//		newRec.x		*= scalex;
-//		newRec.y		*= scaley;
-//		newRec.width	*= scalex;
-//		newRec.height	*= scaley;
-		
-		ofPoint center = cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob.getCentroid2D());
-//		center.x		= center.x * scalex;
-//		center.y		= center.y * scaley;
-		
-		
-		for(int j=0; j<treeBlobs.size(); j++) {
-			
-			// found you :)
-			if(lookID == treeBlobs[j].id) {
-				
-				treeBlobs[j].age		= ofGetElapsedTimef() - treeBlobs[j].initTime; // getting older
-				treeBlobs[j].rect	    = newRec;
-				treeBlobs[j].center     = center;
-				
-				// ok we are old enough lets make a blob
-                if(treeBlobs[j].age >= treeDelay){ //panel.getValueF("TREE_DELAY")) {
-					
-					treeBlobs[j].initTime = ofGetElapsedTimef();
-					treeBlobs[j].numTreesMade ++;
-					treeBlobs[j].bAlive = true;
-					
-					// time to grow a tree
-					printf("--- time to grow a tree:%i---\n", treeBlobs[j].id);
-					trees.push_back(MagicTree());
-					
-                    trees.back().initTree(0, 0, ofRandom( treeMin,treeMax)); // /*(int)ofRandom(panel.getValueF("TREE_MIN")*/ /* panel.getValueF("TREE_MAX")*/));	// <--- i need a init pos
-					trees.back().img	= &theDot;
-					trees.back().id		= treeBlobs[j].id; 
-					trees.back().rect	= treeBlobs[j].rect;
-					trees.back().center = treeBlobs[j].center;
-					
-					// init the tree pos
-					trees.back().treeBaseD   = trees.back().center;
-					trees.back().treeBaseD.y = (newRec.y + newRec.height);
-					trees.back().treeBase	 = trees.back().treeBaseD;
-					
-//					// new tree hit
-//					ofxOscMessage msg;
-//					msg.setAddress("/bang");							    //	bang
-//					msg.addStringArg("newTree");					    //	hit
-//					msg.addIntArg(2);									    //	SCENE 3
-//					msg.addIntArg(trees.back().id);									    //	SCENE 3
-//					
-//					msg.addFloatArg((float)center.x/(float)RM->getWidth());		//  x (normalize)
-//					msg.addFloatArg((float)center.y/(float)RM->getHeight());	// centroid y (normalize)
-//					
-//					ofxDaito::sendCustom(msg);
-					
-				}
-				
-			}
-		}
-		
-	}
+            a =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, a);
+            b =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, b);
+            ofRectangle newRecScaled;
+            newRec.set(a.x, a.y, b.x-a.x, b.y-a.y);
+            
+            ofPoint center = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob.getCentroid2D());
+            
+            for(int j=0; j<treeBlobs.size(); j++) {
+                
+                // found you :)
+                if(lookID == treeBlobs[j].id &&
+                   z == treeBlobs[j].packetId) {
+                    
+                    treeBlobs[j].age		= ofGetElapsedTimef() - treeBlobs[j].initTime; // getting older
+                    treeBlobs[j].rect	    = newRec;
+                    treeBlobs[j].center     = center;
+                    
+                    // ok we are old enough lets make a blob
+                    if(treeBlobs[j].age >= treeDelay){ //panel.getValueF("TREE_DELAY")) {
+                        
+                        treeBlobs[j].initTime = ofGetElapsedTimef();
+                        treeBlobs[j].numTreesMade ++;
+                        treeBlobs[j].bAlive = true;
+                        
+                        // time to grow a tree
+                        printf("--- time to grow a tree:%i---\n", treeBlobs[j].id);
+                        trees.push_back(MagicTree());
+                        
+                        trees.back().initTree(0, 0, ofRandom( treeMin,treeMax)); // /*(int)ofRandom(panel.getValueF("TREE_MIN")*/ /* panel.getValueF("TREE_MAX")*/));	// <--- i need a init pos
+                        trees.back().img	= &theDot;
+                        trees.back().id		= treeBlobs[j].id;
+                        trees.back().packetId		= treeBlobs[j].packetId;
+                        trees.back().rect	= treeBlobs[j].rect;
+                        trees.back().center = treeBlobs[j].center;
+                        
+                        // init the tree pos
+                        trees.back().treeBaseD   = trees.back().center;
+                        trees.back().treeBaseD.y = (newRec.y + newRec.height);
+                        trees.back().treeBase	 = trees.back().treeBaseD;
+                        
+    //					// new tree hit
+    //					ofxOscMessage msg;
+    //					msg.setAddress("/bang");							    //	bang
+    //					msg.addStringArg("newTree");					    //	hit
+    //					msg.addIntArg(2);									    //	SCENE 3
+    //					msg.addIntArg(trees.back().id);									    //	SCENE 3
+    //					
+    //					msg.addFloatArg((float)center.x/(float)RM->getWidth());		//  x (normalize)
+    //					msg.addFloatArg((float)center.y/(float)RM->getHeight());	// centroid y (normalize)
+    //					
+    //					ofxDaito::sendCustom(msg);
+                        
+                    }
+                    
+                }
+            }
+            
+        }
+    }
 	
 	
 	// --------------------- Tree People
@@ -395,7 +383,6 @@ void TreeScene::update() {
 	}
 	// clean up the trees
 	for(int i=trees.size()-1; i>=0; i--) {
-		
 		if(trees[i].bDead) {
 			trees[i].cleanUp();
 			trees.erase(trees.begin() + i);
@@ -432,12 +419,7 @@ void TreeScene::drawTop() {
 // ---------------------------------------------------------
 void TreeScene::draw() {
     
-    
-    ofRectangle src(0,0,cvData->width, cvData->height);
-    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-    ofRectangle dst = src;    dst.scaleTo(target);
-    float scaleCoordinates = dst.getWidth() / src.getWidth();
-    
+
 	
 //    float scalex = 1;// (float)RM->getWidth() / (float)packet.width;
 //    float scaley = 1; //(float)RM->getHeight() / (float)packet.height;
@@ -461,57 +443,61 @@ void TreeScene::draw() {
 	glPopMatrix();
 	
 	// draw the people
-	for(int i=0; i< cvData->blobs.size(); i++) {
-		
-		
-        if(true){ //panel.getValueB("BPEOPLE_GLOW")) {
-			// drop shadow
-			ofEnableAlphaBlending();
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			for (int j = 0; j < cvData->blobs[i].blob.size(); j+=2) {
-				float x =  cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).x;
-                float y =  cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).y;  //cvData->blobs[i].blob[j].y * scaley;
-				
-				ofSetRectMode(OF_RECTMODE_CENTER);
-                ofSetColor(255, 255, 255, peopleGlow); //panel.getValueF("PEOPLE_GLOW"));
-				theDotS.draw(x, y, 55, 55);
-				ofSetRectMode(OF_RECTMODE_CORNER);
-			}
-			glDisable(GL_BLEND);
-			ofDisableAlphaBlending();
-		}
-		
-		// people
-        float bc = peopleColor; //panel.getValueF("PEOPLE_COLOR");
-		ofSetColor(bc, bc, bc);
-		ofFill();
-		ofBeginShape();
-		for (int j = 0; j < cvData->blobs[i].blob.size(); j++) {
-			
-            float x =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).x; //cvData->blobs[i].blob[j].x * scalex;
-            float y =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[i].blob[j]).y; //cvData->blobs[i].blob[j].y * scaley;
-			
-			ofVertex(x, y);
-		}
-		ofEndShape(true);
-//		
-//		if(bDebug) {
-//			ofNoFill();
-//			ofSetColor(255, 35, 0);
-//			ofRect(packet.rect[i].x * scalex, 
-//				   packet.rect[i].y * scaley, 
-//				   packet.rect[i].width * scalex, 
-//				   packet.rect[i].height * scaley);
-//			
-//			
-//			ofDrawBitmapString("w:"+ofToString(packet.rect[i].width)+"\n"+
-//							   "h:"+ofToString(packet.rect[i].height)+"\n", 
-//							   20+packet.rect[i].x * scalex, 
-//							   20+packet.rect[i].y * scaley);
-//		}
-//		
-	}
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            
+            
+            if(true){ //panel.getValueB("BPEOPLE_GLOW")) {
+                // drop shadow
+                ofEnableAlphaBlending();
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+                for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j+=2) {
+                    float x =  cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT,
+                                                         cvData[z]->blobs[i].blob[j]).x;
+                    float y =  cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT,
+                                                         cvData[z]->blobs[i].blob[j]).y;  //cvData[z]->blobs[i].blob[j].y * scaley;
+                    
+                    ofSetRectMode(OF_RECTMODE_CENTER);
+                    ofSetColor(255, 255, 255, peopleGlow); //panel.getValueF("PEOPLE_GLOW"));
+                    theDotS.draw(x, y, 55, 55);
+                    ofSetRectMode(OF_RECTMODE_CORNER);
+                }
+                glDisable(GL_BLEND);
+                ofDisableAlphaBlending();
+            }
+            
+            // people
+            float bc = peopleColor; //panel.getValueF("PEOPLE_COLOR");
+            ofSetColor(bc, bc, bc);
+            ofFill();
+            ofBeginShape();
+            for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j++) {
+                
+                float x =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).x; //cvData[z]->blobs[i].blob[j].x * scalex;
+                float y =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).y; //cvData[0]->blobs[i].blob[j].y * scaley;
+                
+                ofVertex(x, y);
+            }
+            ofEndShape(true);
+    //		
+    //		if(bDebug) {
+    //			ofNoFill();
+    //			ofSetColor(255, 35, 0);
+    //			ofRect(packet.rect[i].x * scalex, 
+    //				   packet.rect[i].y * scaley, 
+    //				   packet.rect[i].width * scalex, 
+    //				   packet.rect[i].height * scaley);
+    //			
+    //			
+    //			ofDrawBitmapString("w:"+ofToString(packet.rect[i].width)+"\n"+
+    //							   "h:"+ofToString(packet.rect[i].height)+"\n", 
+    //							   20+packet.rect[i].x * scalex, 
+    //							   20+packet.rect[i].y * scaley);
+    //		}
+    //		
+        }
+    }
 	
 	
 	// draw the butter flys
@@ -556,25 +542,28 @@ void TreeScene::draw() {
 
 
 
+
 // --------------------------------------------------------- blob events
-void TreeScene::blobOn( int x, int y, int bid, int order ) {
+void TreeScene::blobBorn( int packetId, int id ) {
 	
+    int bid = id;
     
     
-    ofPolyline line = cvData->blobs[ cvData->idToBlobPos[bid] ].blob;//&tracker->getById(bid);
+    ofPolyline line = cvData[packetId]->blobs[ cvData[packetId]->idToBlobPos[bid] ].blob;//&tracker->getById(bid);
 	
     for (auto & pt: line){
-        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        pt = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
     }
     
 	// if i am hole make a shape instead
     if(true){
 		
-		if(line.getBoundingBox().width >= 100 /*panel.getValueI("TREE_GROW_W")*/ ||
-		   line.getBoundingBox().height >= 100 /* panel.getValueI("TREE_GROW_H")*/ ) {
+		if(line.getBoundingBox().width >= treeGrowW /*panel.getValueI("TREE_GROW_W")*/ ||
+		   line.getBoundingBox().height >= treeGrowH /* panel.getValueI("TREE_GROW_H")*/ ) {
 			
 			treeBlobs.push_back(TreeBlob());
 			treeBlobs.back().id = bid;
+            treeBlobs.back().packetId = packetId;
 			treeBlobs.back().age = 0;
 			treeBlobs.back().bAlive = false;
 			
@@ -586,17 +575,20 @@ void TreeScene::blobOn( int x, int y, int bid, int order ) {
 }
 
 // ---------------------------------------------------------
-void TreeScene::blobMoved( int x, int y, int bid, int order ) {
+void TreeScene::blobMoved( int packetId, int id ) {
 	
 }
 
 // ---------------------------------------------------------
-void TreeScene::blobOff( int x, int y, int bid, int order ) {	
+void TreeScene::blobDied( int packetId, int id) {
 	
+    int bid = id;
 	for(int i=trees.size()-1; i>=0; i--) {
-		if(trees[i].id == bid) {
+		if(trees[i].id == bid &&
+           trees[i].packetId == packetId) {
 			
 			trees[i].id = -1;
+            trees[i].packetId = -1;
 			trees[i].bNoBlobAnymore = true;
 			printf("tree off - %i\n", bid);
 			
@@ -605,7 +597,8 @@ void TreeScene::blobOff( int x, int y, int bid, int order ) {
 	
 	// clean up the tree blobs
 	for(int i=treeBlobs.size()-1; i>=0; i--) {
-		if(treeBlobs[i].id == bid) {
+		if(treeBlobs[i].id == bid &&
+           treeBlobs[i].packetId == packetId) {
 			
 			treeBlobs.erase(treeBlobs.begin() + i);
 			printf("--- tree blob removed [%i] -- \n", bid);

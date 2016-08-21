@@ -22,11 +22,11 @@ public:
     virtual void stop(){}
     virtual void start(){}
     
-    virtual void blobMoved(int id){}   // this is used in the old scenes. 
-    virtual void blobBorn(int id){}
-    virtual void blobDied(int id){}
+    virtual void blobMoved(int packetId, int id){}   // this is used in the old scenes.
+    virtual void blobBorn(int packetId, int id){}
+    virtual void blobDied(int packetId, int id){}
     
-    cvPacket * cvData;
+    cvPacket * cvData[2];       // 0 = left, 1 = right...
     renderManager * RM;
     
     

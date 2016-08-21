@@ -80,9 +80,12 @@ public:
 	void mouseReleased(int wx, int wy, int x, int y, int button);
 	
     
-    void blobBorn(int id){ blobOn(0,0,id, 0);}
-    void blobDied(int id){ blobOff(0,0,id, 0);}
-    void blobMoved(int id){ blobMoved(0,0,id, 0);}
+    void blobBorn(int packetId, int id){  if (packetId == 1) return;
+        blobOn(0,0,id, 0);}
+    void blobDied(int packetId, int id){ if (packetId == 1) return;
+        blobOff(0,0,id, 0);}
+    void blobMoved(int packetId, int id){ if (packetId == 1) return;
+        blobMoved(0,0,id, 0);}
     
 	// ---------------------- blob tracking
 	void blobOn( int x, int y, int bid, int order );

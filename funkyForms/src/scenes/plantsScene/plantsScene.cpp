@@ -67,7 +67,7 @@ void plantsScene::addBgPlant(ofVec2f _pos){
 
 void plantsScene::addPlant(ofVec2f _pos, int id, bool bLeftSide){
     
-    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
     ofRectangle dst = src;
     ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
     dst.scaleTo(target);
@@ -81,9 +81,9 @@ void plantsScene::addPlant(ofVec2f _pos, int id, bool bLeftSide){
     plants[i].pointLinkId = ofRandom(pointLinkCount);
     
 //    // calc direction
-//    ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//    ofPolyline line = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed;
 //    for (auto & pt : line){
-//        pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+//        pt =cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //    }
 //    
 //    ofVec2f *point = new ofVec2f[pointLinkCount];
@@ -231,8 +231,8 @@ void plantsScene::update(){
     
     
     // are there any people without plants???
-    for (int i = 0; i < cvData->blobs.size(); i++){
-        int id = cvData->blobs[i].id;
+    for (int i = 0; i < cvData[0]->blobs.size(); i++){
+        int id = cvData[0]->blobs[i].id;
        
         bool bAny = false;
         for (auto & plant : plants){
@@ -241,8 +241,8 @@ void plantsScene::update(){
             }
         }
         if (!bAny){
-            ofPoint centroid = cvData->blobs[i].blob.getCentroid2D();
-            centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+            ofPoint centroid = cvData[0]->blobs[i].blob.getCentroid2D();
+            centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
             addPlant(centroid, id, true);
             addPlant(centroid, id, false);
             
@@ -256,7 +256,7 @@ void plantsScene::update(){
 }
 void plantsScene::updatePlants(){
     
-    ofRectangle src(0,0,cvData->width, cvData->height);
+    ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
     ofRectangle dst = src;
     ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
     dst.scaleTo(target);
@@ -266,11 +266,11 @@ void plantsScene::updatePlants(){
     }
 
 //    peoplePoints.clear();
-//    for(auto &id: cvData->idsThisFrame){
-//        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//    for(auto &id: cvData[0]->idsThisFrame){
+//        ofPolyline line = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed;
 //        if(line.size() > 0){
 //            for (auto & pt : line){
-//                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+//                pt =cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //            }
 //            for (int j = 0; j < line.size(); j += line.size()/10 ) {
 //                peoplePoints.push_back(line.getVertices()[j]);
@@ -280,14 +280,14 @@ void plantsScene::updatePlants(){
 //    for(auto &p: plants){
 //        p.update();
 //        int id = p.id;
-//        int whichBlob = cvData->idToBlobPos[id];
-//        ofPolyline line = (*(cvData->trackedContours))[id].data.resampleSmoothed;
+//        int whichBlob = cvData[0]->idToBlobPos[id];
+//        ofPolyline line = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed;
 //        
 //        bool bUseHighestPt = true;
 //        
 //        if(line.size() > 0){
 //            for (auto & pt : line){
-//                pt =cvData->remapForScreen(SCREEN_LEFT, pt);
+//                pt =cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //            }
 //            
 //            ofPoint highestPt;
@@ -430,15 +430,15 @@ void plantsScene::drawPeople(){
     
     
     
-    for (int i = 0; i < cvData->blobs.size(); i++){
+    for (int i = 0; i < cvData[0]->blobs.size(); i++){
     
-        float age = cvData->blobs[i].age;
-        ofPolyline line = cvData->blobs[i].blob;
+        float age = cvData[0]->blobs[i].age;
+        ofPolyline line = cvData[0]->blobs[i].blob;
         for (auto & pt : line.getVertices()){
-            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
         }
         
-        int id = cvData->blobs[i].id;
+        int id = cvData[0]->blobs[i].id;
         
         auto inThere = colorMap.find(id);
         if (inThere ==colorMap.end()){
@@ -621,14 +621,14 @@ void plantsScene::drawPeople(){
     
     
     
-//    for (int i = 0; i < cvData->blobs.size(); i++){
+//    for (int i = 0; i < cvData[0]->blobs.size(); i++){
 //        
-//        int id = cvData->blobs[i].id;
+//        int id = cvData[0]->blobs[i].id;
 //        ofPoint firstPt;
 //        
-//        ofPolyline line = cvData->blobs[i].blob;
+//        ofPolyline line = cvData[0]->blobs[i].blob;
 //        for (auto & pt : line.getVertices()){
-//            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //        }
 //        
 //        ofSetColor(255,255,255, 50);
@@ -743,18 +743,18 @@ void plantsScene::drawPeople(){
 //    line.draw();
     
     
-//        ofRectangle src(0,0,cvData->width, cvData->height);
+//        ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
 //        ofRectangle dst = src;
 //        ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
 //        dst.scaleTo(target);
 //    
-//        for (int i = 0; i < cvData->blobs.size(); i++){
+//        for (int i = 0; i < cvData[0]->blobs.size(); i++){
 //            ofPath p;
 //            p.setFillColor(ofColor(0,0,0,10));
-//            ofPolyline line = cvData->blobs[i].blob;
+//            ofPolyline line = cvData[0]->blobs[i].blob;
 //    
 //            for (auto & pt : line){
-//                pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//                pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //            }
 //    
 //            line.simplify();
@@ -771,22 +771,29 @@ void plantsScene::drawPeople(){
 
 }
 // --------------- events
-void plantsScene::blobBorn(int id){
-    int whichBlob = cvData->idToBlobPos[id];
-    ofPoint centroid = cvData->blobs[whichBlob].blob.getCentroid2D();
+void plantsScene::blobBorn(int packetId, int id){
+    
+    if (packetId == 1) return;
+    
+    
+    int whichBlob = cvData[0]->idToBlobPos[id];
+    ofPoint centroid = cvData[0]->blobs[whichBlob].blob.getCentroid2D();
     
     //-------------------------------------
-//        ofRectangle src(0,0,cvData->width, cvData->height);
+//        ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
 //        ofRectangle dst = src;
 //        ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
 //        dst.scaleTo(target);
-        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+        centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
     //-------------------------------------
     
     addPlant(centroid, id, true);
     addPlant(centroid, id, false);
 }
-void plantsScene::blobDied(int id){
+void plantsScene::blobDied(int packetId, int id){
+    
+    if (packetId == 1) return;
+    
     remove(id);
 }
 void plantsScene::start(){

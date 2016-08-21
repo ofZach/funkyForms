@@ -206,9 +206,9 @@ void MonsterScene::update(){
 
 
 	// --------------------- update the monster contour pnts
-	for(int i=0; i<cvData->blobs.size(); i++) {
+	for(int i=0; i<cvData[0]->blobs.size(); i++) {
 
-		int lookID = cvData->blobs[i].id;
+		int lookID = cvData[0]->blobs[i].id;
 
 		for(int j=monsters.size()-1; j>=0; j--) {
 
@@ -216,9 +216,9 @@ void MonsterScene::update(){
 			if(monsters[j].monsterID == lookID) {
                 
                 
-                ofPolyline line  = cvData->blobs[i].blob;
+                ofPolyline line  = cvData[0]->blobs[i].blob;
                 for (auto & pt : line){
-                    pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+                    pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
                 }
     
 				ofRectangle newRec = line.getBoundingBox();
@@ -288,8 +288,8 @@ void MonsterScene::update(){
 	for(int i = 0; i < monsters.size(); i++) {
 		//monsters[i].SCALE = panel.getValueF("SCALE");
 		monsters[i].bDebug = bDebug;
-        monsters[i].packetW = cvData->width; // 2016 packet.width;
-        monsters[i].packetH =  cvData->height; // 2016 packet.height;
+        monsters[i].packetW = cvData[0]->width; // 2016 packet.width;
+        monsters[i].packetH =  cvData[0]->height; // 2016 packet.height;
         monsters[i].monsterDelayAge = monsterAge; //panel.getValueF("MONSTER_AGE");
 		monsters[i].update();
 
@@ -327,9 +327,9 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 	printf("monster on - %i\n", bid);
 
     
-    ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+    ofPolyline line = cvData[0]->blobs[cvData[0]->idToBlobPos[bid]].blob;
     for (auto & pt : line){
-        pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
     }
 	//ofxCvBlob blober = tracker->getById(bid);
 
@@ -353,12 +353,12 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 
 
 		// set the parts
-		monster.packetW = cvData->width;
-		monster.packetH = cvData->height;
+		monster.packetW = cvData[0]->width;
+		monster.packetH = cvData[0]->height;
 		
 		monster.parts = &parts;
         monster.init( line, bid ) ;//tracker->getById(bid) );
-		monster.area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData->width*cvData->height);
+		monster.area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData[0]->width*cvData[0]->height);
 		monster.initAge = ofGetElapsedTimef();
 		monsters.push_back(monster);
 
@@ -399,13 +399,13 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 	if(!bMonsterTimer) return;
 	
     
-	//float scalex = (float)RM->getWidth() / (float)cvData->width;
-	//float scaley = (float)RM->getHeight() / (float)cvData->height;
+	//float scalex = (float)RM->getWidth() / (float)cvData[0]->width;
+	//float scaley = (float)RM->getHeight() / (float)cvData[0]->height;
 	
     
-    ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+    ofPolyline line = cvData[0]->blobs[cvData[0]->idToBlobPos[bid]].blob;
     ofPoint centroid = line.getCentroid2D();
-    ofPoint newPT  = cvData->remapForScreen(SCREEN_LEFT, centroid);
+    ofPoint newPT  = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
     
     
 	
@@ -414,9 +414,9 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 
 			// tell daito that the monster just moved
 			
-//            ofPolyline line = cvData->blobs[cvData->idToBlobPos[bid]].blob;
+//            ofPolyline line = cvData[0]->blobs[cvData[0]->idToBlobPos[bid]].blob;
 //            for (auto & pt : line){
-//                pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+//                pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 //            }
             
             //ofxCvBlob blober = tracker->getById(bid);
@@ -434,7 +434,7 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 //			ofxDaito::sendCustom(msg);
 
 			monsters[i].genNewRadius();
-			monsters[i].area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData->width*cvData->height);
+			monsters[i].area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData[0]->width*cvData[0]->height);
 
             // 2016
 			//---------- add some particle love -- ewww
@@ -514,8 +514,8 @@ void MonsterScene::draw() {
 	ofEnableAlphaBlending();
 
 	
-	//float scalex = (float)RM->getWidth() / (float)cvData->width;
-	//float scaley = (float)RM->getHeight() / (float)cvData->height;
+	//float scalex = (float)RM->getWidth() / (float)cvData[0]->width;
+	//float scaley = (float)RM->getHeight() / (float)cvData[0]->height;
 	
 	if(bDebug) {
 	//	ofSetColor(0, 25, 255);
@@ -531,18 +531,18 @@ void MonsterScene::draw() {
 
 	bool bDrawPeople = false;
 	if(bDrawPeople) {
-		for(int i=0; i<cvData->blobs.size(); i++) {
+		for(int i=0; i<cvData[0]->blobs.size(); i++) {
 			ofSetColor(255, i*20, 255-(i*40), 100);
 			ofFill();
 
 			ofBeginShape();
-			for (int j = 0; j < cvData->blobs[i].blob.size(); j++) {
+			for (int j = 0; j < cvData[0]->blobs[i].blob.size(); j++) {
 
-				float x = cvData->blobs[i].blob[j].x;
-				float y = cvData->blobs[i].blob[j].y;
+				float x = cvData[0]->blobs[i].blob[j].x;
+				float y = cvData[0]->blobs[i].blob[j].y;
 
                 ofPoint pt(x,y);
-                cvData->remapForScreen(SCREEN_LEFT, pt);
+                cvData[0]->remapForScreen(SCREEN_LEFT, pt);
 				ofVertex(pt.x, pt.y);
 			}
 			ofEndShape(true);

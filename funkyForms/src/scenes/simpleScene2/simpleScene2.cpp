@@ -91,11 +91,11 @@ void simpleScene2::draw(){
 }
 
 
-void simpleScene2::blobBorn(int id){
+void simpleScene2::blobBorn(int packetId, int id){
   
 }
 
-void simpleScene2::blobDied(int id){
+void simpleScene2::blobDied(int packetId, int id){
  
     
 
