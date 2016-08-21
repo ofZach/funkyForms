@@ -195,6 +195,8 @@ void wavesScene::draw(){
 //    drawPeople();
 }
 void wavesScene::drawParticles(){
+
+    ofSetCircleResolution(5);
     for(auto &p : particles){
         ofSetColor(255);
         if(p.id == 1){
@@ -206,6 +208,7 @@ void wavesScene::drawParticles(){
         }
         
     }
+    ofSetCircleResolution(20);
 }
 void wavesScene::drawGui(){
      gui.draw();

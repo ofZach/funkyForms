@@ -55,6 +55,16 @@ public:
     
     
     
+    // store the rectangles internally
+    ofRectangle rects[4];
+    void cacheRects(){
+        rects[SCREEN_LEFT] = RM->getRectForScreen(SCREEN_LEFT);
+        rects[SCREEN_RIGHT] = RM->getRectForScreen(SCREEN_RIGHT);
+        rects[SCREEN_TOP] = RM->getRectForScreen(SCREEN_TOP);
+        rects[SCREEN_CENTER] = RM->getRectForScreen(SCREEN_CENTER);
+        
+    }
+    
     ofPoint getCentoidAt(int ID){
         int whichBlob = idToBlobPos[ID];
         return blobs[whichBlob].blob.getCentroid2D();
@@ -79,7 +89,7 @@ public:
     ofPoint remapForScreen(screenName screen, ofPoint pt){
         ofRectangle src(0,0, width, height);
         ofRectangle dst = src;
-        ofRectangle target = RM->getRectForScreen(screen);
+        ofRectangle target = rects[screen]; //RM->getRectForScreen(screen);
         dst.scaleTo(target);
         dst.y = (target.y + target.height) - dst.height;    // snap to bottom
         float newx = ofMap(pt.x, src.x, src.x + src.getWidth(), dst.x, dst.x + dst.getWidth());
@@ -92,7 +102,7 @@ public:
     ofRectangle getScreenRemapRectangle( screenName screen ){
         ofRectangle src(0,0, width, height);
         ofRectangle dst = src;
-        ofRectangle target = RM->getRectForScreen(screen);
+        ofRectangle target = rects[screen]; //RM->getRectForScreen(screen);
         dst.scaleTo(target);
         dst.y = (target.y + target.height) - dst.height;    // snap to bottom
         return dst;
@@ -103,7 +113,7 @@ public:
     ofPoint remapFromScreen(screenName screen, ofPoint pt){
         ofRectangle src(0,0, width, height);
         ofRectangle dst = src;
-        ofRectangle target = RM->getRectForScreen(screen);
+        ofRectangle target = rects[screen]; //RM->getRectForScreen(screen);
         dst.scaleTo(target);
         dst.y = (target.y + target.height) - dst.height;    // snap to bottom
         float xPct = ofMap(pt.x, dst.x, dst.x + dst.width, 0, 1, true);

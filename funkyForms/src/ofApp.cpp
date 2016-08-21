@@ -47,7 +47,9 @@ void ofApp::setup(){
     
     IM.CVM[0].RM = &RM;
     IM.CVM[1].RM = &RM;
-
+    IM.CVM[0].packet.cacheRects();
+    IM.CVM[1].packet.cacheRects();
+    
 
 }
 

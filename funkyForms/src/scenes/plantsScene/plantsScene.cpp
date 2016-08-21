@@ -435,9 +435,8 @@ void plantsScene::drawPeople(){
     
     for (int packetId = 0; packetId < 2; packetId++){
         for (int i = 0; i < cvData[packetId]->blobs.size(); i++){
-        
+            
             float age = cvData[packetId]->blobs[i].age;
-            cout << "my age " << age << endl;
             
             ofPolyline line = cvData[packetId]->blobs[i].blob;
             for (auto & pt : line.getVertices()){
@@ -596,6 +595,7 @@ void plantsScene::drawPeople(){
                 ofEndShape();
                 
                 
+                if (age > 1.3){
                 for (int j = 0; j < plants.size(); j++){
                     if(plants[j].id == id &&
                        plants[j].packetId == packetId){
@@ -603,6 +603,7 @@ void plantsScene::drawPeople(){
                             plants[j].fadeIn();
                         }
                     }
+                }
                 }
             }
             

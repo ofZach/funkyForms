@@ -88,6 +88,7 @@
 		92937BB01D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */; };
 		92937BB31D687B90006C8F56 /* opticalFlowThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */; };
 		92CE15CF1D6923060024F616 /* simpleScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE15CD1D6923060024F616 /* simpleScene2.cpp */; };
+		92CE15D81D6A3DD60024F616 /* costumeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE15D61D6A3DD60024F616 /* costumeScene.cpp */; };
 		933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */; };
 		94222B52DE5A22ADFE77F863 /* b2Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C3DF85D2918587E29DCB562 /* b2Collision.cpp */; };
 		9581FB6D79085EBAFD7CBEE9 /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EDAA2FD6614A3BB1223B948 /* spring.cpp */; };
@@ -461,6 +462,8 @@
 		92C0275DAF376332618A2B12 /* ofxFire.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxFire.h; path = ../localAddons/ofxFx/src/generative/ofxFire.h; sourceTree = SOURCE_ROOT; };
 		92CE15CD1D6923060024F616 /* simpleScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleScene2.cpp; sourceTree = "<group>"; };
 		92CE15CE1D6923060024F616 /* simpleScene2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simpleScene2.h; sourceTree = "<group>"; };
+		92CE15D61D6A3DD60024F616 /* costumeScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = costumeScene.cpp; sourceTree = "<group>"; };
+		92CE15D71D6A3DD60024F616 /* costumeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = costumeScene.h; sourceTree = "<group>"; };
 		944CB9367CE0E849F1113815 /* ofxGlow.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGlow.h; path = ../localAddons/ofxFx/src/filters/ofxGlow.h; sourceTree = SOURCE_ROOT; };
 		946187321200AC04E570E6EC /* hierarchical_clustering_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hierarchical_clustering_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/hierarchical_clustering_index.h; sourceTree = SOURCE_ROOT; };
 		9495337E8B054561D9FFA9B4 /* ofxBokeh.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxBokeh.h; path = ../localAddons/ofxFx/src/filters/ofxBokeh.h; sourceTree = SOURCE_ROOT; };
@@ -993,6 +996,7 @@
 		36BF1C038F5AEC4D85473FE4 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				92CE15D51D6A3DD60024F616 /* costumeScene */,
 				92CE15CC1D6923060024F616 /* simpleScene2 */,
 				10E77EFB672AD13F3F3639CB /* baseScene.cpp */,
 				3123FC43CDB08480B2226A91 /* baseScene.h */,
@@ -1349,6 +1353,16 @@
 			);
 			name = simpleScene2;
 			path = scenes/simpleScene2;
+			sourceTree = "<group>";
+		};
+		92CE15D51D6A3DD60024F616 /* costumeScene */ = {
+			isa = PBXGroup;
+			children = (
+				92CE15D61D6A3DD60024F616 /* costumeScene.cpp */,
+				92CE15D71D6A3DD60024F616 /* costumeScene.h */,
+			);
+			name = costumeScene;
+			path = scenes/costumeScene;
 			sourceTree = "<group>";
 		};
 		961A625BD21068033782887C /* legacy */ = {
@@ -1809,10 +1823,10 @@
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
-				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				6948EE371B920CB800B5AC1A /* local_addons */,
 				E4B69B5B0A3A1756003C02F2 /* funkyFormsDebug.app */,
+				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2117,6 +2131,7 @@
 				004BDF998B3E81C6108007AC /* b2Timer.cpp in Sources */,
 				72839E0F1D6A261A00B827DA /* particleWithAge.cpp in Sources */,
 				9A147C0594D8CCB153FDFD10 /* b2Body.cpp in Sources */,
+				92CE15D81D6A3DD60024F616 /* costumeScene.cpp in Sources */,
 				E96A8B3A43F9372A849EF0A0 /* b2ContactManager.cpp in Sources */,
 				9AA2A92E3D41CDB2ED562C2D /* b2Fixture.cpp in Sources */,
 				2194B1490FDA3F35DFD37D4A /* b2Island.cpp in Sources */,
