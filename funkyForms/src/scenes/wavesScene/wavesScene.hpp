@@ -25,12 +25,18 @@ public:
     StencilWaves stencilWaves;
     gradientWaves gradientWaves;
     
+    // Waves trigger
+    
     // Gui
     ofParameterGroup parameters;
 
     // Modes
     ofParameter<bool> isGradientWavesMode = false;
     ofParameter<bool> isStencilWaveMode = true;
+    
+    
+    // Glow
+    ofImage glow;
     
     ofxPanel gui;
     

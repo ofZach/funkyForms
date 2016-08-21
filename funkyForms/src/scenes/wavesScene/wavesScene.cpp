@@ -26,6 +26,9 @@ void wavesScene::setup(){
     stencilWaves.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
     stencilWaves.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
     stencilWaves.setup(w, h);
+    
+    // glow
+    glow.load("assets/glow.png");
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
@@ -47,16 +50,13 @@ void wavesScene::update(){
 void wavesScene::updateParticles(){
     for(int z = 0; z < 2; z++){
         for (int i = 0; i < cvData[z]->blobs.size(); i++){
-            
             ofPoint avgVelSmoothed = cvData[z]->blobs[i].avgVelSmoothed;
-            
             
             ofPolyline & line = cvData[z]->blobs[i].blob;
             
             // different ways to use it...
             //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
             if (avgVelSmoothed.y < -1){
-                
                 float mapMe = ofMap(avgVelSmoothed.y, -1, -3, 0.99, 0.9);
                 for (int j = 0; j < line.size(); j++){
                     ofPoint pt = line[j];
@@ -65,7 +65,7 @@ void wavesScene::updateParticles(){
                     ofPoint velNorm = vel.getNormalized();
                     float dot = velNorm.dot(ofPoint(0,-1)); // up
                     
-                    if (dot > 0.44 && vel.length() > 3.1 && ofRandom(0,1) > mapMe){
+                    if (dot > 0.44 && vel.length() > 4.1 && ofRandom(0,1) > mapMe){
                         
                         // is this FACING up ?
                         ofPoint tan = cvData[z]->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
@@ -73,6 +73,7 @@ void wavesScene::updateParticles(){
                             
                             particleWithAge temp;
                             temp.age = ofGetElapsedTimef();
+                            temp.radius = ofRandom(1, 30);
                             temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*0.5); // reduce the x vel
                             temp.damping = 0.01;
                             particles.push_back(temp);
@@ -83,12 +84,9 @@ void wavesScene::updateParticles(){
                     }
                 }
             }
-            
             //line.draw();
         }
     }
-    
-    
     
     ofRectangle target = cvData[0]->getScreenRemapRectangle(SCREEN_LEFT);
     ofRectangle screenCenter = RM->getRectForScreen(SCREEN_CENTER);
@@ -109,17 +107,21 @@ void wavesScene::updateParticles(){
         float r = screenLeft.getWidth()/2;
         float x = screenLeft.getCenter().x;
         float y = screenTop.getCenter().y+300;
-        if(deadRectLeft.inside(particles[i].pos)){
-            particles[i].addForce(0.2, 0);
-        }
-        if(deadRectRight.inside(particles[i].pos)){
-            particles[i].addForce(-0.2, 0);
-        }
-        if(screenCenter.inside(particles[i].pos)){
-            particles[i].addForce(particles[i].vel.x*0.005, particles[i].vel.y*0.005);
-        }
         
-//          particles[i].addAttractionForce(screenCenter.getCenter().x, screenCenter.getCenter().y, 10000, 0.02);
+        // check underwater particles by setting its id: underwater: 0
+        ofVec2f pPos = particles[i].pos;
+        for (int k = 0; k < stencilWaves.waves[0].points.size(); k++){
+            ofVec2f wPos = stencilWaves.waves[0].points[k].p;
+            int i_n = min(k+1, (int)stencilWaves.waves[0].points.size()-1);
+            ofVec2f wPosNext = stencilWaves.waves[0].points[i_n].p;
+            if(pPos.x > wPos.x && pPos.x < wPosNext.x){
+                if(pPos.y<wPos.y){
+                    particles[i].id = 1;
+                }else{
+                    particles[i].id = 0;
+                }
+            }
+        }
     }
     
     // add some noise!
@@ -186,15 +188,23 @@ void wavesScene::updateInput(){
 }
 // ------------ Draw
 void wavesScene::draw(){
-
     if(isGradientWavesMode) gradientWaves.draw();
     if(isStencilWaveMode) stencilWaves.draw();
+    ofEnableAlphaBlending();
     drawParticles();
 //    drawPeople();
 }
 void wavesScene::drawParticles(){
     for(auto &p : particles){
-        p.draw();
+        ofSetColor(255);
+        if(p.id == 1){
+            float x = p.pos.x - p.radius;
+            float y = p.pos.y - p.radius;
+            glow.draw(x, y, p.radius*2, p.radius*2);
+        }else{
+            p.draw();
+        }
+        
     }
 }
 void wavesScene::drawGui(){

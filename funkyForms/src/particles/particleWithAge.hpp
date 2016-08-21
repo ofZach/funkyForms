@@ -14,7 +14,8 @@
 class particleWithAge : public particle{
     
 public:
-    
+    int id;
+    int radius;
     float age;
     
     
