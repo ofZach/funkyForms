@@ -86,6 +86,7 @@
 		8EEF819F1864DB3992BD99D1 /* b2Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC03F2456AED72717B3FEA2C /* b2Settings.cpp */; };
 		92937BB01D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */; };
 		92937BB31D687B90006C8F56 /* opticalFlowThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */; };
+		92CE15CF1D6923060024F616 /* simpleScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE15CD1D6923060024F616 /* simpleScene2.cpp */; };
 		933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */; };
 		94222B52DE5A22ADFE77F863 /* b2Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C3DF85D2918587E29DCB562 /* b2Collision.cpp */; };
 		9581FB6D79085EBAFD7CBEE9 /* spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9EDAA2FD6614A3BB1223B948 /* spring.cpp */; };
@@ -455,6 +456,8 @@
 		92937BB21D687B90006C8F56 /* opticalFlowThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opticalFlowThread.h; sourceTree = "<group>"; };
 		929643B4C251FAB2FB415537 /* b2PolygonShape.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2PolygonShape.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Collision/Shapes/b2PolygonShape.cpp; sourceTree = SOURCE_ROOT; };
 		92C0275DAF376332618A2B12 /* ofxFire.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxFire.h; path = ../localAddons/ofxFx/src/generative/ofxFire.h; sourceTree = SOURCE_ROOT; };
+		92CE15CD1D6923060024F616 /* simpleScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleScene2.cpp; sourceTree = "<group>"; };
+		92CE15CE1D6923060024F616 /* simpleScene2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simpleScene2.h; sourceTree = "<group>"; };
 		944CB9367CE0E849F1113815 /* ofxGlow.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGlow.h; path = ../localAddons/ofxFx/src/filters/ofxGlow.h; sourceTree = SOURCE_ROOT; };
 		946187321200AC04E570E6EC /* hierarchical_clustering_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hierarchical_clustering_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/hierarchical_clustering_index.h; sourceTree = SOURCE_ROOT; };
 		9495337E8B054561D9FFA9B4 /* ofxBokeh.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxBokeh.h; path = ../localAddons/ofxFx/src/filters/ofxBokeh.h; sourceTree = SOURCE_ROOT; };
@@ -987,6 +990,7 @@
 		36BF1C038F5AEC4D85473FE4 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				92CE15CC1D6923060024F616 /* simpleScene2 */,
 				10E77EFB672AD13F3F3639CB /* baseScene.cpp */,
 				3123FC43CDB08480B2226A91 /* baseScene.h */,
 				0CE30F3A34DFED21132176AB /* eyesScene */,
@@ -1332,6 +1336,16 @@
 			);
 			name = flow;
 			path = input/flow;
+			sourceTree = "<group>";
+		};
+		92CE15CC1D6923060024F616 /* simpleScene2 */ = {
+			isa = PBXGroup;
+			children = (
+				92CE15CD1D6923060024F616 /* simpleScene2.cpp */,
+				92CE15CE1D6923060024F616 /* simpleScene2.h */,
+			);
+			name = simpleScene2;
+			path = scenes/simpleScene2;
 			sourceTree = "<group>";
 		};
 		961A625BD21068033782887C /* legacy */ = {
@@ -2112,6 +2126,7 @@
 				148ED85A8ADC57DA164FB91A /* b2PolygonAndCircleContact.cpp in Sources */,
 				EAF0B218896644C8FA4ACB90 /* b2PolygonContact.cpp in Sources */,
 				58C9A021B2EB024271E083D2 /* b2DistanceJoint.cpp in Sources */,
+				92CE15CF1D6923060024F616 /* simpleScene2.cpp in Sources */,
 				A8086F52E873C703E97B2731 /* b2FrictionJoint.cpp in Sources */,
 				4B4225923196A68ED56267ED /* b2GearJoint.cpp in Sources */,
 				B36CC9D4FCA36175CA892E4A /* b2Joint.cpp in Sources */,

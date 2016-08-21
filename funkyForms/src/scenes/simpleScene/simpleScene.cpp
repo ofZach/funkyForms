@@ -10,29 +10,40 @@ void simpleScene::update(){
     
     
     for (int i = 0; i < cvData->blobs.size(); i++){
+        
+        ofPoint avgVelSmoothed = cvData->blobs[i].avgVelSmoothed;
+        
+        
         ofPolyline & line = cvData->blobs[i].blob;
+        
+        // different ways to use it...
+        //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
+        if (avgVelSmoothed.y < -1){
+        
+            float mapMe = ofMap(avgVelSmoothed.y, -1, -3, 0.99, 0.9);
         for (int j = 0; j < line.size(); j++){
             ofPoint pt = line[j];
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
             ofPoint vel = cvData->blobs[i].vel[j];
             ofPoint velNorm = vel.getNormalized();
             float dot = velNorm.dot(ofPoint(0,-1)); // up
-            if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > 0.9){
+            if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > mapMe){
                 
-                // is this FACING up
+                // is this FACING up ?
                 ofPoint tan = cvData->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
                 if (tan.dot(ofPoint(0,-1)) > 0.1){
                 
                     particleWithAge temp;
                     temp.age = ofGetElapsedTimef();
-                    temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*2); // reduce the x vel
-                    temp.damping = 0.05;
+                    temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*0.5); // reduce the x vel
+                    temp.damping = 0.01;
                     particles.push_back(temp);
                     if (particles.size() > 4000){
                         particles.erase(particles.begin());
                     }
                 }
             }
+        }
         }
         
         //line.draw();
@@ -136,6 +147,7 @@ void simpleScene::draw(){
             float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
             
             ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 3 * startScale);
+            //ofFill();
             //ofCircle(particles[i].pos, 2); //draw();
         }
     }
@@ -143,11 +155,19 @@ void simpleScene::draw(){
     ofSetColor(255,255,255);
     
     for (int i = 0; i < cvData->blobs.size(); i++){
+        
+        ofPoint avgVelSmoothed = cvData->blobs[i].avgVelSmoothed;
+        
         ofPolyline line = cvData->blobs[i].blob;
         for (auto & pt : line.getVertices()){
             pt = cvData->remapForScreen(SCREEN_LEFT, pt);
         }
         line.draw();
+        
+        ofPoint centroid = cvData->blobs[i].blob.getCentroid2D();
+        centroid = cvData->remapForScreen(SCREEN_LEFT, centroid);
+        
+        ofLine(centroid, centroid + avgVelSmoothed * 10);
     }
     
     

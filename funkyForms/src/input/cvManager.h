@@ -31,6 +31,10 @@ public:
     ofPolyline vel;         // velocities for the points of this blob...
     int id;
     float age;
+    
+    ofPoint avgVel;
+    ofPoint avgVelSmoothed;
+    ofPoint centroidSmoothed;
 
 };
 
