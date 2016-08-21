@@ -1,0 +1,22 @@
+<settings_treeScene>
+	<group>
+		<treeDelay>1.3</treeDelay>
+		<peopleGlow>20.4</peopleGlow>
+		<treeBottomOffset>20.4</treeBottomOffset>
+		<treeGrowW>100</treeGrowW>
+		<treeGrowH>100</treeGrowH>
+		<treeMin>10</treeMin>
+		<treeMax>20</treeMax>
+		<growRate>0.98</growRate>
+		<curveX>10.98</curveX>
+		<curveY>10.98</curveY>
+		<thetaG>0.08</thetaG>
+		<fadeRate>6</fadeRate>
+		<butterFlyScale>0.0816327</butterFlyScale>
+		<butterFlySpeed>0.183673</butterFlySpeed>
+		<butterFlyGlow>0.2</butterFlyGlow>
+		<peopleColor>0</peopleColor>
+		<treeAddingTime>1</treeAddingTime>
+		<bDoPeopleGlow>1</bDoPeopleGlow>
+	</group>
+</settings_treeScene>

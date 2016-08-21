@@ -17,8 +17,7 @@ void cvManager::setup(){
  
     packet.opticalFlow.resize(INPUT_WARP_TO_W*INPUT_WARP_TO_H);
 
-    
-     packet.trackedContours = &trackedContours;
+    //packet.trackedContours = &trackedContours;
 }
 
 
@@ -38,11 +37,11 @@ void cvManager::blobOff( int x, int y, int bid, int order ) {
     
     diedThisFrame.push_back(bid);
     
-    auto itr = trackedContours.begin();
-    while (itr != trackedContours.end()) {
+    auto itr = startTimes.begin();
+    while (itr != startTimes.end()) {
         int label = itr->first;
         if (label == bid) {
-            itr = trackedContours.erase(itr);
+            itr = startTimes.erase(itr);
         } else {
             ++itr;
         }
@@ -126,7 +125,13 @@ void cvManager::update(ofPixels & pixels){
         cvBlob blob;
         blob.blob = line;
         blob.id = tracker.blobs[i].id;
-        blob.age = ofGetElapsedTimef() - trackedContours[ tracker.blobs[i].id ].startTime;
+        
+        auto stIt = startTimes.find(blob.id);
+        if (stIt != startTimes.end()){
+            blob.age = ofGetElapsedTimef() - startTimes[ tracker.blobs[i].id ];
+        } else {
+            startTimes[blob.id] = ofGetElapsedTimef();
+        }
         
         for (auto & pt : line){
             blob.vel.addVertex( OFT.getFlowForPt(pt.x, pt.y));
@@ -160,8 +165,8 @@ void cvManager::update(ofPixels & pixels){
         packet.idsThisFrame.push_back(blob.id);
         packet.idToBlobPos[blob.id] = i;
         
-        trackedContours[ tracker.blobs[i].id ].analyze(line);
-        trackedContours[ tracker.blobs[i].id ].update();
+        //startTimes[ tracker.blobs[i].id ].analyze(line);
+        //startTimes[ tracker.blobs[i].id ].update();
     }
     
     packet.width = INPUT_WARP_TO_W;
