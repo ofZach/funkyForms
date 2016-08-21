@@ -477,13 +477,14 @@ public:
 				ofCircle(bubbles[i].pos.x * scalex, bubbles[i].pos.y * scaley, bubbles[i].radius);
 			}
 
-
+            
+            // was curve vertex but was slow!
 			// draw the shape of the body
 			ofSetHexColor(monsterColor[colorID]);
 			ofFill();
 			ofBeginShape();
 			for(int i=0; i<contourSmooth.size(); i++) {
-				ofCurveVertex(contourSmooth[i].x*scalex, contourSmooth[i].y*scaley);
+				ofVertex(contourSmooth[i].x*scalex, contourSmooth[i].y*scaley);
 			}
 			ofEndShape(true);
 
