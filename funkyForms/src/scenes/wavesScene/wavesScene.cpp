@@ -43,6 +43,19 @@ void wavesScene::update(){
     if(isStencilWaveMode) stencilWaves.update();
 }
 void wavesScene::updateInput(){
+    for (int i = 0; i < cvData->blobs.size(); i++){
+        ofPolyline line = cvData->blobs[i].blob;
+        for (auto & pt : line.getVertices()){
+            pt = cvData->remapForScreen(SCREEN_LEFT, pt);
+        }
+        if(isStencilWaveMode){
+            stencilWaves.addPath(line);
+            ofVec2f pt = cvData->blobs[i].point;
+            for(auto &w: stencilWaves.waves){
+                w.addTarget(pt, vel);
+            }
+        }
+    }
     for(auto &id: cvData->idsThisFrame){
         // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
         // have any vertices... adding a check.
