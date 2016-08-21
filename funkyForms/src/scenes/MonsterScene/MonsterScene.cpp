@@ -206,90 +206,92 @@ void MonsterScene::update(){
 
 
 	// --------------------- update the monster contour pnts
-	for(int i=0; i<cvData[0]->blobs.size(); i++) {
+    for (int packetId = 0; packetId < 2; packetId++){
+        for(int i=0; i<cvData[packetId]->blobs.size(); i++) {
 
-		int lookID = cvData[0]->blobs[i].id;
+            int lookID = cvData[packetId]->blobs[i].id;
 
-		for(int j=monsters.size()-1; j>=0; j--) {
+            for(int j=monsters.size()-1; j>=0; j--) {
 
-			// yes we match
-			if(monsters[j].monsterID == lookID) {
-                
-                
-                ofPolyline line  = cvData[0]->blobs[i].blob;
-                for (auto & pt : line){
-                    pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
+                // yes we match
+                if(monsters[j].id == lookID &&
+                   monsters[j].packetId == packetId) {
+                    
+                    ofPolyline line  = cvData[packetId]->blobs[i].blob;
+                    for (auto & pt : line){
+                        pt = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+                    }
+                    
+                    //line.flagHasChanged();
+                    
+                    ofRectangle newRec = line.getBoundingBox();
+                    
+    //				newRec.x		*= scalex;
+    //				newRec.y		*= scaley;
+    //				newRec.width	*= scalex;
+    //				newRec.height	*= scaley;
+                    
+                    /*
+                    sclContour.assign(tracker->blobs[i].pts.size(), ofPoint());
+                    for(int e=0; e<tracker->blobs[i].pts.size(); e++) {
+                        sclContour[e].x = tracker->blobs[i].pts[e].x * scalex;
+                        sclContour[e].y = tracker->blobs[i].pts[e].y * scaley;
+                    }*/
+
+                    
+                    // the contour (fixed)
+                    line.flagHasChanged();
+                    
+                    monsters[j].pos.x  = line.getCentroid2D().x;
+                    monsters[j].pos.y  = line.getCentroid2D().y;
+                    
+                    monsters[j].rect = newRec;
+                    
+                    //cout << "adding " << newRec << " " << line.getCentroid2D() << endl;
+                    
+                    // a simple contour
+                    //monsters[j].contourSimple.assign(tracker->blobs[i].pts.size(), ofPoint());
+                    
+                    ofPolyline simp;
+                    ofPolyline smooth;
+                    ofPolyline convex;
+                    simp.addVertices(line.getVertices());
+                    smooth.addVertices(line.getVertices());
+                    convex.addVertices(line.getVertices());
+            
+                    simp.simplify(0.5);
+                    smooth = smooth.getSmoothed(3);
+                    
+                    
+                    monsters[j].contourSimple = simp.getVertices();
+                    monsters[j].contourSmooth = smooth.getVertices();
+                    monsters[j].contourConvex = getConvexHull(convex.getVertices()).getVertices();
+                    
+                    //contourAnalysis.simplify(tracker->blobs[i].pts, monsters[j].contourSimple, 0.50);
+
+                    // a smooth contour
+                    //monsters[j].contourSmooth.assign(monsters[j].contourSimple.size(), ofPoint());
+                    //contourAnalysis.smooth(monsters[j].contourSimple, monsters[j].contourSmooth, 0.2);
+
+                    // a convex contour
+                    //monsters[j].contourConvex.assign(monsters[j].contourSimple.size(), ofPoint());
+                    //contourAnalysis.convexHull(monsters[j].contourSimple, monsters[j].contourConvex);
+
+                    monsters[j].updateContourPnts(line.getVertices());
+
+                    
                 }
-    
-				ofRectangle newRec = line.getBoundingBox();
-                
-//				newRec.x		*= scalex;
-//				newRec.y		*= scaley;
-//				newRec.width	*= scalex;
-//				newRec.height	*= scaley;
-				
-				/*
-				sclContour.assign(tracker->blobs[i].pts.size(), ofPoint());
-				for(int e=0; e<tracker->blobs[i].pts.size(); e++) {
-					sclContour[e].x = tracker->blobs[i].pts[e].x * scalex;
-					sclContour[e].y = tracker->blobs[i].pts[e].y * scaley;
-				}*/
-
-                
-				// the contour (fixed)
-                line.flagHasChanged();
-                
-				monsters[j].pos.x  = line.getCentroid2D().x;
-				monsters[j].pos.y  = line.getCentroid2D().y;
-				
-				monsters[j].rect = newRec;
-				
-                //cout << "adding " << newRec << " " << line.getCentroid2D() << endl;
-                
-				// a simple contour
-				//monsters[j].contourSimple.assign(tracker->blobs[i].pts.size(), ofPoint());
-				
-                ofPolyline simp;
-                ofPolyline smooth;
-                ofPolyline convex;
-                simp.addVertices(line.getVertices());
-                smooth.addVertices(line.getVertices());
-                convex.addVertices(line.getVertices());
-        
-                simp.simplify(0.5);
-                smooth = smooth.getSmoothed(3);
-                
-                
-                monsters[j].contourSimple = simp.getVertices();
-                monsters[j].contourSmooth = smooth.getVertices();
-                monsters[j].contourConvex = getConvexHull(convex.getVertices()).getVertices();
-                
-                //contourAnalysis.simplify(tracker->blobs[i].pts, monsters[j].contourSimple, 0.50);
-
-				// a smooth contour
-				//monsters[j].contourSmooth.assign(monsters[j].contourSimple.size(), ofPoint());
-				//contourAnalysis.smooth(monsters[j].contourSimple, monsters[j].contourSmooth, 0.2);
-
-				// a convex contour
-				//monsters[j].contourConvex.assign(monsters[j].contourSimple.size(), ofPoint());
-				//contourAnalysis.convexHull(monsters[j].contourSimple, monsters[j].contourConvex);
-
-                monsters[j].updateContourPnts(line.getVertices());
-
-				
-			}
-		}
-	}
-
+            }
+        }
+    }
 
 
 
 	// --------------------- Monsters
 	for(int i = 0; i < monsters.size(); i++) {
 		//monsters[i].SCALE = panel.getValueF("SCALE");
+        
 		monsters[i].bDebug = bDebug;
-        monsters[i].packetW = cvData[0]->width; // 2016 packet.width;
-        monsters[i].packetH =  cvData[0]->height; // 2016 packet.height;
         monsters[i].monsterDelayAge = monsterAge; //panel.getValueF("MONSTER_AGE");
 		monsters[i].update();
 
@@ -308,28 +310,30 @@ void MonsterScene::update(){
 
 }
 
-//-------------------------------------------------------------- get monster by id
-BubbleMonster& MonsterScene::getMonsterById( int monsterId ) {
-
-	for( int i=0; i<monsters.size(); i++ ) {
-		if( monsters[i].monsterID == monsterId ) {
-			return monsters[i];
-		}
-	}
-
-}
+////-------------------------------------------------------------- get monster by id
+//BubbleMonster& MonsterScene::getMonsterById( int monsterId ) {
+//
+//	for( int i=0; i<monsters.size(); i++ ) {
+//		if( monsters[i].monsterID == monsterId ) {
+//			return monsters[i];
+//		}
+//	}
+//
+//}
 
 //-------------------------------------------------------------- blob events
-void MonsterScene::blobOn( int x, int y, int bid, int order ) {
+void MonsterScene::blobBorn( int packetId, int id ) {
 
+    int bid = id;
+    
 	if(!bMonsterTimer) return;
 	
 	printf("monster on - %i\n", bid);
-
     
-    ofPolyline line = cvData[0]->blobs[cvData[0]->idToBlobPos[bid]].blob;
+    
+    ofPolyline line = cvData[packetId]->blobs[cvData[packetId]->idToBlobPos[bid]].blob;
     for (auto & pt : line){
-        pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
+        pt = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
     }
 	//ofxCvBlob blober = tracker->getById(bid);
 
@@ -337,7 +341,7 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 	if(true) {
 
 		BubbleMonster monster;
-		monster.monsterID = bid;
+		monster.id = bid;
 
 		// set a new monster type each time
 		monster.monsterMode = (int)ofRandom(0, 2);
@@ -353,11 +357,9 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 
 
 		// set the parts
-		monster.packetW = cvData[0]->width;
-		monster.packetH = cvData[0]->height;
 		
 		monster.parts = &parts;
-        monster.init( line, bid ) ;//tracker->getById(bid) );
+        monster.init( line, packetId, bid ) ;//tracker->getById(bid) );
 		monster.area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData[0]->width*cvData[0]->height);
 		monster.initAge = ofGetElapsedTimef();
 		monsters.push_back(monster);
@@ -392,9 +394,10 @@ void MonsterScene::blobOn( int x, int y, int bid, int order ) {
 }
 
 //--------------------------------------------------------------
-void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
-	
+void MonsterScene::blobMoved(int packetId, int id){
     
+	
+    int bid = id;
 	
 	if(!bMonsterTimer) return;
 	
@@ -403,14 +406,15 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 	//float scaley = (float)RM->getHeight() / (float)cvData[0]->height;
 	
     
-    ofPolyline line = cvData[0]->blobs[cvData[0]->idToBlobPos[bid]].blob;
+    ofPolyline line = cvData[packetId]->blobs[cvData[packetId]->idToBlobPos[bid]].blob;
     ofPoint centroid = line.getCentroid2D();
-    ofPoint newPT  = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
+    ofPoint newPT  = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, centroid);
     
     
 	
 	for(int i=monsters.size()-1; i>=0; i--) {
-		if(monsters[i].monsterID == bid) {
+		if(monsters[i].id == bid &&
+           monsters[i].packetId == packetId) {
 
 			// tell daito that the monster just moved
 			
@@ -434,7 +438,7 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 //			ofxDaito::sendCustom(msg);
 
 			monsters[i].genNewRadius();
-			monsters[i].area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData[0]->width*cvData[0]->height);
+			monsters[i].area = (float)(line.getBoundingBox().height*line.getBoundingBox().width) / (float)(cvData[packetId]->width*cvData[packetId]->height);
 
             // 2016
 			//---------- add some particle love -- ewww
@@ -457,13 +461,16 @@ void MonsterScene::blobMoved( int x, int y, int bid, int order ) {
 }
 
 //--------------------------------------------------------------
-void MonsterScene::blobOff( int x, int y, int bid, int order ) {
-
+void MonsterScene::blobDied(int packetId, int id){
+    
+    
+    int bid = id;
 	//if(!bMonsterTimer) return;
 	
 	printf("monster off - %i\n", bid);
 	for(int i=monsters.size()-1; i>=0; i--) {
-		if(monsters[i].monsterID == bid) {
+		if(monsters[i].id == bid &&
+           monsters[i].packetId == packetId) {
 			monsters.erase(monsters.begin() + i);
 
 
@@ -531,22 +538,25 @@ void MonsterScene::draw() {
 
 	bool bDrawPeople = false;
 	if(bDrawPeople) {
-		for(int i=0; i<cvData[0]->blobs.size(); i++) {
-			ofSetColor(255, i*20, 255-(i*40), 100);
-			ofFill();
+        
+        for (int packetId = 0; packetId < 2; packetId++){
+            for(int i=0; i<cvData[packetId]->blobs.size(); i++) {
+                ofSetColor(255, i*20, 255-(i*40), 100);
+                ofFill();
 
-			ofBeginShape();
-			for (int j = 0; j < cvData[0]->blobs[i].blob.size(); j++) {
+                ofBeginShape();
+                for (int j = 0; j < cvData[packetId]->blobs[i].blob.size(); j++) {
 
-				float x = cvData[0]->blobs[i].blob[j].x;
-				float y = cvData[0]->blobs[i].blob[j].y;
+                    float x = cvData[packetId]->blobs[i].blob[j].x;
+                    float y = cvData[packetId]->blobs[i].blob[j].y;
 
-                ofPoint pt(x,y);
-                cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-				ofVertex(pt.x, pt.y);
-			}
-			ofEndShape(true);
-		}
+                    ofPoint pt(x,y);
+                    cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+                    ofVertex(pt.x, pt.y);
+                }
+                ofEndShape(true);
+            }
+        }
 	}
 
 

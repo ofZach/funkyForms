@@ -80,18 +80,15 @@ public:
 	void mouseReleased(int wx, int wy, int x, int y, int button);
 	
     
-    void blobBorn(int packetId, int id){  if (packetId == 1) return;
-        blobOn(0,0,id, 0);}
-    void blobDied(int packetId, int id){ if (packetId == 1) return;
-        blobOff(0,0,id, 0);}
-    void blobMoved(int packetId, int id){ if (packetId == 1) return;
-        blobMoved(0,0,id, 0);}
+    void blobBorn(int packetId, int id);
+    void blobDied(int packetId, int id);
+    void blobMoved(int packetId, int id);
     
-	// ---------------------- blob tracking
-	void blobOn( int x, int y, int bid, int order );
-    void blobMoved( int x, int y, int bid, int order );     // blob moved??????
-    void blobOff( int x, int y, int bid, int order );
-	
+//	// ---------------------- blob tracking
+//	void blobOn( int x, int y, int bid, int order );
+//    void blobMoved( int x, int y, int bid, int order );     // blob moved??????
+//    void blobOff( int x, int y, int bid, int order );
+//	
     void stop(){
         cleanUpScene();
     }

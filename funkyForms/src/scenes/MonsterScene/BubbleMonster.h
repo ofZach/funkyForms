@@ -45,7 +45,6 @@ class BubbleMonster : public BaseMonster {
 
 
 public:
-	float				packetW, packetH;
 	float				initAge;
 	float				monsterDelayAge, monsterAge;
 	float				age, area;
@@ -58,7 +57,8 @@ public:
 	bool				bJustBecameMonster;
 
 	// monster
-	int					monsterID;
+	int					id;
+    int                 packetId;
 	ofVec2f             points;
 	GiggleBubble		bubbles[NUM_BUBBLE_PNTS];
 	MonsterSVGParts *   parts;
@@ -87,11 +87,11 @@ public:
 
 	//-------------------------------------------------------------- init
 	BubbleMonster() {
-		packetW = 0;
-		packetH = 0;
+		
 		bJustBecameMonster = false;
 		bMonster  = false;
-		monsterID = -1;
+		id          = -1;
+        packetId    = -1;
 		bDebug	  = false;
 		parts	  = NULL;
 		eyeID	  = 0;
@@ -109,7 +109,7 @@ public:
 
 	//-------------------------------------------------------------- init
 	//void init(ofCvTrackedBlob &blob) {
-    void init(ofPolyline &blob, int id) {
+    void init(ofPolyline &blob, int _packetId, int _id) {
 
         float scalex = 1;
         float scaley = 1;
@@ -127,9 +127,10 @@ public:
 		pos.y			 = blob.getCentroid2D().y;
         
         
-		monsterID    = id;
+		id    = _id;
+        packetId = _packetId;
 
-		printf("	monster %i made\n", monsterID);
+		//printf("	monster %i made\n", monsterID);
 
 		// init the points
 		updateContourPnts(blob.getVertices());
