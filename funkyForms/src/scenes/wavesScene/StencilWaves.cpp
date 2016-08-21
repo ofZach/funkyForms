@@ -203,6 +203,8 @@ void StencilWaves::draw(){
     
     paths.clear();
     centroids.clear();
+    ofSetColor(255);
+    waves[0].polyline.draw();
 }
 void StencilWaves::drawUpperPeople(){
     for(auto &p: paths){

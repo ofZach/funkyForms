@@ -14,9 +14,13 @@
 #include "gradientWaves.hpp"
 #include "StencilWaves.hpp"
 #include "ofxGui.h"
+#include "particleWithAge.hpp"
 
 class wavesScene : public baseScene {
 public:
+    // Particles
+    vector<particleWithAge> particles;
+    
     // Waves
     StencilWaves stencilWaves;
     gradientWaves gradientWaves;
@@ -34,9 +38,11 @@ public:
     void setupGui();
     
     void update();
+    void updateParticles();
     void updateInput();
     
     void draw();
+    void drawParticles();
     void drawGui();
     void drawPeople();
     
