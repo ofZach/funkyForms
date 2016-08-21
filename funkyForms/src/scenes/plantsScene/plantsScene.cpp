@@ -326,14 +326,17 @@ void plantsScene::updateBgPlants(){
 void plantsScene::updateBgPlantsRemoval(){
     for (int i =0; i < bgPlants.size(); i++) {
         if(bgPlants[i].isFadeFinished()){
-            // add bg plant behind the person
-//            int pId = (int)ofRandom(plants.size());
-//            int id = plants[pId].id;
-//            float x = plants[pId].getPos().x;
             addBgPlantRandom();
-            bgPlants.erase(bgPlants.begin()+i);
         }
     }
+    bgPlants.erase(
+                   std::remove_if(
+                                  bgPlants.begin(),
+                                  bgPlants.end(),
+                                  [&](Plant &i){
+                                      return i.isFadeFinished();
+                                  }),
+                   bgPlants.end());
 }
 void plantsScene::updatePlantsParameters(){
     for(auto &p: plants){
@@ -346,11 +349,14 @@ void plantsScene::updatePlantCreation(){
 
 }
 void plantsScene::updatePlantRemoval(){
-    for (int i =0; i<plants.size(); i++) {
-        if(plants[i].isFadeFinished()){
-            plants.erase(plants.begin()+i);
-        }
-    }
+    plants.erase(
+                   std::remove_if(
+                                  plants.begin(),
+                                  plants.end(),
+                                  [&](Plant &i){
+                                      return i.isFadeFinished();
+                                  }),
+                   plants.end());
 }
 // --------------- draw
 void plantsScene::draw(){
