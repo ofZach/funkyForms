@@ -65,12 +65,8 @@ void plantsScene::addBgPlant(ofVec2f _pos){
 
 
 
-void plantsScene::addPlant(ofVec2f _pos, int id, bool bLeftSide){
+void plantsScene::addPlant(ofVec2f _pos, int packetId, int id, bool bLeftSide){
     
-    ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
-    ofRectangle dst = src;
-    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-    dst.scaleTo(target);
     
     
     Plant plant;
@@ -78,6 +74,7 @@ void plantsScene::addPlant(ofVec2f _pos, int id, bool bLeftSide){
     int i = plants.size()-1;
     
     plants[i].id = id;
+    plants[i].packetId = packetId;
     plants[i].pointLinkId = ofRandom(pointLinkCount);
     
 //    // calc direction
@@ -188,9 +185,10 @@ void plantsScene::setupGui(){
     gui.loadFromFile("settings_plantsScene.xml");
 
 }
-void plantsScene::remove(int id){
+void plantsScene::remove(int packetId, int id){
     for(auto &p : plants){
-        if(p.id == id){
+        if(p.id == id &&
+           p.packetId == packetId){
             p.fadeOut();
             //p.setPos(getClosestPoint(p.getPos(), peoplePoints), 0.5);
         }
@@ -231,21 +229,24 @@ void plantsScene::update(){
     
     
     // are there any people without plants???
-    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-        int id = cvData[0]->blobs[i].id;
-       
-        bool bAny = false;
-        for (auto & plant : plants){
-            if (plant.id == id){
-                bAny = true;
+    for (int packetId = 0; packetId < 2; packetId++){
+        for (int i = 0; i < cvData[packetId]->blobs.size(); i++){
+            int id = cvData[packetId]->blobs[i].id;
+           
+            bool bAny = false;
+            for (auto & plant : plants){
+                if (plant.id == id &&
+                    plant.packetId == packetId){
+                    bAny = true;
+                }
             }
-        }
-        if (!bAny){
-            ofPoint centroid = cvData[0]->blobs[i].blob.getCentroid2D();
-            centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
-            addPlant(centroid, id, true);
-            addPlant(centroid, id, false);
-            
+            if (!bAny){
+                ofPoint centroid = cvData[packetId]->blobs[i].blob.getCentroid2D();
+                centroid = cvData[packetId]->remapForScreen( packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, centroid);
+                addPlant(centroid, packetId, id, true);
+                addPlant(centroid, packetId, id, false);
+                
+            }
         }
     }
     
@@ -256,10 +257,6 @@ void plantsScene::update(){
 }
 void plantsScene::updatePlants(){
     
-    ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
-    ofRectangle dst = src;
-    ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-    dst.scaleTo(target);
     
     for(auto &p: plants){
             p.update();
@@ -421,7 +418,7 @@ void plantsScene::drawBgPlants(){
 }
 
 
-map < int, ofColor > colorMap;
+map < int, ofColor > colorMap[2];
 
 void plantsScene::drawPeople(){
     // rempap the contour data:
@@ -430,371 +427,224 @@ void plantsScene::drawPeople(){
     
     
     
-    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-    
-        float age = cvData[0]->blobs[i].age;
-        ofPolyline line = cvData[0]->blobs[i].blob;
-        for (auto & pt : line.getVertices()){
-            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-        }
+    for (int packetId = 0; packetId < 2; packetId++){
+        for (int i = 0; i < cvData[packetId]->blobs.size(); i++){
         
-        int id = cvData[0]->blobs[i].id;
-        
-        auto inThere = colorMap.find(id);
-        if (inThere ==colorMap.end()){
-            colorMap[id] = ofColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), 0);
-        }
-        
-        
-        ofPoint firstPt;
-        ofPoint lastPt;
-        
-        ofSetColor(255,255,255, 50);
-        line.draw();
-        
-        
-        ofRectangle bounds = line.getBoundingBox();
-        
-        float div = 15; //(float)max(ofGetMouseX(), 3);
-        //cout << div << endl;
-        int divisions = ceil(bounds.width / div);
-        
-        vector < ofPoint > pts;
-        
-        ofPolyline tempLine = line.getResampledBySpacing(1);
-        
-        float w = div; //bounds.getWidth()/(float)divisions;
-        
-        
-        float startX = bounds.x;
-        
-        
-        vector < ofPoint > circlePositions;
-        for (int j = 0; j < divisions; j++){
+            float age = cvData[packetId]->blobs[i].age;
+            ofPolyline line = cvData[packetId]->blobs[i].blob;
+            for (auto & pt : line.getVertices()){
+                pt = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+            }
+            
+            int id = cvData[packetId]->blobs[i].id;
+            
+            auto inThere = colorMap[packetId].find(id);
+            if (inThere ==colorMap[packetId].end()){
+                colorMap[packetId][id] = ofColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), 0);
+            }
             
             
-            ofRectangle tempRect(startX + j * w, bounds.y, w, bounds.height);
-            bool bAny = false;
-            float minY = bounds.y + bounds.height;
-            for (auto & pt : tempLine){
-                if (tempRect.inside(pt)){
-                    if (pt.y < minY){
-                        minY = pt.y;
-                        bAny= true;
+            ofPoint firstPt;
+            ofPoint lastPt;
+            
+            ofSetColor(255,255,255, 50);
+            line.draw();
+            
+            
+            ofRectangle bounds = line.getBoundingBox();
+            
+            float div = 15; //(float)max(ofGetMouseX(), 3);
+            //cout << div << endl;
+            int divisions = ceil(bounds.width / div);
+            
+            vector < ofPoint > pts;
+            
+            ofPolyline tempLine = line.getResampledBySpacing(1);
+            
+            float w = div; //bounds.getWidth()/(float)divisions;
+            
+            
+            float startX = bounds.x;
+            
+            
+            vector < ofPoint > circlePositions;
+            for (int j = 0; j < divisions; j++){
+                
+                
+                ofRectangle tempRect(startX + j * w, bounds.y, w, bounds.height);
+                bool bAny = false;
+                float minY = bounds.y + bounds.height;
+                for (auto & pt : tempLine){
+                    if (tempRect.inside(pt)){
+                        if (pt.y < minY){
+                            minY = pt.y;
+                            bAny= true;
+                        }
+                    }
+                }
+                if (!bAny){
+                    //minY = bounds.y;
+                }
+                
+                minY -= 10;
+                
+                ofFill();
+                ofRectangle tempRect2(startX + j * w, minY, w, bounds.height - (minY- bounds.y));
+                
+                //ofCircle(ofPoint(bounds.x + j * w + w/2, minY), w/2);
+                //ofRect(tempRect2);
+                
+                ofPoint circlePos = ofPoint(startX + j * w + w/2, minY);
+                
+                
+                circlePositions.push_back(circlePos);
+                
+                
+                //pts.push_back( ofPoint(bounds.x + j * w + w/2, minY));
+            }
+            
+            
+            
+            ofPolyline hmm;
+            bool bSkip = false;
+            
+            
+            firstPt = circlePositions[0];
+            lastPt = circlePositions[circlePositions.size()-1];
+            
+            for (int j = 0; j < circlePositions.size(); j++){
+                
+                if (bSkip == true){
+                    bSkip = false;
+                    continue;
+                }
+                ofPoint circlePos = circlePositions[j];
+                float angle = PI;
+                float angleStep = PI/9.0;
+                float width = w/2;
+                
+                float flipMe = 1;
+                
+                
+                if (j < circlePositions.size()-1){
+                    if ( fabs(circlePositions[j+1].y - circlePositions[j].y) < 10){
+                        bSkip = true;
+                        circlePos = (circlePositions[j] + circlePositions[j+1])/2;
+                        width = w;
+                    }
+                }
+                
+                if (j > 0 && j < circlePositions.size()-1 && bSkip != true){
+                    
+                    if (circlePositions[j-1].y < circlePositions[j].y &&
+                        circlePositions[j+1].y < circlePositions[j].y){
+                        flipMe = -1;
+                        
+                    }
+                }
+                
+                for (int k = 0; k < 10; k++){
+                    ofPoint pt = circlePos + width * ofPoint(cos(angle), sin(angle));
+                    angle += angleStep * flipMe;
+                    hmm.addVertex(pt);
+                }
+            }
+            
+            
+            ofSetColor(255);
+            ofPolyline lineTemp(pts);
+            
+            
+            hmm.addVertex( hmm[hmm.size()-1].x, bounds.y + bounds.height);
+            hmm.addVertex( hmm[0].x, bounds.y + bounds.height);
+            
+            
+            ofPoint centroid = hmm.getCentroid2D();
+            for (auto & pp : hmm){
+                pp = (pp - centroid) * ofPoint(1.1, 1.2) + centroid;
+            }
+            
+            line = line.getSmoothed(5);
+            
+            if (age > 0.8){
+                
+                colorMap[packetId][id].a = 0.9f * colorMap[packetId][id].a + 0.1 * 255;
+                ofSetColor(colorMap[packetId][id]);
+                ofBeginShape();
+                for (auto & pp : hmm){
+                    ofVertex(pp);
+                }
+        //        ofNextContour();
+        //        for (auto & pp : line){
+        //            ofVertex(pp);
+        //        }
+                ofEndShape();
+                
+                ofSetColor(0,0,0);
+                ofBeginShape();
+                for (auto & pp : line){
+                    ofVertex(pp);
+                }
+                ofEndShape();
+                
+                
+                for (int j = 0; j < plants.size(); j++){
+                    if(plants[j].id == id &&
+                       plants[j].packetId == packetId){
+                        if (plants[j].bGrewUp == false){
+                            plants[j].fadeIn();
+                        }
                     }
                 }
             }
-            if (!bAny){
-                //minY = bounds.y;
-            }
-            
-            minY -= 10;
-            
-            ofFill();
-            ofRectangle tempRect2(startX + j * w, minY, w, bounds.height - (minY- bounds.y));
-            
-            //ofCircle(ofPoint(bounds.x + j * w + w/2, minY), w/2);
-            //ofRect(tempRect2);
-            
-            ofPoint circlePos = ofPoint(startX + j * w + w/2, minY);
-            
-            
-            circlePositions.push_back(circlePos);
-            
-            
-            //pts.push_back( ofPoint(bounds.x + j * w + w/2, minY));
-        }
-        
-        
-        
-        ofPolyline hmm;
-        bool bSkip = false;
-        
-        
-        firstPt = circlePositions[0];
-        lastPt = circlePositions[circlePositions.size()-1];
-        
-        for (int j = 0; j < circlePositions.size(); j++){
-            
-            if (bSkip == true){
-                bSkip = false;
-                continue;
-            }
-            ofPoint circlePos = circlePositions[j];
-            float angle = PI;
-            float angleStep = PI/9.0;
-            float width = w/2;
-            
-            float flipMe = 1;
-            
-            
-            if (j < circlePositions.size()-1){
-                if ( fabs(circlePositions[j+1].y - circlePositions[j].y) < 10){
-                    bSkip = true;
-                    circlePos = (circlePositions[j] + circlePositions[j+1])/2;
-                    width = w;
-                }
-            }
-            
-            if (j > 0 && j < circlePositions.size()-1 && bSkip != true){
-                
-                if (circlePositions[j-1].y < circlePositions[j].y &&
-                    circlePositions[j+1].y < circlePositions[j].y){
-                    flipMe = -1;
-                    
-                }
-            }
-            
-            for (int k = 0; k < 10; k++){
-                ofPoint pt = circlePos + width * ofPoint(cos(angle), sin(angle));
-                angle += angleStep * flipMe;
-                hmm.addVertex(pt);
-            }
-        }
-        
-        
-        ofSetColor(255);
-        ofPolyline lineTemp(pts);
-        
-        
-        hmm.addVertex( hmm[hmm.size()-1].x, bounds.y + bounds.height);
-        hmm.addVertex( hmm[0].x, bounds.y + bounds.height);
-        
-        
-        ofPoint centroid = hmm.getCentroid2D();
-        for (auto & pp : hmm){
-            pp = (pp - centroid) * ofPoint(1.1, 1.2) + centroid;
-        }
-        
-        line = line.getSmoothed(5);
-        
-        if (age > 0.8){
-            
-            colorMap[id].a = 0.9f * colorMap[id].a + 0.1 * 255;
-            ofSetColor(colorMap[id]);
-            ofBeginShape();
-            for (auto & pp : hmm){
-                ofVertex(pp);
-            }
-    //        ofNextContour();
-    //        for (auto & pp : line){
-    //            ofVertex(pp);
-    //        }
-            ofEndShape();
-            
-            ofSetColor(0,0,0);
-            ofBeginShape();
-            for (auto & pp : line){
-                ofVertex(pp);
-            }
-            ofEndShape();
-            
             
             for (int j = 0; j < plants.size(); j++){
-                if(plants[j].id == id){
-                    if (plants[j].bGrewUp == false){
-                        plants[j].fadeIn();
+                if(plants[j].id == id &&
+                   plants[j].packetId == packetId){
+                    if (plants[j].bLeftSide == true){
+                        plants[j].setPos(firstPt, 0.5);
+                        plants[j].color = colorMap[packetId][id];
+                    } else {
+                        plants[j].setPos(lastPt, 0.5);
+                        plants[j].color = colorMap[packetId][id];
                     }
                 }
             }
+            
+            //hmm.draw();
+            
+            //lineTemp.draw();
+            
+            
+            
         }
-        
-        for (int j = 0; j < plants.size(); j++){
-            if(plants[j].id == id){
-                if (plants[j].bLeftSide == true){
-                    plants[j].setPos(firstPt, 0.5);
-                    plants[j].color = colorMap[id];
-                } else {
-                    plants[j].setPos(lastPt, 0.5);
-                    plants[j].color = colorMap[id];
-                }
-            }
-        }
-        
-        //hmm.draw();
-        
-        //lineTemp.draw();
-        
-        
-        
     }
     
-    
-    
-//    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-//        
-//        int id = cvData[0]->blobs[i].id;
-//        ofPoint firstPt;
-//        
-//        ofPolyline line = cvData[0]->blobs[i].blob;
-//        for (auto & pt : line.getVertices()){
-//            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-//        }
-//        
-//        ofSetColor(255,255,255, 50);
-//        line.draw();
-//        
-//        
-//        ofRectangle bounds = line.getBoundingBox();
-//        
-//        float div = (float)max(ofGetMouseX(), 3);
-//        
-//        int divisions = ceil(bounds.width / div);
-//        
-//        vector < ofPoint > pts;
-//        
-//        line = line.getResampledBySpacing(1);
-//        
-//        float w = div; //bounds.getWidth()/(float)divisions;
-//        
-//        ofPolyline hmm;
-//        
-//        float startX = bounds.x + bounds.width/2.0 - (float)divisions*0.5*10.0;
-//        
-//        
-//        
-//        for (int j = 0; j < divisions; j++){
-//            
-//            
-//            ofRectangle tempRect(startX + j * w, bounds.y, w, bounds.height);
-//            bool bAny = false;
-//            float minY = bounds.y + bounds.height;
-//            for (auto & pt : line){
-//                if (tempRect.inside(pt)){
-//                    if (pt.y < minY){
-//                        minY = pt.y;
-//                        bAny= true;
-//                    }
-//                }
-//            }
-//            if (!bAny){
-//                //minY = bounds.y;
-//            }
-//            
-//            minY -= 20;
-//            
-//            ofFill();
-//            ofRectangle tempRect2(startX + j * w, minY, w, bounds.height - (minY- bounds.y));
-//            
-//            //ofCircle(ofPoint(bounds.x + j * w + w/2, minY), w/2);
-//            //ofRect(tempRect2);
-//            
-//            ofPoint circlePos = ofPoint(startX + j * w + w/2, minY);
-//            float angle = PI;
-//            float angleStep = PI/10.0;
-//            float width = w/2;
-//            
-//            if (j == 0){
-//                firstPt = circlePos;
-//            }
-//            
-//            for (int k = 0; k < 10; k++){
-//                ofPoint pt = circlePos + width * ofPoint(cos(angle), sin(angle));
-//                angle += angleStep;
-//                hmm.addVertex(pt);
-//            }
-//            
-//            //pts.push_back( ofPoint(bounds.x + j * w + w/2, minY));
-//        }
-//        
-//        ofSetColor(ofColor::darkGreen);
-//        ofPolyline lineTemp(pts);
-//        
-//        hmm.addVertex( hmm[hmm.size()-1].x, bounds.y + bounds.height);
-//        hmm.addVertex( hmm[0].x, bounds.y + bounds.height);
-//        
-//        
-//        
-//        ofPoint centroid = hmm.getCentroid2D();
-//        for (auto & pp : hmm){
-//            pp = (pp - centroid) * 1.3 + centroid;
-//        }
-//        
-//        ofBeginShape();
-//        for (auto & pp : hmm){
-//            ofVertex(pp);
-//        }
-//        ofNextContour();
-//        for (auto & pp : line){
-//            ofVertex(pp);
-//        }
-//        ofEndShape();
-//        
-//        
-//        for (int j = 0; j < plants.size(); j++){
-//            if(plants[j].id == id){
-//                plants[j].setPos(firstPt, 0.8);
-//            }
-//        }
-//        
-//        //hmm.draw();
-//        
-//        //lineTemp.draw();
-//        
-//        
-//        
-//    }
-    
-    
-    
-   
-    
-//    ofSetColor(0);
-//    line.draw();
-    
-    
-//        ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
-//        ofRectangle dst = src;
-//        ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
-//        dst.scaleTo(target);
-//    
-//        for (int i = 0; i < cvData[0]->blobs.size(); i++){
-//            ofPath p;
-//            p.setFillColor(ofColor(0,0,0,10));
-//            ofPolyline line = cvData[0]->blobs[i].blob;
-//    
-//            for (auto & pt : line){
-//                pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-//            }
-//    
-//            line.simplify();
-//            for(auto &l : line){
-//                p.lineTo(l);
-//                float x = l.x - glowRadius;
-//                float y = l.y - glowRadius;
-//                ofSetColor(255, glowOpacity);
-//                //glow.draw(x, y, glowRadius*2, glowRadius*2);
-//            }
-//            
-//            p.draw();
-//        }
+
 
 }
 // --------------- events
 void plantsScene::blobBorn(int packetId, int id){
     
-    if (packetId == 1) return;
     
     
-    int whichBlob = cvData[0]->idToBlobPos[id];
-    ofPoint centroid = cvData[0]->blobs[whichBlob].blob.getCentroid2D();
+    int whichBlob = cvData[packetId]->idToBlobPos[id];
+    ofPoint centroid = cvData[packetId]->blobs[whichBlob].blob.getCentroid2D();
     
     //-------------------------------------
 //        ofRectangle src(0,0,cvData[0]->width, cvData[0]->height);
 //        ofRectangle dst = src;
 //        ofRectangle target = RM->getRectForScreen(SCREEN_LEFT);
 //        dst.scaleTo(target);
-        centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
+    centroid = cvData[packetId]->remapForScreen( packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, centroid);
     //-------------------------------------
     
-    addPlant(centroid, id, true);
-    addPlant(centroid, id, false);
+    addPlant(centroid, packetId, id, true);
+    addPlant(centroid, packetId, id, false);
 }
 void plantsScene::blobDied(int packetId, int id){
     
-    if (packetId == 1) return;
-    
-    remove(id);
+    remove(packetId, id);
 }
 void plantsScene::start(){
     reset();

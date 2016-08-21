@@ -63,6 +63,7 @@ public:
     
     // timing, id 
     int id;
+    int packetId;
     int pointLinkId;
     float timeOffset;
     int age = 0;
