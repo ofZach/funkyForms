@@ -58,7 +58,6 @@ void wavesScene::updateInput(){
                 stencilWaves.addPath(line);
     
                 ofVec2f vel = cvData[z]->blobs[i].avgVel;
-    
                 for(auto &w: stencilWaves.waves){
                     for(auto &p: w.points){
                         if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
@@ -66,9 +65,17 @@ void wavesScene::updateInput(){
                         }
                     }
                 }
-                
             }
-            
+            if(isGradientWavesMode){
+                ofVec2f vel = cvData[z]->blobs[i].avgVel;
+                for(auto &w: gradientWaves.waves){
+                    for(auto &p: w.points){
+                        if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                            w.addForceTo(&p, vel.normalize().y);
+                        }
+                    }
+                }
+            }
         }
     }
 }
