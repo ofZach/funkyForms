@@ -13,8 +13,9 @@ void StencilWaves::setup(int w, int h){
     screenH = h;
     
     // refract
-    refract.allocate(screenLeft.getWidth(),screenLeft.getHeight());
-    refract.setup(screenLeft.getWidth(), screenLeft.getHeight());
+    float sw = screenLeft.getWidth()+screenCenter.getWidth()+screenRight.getWidth();
+    refract.allocate(sw,screenLeft.getHeight());
+    refract.setup(sw, screenLeft.getHeight());
     
     // fbo
     peopleFbo.allocate(screenW*screenScale, screenH*screenScale);
@@ -166,12 +167,14 @@ void StencilWaves::updateMasks(){
     mask.update();
 }
 void StencilWaves::updateRefract(){
+    float sw = screenLeft.getWidth()+screenCenter.getWidth()+screenRight.getWidth();
+
     refract.begin(0);
-    mask.getTexture().drawSubsection(0, 0,  screenLeft.getWidth() ,  screenLeft.getHeight(), screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
+    mask.getTexture().drawSubsection(0, 0,  sw ,  screenLeft.getHeight(), screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
     refract.end(0);
     
     refract.begin(1);
-    mainWaveFbo.getTexture().drawSubsection(0, 0,  screenLeft.getWidth() ,  screenLeft.getHeight(), screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
+    mainWaveFbo.getTexture().drawSubsection(0, 0,  sw ,  screenLeft.getHeight(), screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
     refract.end(1);
   
     refract.update();

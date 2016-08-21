@@ -25,7 +25,7 @@ public:
     vector<ofVec2f> centroids;
     int screenW, screenH;
     ofParameter<float> screenScale;
-    ofRectangle screenLeft, screenRight;
+    ofRectangle screenLeft, screenRight, screenCenter;
 
     // colors
     ofColor peopleColor;
