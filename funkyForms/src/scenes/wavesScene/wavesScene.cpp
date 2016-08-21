@@ -110,13 +110,13 @@ void wavesScene::updateParticles(){
         float x = screenLeft.getCenter().x;
         float y = screenTop.getCenter().y+300;
         if(deadRectLeft.inside(particles[i].pos)){
-            particles[i].addForce(0.2, 0);
+          ///  particles[i].addForce(0.2, 0);
         }
         if(deadRectRight.inside(particles[i].pos)){
-            particles[i].addForce(-0.2, 0);
+           // particles[i].addForce(-0.2, 0);
         }
         if(screenCenter.inside(particles[i].pos)){
-            particles[i].addForce(particles[i].vel.x*0.005, particles[i].vel.y*0.005);
+           // particles[i].addForce(particles[i].vel.x*0.005, particles[i].vel.y*0.005);
         }
         
 //          particles[i].addAttractionForce(screenCenter.getCenter().x, screenCenter.getCenter().y, 10000, 0.02);
@@ -193,9 +193,12 @@ void wavesScene::draw(){
 //    drawPeople();
 }
 void wavesScene::drawParticles(){
+
+    ofSetCircleResolution(5);
     for(auto &p : particles){
         p.draw();
     }
+    ofSetCircleResolution(20);
 }
 void wavesScene::drawGui(){
      gui.draw();
