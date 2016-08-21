@@ -51,8 +51,8 @@ public:
     void setTargetVel(int id, ofVec2f vel); // should call before update
     void setupGui();
     void setupParameters(float &v);
-    void addEye(int id, ofVec2f pos);
-    void removeEye(int id);
+    void addEye(int packetId, int id, ofVec2f pos);
+    void removeEye(int packetId, int id);
     void clear();
     
     void update();

@@ -24,6 +24,7 @@ public:
     float velSmooth = 0.9;
     ofVec2f vel;
     ofVec2f velPrev;
+    int packetId;
     int id;
     float width = 100;
     float height = 100;

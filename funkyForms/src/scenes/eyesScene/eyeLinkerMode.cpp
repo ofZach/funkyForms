@@ -31,19 +31,20 @@ void eyeLinkerMode::setupParameters(float &v){
         e.setScale(scale);
     }
 }
-void eyeLinkerMode::addEye(int id, ofVec2f pos){
+void eyeLinkerMode::addEye(int packetId, int id, ofVec2f pos){
     EyeLinker eyelinker;
     eyeLinkers.push_back(eyelinker);
     int i = eyeLinkers.size()-1;
     eyeLinkers[i].id = id;
+    eyeLinkers[i].packetId = packetId;
     eyeLinkers[i].pos = pos;
     eyeLinkers[i].setSize(width, height);
     eyeLinkers[i].setup();
     eyeLinkers[i].setScale(scale);
 }
-void eyeLinkerMode::removeEye(int id){
+void eyeLinkerMode::removeEye(int packetId, int id){
     for(auto &e : eyeLinkers ){
-        if(e.id == id){
+        if(e.id == id && e.packetId == packetId){
             e.out();
         }
     }
