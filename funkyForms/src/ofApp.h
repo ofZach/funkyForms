@@ -12,6 +12,7 @@
 #include "renderManager.h"
 #include "eyesScene.hpp"
 #include "wavesScene.hpp"
+#include "simpleScene2.h"
 
 
 enum view {
