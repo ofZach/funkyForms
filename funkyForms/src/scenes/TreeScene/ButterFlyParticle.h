@@ -36,7 +36,7 @@ public:
         }
         
         if( distance > 0 && distance < alignment.distance ){
-            alignment.sum += p.vel.normalized();
+            alignment.sum += p.vel;
             alignment.count++;
         }
         
@@ -71,7 +71,7 @@ public:
         float alignFrc 	= alignment.strength;
         
         frc -= (seperation.sum.normalized()		    * sepFrc);
-        frc += (alignment.sum.normalized()			* alignFrc);
+        frc += (alignment.sum			* alignFrc);
         frc += (cohesion.sum.normalized()			* cohFrc);
     }
     
@@ -90,15 +90,15 @@ public:
 	void setupButterfly() {
 		
 		radius = 20;
-		seperation.distance		= radius * 3;
-		alignment.distance		= 80;
+		seperation.distance		= radius * 2;
+		alignment.distance		= 130;
 		cohesion.distance		= 90;
 		damping = 0.020;//0.07;
 		
 		
 		seperation.strength		= .983;
 		alignment.strength		= .19;
-		cohesion.strength		= .19;
+		cohesion.strength		= .019;
 		
 		alpha = 0;
 		alphaD = 100;

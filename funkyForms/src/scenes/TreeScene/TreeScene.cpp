@@ -193,7 +193,7 @@ void TreeScene::updateFlocking() {
         
         if (bottomScreenBig.inside(butterflys[i].pos) ||
             topScreenBig.inside(butterflys[i].pos)){
-            butterflys[i].addForce(0,0.4);
+            butterflys[i].addForce(0,0.6);
         }
         
         
@@ -253,10 +253,10 @@ void TreeScene::updateFlocking() {
     for (int i = 0; i < butterflys.size(); i++){
         ofPoint pos = butterflys[i].pos;
         float speed = 1.0;
-        float xNoise = ofSignedNoise(pos.x * 0.01, pos.y * 0.1, i*0.1, time * 0.1);
-        float yNoise = ofSignedNoise(pos.x * 0.01, pos.y * 0.1, i*0.1, time * 0.1 + 100000);
+        float xNoise = ofSignedNoise(pos.x * 0.01, pos.y * 0.01, i*0.01, time * 0.2);
+        float yNoise = ofSignedNoise(pos.x * 0.01, pos.y * 0.01, i*0.01, time * 0.2 + 100000);
         
-        butterflys[i].addForce(xNoise*1.0 * speed, yNoise * 1.0);
+        butterflys[i].addForce(xNoise*3.0 * speed, yNoise * 3.0);
     }
 
 	

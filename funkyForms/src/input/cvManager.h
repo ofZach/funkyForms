@@ -42,7 +42,7 @@ class cvPacket {
     
 public:
     
-    map < int, trackedContour > * trackedContours;      // access tracked contours by ID
+    //map < int, trackedContour > * trackedContours;      // access tracked contours by ID
     
     vector < int > idsThisFrame;                        // list of IDs
     map < int, int > idToBlobPos;                       // from ID, get position in this blob array
@@ -60,7 +60,8 @@ public:
         return blobs[whichBlob].blob.getCentroid2D();
     }
     ofVec2f getVelAvgSmoothAt(int ID){
-        return (*(trackedContours))[ID].velAvgSmooth;
+        return blobs[idToBlobPos[ID]].avgVelSmoothed;
+        //(*(trackedContours))[ID].velAvgSmooth;
     }
     ofVec2f getTopPointAt(int ID){
         int whichBlob = idToBlobPos[ID];
@@ -132,7 +133,7 @@ public:
     void update(ofPixels & pixels);
     void draw();
     
-    map < int, trackedContour > trackedContours;
+    //map < int, trackedContour > trackedContours;
     
     ofParameterGroup cvParams;
     
@@ -176,5 +177,7 @@ public:
     
     opticalFlowThread OFT;
     analyzeFrame frame;
+    
+    map < int, float > startTimes;
     
 };
