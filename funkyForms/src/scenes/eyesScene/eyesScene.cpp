@@ -84,14 +84,21 @@ void eyesScene::updateModes(){
 void eyesScene::updateModeSwitch(){
 }
 void eyesScene::updateTargets(){
-    for(auto &id : cvData[0]->idsThisFrame){
-        ofPoint pt = cvData[0]->getTopPointAt(id);
-        ofVec2f vel = cvData[0]->getVelAvgSmoothAt(id);
-        pt =  cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-        
-        eyeLinkerMode.setTargetPos(id, pt);
-        eyeParticlesMode.setTargetPos(id, pt);
-        eyeParticlesMode.setTargetVel(id, vel);
+    int id = 0;
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            
+            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
+            pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+            
+            ofVec2f vel = cvData[z]->blobs[i].avgVel;
+            
+            eyeLinkerMode.setTargetPos(id, pt);
+            eyeParticlesMode.setTargetPos(id, pt);
+            eyeParticlesMode.setTargetVel(id, vel);
+            
+            id++;
+        }
     }
 }
 void eyesScene::updateEyes(){
@@ -169,8 +176,6 @@ void eyesScene::updateAveragePos(){
     float s = 0.9;
     averagePos = averagePos*s + (1-s)*p;
 }
-
-
 void eyesScene::updateFastestPos(){
     
     // need something better here!
@@ -218,13 +223,19 @@ void eyesScene::drawEyes(){
     }
 }
 void eyesScene::drawPeople(){
-    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-        ofSetColor(255);
-        ofPolyline line = cvData[0]->blobs[i].blob;
-        for (auto & pt : line){
-            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            ofPolyline line = cvData[z]->blobs[i].blob;
+            
+            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
+            pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+            
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            }
+            ofVec2f vel = cvData[z]->blobs[i].avgVel;
+            line.draw();
         }
-        line.draw();
     }
 }
 // ------------ events

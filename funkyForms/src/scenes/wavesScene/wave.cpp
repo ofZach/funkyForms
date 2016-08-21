@@ -43,18 +43,26 @@ void wave::update(){
     updatePolyline();
     targets.clear();
 }
+void wave::addForceTo(Point_ *p, float _force){
+    if(!p->isFixed){
+        p->p.y += _force*force;
+    }
+}
 void wave::updateForces(){
     float force2 = 1 - friction * timeStep * timeStep;
     
     for (int i = 0; i < points.size(); i++) {
-        for(auto &t : targets){
-            if(t.pos.distance(points[i].p)<30){
-                if (!points[i].isFixed) {
-                    points[i].p.y += t.vel.normalize().y*force;
-                }
-            }
-        }
-//        for(auto &id: cvData[0]->idsThisFrame){
+
+//        for(auto &t : targets){
+//            if(t.pos.distance(points[i].p)<30){
+//                if (!points[i].isFixed) {
+//                    points[i].p.y += t.vel.normalize().y*force;
+//                }
+//            }
+//        }
+//        for(auto &id: cvData->idsThisFrame){
+
+
 //            // NOTE: since this is threaded, there's sometimes a frame where resampledSmooth might not
 //            // have any vertices... adding a check.
 //            if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){

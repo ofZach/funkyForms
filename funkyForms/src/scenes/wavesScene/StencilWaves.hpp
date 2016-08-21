@@ -25,7 +25,7 @@ public:
     vector<ofVec2f> centroids;
     int screenW, screenH;
     ofParameter<float> screenScale;
-    ofRectangle screenLeft, screenRight;
+    ofRectangle screenLeft, screenRight, screenCenter;
 
     // colors
     ofColor peopleColor;
@@ -41,6 +41,7 @@ public:
     // waves
     ofParameterGroup parameters;
     vector<wave> waves;
+    ofParameter<float> wavePos;
     ofParameter<float> strength;
     ofParameter<float> restLength;
     ofParameter<float> invMass;
@@ -69,7 +70,7 @@ public:
     void addWave(int y);
     void reload(float &v);
     void addPath(ofPolyline &contour);
-    
+        
     void update();
     void updateFbos();
     void updateMasks();
