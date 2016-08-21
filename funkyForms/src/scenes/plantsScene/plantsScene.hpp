@@ -95,11 +95,11 @@ public:
     void setup();
     void setupBackground();
     void setupGui();
-    void addPlant(ofVec2f _pos, int id, bool bLeftSide);
+    void addPlant(ofVec2f _pos, int packetId, int id, bool bLeftSide);
     void addBgPlant(ofVec2f _pos);
     void addBgPlantRandom();
     void onNewPlant();
-    void remove(int id);
+    void remove(int packetId, int id);
     void reset();
     void triggerBgPlant(bool &b);
     
