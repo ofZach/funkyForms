@@ -43,6 +43,7 @@ void StencilWaves::setup(int w, int h){
 void StencilWaves::setupGui(){
     refract.setupParameters();
     parameters.setName("stencilWavesParameters");
+    parameters.add(wavePos.set("wavePos", 150, 10, 300));
     parameters.add(screenScale.set("screenScale", 1.0, 0.05, 1.0));
     parameters.add(amount.set("amount", 55, 10, 200));
     parameters.add(strength.set("strength", 0.55, 0.001, 1));
@@ -61,8 +62,8 @@ void StencilWaves::setupGui(){
 }
 void StencilWaves::reload(float &v){
     waves.clear();
-    addWave(screenH*screenScale-150);
-    addWave(screenH*screenScale-100);
+    addWave(screenH*screenScale-wavePos);
+    addWave(screenH*screenScale-wavePos);
 }
 void StencilWaves::addWave(int y){
     class wave wave;

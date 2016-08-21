@@ -41,6 +41,7 @@ public:
     // waves
     ofParameterGroup parameters;
     vector<wave> waves;
+    ofParameter<float> wavePos;
     ofParameter<float> strength;
     ofParameter<float> restLength;
     ofParameter<float> invMass;
