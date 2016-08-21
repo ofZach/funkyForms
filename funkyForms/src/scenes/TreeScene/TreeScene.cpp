@@ -45,6 +45,9 @@ void TreeScene::setup() {
     group.add(fadeRate.set("fadeRate", 6.0, 1.0, 40.0 ));
     group.add(butterFlyScale.set("butterFlyScale", 0.09, 0.0, 2.0 ));
     group.add(butterFlySpeed.set("butterFlySpeed", 0.09, 0.0, 2.0 ));
+    group.add(butterFlyGlow.set("butterFlyGlow", 0.2,0,1 ));
+    
+    
     group.add(peopleColor.set("peopleColor", 0.0, 0.0, 255.0 ));
     group.add(treeAddingTime.set("treeAddingTime", 1.0, 0.0, 2.0 ));
     group.add(bDoPeopleGlow.set("bDoPeopleGlow", true));
@@ -87,7 +90,7 @@ void TreeScene::setup() {
 	if(butterflys.size() < MAX_BUTTERFLYS) {
 		for (int i = 0; i < MAX_BUTTERFLYS; i++){
 			ButterFlyParticle bf;
-			bf.setInitialCondition(ofRandom(200, RM->getWidth()), ofRandom(0, RM->getHeight()), 0,0);
+			bf.setInitialCondition(ofRandom(0, RM->getWidth()), ofRandom(0, RM->getHeight()), 0,0);
 			bf.setupButterfly();
             bf.scale = butterFlyScale; //panel.getValueF("BUTTERFLY_SCALE");
 			butterflys.push_back(bf);
@@ -159,11 +162,51 @@ void TreeScene::updateFlocking() {
     ofRectangle dst = src;    dst.scaleTo(target);
     float scaleCoordinates = dst.getWidth() / src.getWidth();
     
+    
+    ofRectangle bottomScreen = RM->getRectForScreen(SCREEN_CENTER);
+    ofRectangle leftScreen = RM->getRectForScreen(SCREEN_LEFT);
+    ofRectangle rightScreen = RM->getRectForScreen(SCREEN_RIGHT);
+    ofRectangle bottomScreenBig = RM->getRectForScreen(SCREEN_CENTER);
+    ofRectangle leftScreenBig = RM->getRectForScreen(SCREEN_LEFT);
+    ofRectangle rightScreenBig = RM->getRectForScreen(SCREEN_RIGHT);
+    ofRectangle topScreenBig = RM->getRectForScreen(SCREEN_TOP);
+    
+    ofRectangle topScreen = RM->getRectForScreen(SCREEN_CENTER);
+    
+    
+    bottomScreenBig.scaleFromCenter(1.3);
+    leftScreenBig.scaleFromCenter(1.3);
+    rightScreenBig.scaleFromCenter(1.3);
+    topScreenBig.scaleFromCenter(1.3);
+    
+    
+    float time = ofGetElapsedTimef();
+    
+
+    
 	for (int i = 0; i < butterflys.size(); i++){
 		
-        butterflys[i].scale = butterFlySpeed; //panel.getValueF("BUTTERFLY_SCALE");
+        butterflys[i].scale = butterFlyScale; //panel.getValueF("BUTTERFLY_SCALE");
         butterflys[i].damping = butterFlySpeed; //panel.getValueF("BUTTERFLY_SPEED");
 		butterflys[i].resetForce();
+        
+        
+        if (bottomScreenBig.inside(butterflys[i].pos) ||
+            topScreenBig.inside(butterflys[i].pos)){
+            butterflys[i].addForce(0,0.4);
+        }
+        
+        
+        float positionOffset = sin(time) * bottomScreen.getHeight() * 0.1;
+        float horizOffset = sin(time * 0.6) * bottomScreen.getHeight() * 0.05;
+        
+        float sizeOffset = sin(time * 0.7) * bottomScreen.getHeight() * 0.2;
+        
+        butterflys[i].addRepulsionForce(bottomScreen.x + bottomScreen.width/2 + horizOffset, bottomScreen.y+bottomScreen.height + positionOffset, bottomScreen.getWidth() + sizeOffset, 1.5);
+        
+        
+        
+        
 	}
 	
 	for (int i = 0; i < butterflys.size(); i++){
@@ -176,6 +219,9 @@ void TreeScene::updateFlocking() {
 		
 		for(int q=0; q<cvData->blobs.size(); q++) {
 			
+            
+            float velLen = cvData->blobs[q].avgVelSmoothed.length();
+            
 			ofRectangle newRec = cvData->blobs[q].blob.getBoundingBox();
 			
             ofPoint a = newRec.getTopLeft();
@@ -188,7 +234,7 @@ void TreeScene::updateFlocking() {
             newRecScaled.set(a.x, a.y, b.x-a.x, b.y-a.y);
             
 #pragma mark tofix
-            float forceFactor = 1.0; // (newRec.width * newRec.height) / ((cvPacket->width)*(cvPacket->height));
+            float forceFactor = (float)(newRec.getWidth() * newRec.getHeight()) / (float)((cvData->width)*(cvData->height));
 			
 //			newRec.x		*= scalex;
 //			newRec.y		*= scaley;
@@ -198,11 +244,21 @@ void TreeScene::updateFlocking() {
 			center.x =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[q].blob.getCentroid2D()).x;
 			center.y =cvData->remapForScreen(SCREEN_LEFT, cvData->blobs[q].blob.getCentroid2D()).y;
 			
-			butterflys[i].addAttractionForce(center.x, center.y - 20, 300, 1.5);
+			butterflys[i].addAttractionForce(center.x, center.y - 20, 400, velLen*0.3);
 			
 			
 		}
 	}
+    
+    for (int i = 0; i < butterflys.size(); i++){
+        ofPoint pos = butterflys[i].pos;
+        float speed = 1.0;
+        float xNoise = ofSignedNoise(pos.x * 0.01, pos.y * 0.1, i*0.1, time * 0.1);
+        float yNoise = ofSignedNoise(pos.x * 0.01, pos.y * 0.1, i*0.1, time * 0.1 + 100000);
+        
+        butterflys[i].addForce(xNoise*1.0 * speed, yNoise * 1.0);
+    }
+
 	
 	for (int i = 0; i < butterflys.size(); i++){
 		butterflys[i].addFlockingForce();
@@ -210,22 +266,26 @@ void TreeScene::updateFlocking() {
 		butterflys[i].update();
 	}
 	
-	// wrap torroidally.
+    
+    
+   
+    
+	
 	for (int i = 0; i < butterflys.size(); i++){
 		ofVec2f pos = butterflys[i].pos;
 		
-		float screenW = 0;
-		float screenH = 0;
-		
-		float offx = 0;//((RM->getWidth() - screenW)/2);
-		float offy = 0;//(RM->getHeight() - screenH);
-		float gap  = 20;
-		if (pos.x < 0)							pos.x = RM->getWidth();
-		if (pos.x > RM->getWidth())			pos.x = 0;
-		if (pos.y < 0)							pos.y = RM->getHeight()*3;
-		if (pos.y > RM->getHeight()*3)			pos.y = 0;
-		
-		butterflys[i].pos = pos;
+        if (!bottomScreenBig.inside(pos) &&
+            !leftScreenBig.inside(pos) &&
+            !rightScreenBig.inside(pos) &&
+            !topScreenBig.inside(pos) ){
+            
+            ofPoint randomPt = ofPoint(topScreen.x + topScreen.width * ofRandom(0.3,0.7),
+                                       ofRandom(-50, -150));
+            butterflys[i].pos = randomPt;
+            butterflys[i].vel = ofPoint(ofRandom(-1,1),ofRandom(-1,1));
+        }
+            
+		//butterflys[i].pos = pos;
 	}
 	
 	
@@ -457,6 +517,7 @@ void TreeScene::draw() {
 	// draw the butter flys
 	
 	for(int i = 0; i < butterflys.size(); i++){
+        butterflys[i].glowAlpha = butterFlyGlow;
 		butterflys[i].draw();
 	}
 	

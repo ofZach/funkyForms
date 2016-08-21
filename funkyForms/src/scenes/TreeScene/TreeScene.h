@@ -70,6 +70,7 @@ public:
 	
     ofParameter<float> treeDelay;
     ofParameter<float> peopleGlow;
+    ofParameter<float> butterFlyGlow;
     ofParameter<float> treeBottomOffset;
     ofParameter<float> treeGrowW;
     ofParameter<float> treeGrowH;

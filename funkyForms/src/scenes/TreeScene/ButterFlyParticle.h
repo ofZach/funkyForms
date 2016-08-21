@@ -18,8 +18,7 @@ public:
 	ofImage *			img;
 	ButterflyAnimation	butterfly;
 	float				radius;
-	
-    
+    float               glowAlpha;
     //------------------------------------------------------------
     void addForFlocking(particle &p){
         
@@ -98,8 +97,8 @@ public:
 		
 		
 		seperation.strength		= .983;
-		alignment.strength		= .15;
-		cohesion.strength		= .15;
+		alignment.strength		= .19;
+		cohesion.strength		= .19;
 		
 		alpha = 0;
 		alphaD = 100;
@@ -129,7 +128,7 @@ public:
 		float rot = getHeading2D();
 		
 		if(img != NULL) {
-			ofSetColor(255, 255, 255, alpha);
+			ofSetColor(255, 255, 255, alpha * glowAlpha);
 			ofSetRectMode(OF_RECTMODE_CENTER);
 			img->draw(pos.x, pos.y, radius*6, radius*6);
 			ofSetRectMode(OF_RECTMODE_CORNER);
