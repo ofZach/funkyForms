@@ -137,7 +137,7 @@ void StencilWaves::updateFbos(){
     ofFill();
     peopleFbo.begin();
     ofClear(0, 0);
-    for(auto &p: paths){
+    for(auto &p: pathsAsMeshes){
         p.draw();
     }
     peopleFbo.end();
@@ -153,8 +153,8 @@ void StencilWaves::updateMasks(){
     
     mask.begin(1); // img to be masked
     ofClear(0, 0);
-    for(auto &p: paths){
-        p.setFillColor(ofColor(peopleColor, peopleOpacity));
+    for(auto &p: pathsAsMeshes){
+        //p.setFillColor(ofColor(peopleColor, peopleOpacity));
         p.draw();
     }
     mask.end(1);
@@ -187,6 +187,11 @@ void StencilWaves::addPath(ofPolyline &contour){
         path.lineTo(p);
     }
     path.setFillColor(ofColor::white);
+    
+    ofVboMesh m;
+    pathsAsMeshes.push_back(m);
+    pathsAsMeshes.back() = path.getTessellation();
+    
     paths.push_back(path);
     centroids.push_back(centroid);
 }
@@ -201,13 +206,14 @@ void StencilWaves::draw(){
  
     refract.draw(screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
     
+    pathsAsMeshes.clear();
     paths.clear();
     centroids.clear();
     ofSetColor(255);
     waves[0].polyline.draw();
 }
 void StencilWaves::drawUpperPeople(){
-    for(auto &p: paths){
+    for(auto &p: pathsAsMeshes){
         p.draw();
     }
 }

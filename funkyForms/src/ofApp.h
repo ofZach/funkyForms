@@ -13,7 +13,8 @@
 #include "eyesScene.hpp"
 #include "wavesScene.hpp"
 #include "simpleScene2.h"
-
+#include "costumeScene.h"
+#include "costumeScene2.h"
 
 enum view {
     VIEW_DEBUG,

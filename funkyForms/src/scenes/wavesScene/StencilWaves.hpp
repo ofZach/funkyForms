@@ -22,6 +22,9 @@ class StencilWaves{
 public:
     // input
     vector<ofPath> paths;
+    
+    vector<ofVboMesh> pathsAsMeshes;
+    
     vector<ofVec2f> centroids;
     int screenW, screenH;
     ofParameter<float> screenScale;

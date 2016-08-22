@@ -16,6 +16,9 @@ void ofApp::setup(){
     
     ofRectangle bounds;
     
+    
+    
+    SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
     SM.scenes.push_back(new simpleScene());
@@ -41,7 +44,7 @@ void ofApp::setup(){
     SM.setup();
 //    SM.currentScene = 2;
     
-    currentView = VIEW_DEBUG;
+    currentView = VIEW_OVERVIEW;
     
     
     
