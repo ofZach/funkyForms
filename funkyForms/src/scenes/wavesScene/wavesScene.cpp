@@ -22,6 +22,7 @@ void wavesScene::setup(){
     
     // setup obj
     gradientWaves.setup(w, h);
+    gradientWaves.screenLeft =  RM->getRectForScreen(SCREEN_LEFT);
     stencilWaves.screenLeft = RM->getRectForScreen(SCREEN_LEFT);
     stencilWaves.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
     stencilWaves.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
@@ -34,6 +35,7 @@ void wavesScene::setup(){
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
+    parameters.add(changeMode.set("changeMode", true));
     parameters.add(isStencilWaveMode.set("isStencilWaveMode", true));
     parameters.add(isGradientWavesMode.set("isGradientWavesMode", false));
     parameters.add(mapVelmin.set("mapVelmin", -1, -1, -0.2));
@@ -45,13 +47,42 @@ void wavesScene::setupGui(){
     gui.add(gradientWaves.parameters);
     gui.add(stencilWaves.parameters);
     gui.loadFromFile("settings_wavesScene.xml");
+    
+    changeMode.addListener(this, &wavesScene::triggerChangeMode);
+}
+void wavesScene::triggerChangeMode(bool &b){
+    isFade ^= true;
+    if(isFade){
+        stencilWaves.fadeIn();
+        gradientWaves.fadeOut();
+        stencilWaves.updateFade();
+    }else{
+        stencilWaves.fadeOut();
+        gradientWaves.fadeIn();
+        stencilWaves.updateFade();
+    }
 }
 // ------------ Update
 void wavesScene::update(){
+    updateFade();
     updateParticles();
     updateInput();
-    if(isGradientWavesMode) gradientWaves.update();
-    if(isStencilWaveMode) stencilWaves.update();
+    gradientWaves.update();
+    stencilWaves.update();
+}
+void wavesScene::updateFade(){
+    if(stencilWaves.fadeAnimator.isOut){
+        isStencilWaveMode = false;
+    }
+    if(stencilWaves.fadeAnimator.isAnimating){
+        isStencilWaveMode = true;
+    }
+    if(gradientWaves.fadeAnimator.isOut){
+        isGradientWavesMode = false;
+    }
+    if(gradientWaves.fadeAnimator.isAnimating ){
+        isGradientWavesMode = true;
+    }
 }
 void wavesScene::updateParticles(){
     for(int z = 0; z < 2; z++){

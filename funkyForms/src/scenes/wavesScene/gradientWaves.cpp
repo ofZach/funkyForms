@@ -13,7 +13,7 @@ void gradientWaves::setup(int w, int h){
     
     float v = 0;
     reload(v);
-    
+    fadeAnimator.setSpeed(0.008);
     // shader
 //    bumpmap.allocate(screenW, screenH);
 }
@@ -79,10 +79,40 @@ void gradientWaves::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
 }
 // -------------- update
 void gradientWaves::update(){
+    updateFade();
     updateWaveParameters();
     for (int i = 0; i < waves.size(); i++) {
         waves[i].update();
         waves[i].updateFishWave();
+    }
+}
+void gradientWaves::updateFade(){
+    if(isWaveRelax){
+        for(auto &w : waves){
+            for(auto &p : w.points){
+                p.p.y = p.p.y*0.9 + 0.1*(w.points[0].p.y);
+            }
+        }
+    }
+    fadeAnimator.update();
+    if(fadeAnimator.isIn || fadeAnimator.isOut){
+        isWaveRelax = false;
+    }
+    if(!fadeAnimator.isIn && !fadeAnimator.isOut){
+        isWaveRelax = true;
+        int i = 0;
+        for(auto &w : waves){
+            
+            for(auto &p : w.points ){
+                if(p.isFixed){
+                    float y  = waveDistance*i+screenH-waveDistance*waveCount;
+                    float v = ofMap(fadeAnimator.getValue(), 0, 1, y, screenLeft.getBottom());
+                    p.p.y = v;
+                }
+                
+            }
+            i++;
+        }
     }
 }
 void gradientWaves::updateWaveParameters(){

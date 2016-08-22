@@ -15,6 +15,7 @@
 #include "ofxGui.h"
 #include "ofxRipple.hpp"
 #include "cvManager.h"
+#include "Animator.hpp"
 
 
 class gradientWaves{
@@ -58,7 +59,15 @@ public:
     ofParameter<float> shadowOpacity = 100;
     ofParameter<float> energyHighlightSize = 100;
     
+    
+    // Fade
+    Animator fadeAnimator;
+    bool isWaveRelax = false;
+    ofRectangle screenLeft;
+    
     void setup(int w, int h);
+    void fadeIn(){fadeAnimator.in();}
+    void fadeOut(){fadeAnimator.out();}
     void setupGui();
     void addWave( int ypos, ofFloatColor col, ofColor baseCol);
     void addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i);
@@ -66,6 +75,8 @@ public:
     void reloadInt(int &value);
     
     void update();
+    void updateFade();
+    void updateWave();
     void updateSplash();
     void updateWaveParameters();
     void updateRipples();

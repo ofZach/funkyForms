@@ -39,6 +39,9 @@ void StencilWaves::setup(int w, int h){
     
     // images
     glowImg.load("assets/glow.png");
+    
+    // fade
+    fadeAnimator.setSpeed(0.006);
 }
 void StencilWaves::setupGui(){
     refract.setupParameters();
@@ -75,14 +78,42 @@ void StencilWaves::addWave(int y){
     wave.setup(y, screenW*screenScale);
     waves.push_back(wave);
 }
+void StencilWaves::chillWave(){
+    isWaveRelax = true;
+}
+void StencilWaves::runWave(){
+    isWaveRelax = false;
+}
 // -------------- update
 void StencilWaves::update(){
+    updateFade();
     updateWaveParameters();
     updateWaves();
     updateMeshes();
     updateFbos();
     updateMasks();
     updateRefract();
+}
+void StencilWaves::updateFade(){
+    fadeOpacity = ofMap(fadeAnimator.getValue(), 1, 0, 0, 255);
+    if(isWaveRelax){
+        for(auto &p : waves[0].points){
+            p.p.y = p.p.y*0.9 + 0.1*(waves[0].points[0].p.y);
+        }
+    }
+    fadeAnimator.update();
+    if(fadeAnimator.isIn || fadeAnimator.isOut){
+        isWaveRelax = false;
+    }
+    if(!fadeAnimator.isIn && !fadeAnimator.isOut){
+        isWaveRelax = true;
+        for(auto &p : waves[0].points ){
+            if(p.isFixed){
+                float v = ofMap(fadeAnimator.getValue(), 0, 1, screenLeft.getBottom()-wavePos, screenLeft.getBottom()+wavePos);
+                p.p.y = v;
+            }
+        }
+    }
 }
 void StencilWaves::updateWaves(){
     for(auto &w: waves){
@@ -138,6 +169,7 @@ void StencilWaves::updateFbos(){
     peopleFbo.begin();
     ofClear(0, 0);
     for(auto &p: paths){
+        p.setFillColor(ofColor(p.getFillColor(), fadeOpacity));
         p.draw();
     }
     peopleFbo.end();
@@ -208,6 +240,7 @@ void StencilWaves::draw(){
 }
 void StencilWaves::drawUpperPeople(){
     for(auto &p: paths){
+        p.setFillColor(ofColor(p.getFillColor(), fadeOpacity));
         p.draw();
     }
 }

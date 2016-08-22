@@ -122,7 +122,7 @@ void opticalFlowThread::threadedFunction(){
     while(toAnalyze.receive(frame)){
 
         int now = ofGetElapsedTimeMillis();
-        cout << now - lastTimeMillis << endl;;
+//        cout << now - lastTimeMillis << endl;;
         lastTimeMillis = now; // ofGetElapsedTimef() << endl;
 //
         

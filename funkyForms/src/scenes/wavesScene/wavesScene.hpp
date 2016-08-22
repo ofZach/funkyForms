@@ -43,12 +43,18 @@ public:
     // Glow
     ofImage glow;
     
+    // Fade
+    bool isFade = false;
+    ofParameter<bool> changeMode;
+    
     ofxPanel gui;
     
     void setup();
     void setupGui();
+    void triggerChangeMode(bool &b);
     
     void update();
+    void updateFade();
     void updateParticles();
     void updateParticlesMesh();
     void updateInput();

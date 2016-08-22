@@ -20,6 +20,7 @@ public:
 
 class Spring{
 public:
+    bool isRelax;
     float strength;
     float restLength;
     float mamb;

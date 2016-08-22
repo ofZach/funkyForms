@@ -13,10 +13,13 @@
 
 class Animator{
 public:
+    bool isAnimating = false;
     bool isGrow = false;
     bool isFinished = false;
-    float valueMax;
-    float valueMin;
+    bool isIn = false;
+    bool isOut = false;
+    float valueMax = 1;
+    float valueMin = 0;
     float pct = 0; // percent 0 - 1
     float pctSpeed = 0.02; // percent speed
     float pctOffset = 0;
@@ -44,7 +47,18 @@ public:
         }else{
             pct -= pctSpeed;
         }
-        if(pct<0) isFinished = true;
+        isIn = false;
+        isOut = false;
+        isAnimating = true;
+        if(pct<0){
+            isFinished = true;
+            isIn = true;
+            isAnimating = false;
+        }
+        if(pct>1){
+            isOut = true;
+            isAnimating = false;
+        }
         pct = ofClamp(pct, 0, 1);
         resultValue = ofInterpolateCosine(valueMin, valueMax, pct+pctOffset);
     }
