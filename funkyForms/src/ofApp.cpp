@@ -18,6 +18,7 @@ void ofApp::setup(){
     
     
     
+    SM.scenes.push_back(new paintScene());
     SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());

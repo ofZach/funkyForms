@@ -88,6 +88,7 @@
 		9268AB7E1D6A708E007EF54A /* particle3f.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9268AB7A1D6A708E007EF54A /* particle3f.cpp */; };
 		9268AB7F1D6A708E007EF54A /* spring3f.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9268AB7C1D6A708E007EF54A /* spring3f.cpp */; };
 		9268AB851D6A886A007EF54A /* costumeScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9268AB831D6A886A007EF54A /* costumeScene2.cpp */; };
+		9268AB8D1D6AC019007EF54A /* paintScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9268AB8B1D6AC019007EF54A /* paintScene.cpp */; };
 		92937BB01D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */; };
 		92937BB31D687B90006C8F56 /* opticalFlowThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */; };
 		92CE15CF1D6923060024F616 /* simpleScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE15CD1D6923060024F616 /* simpleScene2.cpp */; };
@@ -463,6 +464,11 @@
 		9268AB7D1D6A708E007EF54A /* spring3f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spring3f.h; sourceTree = "<group>"; };
 		9268AB831D6A886A007EF54A /* costumeScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = costumeScene2.cpp; sourceTree = "<group>"; };
 		9268AB841D6A886A007EF54A /* costumeScene2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = costumeScene2.h; sourceTree = "<group>"; };
+		9268AB8B1D6AC019007EF54A /* paintScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paintScene.cpp; sourceTree = "<group>"; };
+		9268AB8C1D6AC019007EF54A /* paintScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paintScene.h; sourceTree = "<group>"; };
+		9268AB901D6AC475007EF54A /* shader.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shader.frag; sourceTree = "<group>"; };
+		9268AB911D6AC475007EF54A /* shader.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shader.vert; sourceTree = "<group>"; };
+		9268AB931D6AC60B007EF54A /* Simplex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simplex.h; sourceTree = "<group>"; };
 		92937BAD1D687A81006C8F56 /* ofxOpticalFlowFarneback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOpticalFlowFarneback.cpp; sourceTree = "<group>"; };
 		92937BAE1D687A81006C8F56 /* ofxOpticalFlowFarneback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOpticalFlowFarneback.h; sourceTree = "<group>"; };
 		92937BB11D687B90006C8F56 /* opticalFlowThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = opticalFlowThread.cpp; sourceTree = "<group>"; };
@@ -1005,6 +1011,7 @@
 		36BF1C038F5AEC4D85473FE4 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				9268AB8A1D6AC019007EF54A /* paintScene */,
 				9268AB821D6A886A007EF54A /* costumeScene2 */,
 				92CE15D51D6A3DD60024F616 /* costumeScene */,
 				92CE15CC1D6923060024F616 /* simpleScene2 */,
@@ -1364,6 +1371,28 @@
 			name = costumeScene2;
 			path = scenes/costumeScene2;
 			sourceTree = "<group>";
+		};
+		9268AB8A1D6AC019007EF54A /* paintScene */ = {
+			isa = PBXGroup;
+			children = (
+				9268AB931D6AC60B007EF54A /* Simplex.h */,
+				9268AB8F1D6AC475007EF54A /* shader */,
+				9268AB8B1D6AC019007EF54A /* paintScene.cpp */,
+				9268AB8C1D6AC019007EF54A /* paintScene.h */,
+			);
+			name = paintScene;
+			path = scenes/paintScene;
+			sourceTree = "<group>";
+		};
+		9268AB8F1D6AC475007EF54A /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				9268AB901D6AC475007EF54A /* shader.frag */,
+				9268AB911D6AC475007EF54A /* shader.vert */,
+			);
+			name = shader;
+			path = bin/data/sceneAssets/paint/shader;
+			sourceTree = SOURCE_ROOT;
 		};
 		92937BAA1D687A81006C8F56 /* flow */ = {
 			isa = PBXGroup;
@@ -2198,6 +2227,7 @@
 				3FB0E46D5E577C83C2B47C3C /* b2Rope.cpp in Sources */,
 				D4931B8942968A26FCDFDCA7 /* del_impl.cpp in Sources */,
 				2F48651BC9D96056D41EE52C /* ofxSVG.cpp in Sources */,
+				9268AB8D1D6AC019007EF54A /* paintScene.cpp in Sources */,
 				92937BB31D687B90006C8F56 /* opticalFlowThread.cpp in Sources */,
 				8E0D433DE33D9C320E8DA746 /* src_colors.cpp in Sources */,
 				0005085BE93AFE3AF33D8831 /* svgtiny.cpp in Sources */,
