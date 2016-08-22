@@ -14,6 +14,12 @@ void eyesScene::setup(){
     eyeLinkerMode.setupGui();
     setupGui();
     
+    // Set screens
+    eyeParticlesMode.screenLeft = RM->getRectForScreen(SCREEN_LEFT);
+    eyeParticlesMode.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
+    eyeParticlesMode.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
+    eyeParticlesMode.screenTop = RM->getRectForScreen(SCREEN_TOP);
+    
     // setup
     eyePairMode.setup();
 
@@ -23,6 +29,8 @@ void eyesScene::setup(){
     eyeParticlesMode.setup();
     
     eyeLinker.setup();
+    
+
     
     eyeLinkerMode.isEnabled = true; // first showed
     eyePairMode.isEnabled = false;
