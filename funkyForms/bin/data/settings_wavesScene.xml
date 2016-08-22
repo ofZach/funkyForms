@@ -1,11 +1,16 @@
 <settings_wavesScene>
 	<wavesSceneParameters>
-		<isStencilWaveMode>1</isStencilWaveMode>
-		<isGradientWavesMode>0</isGradientWavesMode>
+		<isStencilWaveMode>0</isStencilWaveMode>
+		<isGradientWavesMode>1</isGradientWavesMode>
+	<changeMode>1</changeMode>
+		<mapVelmin>-1</mapVelmin>
+		<mapVelmax>-3</mapVelmax>
+		<dotValue>0.44</dotValue>
+		<velLength>4.44</velLength>
 	</wavesSceneParameters>
 	<gradientWavesParameters>
 		<waveCount>3</waveCount>
-		<waveDistance>71.6582</waveDistance>
+		<waveDistance>57.7296</waveDistance>
 		<amount>44</amount>
 		<strength>0.770638</strength>
 		<restLength>6.61225</restLength>

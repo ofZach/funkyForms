@@ -345,7 +345,7 @@ void ofCvBlobTracker::doBlobOff( const ofCvTrackedBlob& b ) {
     if( listener != NULL ) {
         listener->blobOff( b.centroid.x, b.centroid.y, b.id, findOrder(b.id) );
     } else {
-        cout << "doBlobOff() event for blob: " << b.id << endl;
+//        cout << "doBlobOff() event for blob: " << b.id << endl;
     }
 }
     

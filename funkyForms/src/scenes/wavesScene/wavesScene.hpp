@@ -20,10 +20,17 @@ class wavesScene : public baseScene {
 public:
     // Particles
     vector<particleWithAge> particles;
+    ofMesh particlesMesh;
+    ofParameter<float> mapVelmin;
+    ofParameter<float> mapVelmax;
+    ofParameter<float> velLength;
+    ofParameter<float> dotValue;
     
     // Waves
     StencilWaves stencilWaves;
     gradientWaves gradientWaves;
+    
+    // Waves trigger
     
     // Gui
     ofParameterGroup parameters;
@@ -32,13 +39,24 @@ public:
     ofParameter<bool> isGradientWavesMode = false;
     ofParameter<bool> isStencilWaveMode = true;
     
+    
+    // Glow
+    ofImage glow;
+    
+    // Fade
+    bool isFade = false;
+    ofParameter<bool> changeMode;
+    
     ofxPanel gui;
     
     void setup();
     void setupGui();
+    void triggerChangeMode(bool &b);
     
     void update();
+    void updateFade();
     void updateParticles();
+    void updateParticlesMesh();
     void updateInput();
     
     void draw();

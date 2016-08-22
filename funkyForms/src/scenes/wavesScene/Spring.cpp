@@ -19,6 +19,7 @@ void Spring::update(Point_ *prevPoint, Point_ *point){
     float dist = delta.length();
     float normDistStrength = (dist - restLength) / (dist * mamb) * strength;
     delta.y *= normDistStrength * invMass * 0.2;
+
     if(!prevPoint->isFixed){
         prevPoint->p.y += delta.y;
     }

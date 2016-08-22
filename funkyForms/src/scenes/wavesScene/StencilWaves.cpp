@@ -39,6 +39,9 @@ void StencilWaves::setup(int w, int h){
     
     // images
     glowImg.load("assets/glow.png");
+    
+    // fade
+    fadeAnimator.setSpeed(0.006);
 }
 void StencilWaves::setupGui(){
     refract.setupParameters();
@@ -75,14 +78,42 @@ void StencilWaves::addWave(int y){
     wave.setup(y, screenW*screenScale);
     waves.push_back(wave);
 }
+void StencilWaves::chillWave(){
+    isWaveRelax = true;
+}
+void StencilWaves::runWave(){
+    isWaveRelax = false;
+}
 // -------------- update
 void StencilWaves::update(){
+    updateFade();
     updateWaveParameters();
     updateWaves();
     updateMeshes();
     updateFbos();
     updateMasks();
     updateRefract();
+}
+void StencilWaves::updateFade(){
+    fadeOpacity = ofMap(fadeAnimator.getValue(), 1, 0, 0, 255);
+    if(isWaveRelax){
+        for(auto &p : waves[0].points){
+            p.p.y = p.p.y*0.9 + 0.1*(waves[0].points[0].p.y);
+        }
+    }
+    fadeAnimator.update();
+    if(fadeAnimator.isIn || fadeAnimator.isOut){
+        isWaveRelax = false;
+    }
+    if(!fadeAnimator.isIn && !fadeAnimator.isOut){
+        isWaveRelax = true;
+        for(auto &p : waves[0].points ){
+            if(p.isFixed){
+                float v = ofMap(fadeAnimator.getValue(), 0, 1, screenLeft.getBottom()-wavePos, screenLeft.getBottom()+wavePos);
+                p.p.y = v;
+            }
+        }
+    }
 }
 void StencilWaves::updateWaves(){
     for(auto &w: waves){
@@ -137,7 +168,8 @@ void StencilWaves::updateFbos(){
     ofFill();
     peopleFbo.begin();
     ofClear(0, 0);
-    for(auto &p: pathsAsMeshes){
+    for(auto &p: paths){
+        p.setFillColor(ofColor(p.getFillColor(), fadeOpacity));
         p.draw();
     }
     peopleFbo.end();
@@ -153,8 +185,8 @@ void StencilWaves::updateMasks(){
     
     mask.begin(1); // img to be masked
     ofClear(0, 0);
-    for(auto &p: pathsAsMeshes){
-        //p.setFillColor(ofColor(peopleColor, peopleOpacity));
+    for(auto &p: paths){
+        p.setFillColor(ofColor(peopleColor, peopleOpacity));
         p.draw();
     }
     mask.end(1);
@@ -187,11 +219,6 @@ void StencilWaves::addPath(ofPolyline &contour){
         path.lineTo(p);
     }
     path.setFillColor(ofColor::white);
-    
-    ofVboMesh m;
-    pathsAsMeshes.push_back(m);
-    pathsAsMeshes.back() = path.getTessellation();
-    
     paths.push_back(path);
     centroids.push_back(centroid);
 }
@@ -206,14 +233,14 @@ void StencilWaves::draw(){
  
     refract.draw(screenLeft.getTopLeft().x, screenLeft.getTopLeft().y);
     
-    pathsAsMeshes.clear();
     paths.clear();
     centroids.clear();
     ofSetColor(255);
     waves[0].polyline.draw();
 }
 void StencilWaves::drawUpperPeople(){
-    for(auto &p: pathsAsMeshes){
+    for(auto &p: paths){
+        p.setFillColor(ofColor(p.getFillColor(), fadeOpacity));
         p.draw();
     }
 }

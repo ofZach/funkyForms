@@ -17,6 +17,7 @@
 #include "ofxMask.h"
 #include "ofxRefract.h"
 #include "cvManager.h"
+#include "Animator.hpp"
 
 class StencilWaves{
 public:
@@ -68,13 +69,26 @@ public:
     ofParameter<float> glowRadius;
     ofParameter<float> glowOpacity;
     
+    // fade
+    Animator fadeAnimator;
+    bool isFadeIn = false;
+    bool isFadeOut = false;
+    bool isFading = false;
+    bool isWaveRelax = false;
+    float fadeOpacity = 255;
+    
     void setup(int w, int h);
     void setupGui();
+    void chillWave();
+    void runWave();
+    void fadeIn(){fadeAnimator.in();};
+    void fadeOut(){fadeAnimator.out();};
     void addWave(int y);
     void reload(float &v);
     void addPath(ofPolyline &contour);
         
     void update();
+    void updateFade();
     void updateFbos();
     void updateMasks();
     void updateRefract();
