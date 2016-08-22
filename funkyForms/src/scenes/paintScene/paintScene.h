@@ -45,6 +45,8 @@ public:
     ofImage simplexImage;
     ofImage simplexImage2;
     
+    
+    vector < ofVboMesh > meshes;
     //paint/stone_rocky_surface_texture.jpg
 };
 

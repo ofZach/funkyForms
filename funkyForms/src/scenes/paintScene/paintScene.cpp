@@ -251,7 +251,7 @@ void paintScene::update(){
     }
     
     
-    
+    meshes.clear();
     //fBm( dfBm( ofVec3f(position.x*0.3, position.y*0.3, time*0.1) ) ) * 0.5f + 0.5f;
 }
 
@@ -259,6 +259,7 @@ void paintScene::update(){
 
 void paintScene::draw(){
 
+    
     
     lineFbo.begin();
     //ofClear(255,255,255,255);
@@ -282,22 +283,24 @@ void paintScene::draw(){
             }
             line.flagHasChanged();
      
-            ofPoint vel = cvData[packetId]->blobs[i].avgVelSmoothed;
-            float brightness = ofMap(vel.length(), 0, 4, 0, 255, true);
+            ofPoint vel = cvData[packetId]->blobs[i].avgVelSmoothed;;
+            float brightness = ofMap(vel.length(), 0, 2, 0, 1, true);
             float angle = atan2(vel.y, vel.x);
-            
-            ofColor a = colorNames[ (int)(id + floor(ofGetElapsedTimef())) % colorNames.size()*0.5].color;
-            ofColor b = colorNames[ (int)(id + ceil(ofGetElapsedTimef())) % colorNames.size()*0.5].color;
-            float pct = ofGetElapsedTimef() - floor(ofGetElapsedTimef());
-            
-            ofColor c( b.r * pct + a.r * (1-pct),
-                       b.g * pct + a.g * (1-pct),
-                       b.b * pct + a.b * (1-pct));
-            c.setBrightness(brightness * 0.5 + 127);
-            //ofSetColor(c);
+//            
+//            ofColor a = colorNames[ (int)(id + floor(ofGetElapsedTimef())) % colorNames.size()*0.5].color;
+//            ofColor b = colorNames[ (int)(id + ceil(ofGetElapsedTimef())) % colorNames.size()*0.5].color;
+//            float pct = ofGetElapsedTimef() - floor(ofGetElapsedTimef());
+//            
+//            ofColor c( b.r * pct + a.r * (1-pct),
+//                       b.g * pct + a.g * (1-pct),
+//                       b.b * pct + a.b * (1-pct));
+//            c.setBrightness(brightness * 0.5 + 127);
+//            //ofSetColor(c);
             
             if (true){
-            ofSetColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), ofRandom(0,200));
+                ofColor cc(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), ofRandom(0,200));
+                cc.setBrightness(brightness*500);
+                ofSetColor(cc);
             } else {
                 ofSetColor(colorNames[ (int)(id) % (int)(colorNames.size()*0.5)].color);
             }
@@ -306,12 +309,24 @@ void paintScene::draw(){
 //            c.setHsb(ofMap(angle, -PI, PI, 0, 255), 255, brightness*0.5 + 127);
 //            ofSetColor(c);
             
+            ofPath p;
+            
+            
             //ofNoFill();
-            ofBeginShape();
+            bool bFirst = true;
             for (auto & pt : line){
-                ofVertex(pt);
+                if (bFirst) p.moveTo(pt);
+                else p.lineTo(pt);
+
+                    bFirst = false;
             }
-            ofEndShape();
+            p.close();
+            
+            ofVboMesh m;
+            meshes.push_back(m);
+            meshes.back() = p.getTessellation();
+            meshes.back().draw();
+            //ofEndShape();
         }
     }
     
@@ -345,29 +360,10 @@ void paintScene::draw(){
     simplexImage.draw(0,0);
     
     
-    for (int packetId = 0; packetId < 2; packetId++){
-        for (int i = 0; i < cvData[packetId]->blobs.size(); i++){
-            
-            ofPolyline line = cvData[packetId]->blobs[i].blob;
-            
-            int id  = cvData[packetId]->blobs[i].id;
-            
-            for (auto & pt : line){
-                pt = cvData[0]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
-            }
-            line.flagHasChanged();
-            
-                ofSetColor(colorNames[ (int)(id) % (int)(colorNames.size()*0.5)].color);
-           
-            ofFill();
-            ofBeginShape();
-            for (auto & pt : line){
-                ofVertex(pt);
-            }
-            ofEndShape();
-        }
+    for (int i = 0; i < meshes.size(); i++){
+        ofSetColor(127 + 127 * sin(ofGetElapsedTimef()));
+        meshes[i].draw();
     }
-    
 }
 
 
