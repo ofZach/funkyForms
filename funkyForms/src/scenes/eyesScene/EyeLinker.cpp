@@ -106,11 +106,13 @@ void EyeLinker::update(){
 }
 void EyeLinker::updateFireworks(){
     // add particles
-    if(vel.length() > 0.5){
-        addFireworksParticle(pos);
-        addFireObject();
+    if(!isFading){
+        if(vel.length() > 0.5){
+            addFireworksParticle(pos);
+            addFireObject();
+        }
+        curParticleId++;
     }
-    curParticleId++;
     
     updateTrailParticles();
     updateTrailLines();
@@ -234,8 +236,8 @@ void EyeLinker::updatePhysics(){
     }
 }
 void EyeLinker::updateFading(){
-    if(isFading){
-        // todo: fading
+    if(eyes[0].isCloseFinished()){
+        isGlow = false;
     }
 }
 void EyeLinker::updateParameters(){
@@ -249,7 +251,11 @@ void EyeLinker::updateVelocity(){
     posPrev = pos;
 }
 bool EyeLinker::isFinished(){
-    return  eyes[0].isCloseFinished();
+    if(fireObjects.size()<1 && eyes[0].isCloseFinished()){
+        return true;
+    }else{
+        return false;
+    }
 }
 // ------------- draw
 void EyeLinker::draw(){

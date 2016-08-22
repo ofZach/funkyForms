@@ -81,6 +81,13 @@ void eyeLinkerMode::update(){
 }
 void eyeLinkerMode::updateFadeCheck(){
     bool isFin = true;
+    
+    // tell eyelinker stop to creating new particles
+    if(isFading){
+        for(auto &e: eyeLinkers){
+            e.isFading = true;
+        }
+    }
     for(auto &e : eyeLinkers ){
         for(auto &eye: e.eyes){
             if(!eye.isCloseFinished()){
