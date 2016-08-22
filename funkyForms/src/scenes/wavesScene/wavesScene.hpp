@@ -20,6 +20,11 @@ class wavesScene : public baseScene {
 public:
     // Particles
     vector<particleWithAge> particles;
+    ofMesh particlesMesh;
+    ofParameter<float> mapVelmin;
+    ofParameter<float> mapVelmax;
+    ofParameter<float> velLength;
+    ofParameter<float> dotValue;
     
     // Waves
     StencilWaves stencilWaves;
@@ -45,6 +50,7 @@ public:
     
     void update();
     void updateParticles();
+    void updateParticlesMesh();
     void updateInput();
     
     void draw();

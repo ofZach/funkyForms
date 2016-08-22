@@ -28,12 +28,18 @@ void wavesScene::setup(){
     stencilWaves.setup(w, h);
     
     // glow
+    ofDisableArbTex();
     glow.load("assets/glow.png");
+    ofEnableArbTex(); 
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
     parameters.add(isStencilWaveMode.set("isStencilWaveMode", true));
     parameters.add(isGradientWavesMode.set("isGradientWavesMode", false));
+    parameters.add(mapVelmin.set("mapVelmin", -1, -1, -0.2));
+    parameters.add(mapVelmax.set("mapVelmax", -3, -1,  -8));
+    parameters.add(dotValue.set("dotValue", 0.44, 0.1,  1));
+    parameters.add(velLength.set("velLength", 4.44, 1.0, 10));
     parameters.setName("wavesSceneParameters");
     gui.add(parameters);
     gui.add(gradientWaves.parameters);
@@ -57,7 +63,7 @@ void wavesScene::updateParticles(){
             // different ways to use it...
             //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
             if (avgVelSmoothed.y < -1){
-                float mapMe = ofMap(avgVelSmoothed.y, -1, -3, 0.99, 0.9);
+                float mapMe = ofMap(avgVelSmoothed.y, mapVelmin, mapVelmax, 0.99, 0.9);
                 for (int j = 0; j < line.size(); j++){
                     ofPoint pt = line[j];
                     pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
@@ -65,7 +71,7 @@ void wavesScene::updateParticles(){
                     ofPoint velNorm = vel.getNormalized();
                     float dot = velNorm.dot(ofPoint(0,-1)); // up
                     
-                    if (dot > 0.44 && vel.length() > 4.1 && ofRandom(0,1) > mapMe){
+                    if (dot > dotValue && vel.length() > velLength && ofRandom(0,1) > mapMe){
                         
                         // is this FACING up ?
                         ofPoint tan = cvData[z]->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
@@ -148,7 +154,16 @@ void wavesScene::updateParticles(){
     for (int i = 0; i < particles.size(); i++){
         particles[i].update();
     }
-    
+    updateParticlesMesh();
+}
+void wavesScene::updateParticlesMesh(){
+    particlesMesh.clear();
+     particlesMesh.setMode(OF_PRIMITIVE_POINTS);
+    for(auto &p : particles){
+        if(p.id==1){
+            particlesMesh.addVertex(p.pos);
+        }
+    }
 }
 void wavesScene::updateInput(){
     for (int z = 0; z < 2; z++){
@@ -195,7 +210,26 @@ void wavesScene::draw(){
 //    drawPeople();
 }
 void wavesScene::drawParticles(){
-
+//      glPointSize(100);
+//        ofEnablePointSprites();
+//        glow.getTexture().bind();
+//    glBegin(GL_POINTS); //starts drawing of points
+//    for(auto &p : particles){
+//      
+//        glVertex3f(p.pos.x, p.pos.y ,0.0f);//upper-right corner
+//    }
+//    glEnd();//end drawing of points
+//        glow.getTexture().unbind();
+//        ofDisablePointSprites();
+    
+    
+//    ofSetColor(255);
+//    ofEnablePointSprites();
+//    glow.getTexture().bind();
+//    particlesMesh.drawFaces();
+//    glow.getTexture().unbind();
+//    ofDisablePointSprites();
+    
     ofSetCircleResolution(5);
     for(auto &p : particles){
         ofSetColor(255);
