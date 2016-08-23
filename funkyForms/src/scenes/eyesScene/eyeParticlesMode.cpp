@@ -63,11 +63,14 @@ void eyeParticlesMode::fadeIn(){
     for(auto &eye: eyes){
         eye.open();
     }
+    ofLog() << "open";
 }
 void eyeParticlesMode::fadeOut(){
     for(auto &eye: eyes){
         eye.close();
     }
+    ofLog() << "close";
+
 }
 // ---------------------------------- Update
 void eyeParticlesMode::update(){
@@ -89,26 +92,35 @@ void eyeParticlesMode::update(){
     targets.clear();
 }
 void eyeParticlesMode::updateRemoval(){
-    int i = 0;
-    for(auto &p : particles){
-        if(p.age>p.ageMax){
+    // close eye
+    for(int i = 0; i < eyes.size(); i++){
+        if(particles[i].age == particles[i].ageMax){
+            eyes[i].close();
+        }
+    }
+    
+    // if eye is close remove particle and create eye
+    for(int i = 0; i < eyes.size(); i++){
+        if(eyes[i].isCloseFinished()){
+            ofLog() << "close : " << i;
             float x = ofRandom(screenTop.getTopLeft().x, screenTop.getTopRight().x);
             float y = ofRandom(screenTop.getBottom());
-            eyes.erase(eyes.begin()+i);
+            particles.erase(particles.begin()+i);
             addParticle(x, y);
             addEye(x, y);
         }
-        i++;
     }
-    particles.erase(std::remove_if( 
-                                     particles.begin(),
-                                     particles.end(),
+    
+    // clean eyes
+    eyes.erase(std::remove_if(
+                                     eyes.begin(),
+                                     eyes.end(),
                                      
-                                     [&](eyeParticle & e){
-                                         return (e.age>e.ageMax);
+                                     [&](eye & e){
+                                         return e.isCloseFinished();
                                      }
                                      ),
-                      particles.end()
+                      eyes.end()
                       );
 }
 void eyeParticlesMode::updateFadeCheck(){
