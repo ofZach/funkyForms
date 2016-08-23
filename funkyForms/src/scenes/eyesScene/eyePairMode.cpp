@@ -16,6 +16,13 @@ void eyePairMode::setup(){
     }
     eyes[1].setSyncEye(&eyes[0]);
 }
+void eyePairMode::setupGui(){
+    parameters.setName("eyePairParameters");
+    parameters.add(eyeDistance.set("eyeDistance", 200, 10, 800));
+    parameters.add(posOffsetY.set("posOffsetY", 200, -500, 500));
+    parameters.add(energyRange.set("energyRange", 20, 5, 300));
+    parameters.add(smooth.set("smooth", 0.98, 0.5, 0.99));
+}
 void eyePairMode::fadeIn(){
     for(auto &e : eyes){
         e.open();
@@ -27,12 +34,11 @@ void eyePairMode::fadeOut(){
     }
 }
 void eyePairMode::addScaleForce(){
-//    float diff = targetManager->getLeftEnergy() - targetManager->getRightEnergy();
-    float diff = 0;
+    float diff = leftEnergy - rightEnergy;
     float mid = (scaleMax+scaleMin)/2;
-    float sL = ofMap(diff, -20, 20, scaleMin, scaleMax, true);
-    float angle = ofMap(diff, -20, 20, -40, 40, true);
-    float s = 0.98;
+    float sL = ofMap(diff, -energyRange, energyRange, scaleMin, scaleMax, true);
+    float angle = ofMap(diff, -energyRange, energyRange, -40, 40, true);
+    float s = smooth;
 
     if(fabsf(diff)<20){
         sL = (scaleMax+scaleMin)/2;
@@ -71,9 +77,8 @@ void eyePairMode::addScaleForce(){
 
 void eyePairMode::update(ofVec2f _pos){
     updateFadeCheck();
-    int dist = 200;
-    eyes[0].update(_pos-ofVec2f(dist, 0));
-    eyes[1].update(_pos+ofVec2f(dist, 0));
+    eyes[0].update(_pos-ofVec2f(eyeDistance, posOffsetY));
+    eyes[1].update(_pos+ofVec2f(eyeDistance, -posOffsetY));
     addScaleForce();
 }
 void eyePairMode::updateFadeCheck(){

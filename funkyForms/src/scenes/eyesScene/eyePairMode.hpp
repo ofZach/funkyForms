@@ -32,7 +32,23 @@ public:
     bool isFadeOut = false;
     bool isFadeIn = false;
     
+    // EyePair
+    ofParameter<float> eyeDistance = 200;
+    ofParameterGroup parameters;
+    ofParameter<float> posOffsetY;
+
+    
+    // Input
+    float leftEnergy = 0;
+    float rightEnergy = 0;
+    ofParameter<float> energyRange = 20;
+    ofParameter<float> smooth = 0.98;
+    
+    
     void setup();
+    void setupGui();
+    void setEnergy(float left, float right){ leftEnergy = left; rightEnergy = right; };
+    
     void fadeIn();
     void fadeOut();
     void addScaleForce();

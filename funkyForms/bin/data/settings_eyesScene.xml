@@ -3,6 +3,8 @@
 		<isEyePairMode>0</isEyePairMode>
 		<isEyeParticleMode>0</isEyeParticleMode>
 		<isEyeLinkerMode>1</isEyeLinkerMode>
+	<changeMode>1</changeMode>
+		<isAutoChangeMode>0</isAutoChangeMode>
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
 		<behaviorMode>0</behaviorMode>
@@ -30,4 +32,22 @@
 		<glowResolution>20</glowResolution>
 	<velSmooth>0.946204</velSmooth>
 	</eyeLinkerParameters>
+<eyePairParameters>
+		<eyeDistance>517.857</eyeDistance>
+		<energyRange>51.6582</energyRange>
+		<smooth>0.98</smooth>
+	<posOffsetY>-188.776</posOffsetY>
+	</eyePairParameters>
+	<eyeParticlesModeParameters>
+		<behaviorMode>0</behaviorMode>
+		<count>50</count>
+		<initButton>1</initButton>
+		<attractionForce>0.5</attractionForce>
+		<repulsionForce>2.5</repulsionForce>
+		<repulsionRadius>2</repulsionRadius>
+		<attractionRadius>1000</attractionRadius>
+		<scaleSpeed>0.07</scaleSpeed>
+		<scaleMax>3</scaleMax>
+		<scaleRadius>200</scaleRadius>
+	</eyeParticlesModeParameters>
 </settings_eyesScene>
