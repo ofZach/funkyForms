@@ -33,7 +33,7 @@ void paintScene::setup(){
     
     lineFbo2.allocate(RM->getWholeRectangle().width, RM->getWholeRectangle().height, GL_RGBA, 4);
     
-    rockImage.loadImage("sceneAssets/paint/stone_rocky_surface_texture.jpg");
+    rockImage.loadImage("sceneAssets/paint/stone.jpg");
     
     shader.load("sceneAssets/paint/shader/shader");
     
@@ -330,6 +330,9 @@ void paintScene::draw(){
         }
     }
     
+    ofSetColor(0,0,0);
+    ofRect(0, RM->getHeight()-10, RM->getWidth(), 20);
+    
     
     //line.draw();
     lineFbo.end();
@@ -361,7 +364,7 @@ void paintScene::draw(){
     
     
     for (int i = 0; i < meshes.size(); i++){
-        ofSetColor(127 + 127 * sin(ofGetElapsedTimef()));
+        ofSetColor(80);
         meshes[i].draw();
     }
 }

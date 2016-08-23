@@ -42,23 +42,31 @@ void main(void)
     vec2 st = gl_TexCoord[0].st;
     vec2 stOrig = st;
     
-    
-    vec2 coord = vec2(gl_FragCoord.x*0.01 + time*0.2, gl_FragCoord.y*0.01);
+    float noiseScale = 0.02;
+    vec2 coord = vec2(gl_FragCoord.x*noiseScale + time*0.2, gl_FragCoord.y*noiseScale);
     float fx = fbm(coord);
     
-    vec2 coord2 = vec2(gl_FragCoord.x*0.01 + 10000.0 - time*0.2, gl_FragCoord.y*0.01);
+    vec2 coord2 = vec2(gl_FragCoord.y*noiseScale + 10000.0 - time*0.2, gl_FragCoord.x*noiseScale);
     float fy = fbm(coord2);
     
     
     
     //st *= vec2(0.1, 0.1);  // zooms in on the rock texture
     
-    vec4 col = texture2DRect(tex3,st*0.9 -0.1 * sin(time*0.7));
-    vec4 col2 = texture2DRect(tex3,st*0.88-0.15 * sin(time));
+    vec2 coordA = vec2(st*(1.93 -0.1 * sin(time*0.7)));
+    vec2 coordB = vec2(st*(1.93-0.1 * sin(time)));
+    
+    coordA.x = mod(coordA.x, 2000.0);
+    coordA.y = mod(coordA.y, 2000.0);
+    coordB.x = mod(coordB.x, 2000.0);
+    coordB.y = mod(coordB.y, 2000.0);
+    
+    vec4 col = texture2DRect(tex3,coordA);
+    vec4 col2 = texture2DRect(tex3,coordB);
     
     
     // 5 = how much displacement, try 50 or 100, etc.  always use decimal nums (10.0, etc)
-    vec2 st2 = stOrig + vec2(fx-0.5 + sin(time*1.0 + gl_FragCoord.y*0.01)*0.2, fy-0.4)*4.0 + (7.0 + 3.0 * sin(time)) *  vec2(col.x-0.6, col2.x-0.41);
+    vec2 st2 = stOrig + vec2(fx-0.5 + sin(time*0.7 + gl_FragCoord.y*0.01)*0.2, fy-0.3)*8.0 + (3.0) *  vec2(col.x-0.45, col2.x-0.35);
     vec4 color2 = texture2DRect(tex0, st2);
     
 	gl_FragColor = vec4(color2.x, color2.y, color2.z, 1.0);
