@@ -3,6 +3,8 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+    RM.setup();
+    
     
 //    cout << "OpenCV version : " << CV_VERSION << endl;
 //    cout << "Major version : " << CV_MAJOR_VERSION << endl;
@@ -30,7 +32,6 @@ void ofApp::setup(){
     SM.scenes.push_back(new wavesScene());
 
     IM.setup();
-    RM.setup();
     
     IM.CVM[0].packet.RM = &RM;
     IM.CVM[1].packet.RM = &RM;
@@ -115,7 +116,8 @@ void ofApp::update(){
     ofPushMatrix();
     
     ofScale(scale, scale, 1.0);
-    //RM.windows.draw();
+    //RM.blocks.draw();
+    RM.drawBuidling();
     
     ofPopMatrix();
     
