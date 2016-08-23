@@ -25,10 +25,14 @@ public:
     eyeLinkerMode eyeLinkerMode;
     eyePairMode eyePairMode;
     EyeLinker eyeLinker;
+
+    // eye pair
     
     // people calculation
     ofVec2f averagePos;
     ofVec2f fastestPos;
+    float leftEnergy;
+    float rightEnergy;
     
     // gui
     ofParameterGroup parameters;
@@ -49,6 +53,7 @@ public:
     void update();
     void updateModes();
     void updateAveragePos();
+    void updatePeopleEnergy();
     void updateTargets();
     void updateEyes();
     void updateFastestPos();

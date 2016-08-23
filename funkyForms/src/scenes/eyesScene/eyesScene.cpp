@@ -12,7 +12,14 @@ void eyesScene::setup(){
     // gui
     eyeParticlesMode.setupGui();
     eyeLinkerMode.setupGui();
+    eyePairMode.setupGui();
     setupGui();
+    
+    // Set screens
+    eyeParticlesMode.screenLeft = RM->getRectForScreen(SCREEN_LEFT);
+    eyeParticlesMode.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
+    eyeParticlesMode.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
+    eyeParticlesMode.screenTop = RM->getRectForScreen(SCREEN_TOP);
     
     // setup
     eyePairMode.setup();
@@ -38,8 +45,9 @@ void eyesScene::setupGui(){
     parameters.add(isAutoChangeMode.set("isAutoChangeMode", false));
     gui.setup("settings_eyesScene", "settings_eyesScene.xml");
     gui.add(parameters);
-    gui.add(eyeParticlesMode.parameters);
+    gui.add(eyePairMode.parameters);
     gui.add(eyeLinkerMode.parameters);
+    gui.add(eyeParticlesMode.parameters);
     gui.loadFromFile("settings_eyesScene.xml");
     
     changeMode.addListener( this, &eyesScene::triggerAdvance);
@@ -69,7 +77,7 @@ void eyesScene::advanceMode(){
 }
 // ------------ update
 void eyesScene::update(){
-   
+    updatePeopleEnergy();
     updateTargets();
     updateModeSwitch();
     updateAveragePos();
@@ -77,6 +85,22 @@ void eyesScene::update(){
     updateEyes();
     updateModes();
 //    updateEyeLinker();
+}
+void eyesScene::updatePeopleEnergy(){
+    if(leftEnergy>100 && rightEnergy>100){
+        leftEnergy = 0;
+        rightEnergy =0;
+    }
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            ofVec2f vel = cvData[z]->blobs[i].avgVel;
+            if(z == 0){ // left
+                leftEnergy += vel.length();
+            }else{
+                rightEnergy += vel.length();
+            }
+        }
+    }
 }
 void eyesScene::updateModes(){
     if(isAutoChangeMode && ofGetFrameNum()%360 == 0){
@@ -110,7 +134,9 @@ void eyesScene::updateTargets(){
 }
 void eyesScene::updateEyes(){
     if(getMode("eyePairMode")->isEnabled){
-        eyePairMode.update(averagePos);
+        eyePairMode.setEnergy(leftEnergy, rightEnergy);
+        float x = RM->getRectForScreen(SCREEN_CENTER).getCenter().x;
+        eyePairMode.update(ofVec2f(averagePos.x+x, averagePos.y));
         eyePairMode.lookAtSmart(fastestPos);
     }
     if(getMode("eyeParticlesMode")->isEnabled){
@@ -138,47 +164,26 @@ void eyesScene::updateEyeLinker(){
     eyeLinker.update();
 }
 void eyesScene::updateAveragePos(){
-    
-//    ofVec2f p;
-//    float posYmax = ofGetHeight();
-//    
-//    int size =  cvData[0]->idsThisFrame.size();
-//    for(auto &id: cvData[0]->idsThisFrame){
-//        
-//        
-//        //if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){
-//        ofVec2f pos = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
-//        pos = cvData[0]->remapForScreen(SCREEN_LEFT, pos);
-//        p += pos;
-//        if(pos.y < posYmax){
-//            posYmax = pos.y;
-//        }
-//        //}
-//    }
-//    p = ofVec2f(p.x/(size+1), posYmax);
-//    float s = 0.9;
-//    averagePos = averagePos*s + (1-s)*p;
-    
-    // rewritten without trackers
-    
+
     ofPoint p;
     float posYmax = ofGetHeight();
 
     int size = 0;
-    for(auto &blob: cvData[0]->blobs){
-
-        for (auto pos : blob.blob){
-            //if ((*(cvData[0]->trackedContours))[id].data.resampleSmoothed.size() > 0){
-            //ofVec2f pos = (*(cvData[0]->trackedContours))[id].data.resampleSmoothed.getVertices()[0];
-            pos = cvData[0]->remapForScreen(SCREEN_LEFT, pos);
-            p += pos;
+    
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            
+            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
+            pt = cvData[z]->remapForScreen(SCREEN_LEFT , pt);
             size++;
-            if(pos.y < posYmax){
-                posYmax = pos.y;
+            ofVec2f curVel = cvData[z]->blobs[i].avgVel;
+            
+            if(pt.y < posYmax){
+                posYmax = pt.y;
             }
         }
-        //}
     }
+    
     p = ofPoint(p.x/(size+1), posYmax);
     float s = 0.9;
     averagePos = averagePos*s + (1-s)*p;
@@ -208,13 +213,18 @@ void eyesScene::updateFastestPos(){
             }
         }
     }
+    ofLog() << "targetPacketId: " << targetPacketId;
+    ofLog() << "targetId: " << targetId;
+    
     fastestPos = cvData[targetPacketId]->blobs[targetId].blob.getCentroid2D();
-    fastestPos = cvData[0]->remapForScreen(SCREEN_LEFT, fastestPos);
+    fastestPos = cvData[0]->remapForScreen(targetPacketId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, fastestPos);
 }
 // ------------ draw
 void eyesScene::draw(){
     drawEyes();
     drawPeople();
+    ofSetColor(255);
+    ofDrawCircle(fastestPos, 30);
 //    drawEyeLinker();
 }
 void eyesScene::drawGui(){

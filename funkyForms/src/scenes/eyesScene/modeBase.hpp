@@ -12,6 +12,9 @@
 #include "ofMain.h"
 class modeBase{
 public:
+    // Input
+    ofRectangle screenLeft, screenTop, screenCenter, screenRight, screenBottom;
+    
     bool isEnabled = true;
     bool isFadeFinished = false;
     bool isFading = false;

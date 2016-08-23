@@ -21,6 +21,8 @@ public:
     flockingForce alignment;
     
     float angle = 0;
+    int age = 0;
+    int ageMax = 360;
     
     ofVec2f getPos(){ return pos; }
     float getAngle();

@@ -66,6 +66,7 @@ public:
         float radius;
         int id;
     };
+    
     vector <gParticle> fireParticles;
     vector <fireObject> fireObjects;
     int curParticleId = 0;

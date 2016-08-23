@@ -17,6 +17,25 @@
 
 class eyeParticlesMode : public modeBase {
 public:
+    // Particles
+    bool isCreation = true;
+    vector<eyeParticle> particles;
+    
+    // Eyes
+    vector<eye> eyes;
+    
+    // Parameters
+    ofParameter<float> count;
+    ofParameter<bool> initButton;
+    ofParameter<float> repulsionForce;
+    ofParameter<float> repulsionRadius;
+    ofParameter<float> attractionForce;
+    ofParameter<float> attractionRadius;
+    ofParameter<float> scaleSpeed;
+    ofParameter<float> scaleMax;
+    ofParameter<float> scaleRadius;
+    ofParameter<int> behaviorMode;
+    
     // target
     struct Target{
         ofVec2f pos;
@@ -33,6 +52,8 @@ public:
     };
     
     void setup();
+    void addParticle(float x, float y);
+    void addEye(float x, float y);
     void fadeIn();
     void fadeOut();
     void setTargetPos(int id, ofVec2f pos); // should call before update
@@ -40,6 +61,7 @@ public:
     void setupGui();
     
     void update();
+    void updateRemoval();
     void updateFadeCheck();
     
     void draw();
@@ -53,18 +75,7 @@ public:
     void behaveAttack();
     void behaveRandom();
     
-    vector<eyeParticle> particles;
-    vector<eye> eyes;
-    ofParameter<float> count;
-    ofParameter<bool> initButton;
-    ofParameter<float> repulsionForce;
-    ofParameter<float> repulsionRadius;
-    ofParameter<float> attractionForce;
-    ofParameter<float> attractionRadius;
-    ofParameter<float> scaleSpeed;
-    ofParameter<float> scaleMax;
-    ofParameter<float> scaleRadius;
-    ofParameter<int> behaviorMode;
+
 private:
     
 
