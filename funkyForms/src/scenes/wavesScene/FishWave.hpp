@@ -70,6 +70,7 @@ public:
     
     // Fade
     Animator fadeAnimator;
+    float shapeOpacity = 255;
     
     void setupFishWave();
     void setSize(int w, int h){screenW = w; screenH = h;}

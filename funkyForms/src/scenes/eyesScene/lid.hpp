@@ -60,6 +60,7 @@ public:
     
     void setSize(float _w, float _h){width = _w; height = _h;}
     void setAngle(float _angle){angle = _angle;}
+    void setAngleSmoothed(float _angle){angle = angle * 0.9 + 0.1 * _angle;}
     void setScaleSpeed(float speed){scaleSpeed = speed;}
     void setScale(float _scale){scaleY = _scale;}
     void setTopLidPos(float percent);

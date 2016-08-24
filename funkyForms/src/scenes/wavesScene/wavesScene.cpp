@@ -257,8 +257,10 @@ void wavesScene::drawParticles(){
 //    ofDisablePointSprites();
     
     ofSetCircleResolution(5);
+    float fadeVal = stencilWaves.fadeAnimator.getValue();
+    float opacity = ofMap(fadeVal, 0, 1, 0, 255);
     for(auto &p : particles){
-        ofSetColor(255);
+        ofSetColor(255, opacity);
         if(p.id == 1){
             float x = p.pos.x - p.radius;
             float y = p.pos.y - p.radius;

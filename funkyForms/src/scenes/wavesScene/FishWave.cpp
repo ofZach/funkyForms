@@ -212,6 +212,7 @@ void FishWave::drawShapes(){
         ofPushMatrix();
         ofTranslate(shapes[i].pos);
 //        ofRotateZ(particlesBouey[i].vel.normalize().x/2*ofGetFrameNum());
+        shapes[i].path.setFillColor(ofColor(shapes[i].path.getFillColor(), shapeOpacity));
         shapes[i].path.draw();
         ofPopMatrix();
     }

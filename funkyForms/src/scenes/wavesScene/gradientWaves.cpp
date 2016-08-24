@@ -100,12 +100,15 @@ void gradientWaves::update(){
     }
 }
 void gradientWaves::updateFade(){
-
-    // ~~~~---- smooth the wave
+    // ~~~~---- smooth the wave set opacity
     if(isWaveRelax){
         for(auto &w : waves){
+            float opacity = ofMap(fadeAnimator.getValue(), 0, 1, 0, 255);
+            w.shapeOpacity = opacity;
             for(auto &p : w.points){
-                p.p.y = p.p.y*0.9 + 0.1*(w.points[0].p.y);
+                if(!p.isFixed){
+                    p.p.y = p.p.y*0.9 + 0.1*(w.points[0].p.y);
+                }
             }
         }
     }
@@ -151,6 +154,10 @@ void gradientWaves::onFadeOutStart(){
 void gradientWaves::onFadeOutEnd(){
     isWaveRelax = false;
     isEnabled = false;
+    for(auto &w : waves){
+        w.shapes.clear();
+        w.particlesBouey.clear();
+    }
 }
 void gradientWaves::updateWaveParameters(){
     for(auto &w: waves){

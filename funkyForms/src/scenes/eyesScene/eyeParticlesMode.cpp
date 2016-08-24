@@ -212,7 +212,11 @@ void eyeParticlesMode::behaveAttack(){
             eyes[i].lookAtNear(pos);
             eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
         }
-        eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
+        if(screenLeft.inside(eyes[i].pos) || screenRight.inside(eyes[i].pos)  ){
+            eyes[i].setAngleSmoothed(ofRadToDeg(particles[i].getAngle()));
+        }else{
+            eyes[i].lookAt(ofVec2f(screenCenter.getCenter().x, screenCenter.getBottom()));
+        }
         eyes[i].update(particles[i].getPos());
         particles[i].resetForce();
     }
