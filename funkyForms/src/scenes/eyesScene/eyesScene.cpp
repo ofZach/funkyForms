@@ -20,6 +20,8 @@ void eyesScene::setup(){
     eyeParticlesMode.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
     eyeParticlesMode.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
     eyeParticlesMode.screenTop = RM->getRectForScreen(SCREEN_TOP);
+    eyeParticlesMode.cvData[0] = cvData[0];
+    eyeParticlesMode.cvData[1] = cvData[1];
     
     // setup
     eyePairMode.setup();
@@ -35,12 +37,11 @@ void eyesScene::setup(){
     eyePairMode.isEnabled = false;
     eyeLinkerMode.isEnabled = false;
 
-    
     modes.push_back(&eyeLinkerMode);
     modes.push_back(&eyeParticlesMode);
     modes.push_back(&eyePairMode);
     
-        advanceMode();
+    advanceMode();
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");

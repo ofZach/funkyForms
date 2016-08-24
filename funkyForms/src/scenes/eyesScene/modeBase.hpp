@@ -10,6 +10,7 @@
 #define modeBase_hpp
 
 #include "ofMain.h"
+#include "cvManager.h"
 class modeBase{
 public:
     // Input
@@ -21,6 +22,7 @@ public:
     virtual void fadeIn() = 0;
     virtual void fadeOut() = 0;
     virtual void draw() = 0;
+    cvPacket * cvData[2];  
 };
 
 #endif /* modeBase_hpp */

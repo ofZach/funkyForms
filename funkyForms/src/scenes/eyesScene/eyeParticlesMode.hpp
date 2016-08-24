@@ -29,6 +29,7 @@ public:
     ofParameter<bool> initButton;
     ofParameter<float> repulsionForce;
     ofParameter<float> repulsionRadius;
+    ofParameter<float> rotationConstraint;
     ofParameter<float> attractionForce;
     ofParameter<float> attractionRadius;
     ofParameter<float> peopleRepRadius;
