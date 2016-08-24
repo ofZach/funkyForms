@@ -69,7 +69,6 @@ void eyesScene::advanceMode(){
     modes[curMode]->isFading = true;
     curMode++ ;
     curMode = curMode%3 ;
-    ofLog() << "curMode: " << curMode;
     modes[curMode]->fadeIn();
     modes[curMode]->isEnabled = true;
     modes[curMode]->isFading = false;
@@ -213,8 +212,6 @@ void eyesScene::updateFastestPos(){
             }
         }
     }
-    ofLog() << "targetPacketId: " << targetPacketId;
-    ofLog() << "targetId: " << targetId;
     
     fastestPos = cvData[targetPacketId]->blobs[targetId].blob.getCentroid2D();
     fastestPos = cvData[0]->remapForScreen(targetPacketId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, fastestPos);

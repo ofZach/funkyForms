@@ -75,6 +75,7 @@ public:
     bool isFadeOut = false;
     bool isFading = false;
     bool isWaveRelax = false;
+    bool isEnabled = true;
     float fadeOpacity = 255;
     
     void setup(int w, int h);
@@ -82,11 +83,17 @@ public:
     void chillWave();
     void runWave();
     void fadeIn(){fadeAnimator.in();};
+    void setIn();
     void fadeOut(){fadeAnimator.out();};
     void addWave(int y);
     void reload(float &v);
     void addPath(ofPolyline &contour);
-        
+    
+    void onFadeInStart();
+    void onFadeInEnd();
+    void onFadeOutStart();
+    void onFadeOutEnd();
+    
     void update();
     void updateFade();
     void updateFbos();

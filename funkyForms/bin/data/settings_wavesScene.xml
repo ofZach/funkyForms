@@ -23,6 +23,11 @@
 			<damping>1</damping>
 			<pixelOffset>1</pixelOffset>
 		</Ripples>
+	<shapeInRadius>134.694</shapeInRadius>
+		<shapeOutRadius>20</shapeOutRadius>
+		<spikeCountMin>18</spikeCountMin>
+		<spikeCountMax>30</spikeCountMax>
+		<floatAge>633.163</floatAge>
 	</gradientWavesParameters>
 	<stencilWavesParameters>
 		<amount>30.3571</amount>

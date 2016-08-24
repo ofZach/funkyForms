@@ -63,14 +63,11 @@ void eyeParticlesMode::fadeIn(){
     for(auto &eye: eyes){
         eye.open();
     }
-    ofLog() << "open";
 }
 void eyeParticlesMode::fadeOut(){
     for(auto &eye: eyes){
         eye.close();
     }
-    ofLog() << "close";
-
 }
 // ---------------------------------- Update
 void eyeParticlesMode::update(){
@@ -102,7 +99,6 @@ void eyeParticlesMode::updateRemoval(){
     // if eye is close remove particle and create eye
     for(int i = 0; i < eyes.size(); i++){
         if(eyes[i].isCloseFinished()){
-            ofLog() << "close : " << i;
             float x = ofRandom(screenTop.getTopLeft().x, screenTop.getTopRight().x);
             float y = ofRandom(screenTop.getBottom());
             particles.erase(particles.begin()+i);

@@ -20,6 +20,11 @@ void gradientWaves::setup(int w, int h){
 void gradientWaves::setupGui(){
     bumpmap.setupParameters();
     parameters.setName("gradientWavesParameters");
+    parameters.add(shapeInRadius.set("shapeInRadius", 100, 0, 600)) ;
+    parameters.add(shapeOutRadius.set("shapeOutRadius", 20, 0, 600)) ;
+    parameters.add(spikeCountMin.set("spikeCountMin", 10, 1, 100)) ;
+    parameters.add(spikeCountMax.set("spikeCountMax", 30, 1, 100)) ;
+    parameters.add(floatAge.set("floatAge", 500, 100, 2000)) ;
     parameters.add(waveCount.set("waveCount", 5, 1, 20));
     parameters.add(waveDistance.set("waveDistance", 10, 5, 200));
     parameters.add(amount.set("amount", 55, 10, 200));
@@ -53,13 +58,19 @@ void gradientWaves::reload(float &value){
 }
 void gradientWaves::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     FishWave wave;
+    wave.shapeInRadius = shapeInRadius;
+    wave.shapeOutRadius = shapeOutRadius;
+    wave.spikeCountMin = spikeCountMin;
+    wave.spikeCountMax = spikeCountMax;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
     wave.amount = amount;
     wave.force = force;
     wave.color = col;
+    wave.floatAge = floatAge;
     wave.baseColor = baseCol;
+    wave.setSize(screenW, screenH);
     wave.setup(ypos, screenW);
     wave.setupFishWave();
     waves.push_back(wave);
@@ -87,6 +98,8 @@ void gradientWaves::update(){
     }
 }
 void gradientWaves::updateFade(){
+
+    // ~~~~---- smooth the wave
     if(isWaveRelax){
         for(auto &w : waves){
             for(auto &p : w.points){
@@ -95,31 +108,56 @@ void gradientWaves::updateFade(){
         }
     }
     fadeAnimator.update();
-    if(fadeAnimator.isIn || fadeAnimator.isOut){
-        isWaveRelax = false;
-    }
-    if(!fadeAnimator.isIn && !fadeAnimator.isOut){
-        isWaveRelax = true;
+    fadeAnimator.onFadeInStart(this, &gradientWaves::onFadeInStart);
+    fadeAnimator.onFadeInEnd(this, &gradientWaves::onFadeInEnd);
+    fadeAnimator.onFadeOutStart(this, &gradientWaves::onFadeOutStart);
+    fadeAnimator.onFadeOutEnd(this, &gradientWaves::onFadeOutEnd);
+    fadeAnimator.onEventEnd();
+    
+    // move fixed points down/up
+    if(fadeAnimator.isAnimating){
         int i = 0;
         for(auto &w : waves){
-            
             for(auto &p : w.points ){
                 if(p.isFixed){
                     float y  = waveDistance*i+screenH-waveDistance*waveCount;
-                    float v = ofMap(fadeAnimator.getValue(), 0, 1, y, screenLeft.getBottom());
+                    float v = ofMap(fadeAnimator.getValue(), 0, 1, screenLeft.getBottom() ,y );
                     p.p.y = v;
                 }
-                
             }
             i++;
         }
     }
+}
+void gradientWaves::setIn(){
+    for(auto &w : waves){
+        for(auto &p : w.points ){
+            if(p.isFixed){
+                p.p.y = screenLeft.getBottom();
+            }
+        }
+    }
+}
+void gradientWaves::onFadeInStart(){
+    isWaveRelax = true;
+    isEnabled = true;
+}
+void gradientWaves::onFadeInEnd(){
+    isWaveRelax = false;
+}
+void gradientWaves::onFadeOutStart(){
+    isWaveRelax = true;
+}
+void gradientWaves::onFadeOutEnd(){
+    isWaveRelax = false;
+    isEnabled = false;
 }
 void gradientWaves::updateWaveParameters(){
     for(auto &w: waves){
         w.shadowRadius = shadowRadius;
         w.shadowOpacity = shadowOpacity;
         w.energyHighlightSize = energyHighlightSize;
+
     }
 
 }

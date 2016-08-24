@@ -28,6 +28,13 @@ void wavesScene::setup(){
     stencilWaves.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
     stencilWaves.setup(w, h);
     
+    
+    // who is first
+    gradientWaves.setIn();
+    stencilWaves.setIn();
+    stencilWaves.isEnabled = false;
+    gradientWaves.fadeIn();
+    
     // glow
     ofDisableArbTex();
     glow.load("assets/glow.png");
@@ -64,25 +71,13 @@ void wavesScene::triggerChangeMode(bool &b){
 }
 // ------------ Update
 void wavesScene::update(){
-    updateFade();
     updateParticles();
     updateInput();
     gradientWaves.update();
     stencilWaves.update();
+    updateFade();
 }
 void wavesScene::updateFade(){
-    if(stencilWaves.fadeAnimator.isOut){
-        isStencilWaveMode = false;
-    }
-    if(stencilWaves.fadeAnimator.isAnimating){
-        isStencilWaveMode = true;
-    }
-    if(gradientWaves.fadeAnimator.isOut){
-        isGradientWavesMode = false;
-    }
-    if(gradientWaves.fadeAnimator.isAnimating ){
-        isGradientWavesMode = true;
-    }
 }
 void wavesScene::updateParticles(){
     for(int z = 0; z < 2; z++){
@@ -207,7 +202,7 @@ void wavesScene::updateInput(){
             for (auto & p : line.getVertices()){
                 p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
             }
-            if(isStencilWaveMode){
+            if(stencilWaves.isEnabled){
                 stencilWaves.addPath(line);
     
                 ofVec2f vel = cvData[z]->blobs[i].avgVel;
@@ -219,7 +214,7 @@ void wavesScene::updateInput(){
                     }
                 }
             }
-            if(isGradientWavesMode){
+            if(gradientWaves.isEnabled){
                 ofVec2f vel = cvData[z]->blobs[i].avgVel;
                 for(auto &w: gradientWaves.waves){
                     for(auto &p: w.points){
@@ -234,10 +229,10 @@ void wavesScene::updateInput(){
 }
 // ------------ Draw
 void wavesScene::draw(){
-    if(isGradientWavesMode) gradientWaves.draw();
-    if(isStencilWaveMode) stencilWaves.draw();
+   if(gradientWaves.isEnabled) gradientWaves.draw();
+   if(stencilWaves.isEnabled) stencilWaves.draw();
     ofEnableAlphaBlending();
-    drawParticles();
+    if(stencilWaves.isEnabled) drawParticles();
 //    drawPeople();
 }
 void wavesScene::drawParticles(){
