@@ -31,6 +31,8 @@ public:
     ofParameter<float> repulsionRadius;
     ofParameter<float> attractionForce;
     ofParameter<float> attractionRadius;
+    ofParameter<float> peopleRepRadius;
+    ofParameter<float> peopleRepForce;
     ofParameter<float> scaleSpeed;
     ofParameter<float> scaleMax;
     ofParameter<float> eyeSizeMin;

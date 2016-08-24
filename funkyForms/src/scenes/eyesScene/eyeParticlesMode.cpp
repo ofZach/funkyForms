@@ -19,6 +19,8 @@ void eyeParticlesMode::setupGui(){
     parameters.add(behaviorMode.set("behaviorMode", 0, 0, 2));
     parameters.add(count.set("count", 50, 1, 500));
     parameters.add(initButton.set("initButton", true));
+    parameters.add(peopleRepRadius.set("peopleRepRadius", 5, 5, 200));
+    parameters.add(peopleRepForce.set("peopleRepForce", 0.5, 0.01, 1));
     parameters.add(attractionForce.set("attractionForce", 0.5, 0.01, 1));
     parameters.add(repulsionForce.set("repulsionForce", 2.5, 0.01, 10));
     parameters.add(repulsionRadius.set("repulsionRadius", 2, 0.5, 5));
@@ -213,7 +215,7 @@ void eyeParticlesMode::behaveAttack(){
             ofPoint pos = t.second.pos;
             ofVec2f vel = t.second.vel;
             eyes[i].lookAtNear(pos);
-            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+//            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
         }
         if(screenLeft.inside(eyes[i].pos) || screenRight.inside(eyes[i].pos)  ){
             eyes[i].setAngleSmoothed(ofRadToDeg(particles[i].getAngle()));
@@ -238,6 +240,12 @@ void eyeParticlesMode::behaveAttack(){
         float horizOffset = sin(time * 0.6) *  screenCenter.getHeight() * 0.05;
         float sizeOffset = sin(time * 0.7) * screenCenter.getHeight() * 0.2;
         
+        // Add atraction left and right
+        ofVec2f posL = screenLeft.getCenter();
+        ofVec2f posR = screenRight.getCenter();
+        particles[i].addAttractionForce(posL.x, posL.y, attractionRadius, attractionForce);
+        particles[i].addAttractionForce(posR.x, posR.y, attractionRadius, attractionForce);
+        
         float x = screenCenter.x + screenCenter.width/2 + horizOffset;
         float y = screenCenter.y + screenCenter.height + positionOffset;
         float r = screenCenter.getWidth() + sizeOffset;
@@ -254,7 +262,7 @@ void eyeParticlesMode::behaveAttack(){
             ofPoint pos = t.second.pos;
             ofVec2f vel = t.second.vel;
             eyes[i].lookAtNear(pos);
-            particles[i].addAttractionForce(pos.x, pos.y, 500, attractionForce);
+            particles[i].addRepulsionForce(pos.x, pos.y, peopleRepRadius, peopleRepForce);
         }
         
     }

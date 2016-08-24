@@ -34,10 +34,13 @@ void eyesScene::setup(){
     eyeLinkerMode.isEnabled = true; // first showed
     eyePairMode.isEnabled = false;
     eyeLinkerMode.isEnabled = false;
+
     
     modes.push_back(&eyeLinkerMode);
     modes.push_back(&eyeParticlesMode);
     modes.push_back(&eyePairMode);
+    
+        advanceMode();
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
@@ -125,9 +128,14 @@ void eyesScene::updateTargets(){
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
             ofVec2f vel = cvData[z]->blobs[blobId].avgVel;
             eyeLinkerMode.setTargetPos(z, id, ptTop);
-            eyeParticlesMode.setTargetPos(idCounter, pt);
-            eyeParticlesMode.setTargetVel(idCounter, vel);
-            idCounter++;
+            ofPolyline l = cvData[z]->getResampledLineAt(id, 10);
+            for (int i = 0; i < l.size(); i ++ ) {
+                ofPoint pos = l.getVertices()[i];
+                pos = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pos);
+                eyeParticlesMode.setTargetPos(idCounter, pos);
+//                eyeParticlesMode.setTargetVel(idCounter, vel);
+                idCounter++;
+            }
         }
     }
 }
@@ -218,11 +226,8 @@ void eyesScene::updateFastestPos(){
 }
 // ------------ draw
 void eyesScene::draw(){
-    drawEyes();
     drawPeople();
-    ofSetColor(255);
-    ofDrawCircle(fastestPos, 30);
-//    drawEyeLinker();
+    drawEyes();
 }
 void eyesScene::drawGui(){
     gui.draw();
@@ -246,7 +251,7 @@ void eyesScene::drawEyes(){
 void eyesScene::drawPeople(){
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline line = cvData[z]->blobs[i].blob;
+            ofPolyline &line = cvData[z]->blobs[i].blob;
             
             ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
@@ -255,7 +260,12 @@ void eyesScene::drawPeople(){
                 p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
             }
             ofVec2f vel = cvData[z]->blobs[i].avgVel;
-            line.draw();
+            ofPath path;
+            for(auto &p : line){
+                path.lineTo(p);
+            }
+            path.setFillColor(255);
+            path.draw();
         }
     }
 }

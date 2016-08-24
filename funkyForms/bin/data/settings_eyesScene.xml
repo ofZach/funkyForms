@@ -40,7 +40,7 @@
 	</eyePairParameters>
 	<eyeParticlesModeParameters>
 		<behaviorMode>0</behaviorMode>
-		<count>95.199</count>
+		<count>77.3775</count>
 		<initButton>0</initButton>
 		<attractionForce>0.5</attractionForce>
 		<repulsionForce>2.5</repulsionForce>
@@ -50,6 +50,8 @@
 		<scaleMax>3</scaleMax>
 		<scaleRadius>200</scaleRadius>
 	<eyeSizeMin>20</eyeSizeMin>
-		<eyeSizeMax>135.765</eyeSizeMax>
+		<eyeSizeMax>78.0612</eyeSizeMax>
+	<peopleRepRadius>38.8265</peopleRepRadius>
+		<peopleRepForce>0.5</peopleRepForce>
 	</eyeParticlesModeParameters>
 </settings_eyesScene>
