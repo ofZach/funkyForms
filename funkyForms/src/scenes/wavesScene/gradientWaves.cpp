@@ -92,9 +92,11 @@ void gradientWaves::addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i){
 void gradientWaves::update(){
     updateFade();
     updateWaveParameters();
-    for (int i = 0; i < waves.size(); i++) {
-        waves[i].update();
-        waves[i].updateFishWave();
+    if(isEnabled){
+        for (int i = 0; i < waves.size(); i++) {
+            waves[i].update();
+            waves[i].updateFishWave();
+        }
     }
 }
 void gradientWaves::updateFade(){
@@ -132,9 +134,7 @@ void gradientWaves::updateFade(){
 void gradientWaves::setIn(){
     for(auto &w : waves){
         for(auto &p : w.points ){
-            if(p.isFixed){
-                p.p.y = screenLeft.getBottom();
-            }
+            p.p.y = screenLeft.getBottom();
         }
     }
 }

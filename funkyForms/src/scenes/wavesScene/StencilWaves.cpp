@@ -88,17 +88,17 @@ void StencilWaves::runWave(){
 void StencilWaves::update(){
     updateFade();
     updateWaveParameters();
-    updateWaves();
-    updateMeshes();
-    updateFbos();
-    updateMasks();
-    updateRefract();
+    if(isEnabled){
+        updateWaves();
+        updateMeshes();
+        updateFbos();
+        updateMasks();
+        updateRefract();
+    }
 }
 void StencilWaves::setIn(){
     for(auto &p : waves[0].points ){
-        if(p.isFixed){
-            p.p.y = screenLeft.getBottom() + wavePos;
-        }
+        p.p.y = screenLeft.getBottom() + wavePos;
     }
 }
 void StencilWaves::updateFade(){
