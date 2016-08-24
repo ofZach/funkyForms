@@ -33,6 +33,8 @@ public:
     ofParameter<float> attractionRadius;
     ofParameter<float> scaleSpeed;
     ofParameter<float> scaleMax;
+    ofParameter<float> eyeSizeMin;
+    ofParameter<float> eyeSizeMax;
     ofParameter<float> scaleRadius;
     ofParameter<int> behaviorMode;
     

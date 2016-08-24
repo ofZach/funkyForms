@@ -14,6 +14,8 @@ void eyeParticlesMode::setup(){
 }
 void eyeParticlesMode::setupGui(){
     parameters.setName("eyeParticlesModeParameters");
+    parameters.add(eyeSizeMin.set("eyeSizeMin", 20, 10, 300));
+    parameters.add(eyeSizeMax.set("eyeSizeMax", 50, 10, 300));
     parameters.add(behaviorMode.set("behaviorMode", 0, 0, 2));
     parameters.add(count.set("count", 50, 1, 500));
     parameters.add(initButton.set("initButton", true));
@@ -47,7 +49,8 @@ void eyeParticlesMode::addParticle(float x, float y){
 }
 void eyeParticlesMode::addEye(float x, float y){
     eye eye;
-    eye.setup(ofVec2f(x, y), 50, 50);
+    float size = ofRandom(eyeSizeMin, eyeSizeMax);
+    eye.setup(ofVec2f(x, y), size, size);
     eye.delay = ofRandom(20);
     eye.setEyeColor(ofColor::darkGray);
     eye.setScale(ofRandom(1, 2));
