@@ -18,6 +18,8 @@
 #include "Shapes.hpp"
 #include "wave.hpp"
 #include "Animator.hpp"
+#include "renderManager.h"
+
 class particle2 : public particle {
 public:
     float radius = 2;
@@ -26,6 +28,9 @@ public:
 
 class FishWave: public wave {
 public:
+    // Input
+    float sf = RENDER_SCALE_FACTOR;
+    
     // w, h
     int screenW, screenH;
     

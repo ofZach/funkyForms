@@ -197,7 +197,7 @@ void FishWave::draw(){
     for (int i = 0; i < polyline.getVertices().size(); i++) {
         ofVec2f p = polyline.getVertices()[i];
         ofSetColor(0, shadowOpacity);
-        img.draw(p-ofVec2f(shadowRadius, shadowRadius), shadowRadius*2, shadowRadius*2);
+        img.draw(p-ofVec2f(shadowRadius * sf, shadowRadius * sf ), shadowRadius * sf * 2, shadowRadius * sf * 2);
     }
 //    drawSplashes();
     float opacity = ofMap(fadeAnimator.getValue(), 0, 1, 0, 255);
