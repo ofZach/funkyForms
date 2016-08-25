@@ -50,6 +50,7 @@ void eyeLinkerMode::removeEye(int packetId, int id){
     }
 }
 void eyeLinkerMode::fadeIn(){
+    eyeLinkers.clear();
     for(auto &e : eyeLinkers ){
         for(auto &ee: e.eyes){
             ee.open();

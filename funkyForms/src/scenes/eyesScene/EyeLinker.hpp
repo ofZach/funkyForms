@@ -21,6 +21,7 @@
 class EyeLinker {
 public:
     // Pos, Vel, ID, Size
+    float age = 0;
     ofVec2f pos;
     ofVec2f posPrev;
     float velSmooth = 0.9;
