@@ -6,7 +6,7 @@
 
 void inputManager::setup(){
  
-    
+#ifdef USE_LIVE_VIDEO
     cout << "video " << endl;
     auto deviceList = ofxBlackmagic::Iterator::getDeviceList();
     
@@ -25,6 +25,8 @@ void inputManager::setup(){
 
         
     }
+#endif
+    
     
     
     player.load("testFootage/bodies0.mov");
@@ -64,24 +66,27 @@ void inputManager::update(){
         CVM[1].update(inputWarped.getPixels());
     }
     
+    #ifdef USE_LIVE_VIDEO
     for(auto input : this->inputs) {
         input->update();
         cout << input->isFrameNew() << endl;
         
     }
+#endif
+    
 }
 
 void inputManager::draw(){
     
-    
+    #ifdef USE_LIVE_VIDEO
     int count = 0;
     for(auto input : this->inputs) {
         ofSetColor(255);
         input->draw(count * 1920*0.2,0, 1920*0.2, 1080*0.2);
         count++;
     }
-    
-    return;
+
+#endif;
     
    // player.draw(0,0);
     

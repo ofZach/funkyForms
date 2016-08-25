@@ -3,7 +3,11 @@
 #include "ofMain.h"
 #include "cvManager.h"
 #include "cvSettings.h"
+
+#ifdef USE_LIVE_VIDEO
 #include "ofxBlackmagic.h"
+#endif
+
 
 class inputManager {
     
@@ -27,6 +31,8 @@ public:
     ofParameter < int > inputTargetWidth;
     ofParameter < int > inputTargetHeight;
     
+#ifdef USE_LIVE_VIDEO
     vector<shared_ptr<ofxBlackmagic::Input> > inputs;
+#endif
     
 };

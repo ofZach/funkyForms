@@ -53,7 +53,7 @@ public:
 
     vector < ofVec2f > opticalFlow;                     // vel info at pt.  this is 
     
-    
+   
     
     // store the rectangles internally
     ofRectangle rects[4];
@@ -172,6 +172,8 @@ public:
     
     renderManager * RM;
     
+    std::map < int, ofPoint > prevPacketVelSmooth;
+    std::map < int, ofPoint > prevPacketCentroidSmooth;
     
     
     ofxPanel gui;

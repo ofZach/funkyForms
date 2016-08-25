@@ -76,9 +76,7 @@ void cvManager::update(ofPixels & pixels){
     existThisFrame.clear();
     
     
-    std::map < int, ofPoint > prevPacketVelSmooth;
-    std::map < int, ofPoint > prevPacketCentroidSmooth;
-    
+     
     for (int i = 0; i < packet.blobs.size(); i++){
         prevPacketVelSmooth[packet.blobs[i].id] = packet.blobs[i].avgVelSmoothed;
         prevPacketCentroidSmooth[packet.blobs[i].id] = packet.blobs[i].centroidSmoothed;
@@ -148,14 +146,14 @@ void cvManager::update(ofPixels & pixels){
         
         auto it = prevPacketVelSmooth.find(blob.id);
         if (it != prevPacketVelSmooth.end()){
-            blob.avgVelSmoothed = 0.95f * it->second + 0.05 * blob.avgVel;
+            blob.avgVelSmoothed = 0.98f * it->second + 0.02 * blob.avgVel;
         } else {
             blob.avgVelSmoothed = blob.avgVel;
         }
         
         auto it2 = prevPacketCentroidSmooth.find(blob.id);
         if (it2 != prevPacketCentroidSmooth.end()){
-            blob.centroidSmoothed = 0.95f * it2->second + 0.05 * blob.blob.getCentroid2D();
+            blob.centroidSmoothed = 0.98f * it2->second + 0.02 * blob.blob.getCentroid2D();
         } else {
             blob.centroidSmoothed = blob.blob.getCentroid2D();
 
