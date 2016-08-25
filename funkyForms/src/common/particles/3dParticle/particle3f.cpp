@@ -88,6 +88,44 @@ void particle3f::addAttractionForce(float x, float y, float z, float radius, flo
     }
 }
 
+ofPoint particle3f::addRepulsionForceOffline(particle3f &p, float radius, float scale){
+    
+    
+    ofPoint posOfForce;
+    posOfForce.set(p.pos.x,p.pos.y, p.pos.z);
+    
+    // ----------- (2) calculate the difference & length
+    
+    ofPoint diff	= pos - posOfForce;
+    float length	= diff.length();
+    
+    // ----------- (3) check close enough
+    
+    bool bAmCloseEnough = true;
+    if (radius > 0){
+        if (length > radius){
+            bAmCloseEnough = false;
+        }
+    }
+    
+    // ----------- (4) if so, update force
+    
+    if (bAmCloseEnough == true){
+        float pct = 1 - (length / radius);  // stronger on the inside
+        diff.normalize();
+        return diff * scale * pct;
+//        frc.x = frc.x + diff.x * scale * pct;
+//        frc.y = frc.y + diff.y * scale * pct;
+//        frc.z = frc.z + diff.z * scale * pct;
+//        
+//        p.frc.x = p.frc.x - diff.x * scale * pct;
+//        p.frc.y = p.frc.y - diff.y * scale * pct;
+//        p.frc.z = p.frc.z - diff.z * scale * pct;
+    } else {
+        return ofPoint(0,0,0);
+    }
+}
+
 //------------------------------------------------------------
 void particle3f::addRepulsionForce(particle3f &p, float radius, float scale){
 	

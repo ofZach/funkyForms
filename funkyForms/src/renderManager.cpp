@@ -57,11 +57,11 @@ void renderManager::setup(){
  //   std::exit(0);
     
     
-    blocks.load("building/blocks.svg");
-    windows.load("building/main-window.svg");
+   // blocks.load("building/blocks.svg");
+   // windows.load("building/main-window.svg");
     
     
-    float width = blocks.getWidth();
+    float width = 2100;
     float scale = RENDER_WIDTH / width;
     
     fbo.allocate(RENDER_WIDTH, RENDER_HEIGHT, GL_RGBA, 4);
@@ -75,14 +75,14 @@ void renderManager::setup(){
     //blocks.draw();
     
     
-    ofSetLineWidth(10);
-    for (int i = 0; i < blocks.getNumPath(); i++){
-        ofSetColor(255);
-        ofPath p = blocks.getPathAt(i);
-        ofPolyline pp = p.getOutline()[0];
-        pp.draw();
-        
-    }
+//    ofSetLineWidth(10);
+//    for (int i = 0; i < blocks.getNumPath(); i++){
+//        ofSetColor(255);
+//        ofPath p = blocks.getPathAt(i);
+//        ofPolyline pp = p.getOutline()[0];
+//        pp.draw();
+//        
+//    }
     
     ofSetLineWidth(1);
     ofPopMatrix();
@@ -130,11 +130,11 @@ ofRectangle renderManager::getRectForScreen( screenName name ){
             break;
     }
     
-    float width = blocks.getWidth();
+    float width = 2100; //blocks.getWidth();
     float scale = RENDER_WIDTH / width;
     
-    ofPath p = blocks.getPathAt(which);
-    ofPolyline pp = p.getOutline()[0];
+    //ofPath p = blocks2.getPathAt(which);
+    ofPolyline pp = blocks2[which];
     ofRectangle rect = pp.getBoundingBox();
     
     rect.x *= scale;

@@ -20,7 +20,7 @@ void ofApp::setup(){
     
     
     
-    SM.scenes.push_back(new paintScene());
+    SM.scenes.push_back(new costumeScene());
     SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
@@ -111,13 +111,13 @@ void ofApp::update(){
     ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
     ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
     
-    float scale = RM.getWidth() / (float)RM.windows.getWidth();
+    float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
     
     ofPushMatrix();
     
     ofScale(scale, scale, 1.0);
     //RM.blocks.draw();
-    RM.drawBuidling();
+    //RM.drawBuidling();
     
     ofPopMatrix();
     

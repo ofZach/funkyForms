@@ -16,6 +16,7 @@
 #include "costumeScene.h"
 #include "costumeScene2.h"
 #include "paintScene.h"
+#include "buildingScene.h"
 
 enum view {
     VIEW_DEBUG,
