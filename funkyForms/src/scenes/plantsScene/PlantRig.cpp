@@ -217,7 +217,7 @@ void PlantRig::updateMainBranch(){
             float t = ofGetElapsedTimef() + timeOffset;
             float offsetX = ofMap(ofSignedNoise(t*timeSpeed+i*100.0, (int)(t*0.3) * 100, 0), -1, 1, 1,1.5);
             float offsetY = ofMap(ofSignedNoise(t*timeSpeed+i*300.0, (int)(t*0.3) * 100, 10000), -1, 1, 1, 1.5);
-            ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
+            ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX * horizOffsetMain, delta.y * offsetY * vertOffsetMain) ;
             float s = 0.7;
             p->x = p->x * s + newPos.x * (1 - s);
             p->y = p->y * s + newPos.y * (1 - s);
@@ -264,7 +264,7 @@ void PlantRig::updateChildBranches(){
                 float t = ofGetElapsedTimef() + timeOffset;
                 float offsetX = ofMap(ofSignedNoise(t*timeSpeed+i*100.0, (int)(t*0.3) * 100, 0), -1, 1, 1,1.5);
                 float offsetY = ofMap(ofSignedNoise(t*timeSpeed+i*300.0, (int)(t*0.3) * 100, 10000), -1, 1, 1, 1.5);
-                ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
+                ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX * horizOffset, delta.y * offsetY * vertOffset) ;
                 float s = 0.7;
                 p->x = p->x * s + newPos.x * (1 - s);
                 p->y = p->y * s + newPos.y * (1 - s);
@@ -292,7 +292,7 @@ void PlantRig::updateChild2(){
                 ofVec2f delta = child2Initpts[i][j] - child2Initpts[i][j-1];
                 float offsetX = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*100.0, (int)(ofGetElapsedTimef()*0.3) * 100, 0), -1, 1, 1,1.5);
                 float offsetY = ofMap(ofSignedNoise(ofGetElapsedTimef()*0.93+i*300.0, (int)(ofGetElapsedTimef()*0.3) * 100, 10000), -1, 1, 1, 1.5);
-                ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX, delta.y * offsetY) ;
+                ofVec2f newPos = *pp + ofVec2f(delta.x * offsetX * horizOffset, delta.y * offsetY * vertOffset ) ;
                 float s = 0.7;
                 p->x = p->x * s + newPos.x * (1 - s);
                 p->y = p->y * s + newPos.y * (1 - s);

@@ -19,6 +19,7 @@ void eyeParticlesMode::setupGui(){
     parameters.add(behaviorMode.set("behaviorMode", 0, 0, 2));
     parameters.add(count.set("count", 50, 1, 500));
     parameters.add(initButton.set("initButton", true));
+    parameters.add(rotationConstraint.set("rotationConstraint", 20, 0, 360));
     parameters.add(peopleRepRadius.set("peopleRepRadius", 5, 5, 200));
     parameters.add(peopleRepForce.set("peopleRepForce", 0.5, 0.01, 1));
     parameters.add(attractionForce.set("attractionForce", 0.5, 0.01, 1));
@@ -178,6 +179,7 @@ void eyeParticlesMode::behaveRandom(){
     }
 }
 void eyeParticlesMode::behaveWait(){
+
     for (int i = 0; i < particles.size(); i++){
         for(auto &t: targets){
             ofPoint pos = t.second.pos;
@@ -209,6 +211,7 @@ void eyeParticlesMode::behaveWait(){
     
 }
 void eyeParticlesMode::behaveAttack(){
+
     for (int i = 0; i < particles.size(); i++){
         particles[i].age++;
         for(auto &t: targets){
@@ -218,7 +221,9 @@ void eyeParticlesMode::behaveAttack(){
 //            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
         }
         if(screenLeft.inside(eyes[i].pos) || screenRight.inside(eyes[i].pos)  ){
-            eyes[i].setAngleSmoothed(ofRadToDeg(particles[i].getAngle()));
+            float angle = (int)ofRadToDeg(particles[i].getAngle())%360;
+            angle = ofMap(angle, -360, 360, -rotationConstraint, rotationConstraint);
+            eyes[i].setAngleSmoothed(angle);
         }else{
             eyes[i].lookAt(ofVec2f(screenCenter.getCenter().x, screenCenter.getBottom()));
         }
@@ -241,8 +246,8 @@ void eyeParticlesMode::behaveAttack(){
         float sizeOffset = sin(time * 0.7) * screenCenter.getHeight() * 0.2;
         
         // Add atraction left and right
-        ofVec2f posL = screenLeft.getCenter();
-        ofVec2f posR = screenRight.getCenter();
+        ofVec2f posL = screenLeft.getCenter() + ofVec2f(sin(time*0.2) * screenLeft.getWidth()/2, cos(time*0.3)  * screenLeft.getHeight()/2);
+        ofVec2f posR = screenRight.getCenter()  + ofVec2f(sin(time*0.3) * screenRight.getWidth()/2, cos(time*0.1)  * screenRight.getHeight()/2);;
         particles[i].addAttractionForce(posL.x, posL.y, attractionRadius, attractionForce);
         particles[i].addAttractionForce(posR.x, posR.y, attractionRadius, attractionForce);
         
@@ -258,11 +263,13 @@ void eyeParticlesMode::behaveAttack(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
-        for(auto &t: targets){
-            ofPoint pos = t.second.pos;
-            ofVec2f vel = t.second.vel;
-            eyes[i].lookAtNear(pos);
-            particles[i].addRepulsionForce(pos.x, pos.y, peopleRepRadius, peopleRepForce);
+        for (int z = 0; z < 2; z++) {
+            ofPoint vel = cvData[z]->getFlowAtScreenPos(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, particles[i].pos);
+            for(auto &t: targets){
+                ofPoint pos = t.second.pos;
+                eyes[i].lookAtNear(pos);
+                particles[i].addRepulsionForce(pos.x, pos.y, peopleRepRadius*vel.normalize().length(), peopleRepForce);
+            }
         }
         
     }
