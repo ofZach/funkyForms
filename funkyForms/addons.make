@@ -5,4 +5,4 @@ ofxXmlSettings
 ../localAddons/ofxBox2d
 ../localAddons/ofxSVG
 ../localAddons/ofxFx
-../localAddons/ofxSvgLoader
+../localAddons/ofxSyphon

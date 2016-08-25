@@ -64,7 +64,7 @@ void renderManager::setup(){
     float width = blocks.getWidth();
     float scale = RENDER_WIDTH / width;
     
-    fbo.allocate(RENDER_WIDTH, RENDER_HEIGHT, GL_RGBA, 4);
+    fbo.allocate(RENDER_WIDTH, RENDER_HEIGHT, GL_RGBA);
     
     fbo.begin();
     ofClear(0,0,0,255);
