@@ -19,7 +19,9 @@
 #include "paintScene.h"
 #include "buildingScene.h"
 #include "ofxSyphon.h"
-#include "qinziTestScene.h"
+#include "light2dScene.h"
+#include "particleScene.h"
+#include "box2dScene.h"
 
 
 enum view {

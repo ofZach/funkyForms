@@ -18,9 +18,10 @@ void ofApp::setup(){
     viewNames = { "debug", "overview", "left", "right", "center", "top" };
     
     ofRectangle bounds;
-    
-    
-    SM.scenes.push_back(new qinziTestScene());
+
+    SM.scenes.push_back(new particleScene());
+    SM.scenes.push_back(new light2dScene());
+    SM.scenes.push_back(new box2dScene());
     SM.scenes.push_back(new buildingScene());
     SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
