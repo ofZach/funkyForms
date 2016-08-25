@@ -6,6 +6,27 @@
 
 void inputManager::setup(){
  
+    
+    cout << "video " << endl;
+    auto deviceList = ofxBlackmagic::Iterator::getDeviceList();
+    
+    int count = 0;
+    for(auto device : deviceList) {
+        
+        auto input = shared_ptr<ofxBlackmagic::Input>(new ofxBlackmagic::Input());
+        
+        auto mode = bmdModeHD1080p30; // switch this mode to match the resolution/refresh of your input stream
+        //            if (count > 0){
+        //                mode = bmdModeHD1080p2997;
+        //            }
+        input->startCapture(device, mode);
+        this->inputs.push_back(input);
+        count ++;
+
+        
+    }
+    
+    
     player.load("testFootage/bodies0.mov");
     player.play();
     
@@ -42,9 +63,25 @@ void inputManager::update(){
         inputWarped.update();
         CVM[1].update(inputWarped.getPixels());
     }
+    
+    for(auto input : this->inputs) {
+        input->update();
+        cout << input->isFrameNew() << endl;
+        
+    }
 }
 
 void inputManager::draw(){
+    
+    
+    int count = 0;
+    for(auto input : this->inputs) {
+        ofSetColor(255);
+        input->draw(count * 1920*0.2,0, 1920*0.2, 1080*0.2);
+        count++;
+    }
+    
+    return;
     
    // player.draw(0,0);
     

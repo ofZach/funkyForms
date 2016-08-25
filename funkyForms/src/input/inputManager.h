@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "cvManager.h"
 #include "cvSettings.h"
-
+#include "ofxBlackmagic.h"
 
 class inputManager {
     
@@ -26,6 +26,7 @@ public:
     ofParameterGroup inputParams;
     ofParameter < int > inputTargetWidth;
     ofParameter < int > inputTargetHeight;
-
+    
+    vector<shared_ptr<ofxBlackmagic::Input> > inputs;
     
 };
