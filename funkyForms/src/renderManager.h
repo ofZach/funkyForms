@@ -5,7 +5,7 @@
 //#include "ofxSvgLoader.h"
 
 
-#define RENDER_ASPECT 0.785
+#define RENDER_ASPECT 0.68095
 #define RENDER_WIDTH ((1920*3)*0.3)                               // not sure!
 #define RENDER_HEIGHT (RENDER_WIDTH * RENDER_ASPECT)
 
@@ -42,8 +42,8 @@ public:
     }
     
     ofFbo fbo;
-    ofxSVG blocks;
-    ofxSVG windows;
+    ///ofxSVG blocks;
+    //ofxSVG windows;
     
     //ofxSvgLoader svg;
     
@@ -53,5 +53,13 @@ public:
     vector < ofPolyline > pillar;
     vector < ofPolyline > blocks2;
     vector < ofPolyline > edges;
+    
+    
+    vector < ofPolyline > innerWindowsResampled;
+    vector < ofPolyline > outerWindowsResampled;
+    vector < ofPolyline > engravingResampled;
+    vector < ofPolyline > pillarResampled;
+    vector < ofPolyline > blocks2Resampled;
+    vector < ofPolyline > edgesResampled;
     
 };

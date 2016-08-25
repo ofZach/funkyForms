@@ -1,5 +1,5 @@
 #include "ofApp.h"
-
+//#include <Cocoa/Cocoa.h>
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -20,8 +20,8 @@ void ofApp::setup(){
     ofRectangle bounds;
     
     
-    
-    SM.scenes.push_back(new costumeScene());
+    SM.scenes.push_back(new qinziTestScene());
+    SM.scenes.push_back(new buildingScene());
     SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
@@ -69,7 +69,19 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
+    // this helps get us "ABOVE" mad mapper....
+    // https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/WinPanel/Concepts/WindowLevel.html
+    // maybe we can go small in the corner of the tower projection and have a
+    // way to move back to a good monitor for adjusting preferences...
     
+//    if (ofGetFrameNum() % 100 == 0){
+//        NSWindow * window = (NSWindow *)ofGetCocoaWindow();
+//        if(window) {
+//            // make your obj-c calls here
+//            //[window setLevel:NSScreenSaverWindowLevel];
+//            [window setLevel:NSScreenSaverWindowLevel + ofGetFrameNum()];
+//        }
+//    }
     
     IM.update();
     
@@ -110,13 +122,13 @@ void ofApp::update(){
     ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
     ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
     
-    float scale = RM.getWidth() / (float)RM.windows.getWidth();
+    float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
     
     ofPushMatrix();
     
     ofScale(scale, scale, 1.0);
     //RM.blocks.draw();
-    RM.drawBuidling();
+    //RM.drawBuidling();
     
     ofPopMatrix();
     

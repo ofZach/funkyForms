@@ -19,6 +19,10 @@ class particle3f
 		void addRepulsionForce(float x, float y, float z, float radius, float scale);
 		void addAttractionForce(float x, float y, float z, float radius, float scale);
 		
+    
+        ofPoint addRepulsionForceOffline(particle3f &p, float radius, float scale);
+    
+    
 		void addRepulsionForce(particle3f &p, float radius, float scale);
 		void addAttractionForce(particle3f &p, float radius, float scale);
 		void addClockwiseForce(particle3f &p, float radius, float scale);

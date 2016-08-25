@@ -17,7 +17,10 @@
 #include "costumeScene.h"
 #include "costumeScene2.h"
 #include "paintScene.h"
+#include "buildingScene.h"
 #include "ofxSyphon.h"
+#include "qinziTestScene.h"
+
 
 enum view {
     VIEW_DEBUG,

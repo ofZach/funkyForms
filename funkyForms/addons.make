@@ -6,3 +6,4 @@ ofxXmlSettings
 ../localAddons/ofxSVG
 ../localAddons/ofxFx
 ../localAddons/ofxSyphon
+../localAddons/ofxBlackmagic2
