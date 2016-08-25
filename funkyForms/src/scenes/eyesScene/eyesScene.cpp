@@ -285,6 +285,6 @@ void eyesScene::blobBorn(int packetId, int id){
 void eyesScene::blobDied(int packetId, int id){
     ofPoint pt = cvData[packetId]->getTopPointAt(id);
     pt = cvData[packetId]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
-    if(!getMode("eyeLinkerMode")->isFading) eyeLinkerMode.removeEye(packetId, id);
+    eyeLinkerMode.removeEye(packetId, id);
 }
 

@@ -52,7 +52,7 @@ void eyeParticlesMode::addParticle(float x, float y){
 }
 void eyeParticlesMode::addEye(float x, float y){
     eye eye;
-    float size = ofRandom(eyeSizeMin, eyeSizeMax);
+    float size = ofRandom(eyeSizeMin * sf , eyeSizeMax * sf);
     eye.setup(ofVec2f(x, y), size, size);
     eye.delay = ofRandom(20);
     eye.setEyeColor(ofColor::darkGray);

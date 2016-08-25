@@ -116,8 +116,8 @@ void costumeScene2::draw(){
                 ofVec4f aColor;
                 ofVec4f bColor;
                 
-                aColor.set(0,0,0,1);
-                bColor.set(0,0,0,0.0);
+                aColor.set(1,1,1,1);
+                bColor.set(1,1,1,0.0);
                 
                 
                 
@@ -164,6 +164,15 @@ void costumeScene2::draw(){
                     //midPt.y -= intersections[i].pct * ofMap(avgVelSmoothed, 1, 3, 0, 300, true);
                     float radius = (aa - bb).length() * 0.5;
                     
+                    
+                    ofFill();
+                    ofSetColor(0);
+                    ofPushMatrix();
+                    ofTranslate(midPt);
+                    ofRotate(ofGetMouseX(), 1,0,0);
+                    ofCircle(ofPoint(0,0,0), radius);
+                    
+                    
                     shader.begin();
                     shader.setUniform1f("windowHeight", RM->getHeight() );
                     
@@ -173,20 +182,15 @@ void costumeScene2::draw(){
                     shader.setUniform4f("colorA", aColor);
                     shader.setUniform4f("colorB", bColor);
                     
-                    ofFill();
-                    //ofSetColor(c);
-                    ofPushMatrix();
-                    ofTranslate(midPt);
-                    ofRotate(ofGetMouseX(), 1,0,0);
-                    ofCircle(ofPoint(0,0,0), radius);
-                    
-                    shader.end();
                     
                     ofNoFill();
                     ofSetColor(255,255,255,255 );
                     ofCircle(ofPoint(0,0,0), radius);
 
                     ofPopMatrix();
+                    
+                    shader.end();
+
                     
                     //ofCircle(intersections[i], 4);
                 }

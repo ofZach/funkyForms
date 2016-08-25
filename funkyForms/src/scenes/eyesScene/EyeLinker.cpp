@@ -65,8 +65,8 @@ void EyeLinker::setScale(float scale){
     }
 }
 void EyeLinker::setSize(float w, float h){
-    width = w;
-    height = h;
+    width = w * sf;
+    height = h * sf;
 }
 void EyeLinker::out(){
     for (auto &e : eyes){
@@ -91,7 +91,7 @@ void EyeLinker::addFireObject(){
     f.color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255) );
     f.line = line;
     f.isDead = false;
-    f.radius = ofRandom(1, 5);
+    f.radius = ofRandom(1  * sf , 5 * sf);
     f.id = curParticleId;
     fireObjects.push_back(f);
 }
@@ -178,7 +178,7 @@ void EyeLinker::updateTrailParticles(){
     for(auto &p : fireParticles){
         for(auto &p2 : fireParticles){
 //            p.addRepulsionForce(p2, 10, 0.2);
-            p.addClockwiseForce(p2, 50, 0.1);
+            p.addClockwiseForce(p2, 50  * sf , 0.1);
         }
     }
     for(auto &p : fireParticles){
@@ -286,9 +286,9 @@ void EyeLinker::drawGlow(){
     ofPolyline l = eyes[0].lids.contour.getResampledByCount(glowResolution);
     for (int i = 0; i < l.size(); i++) {
         ofSetColor(255, glowOpacity);
-        float x = l.getVertices()[i].x - glowRadius;
-        float y = l.getVertices()[i].y - glowRadius;
-        glow.draw(x, y, glowRadius*2, glowRadius*2);
+        float x = l.getVertices()[i].x - glowRadius * sf;
+        float y = l.getVertices()[i].y - glowRadius * sf;
+        glow.draw(x, y, glowRadius*2  * sf, glowRadius*2 * sf);
     }
     ofPopMatrix();
 }

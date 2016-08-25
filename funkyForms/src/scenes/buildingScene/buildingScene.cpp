@@ -120,6 +120,10 @@ void buildingScene::draw(){
     }
     
     
+//    cout << RENDER_SCALE_FACTOR << endl;
+//    return;
+    
+    
     
     
     // tracers
@@ -371,7 +375,7 @@ void buildingScene::draw(){
         vector < ofPoint > directions;
     
         for (int i = 0; i < packet.nLightRays; i++){
-            ofPoint pos(ofGetMouseX()*2, ofGetMouseY()*2);
+            ofPoint pos(ofGetMouseX()*2 + i*0.1, ofGetMouseY()*2);
             ofPoint dir(cos(timeff + i *0.0001), sin(timeff + i * 0.0001));
             dir.normalize();
             positions.push_back(pos);

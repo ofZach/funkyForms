@@ -14,9 +14,13 @@
 #include "eyeParticle.hpp"
 #include "cvManager.h"
 #include "modeBase.hpp"
+#include "renderManager.h"
 
 class eyeParticlesMode : public modeBase {
 public:
+    // Input
+    float sf = RENDER_SCALE_FACTOR;
+    
     // Particles
     bool isCreation = true;
     vector<eyeParticle> particles;

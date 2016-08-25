@@ -2,7 +2,7 @@
 	<wavesSceneParameters>
 		<isStencilWaveMode>0</isStencilWaveMode>
 		<isGradientWavesMode>1</isGradientWavesMode>
-	<changeMode>1</changeMode>
+	<changeMode>0</changeMode>
 		<mapVelmin>-1</mapVelmin>
 		<mapVelmax>-3</mapVelmax>
 		<dotValue>0.44</dotValue>
@@ -15,7 +15,7 @@
 		<strength>0.770638</strength>
 		<restLength>6.61225</restLength>
 		<invMass>0.375</invMass>
-		<force>0.607653</force>
+		<force>0.810714</force>
 		<shadowRadius>100</shadowRadius>
 		<energyHighlightSize>153.061</energyHighlightSize>
 		<shadowOpacity>31.2245</shadowOpacity>

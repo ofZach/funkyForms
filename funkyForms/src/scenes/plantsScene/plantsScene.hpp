@@ -27,6 +27,7 @@ public:
     int pointLinkCount = 4;
     
     // input manager
+    float sf = RENDER_SCALE_FACTOR;
     vector<ofPolyline> peopleResampled;
     vector<ofVec2f> peoplePoints;
     

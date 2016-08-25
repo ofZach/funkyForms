@@ -6,9 +6,10 @@
 
 
 #define RENDER_ASPECT 0.68095
-#define RENDER_WIDTH ((1920*3)*0.3)                               // not sure!
+#define RENDER_WIDTH ((1920*3)*0.8)                               // not sure!
 #define RENDER_HEIGHT (RENDER_WIDTH * RENDER_ASPECT)
 
+#define RENDER_SCALE_FACTOR (RENDER_WIDTH / ((1920*3)*0.3))
 
 enum screenName {
     SCREEN_LEFT,
@@ -24,6 +25,11 @@ public:
     void setup();
     void update();
     void draw();
+    
+    
+    float scaleFactor(){
+        return RENDER_SCALE_FACTOR;
+    }
     
     ofRectangle getRectForScreen( screenName );
     

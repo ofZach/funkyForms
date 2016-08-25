@@ -53,20 +53,20 @@ void gradientWaves::reloadInt(int &value){
 void gradientWaves::reload(float &value){
     waves.clear();
     for (int i = 0; i < waveCount; i++) {
-        addWave(waveDistance*i+screenH-waveDistance*waveCount, swatch[i%5], swatchBase[i%5]);
+        addWave(waveDistance * i  * sf + screenH - waveDistance * sf  *  waveCount, swatch[i%5], swatchBase[i%5]);
     }
 }
 void gradientWaves::addWave( int ypos, ofFloatColor col, ofColor baseCol){
     FishWave wave;
-    wave.shapeInRadius = shapeInRadius;
-    wave.shapeOutRadius = shapeOutRadius;
+    wave.shapeInRadius = shapeInRadius * sf;
+    wave.shapeOutRadius = shapeOutRadius * sf;
     wave.spikeCountMin = spikeCountMin;
     wave.spikeCountMax = spikeCountMax;
     wave.restLength = restLength;
     wave.strength = strength;
     wave.invMass = invMass;
     wave.amount = amount;
-    wave.force = force;
+    wave.force = force * sf;
     wave.color = col;
     wave.floatAge = floatAge;
     wave.baseColor = baseCol;
@@ -125,7 +125,7 @@ void gradientWaves::updateFade(){
         for(auto &w : waves){
             for(auto &p : w.points ){
                 if(p.isFixed){
-                    float y  = waveDistance*i+screenH-waveDistance*waveCount;
+                    float y  = waveDistance * sf * i + screenH - waveDistance * sf * waveCount;
                     float v = ofMap(fadeAnimator.getValue(), 0, 1, screenLeft.getBottom() ,y );
                     p.p.y = v;
                 }
@@ -163,7 +163,7 @@ void gradientWaves::updateWaveParameters(){
     for(auto &w: waves){
         w.shadowRadius = shadowRadius;
         w.shadowOpacity = shadowOpacity;
-        w.energyHighlightSize = energyHighlightSize;
+        w.energyHighlightSize = energyHighlightSize * sf;
 
     }
 
