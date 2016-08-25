@@ -29,10 +29,15 @@ public:
     ofParameter<bool> initButton;
     ofParameter<float> repulsionForce;
     ofParameter<float> repulsionRadius;
+    ofParameter<float> rotationConstraint;
     ofParameter<float> attractionForce;
     ofParameter<float> attractionRadius;
+    ofParameter<float> peopleRepRadius;
+    ofParameter<float> peopleRepForce;
     ofParameter<float> scaleSpeed;
     ofParameter<float> scaleMax;
+    ofParameter<float> eyeSizeMin;
+    ofParameter<float> eyeSizeMax;
     ofParameter<float> scaleRadius;
     ofParameter<int> behaviorMode;
     

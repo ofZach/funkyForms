@@ -224,6 +224,7 @@ void plantsScene::update(){
     updatePlantsParameters();
     updateBgPlants();
     updateBgPlantsRemoval();
+    updateBranchExpand();
     updatePlants();
     updatePlantRemoval();
     
@@ -357,6 +358,47 @@ void plantsScene::updatePlantRemoval(){
                                       return i.isFadeFinished();
                                   }),
                    plants.end());
+}
+void plantsScene::updateBranchExpand(){
+    // multiply child branches length
+    if(ofGetKeyPressed('h')){
+        for(auto &p : plants){
+            p.rig.expandHoriz(5);
+        }
+    }else{
+        for(auto &p : plants){
+            p.rig.expandHoriz(1);
+        }
+    }
+    if(ofGetKeyPressed('v')){
+        for(auto &p : plants){
+            p.rig.expandVert(5);
+        }
+    }else{
+        for(auto &p : plants){
+            p.rig.expandVert(1);
+        }
+    }
+    
+    // multiply main branches length
+    if(ofGetKeyPressed('j')){
+        for(auto &p : plants){
+            p.rig.expandHorizMain(5);
+        }
+    }else{
+        for(auto &p : plants){
+            p.rig.expandHorizMain(1);
+        }
+    }
+    if(ofGetKeyPressed('b')){
+        for(auto &p : plants){
+            p.rig.expandVertMain(5);
+        }
+    }else{
+        for(auto &p : plants){
+            p.rig.expandVertMain(1);
+        }
+    }
 }
 // --------------- draw
 void plantsScene::draw(){

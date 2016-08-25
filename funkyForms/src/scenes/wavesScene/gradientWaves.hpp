@@ -48,6 +48,11 @@ public:
     
     // Gui
     ofParameterGroup parameters;
+    ofParameter<float> shapeInRadius = 100;
+    ofParameter<float> shapeOutRadius = 20;
+    ofParameter<int> spikeCountMin = 10;
+    ofParameter<int> spikeCountMax = 30;
+    ofParameter<float> floatAge = 500;
     ofParameter<int> amount;
     ofParameter<float> strength;
     ofParameter<float> restLength;
@@ -62,12 +67,23 @@ public:
     
     // Fade
     Animator fadeAnimator;
+    
     bool isWaveRelax = false;
+    bool isEnabled = true;
+    
     ofRectangle screenLeft;
     
     void setup(int w, int h);
+    
     void fadeIn(){fadeAnimator.in();}
     void fadeOut(){fadeAnimator.out();}
+    void setIn();
+    
+    void onFadeInStart();
+    void onFadeInEnd();
+    void onFadeOutStart();
+    void onFadeOutEnd();
+    
     void setupGui();
     void addWave( int ypos, ofFloatColor col, ofColor baseCol);
     void addPointsToMesh(ofMesh *m, ofNode l, ofNode r, int i);

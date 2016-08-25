@@ -88,32 +88,58 @@ void StencilWaves::runWave(){
 void StencilWaves::update(){
     updateFade();
     updateWaveParameters();
-    updateWaves();
-    updateMeshes();
-    updateFbos();
-    updateMasks();
-    updateRefract();
+    if(isEnabled){
+        updateWaves();
+        updateMeshes();
+        updateFbos();
+        updateMasks();
+        updateRefract();
+    }
+}
+void StencilWaves::setIn(){
+    for(auto &p : waves[0].points ){
+        p.p.y = screenLeft.getBottom() + wavePos;
+    }
 }
 void StencilWaves::updateFade(){
-    fadeOpacity = ofMap(fadeAnimator.getValue(), 1, 0, 0, 255);
     if(isWaveRelax){
         for(auto &p : waves[0].points){
             p.p.y = p.p.y*0.9 + 0.1*(waves[0].points[0].p.y);
         }
     }
+    
     fadeAnimator.update();
-    if(fadeAnimator.isIn || fadeAnimator.isOut){
-        isWaveRelax = false;
-    }
-    if(!fadeAnimator.isIn && !fadeAnimator.isOut){
-        isWaveRelax = true;
+    fadeAnimator.onFadeInStart(this, &StencilWaves::onFadeInStart);
+    fadeAnimator.onFadeInEnd(this, &StencilWaves::onFadeInEnd);
+    fadeAnimator.onFadeOutStart(this, &StencilWaves::onFadeOutStart);
+    fadeAnimator.onFadeOutEnd(this, &StencilWaves::onFadeOutEnd);
+    fadeAnimator.onEventEnd();
+    
+    fadeOpacity = ofMap(fadeAnimator.getValue(), 0, 1, 0, 255);
+
+    if(fadeAnimator.isAnimating){
         for(auto &p : waves[0].points ){
             if(p.isFixed){
-                float v = ofMap(fadeAnimator.getValue(), 0, 1, screenLeft.getBottom()-wavePos, screenLeft.getBottom()+wavePos);
+                
+                float v = ofMap(fadeAnimator.getValue(), 0, 1, screenLeft.getBottom()+wavePos, screenLeft.getBottom()-wavePos);
                 p.p.y = v;
             }
         }
     }
+}
+void StencilWaves::onFadeInStart(){
+    isWaveRelax = true;
+    isEnabled = true;
+}
+void StencilWaves::onFadeInEnd(){
+    isWaveRelax = false;
+}
+void StencilWaves::onFadeOutStart(){
+    isWaveRelax = true;
+}
+void StencilWaves::onFadeOutEnd(){
+    isWaveRelax = false;
+    isEnabled = false;
 }
 void StencilWaves::updateWaves(){
     for(auto &w: waves){

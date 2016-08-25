@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+    
     RM.setup();
     
     
@@ -56,20 +57,18 @@ void ofApp::setup(){
     IM.CVM[1].packet.cacheRects();
     
 
+    
+#ifdef USE_SYPHON
+    individualTextureSyphonServer.setName("funkyForms");
+#endif
+
+    
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 
-//
-//    cout << "------------------" << endl;
-//    for (int i = 0; i < 2; i++){
-//        cout << "packet " << i << " : " << endl;
-//        for (auto id : IM.CVM[i].packet.idsThisFrame){
-//            cout << id << ",";
-//        }
-//        cout << endl;
-//    }
     
     
     IM.update();
@@ -123,7 +122,12 @@ void ofApp::update(){
     
     ofClearAlpha();
     RM.fbo.end();
-
+    
+    
+#ifdef USE_SYPHON
+    individualTextureSyphonServer.publishTexture(&(RM.fbo.getTexture()));
+#endif
+    
     
 }
 
@@ -132,17 +136,22 @@ void ofApp::draw(){
     
     ofBackground(0);
 
-    
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 20);
+
     if (currentView == VIEW_DEBUG){
         IM.draw();
     } else if (currentView == VIEW_OVERVIEW) {
+        
+      //  RM.fbo.draw(0,0);
+        
         ofRectangle target(0,0,ofGetWidth(), ofGetHeight());
         ofRectangle src(0,0, RM.fbo.getWidth(), RM.fbo.getHeight());
         src.scaleTo(target);
         ofSetColor(255);
         RM.fbo.draw(src);
-        ofNoFill();
-        ofDrawRectangle(src);
+//        ofNoFill();
+//        ofDrawRectangle(src);
     } else {
         ofRectangle target(0,0,ofGetWidth(), ofGetHeight());
         
@@ -186,6 +195,7 @@ void ofApp::draw(){
     SM.drawGui();       // draw the gui outside of the RM
     
     
+    
     ofDrawBitmapStringHighlight("current view " + viewNames[currentView] +  " : " + ofToString(ofGetFrameRate(),3), ofGetWidth()-400, 20);
     
       ofDrawBitmapStringHighlight("current scene " + SM.scenes[SM.currentScene]->sceneName, ofGetWidth()-400, 40);
@@ -193,6 +203,9 @@ void ofApp::draw(){
 
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-50, 20);
+    
+   
+    
 }
 
 //--------------------------------------------------------------

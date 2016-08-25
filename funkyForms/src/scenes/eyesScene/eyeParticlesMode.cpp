@@ -14,9 +14,14 @@ void eyeParticlesMode::setup(){
 }
 void eyeParticlesMode::setupGui(){
     parameters.setName("eyeParticlesModeParameters");
+    parameters.add(eyeSizeMin.set("eyeSizeMin", 20, 10, 300));
+    parameters.add(eyeSizeMax.set("eyeSizeMax", 50, 10, 300));
     parameters.add(behaviorMode.set("behaviorMode", 0, 0, 2));
     parameters.add(count.set("count", 50, 1, 500));
     parameters.add(initButton.set("initButton", true));
+    parameters.add(rotationConstraint.set("rotationConstraint", 20, 0, 360));
+    parameters.add(peopleRepRadius.set("peopleRepRadius", 5, 5, 200));
+    parameters.add(peopleRepForce.set("peopleRepForce", 0.5, 0.01, 1));
     parameters.add(attractionForce.set("attractionForce", 0.5, 0.01, 1));
     parameters.add(repulsionForce.set("repulsionForce", 2.5, 0.01, 10));
     parameters.add(repulsionRadius.set("repulsionRadius", 2, 0.5, 5));
@@ -47,7 +52,8 @@ void eyeParticlesMode::addParticle(float x, float y){
 }
 void eyeParticlesMode::addEye(float x, float y){
     eye eye;
-    eye.setup(ofVec2f(x, y), 50, 50);
+    float size = ofRandom(eyeSizeMin, eyeSizeMax);
+    eye.setup(ofVec2f(x, y), size, size);
     eye.delay = ofRandom(20);
     eye.setEyeColor(ofColor::darkGray);
     eye.setScale(ofRandom(1, 2));
@@ -63,14 +69,11 @@ void eyeParticlesMode::fadeIn(){
     for(auto &eye: eyes){
         eye.open();
     }
-    ofLog() << "open";
 }
 void eyeParticlesMode::fadeOut(){
     for(auto &eye: eyes){
         eye.close();
     }
-    ofLog() << "close";
-
 }
 // ---------------------------------- Update
 void eyeParticlesMode::update(){
@@ -102,7 +105,6 @@ void eyeParticlesMode::updateRemoval(){
     // if eye is close remove particle and create eye
     for(int i = 0; i < eyes.size(); i++){
         if(eyes[i].isCloseFinished()){
-            ofLog() << "close : " << i;
             float x = ofRandom(screenTop.getTopLeft().x, screenTop.getTopRight().x);
             float y = ofRandom(screenTop.getBottom());
             particles.erase(particles.begin()+i);
@@ -177,6 +179,7 @@ void eyeParticlesMode::behaveRandom(){
     }
 }
 void eyeParticlesMode::behaveWait(){
+
     for (int i = 0; i < particles.size(); i++){
         for(auto &t: targets){
             ofPoint pos = t.second.pos;
@@ -208,15 +211,22 @@ void eyeParticlesMode::behaveWait(){
     
 }
 void eyeParticlesMode::behaveAttack(){
+
     for (int i = 0; i < particles.size(); i++){
         particles[i].age++;
         for(auto &t: targets){
             ofPoint pos = t.second.pos;
             ofVec2f vel = t.second.vel;
             eyes[i].lookAtNear(pos);
-            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
+//            eyes[i].addScaleForce(pos, scaleRadius, scaleSpeed, scaleMax);
         }
-        eyes[i].setAngle(ofRadToDeg(particles[i].getAngle()));
+        if(screenLeft.inside(eyes[i].pos) || screenRight.inside(eyes[i].pos)  ){
+            float angle = (int)ofRadToDeg(particles[i].getAngle())%360;
+            angle = ofMap(angle, -360, 360, -rotationConstraint, rotationConstraint);
+            eyes[i].setAngleSmoothed(angle);
+        }else{
+            eyes[i].lookAt(ofVec2f(screenCenter.getCenter().x, screenCenter.getBottom()));
+        }
         eyes[i].update(particles[i].getPos());
         particles[i].resetForce();
     }
@@ -235,6 +245,12 @@ void eyeParticlesMode::behaveAttack(){
         float horizOffset = sin(time * 0.6) *  screenCenter.getHeight() * 0.05;
         float sizeOffset = sin(time * 0.7) * screenCenter.getHeight() * 0.2;
         
+        // Add atraction left and right
+        ofVec2f posL = screenLeft.getCenter() + ofVec2f(sin(time*0.2) * screenLeft.getWidth()/2, cos(time*0.3)  * screenLeft.getHeight()/2);
+        ofVec2f posR = screenRight.getCenter()  + ofVec2f(sin(time*0.3) * screenRight.getWidth()/2, cos(time*0.1)  * screenRight.getHeight()/2);;
+        particles[i].addAttractionForce(posL.x, posL.y, attractionRadius, attractionForce);
+        particles[i].addAttractionForce(posR.x, posR.y, attractionRadius, attractionForce);
+        
         float x = screenCenter.x + screenCenter.width/2 + horizOffset;
         float y = screenCenter.y + screenCenter.height + positionOffset;
         float r = screenCenter.getWidth() + sizeOffset;
@@ -247,11 +263,13 @@ void eyeParticlesMode::behaveAttack(){
             float radius2 = eyes[j].getWidth()/repulsionRadius;
             particles[i].addRepulsionForce(particles[j], radius + radius2, repulsionForce);
         }
-        for(auto &t: targets){
-            ofPoint pos = t.second.pos;
-            ofVec2f vel = t.second.vel;
-            eyes[i].lookAtNear(pos);
-            particles[i].addAttractionForce(pos.x, pos.y, 500, attractionForce);
+        for (int z = 0; z < 2; z++) {
+            ofPoint vel = cvData[z]->getFlowAtScreenPos(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, particles[i].pos);
+            for(auto &t: targets){
+                ofPoint pos = t.second.pos;
+                eyes[i].lookAtNear(pos);
+                particles[i].addRepulsionForce(pos.x, pos.y, peopleRepRadius*vel.normalize().length(), peopleRepForce);
+            }
         }
         
     }

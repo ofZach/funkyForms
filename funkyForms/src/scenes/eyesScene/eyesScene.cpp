@@ -20,6 +20,8 @@ void eyesScene::setup(){
     eyeParticlesMode.screenRight = RM->getRectForScreen(SCREEN_RIGHT);
     eyeParticlesMode.screenCenter = RM->getRectForScreen(SCREEN_CENTER);
     eyeParticlesMode.screenTop = RM->getRectForScreen(SCREEN_TOP);
+    eyeParticlesMode.cvData[0] = cvData[0];
+    eyeParticlesMode.cvData[1] = cvData[1];
     
     // setup
     eyePairMode.setup();
@@ -34,10 +36,12 @@ void eyesScene::setup(){
     eyeLinkerMode.isEnabled = true; // first showed
     eyePairMode.isEnabled = false;
     eyeLinkerMode.isEnabled = false;
-    
+
     modes.push_back(&eyeLinkerMode);
     modes.push_back(&eyeParticlesMode);
     modes.push_back(&eyePairMode);
+    
+    advanceMode();
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
@@ -69,7 +73,6 @@ void eyesScene::advanceMode(){
     modes[curMode]->isFading = true;
     curMode++ ;
     curMode = curMode%3 ;
-    ofLog() << "curMode: " << curMode;
     modes[curMode]->fadeIn();
     modes[curMode]->isEnabled = true;
     modes[curMode]->isFading = false;
@@ -126,9 +129,14 @@ void eyesScene::updateTargets(){
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
             ofVec2f vel = cvData[z]->blobs[blobId].avgVel;
             eyeLinkerMode.setTargetPos(z, id, ptTop);
-            eyeParticlesMode.setTargetPos(idCounter, pt);
-            eyeParticlesMode.setTargetVel(idCounter, vel);
-            idCounter++;
+            ofPolyline l = cvData[z]->getResampledLineAt(id, 10);
+            for (int i = 0; i < l.size(); i ++ ) {
+                ofPoint pos = l.getVertices()[i];
+                pos = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pos);
+                eyeParticlesMode.setTargetPos(idCounter, pos);
+//                eyeParticlesMode.setTargetVel(idCounter, vel);
+                idCounter++;
+            }
         }
     }
 }
@@ -213,19 +221,14 @@ void eyesScene::updateFastestPos(){
             }
         }
     }
-    ofLog() << "targetPacketId: " << targetPacketId;
-    ofLog() << "targetId: " << targetId;
     
     fastestPos = cvData[targetPacketId]->blobs[targetId].blob.getCentroid2D();
     fastestPos = cvData[0]->remapForScreen(targetPacketId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, fastestPos);
 }
 // ------------ draw
 void eyesScene::draw(){
-    drawEyes();
     drawPeople();
-    ofSetColor(255);
-    ofDrawCircle(fastestPos, 30);
-//    drawEyeLinker();
+    drawEyes();
 }
 void eyesScene::drawGui(){
     gui.draw();
@@ -249,7 +252,7 @@ void eyesScene::drawEyes(){
 void eyesScene::drawPeople(){
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline line = cvData[z]->blobs[i].blob;
+            ofPolyline &line = cvData[z]->blobs[i].blob;
             
             ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
@@ -258,7 +261,12 @@ void eyesScene::drawPeople(){
                 p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
             }
             ofVec2f vel = cvData[z]->blobs[i].avgVel;
-            line.draw();
+            ofPath path;
+            for(auto &p : line){
+                path.lineTo(p);
+            }
+            path.setFillColor(255);
+            path.draw();
         }
     }
 }

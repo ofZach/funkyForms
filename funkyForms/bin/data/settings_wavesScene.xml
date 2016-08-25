@@ -17,12 +17,17 @@
 		<invMass>0.375</invMass>
 		<force>0.607653</force>
 		<shadowRadius>100</shadowRadius>
-		<energyHighlightSize>35.7143</energyHighlightSize>
+		<energyHighlightSize>153.061</energyHighlightSize>
 		<shadowOpacity>31.2245</shadowOpacity>
 		<Ripples>
 			<damping>1</damping>
 			<pixelOffset>1</pixelOffset>
 		</Ripples>
+	<shapeInRadius>134.694</shapeInRadius>
+		<shapeOutRadius>20</shapeOutRadius>
+		<spikeCountMin>18</spikeCountMin>
+		<spikeCountMax>30</spikeCountMax>
+		<floatAge>633.163</floatAge>
 	</gradientWavesParameters>
 	<stencilWavesParameters>
 		<amount>30.3571</amount>

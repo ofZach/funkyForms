@@ -14,8 +14,10 @@
 #include "Spring.hpp"
 #include "inputManager.h"
 #include "particle.h"
+#include "particleWithAge.hpp"
 #include "Shapes.hpp"
 #include "wave.hpp"
+#include "Animator.hpp"
 class particle2 : public particle {
 public:
     float radius = 2;
@@ -29,12 +31,25 @@ public:
     
     // particles
     vector <particle2> particles;
-    vector <particle> fishes;
+    
+    // parameters
+    float shapeInRadius = 100;
+    float shapeOutRadius = 20;
+    int spikeCountMin = 10;
+    int spikeCountMax = 30;
+    float floatAge = 500;
+
+    
+    
+    struct SpikeShape {
+        ofVec2f pos;
+        ofPath path;
+    };
+    vector <particleWithAge> particlesBouey;
     
     // shapes
-    vector <ShapeBase *> shapes;
-    vector <ShapeType> shapeTypes;
-
+    vector<SpikeShape> shapes;
+    
     ofImage img;
     ofMesh m;
     ofMesh strokeMesh;
@@ -53,18 +68,32 @@ public:
     float fishRepulseRadius;
     ofVec2f fishPos;
     
+    // Fade
+    Animator fadeAnimator;
+    float shapeOpacity = 255;
+    
     void setupFishWave();
     void setSize(int w, int h){screenW = w; screenH = h;}
     void setBaseColor(ofColor _baseColor){baseColor = _baseColor;};
     
+    void fadeIn(){fadeAnimator.in();}
+    void fadeOut(){fadeAnimator.out();}
+
     void updateFishWave();
+    void updateFade();
+    void updateFishRemoval();
+    void updateFishCreation();
+    void updateFishParticles();
     void updateSplashes();
     void updateMesh();
     
     void addSplash();
+    void addFishParticle();
     void addFish();
+    void addShape();
     
     void drawSplashes();
+    void drawShapes();
     void draw();
 };
 

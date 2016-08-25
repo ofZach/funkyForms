@@ -33,6 +33,11 @@ public:
     vector<vector<ofVec2f>> child2Initpts;
     vector<int> child2links;
     
+    float horizOffset = 1;
+    float vertOffset = 1;
+    float horizOffsetMain = 1;
+    float vertOffsetMain = 1;
+    
     // randoms
     vector<int> randomBools;
     vector<float> randomFloats;
@@ -68,6 +73,13 @@ public:
     void makeChildBranches();
     void makeChild2();
     void makeBranch(BranchSettings s);
+    
+    // expand children length. val is multiply : length * horizOffset
+    void expandHoriz(float val){ horizOffset = horizOffset * 0.9 + 0.1 * val;};
+    void expandVert(float val){ vertOffset = vertOffset * 0.9 + 0.1 * val;};
+    // expand main branch
+    void expandHorizMain(float val){ horizOffsetMain = horizOffsetMain * 0.9 + 0.1 * val;};
+    void expandVertMain(float val){ vertOffsetMain = vertOffsetMain * 0.9 + 0.1 * val;};
     
     void update();
     void updateMainBranch();

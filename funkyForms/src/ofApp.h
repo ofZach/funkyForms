@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "appSettings.h"
 #include "inputManager.h"
 #include "sceneManager.h"
 #include "simpleScene.h"
@@ -17,6 +18,7 @@
 #include "costumeScene2.h"
 #include "paintScene.h"
 #include "buildingScene.h"
+#include "ofxSyphon.h"
 
 enum view {
     VIEW_DEBUG,
@@ -26,6 +28,7 @@ enum view {
     VIEW_CENTER,
     VIEW_TOP
 };
+
 
 
 
@@ -54,5 +57,12 @@ class ofApp : public ofBaseApp{
     
         vector < string > viewNames;
         int currentView;
+    
+#ifdef USE_SYPHON
+    ofxSyphonServer individualTextureSyphonServer;
+#endif
+    
+ 
+    
     
 };

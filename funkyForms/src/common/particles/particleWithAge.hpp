@@ -17,7 +17,7 @@ public:
     int id;
     int radius;
     float age;
-    
+    float ageMax;
     
 } ;
 
