@@ -9,16 +9,16 @@
 		<velLength>4.44</velLength>
 	</wavesSceneParameters>
 	<gradientWavesParameters>
-		<waveCount>3</waveCount>
-		<waveDistance>57.7296</waveDistance>
+		<waveCount>5</waveCount>
+		<waveDistance>117.423</waveDistance>
 		<amount>44</amount>
 		<strength>0.770638</strength>
-		<restLength>6.61225</restLength>
+		<restLength>6.2449</restLength>
 		<invMass>0.375</invMass>
-		<force>0.810714</force>
+		<force>6.69949</force>
 		<shadowRadius>100</shadowRadius>
 		<energyHighlightSize>153.061</energyHighlightSize>
-		<shadowOpacity>31.2245</shadowOpacity>
+		<shadowOpacity>157.423</shadowOpacity>
 		<Ripples>
 			<damping>1</damping>
 			<pixelOffset>1</pixelOffset>

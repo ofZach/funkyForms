@@ -162,8 +162,8 @@ void eye::update(ofVec2f _pos){
     
     // update parameters
     pos = _pos;
-    width = initWidth*scale;
-    height = initHeight*scale;
+    width = initWidth * scale;
+    height = initHeight * scale;
     lids.setSize(width, height);
     lids.updateScaleForce();
     lids.update();

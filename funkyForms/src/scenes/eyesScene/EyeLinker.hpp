@@ -21,6 +21,7 @@
 class EyeLinker {
 public:
     // Pos, Vel, ID, Size
+    float age = 0;
     ofVec2f pos;
     ofVec2f posPrev;
     float velSmooth = 0.9;
@@ -31,7 +32,13 @@ public:
     float width = 100;
     float height = 100;
     float scale = 1.0;
+    float particleSize = 5;
     int counter = 0;
+    
+    // Particles
+    float particleTreshold = 0.5;
+    float particleForce = 0.1;
+    float particleRadius = 50;
     
     // Input
     float sf = RENDER_SCALE_FACTOR;

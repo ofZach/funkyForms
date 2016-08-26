@@ -24,6 +24,7 @@ public:
     ofParameter<float> inputScaleRange;
     ofParameter<float> outputScaleRange;
     ofParameter<bool> scaleClip;
+    ofParameter<float> particleSize;
     
     // target
     struct Target{
@@ -35,6 +36,10 @@ public:
     
     // eyeLinkers
     vector <EyeLinker> eyeLinkers;
+    ofParameter<float> particleTreshold;
+    ofParameter<float> particleForce;
+    ofParameter<float> particleRadius;
+
     
     // Gui
     ofParameterGroup parameters;

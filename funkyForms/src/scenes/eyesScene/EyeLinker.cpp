@@ -91,7 +91,7 @@ void EyeLinker::addFireObject(){
     f.color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255) );
     f.line = line;
     f.isDead = false;
-    f.radius = ofRandom(1  * sf , 5 * sf);
+    f.radius = ofRandom(particleSize/5  * sf , particleSize * sf);
     f.id = curParticleId;
     fireObjects.push_back(f);
 }
@@ -107,7 +107,7 @@ void EyeLinker::update(){
 void EyeLinker::updateFireworks(){
     // add particles
     if(!isFading){
-        if(vel.length() > 0.5){
+        if(vel.length() > particleTreshold){
             addFireworksParticle(pos);
             addFireObject();
         }
@@ -178,7 +178,7 @@ void EyeLinker::updateTrailParticles(){
     for(auto &p : fireParticles){
         for(auto &p2 : fireParticles){
 //            p.addRepulsionForce(p2, 10, 0.2);
-            p.addClockwiseForce(p2, 50  * sf , 0.1);
+            p.addClockwiseForce(p2, particleRadius  * sf , particleForce);
         }
     }
     for(auto &p : fireParticles){

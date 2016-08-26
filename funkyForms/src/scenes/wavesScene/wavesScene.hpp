@@ -43,7 +43,6 @@ public:
     ofParameter<bool> isGradientWavesMode = false;
     ofParameter<bool> isStencilWaveMode = true;
     
-    
     // Glow
     ofImage glow;
     

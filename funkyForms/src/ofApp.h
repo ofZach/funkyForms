@@ -68,7 +68,13 @@ class ofApp : public ofBaseApp{
     ofxSyphonServer individualTextureSyphonServer;
 #endif
     
- 
+    
+        float sceneChangeTime;
+        bool bInSceneChange;
+        float startSceneChangeTime;
+        bool bChanged;
+        bool bNext;
+        int whoToGoTo;
     
     
 };

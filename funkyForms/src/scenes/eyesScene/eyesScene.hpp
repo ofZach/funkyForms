@@ -17,6 +17,7 @@
 #include "EyeLinker.hpp"
 #include "modeBase.hpp"
 #include "ofxGui.h"
+#include "renderManager.h"
 
 class eyesScene : public baseScene{
 public:
@@ -27,12 +28,20 @@ public:
     EyeLinker eyeLinker;
 
     // eye pair
+    float sf = RENDER_SCALE_FACTOR;
     
     // people calculation
-    ofVec2f averagePos;
+    ofVec2f averagePosL;
+    ofVec2f averagePosR;
     ofVec2f fastestPos;
     float leftEnergy;
     float rightEnergy;
+    
+    // people
+    ofImage glow;
+    ofParameter<float> glowRadius;
+    ofParameter<float> glowOpacity;
+    ofParameter<float> glowSpacing;
     
     // gui
     ofParameterGroup parameters;

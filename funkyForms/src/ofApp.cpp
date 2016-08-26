@@ -74,7 +74,12 @@ void ofApp::setup(){
     individualTextureSyphonServer.setName("funkyForms");
 #endif
 
+    bInSceneChange = false;
+    sceneChangeTime = 5.0;  // 5 seconds ?
+    bInSceneChange = false;
+    bChanged = false;
     
+   
     
 }
 
@@ -142,23 +147,53 @@ void ofApp::update(){
     ofClear(0,0,0,255);
     SM.draw();
     ofNoFill();
-    ofSetColor(255);
-    ofDrawRectangle(RM.getRectForScreen(SCREEN_LEFT));
-    ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
-    ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
-    ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
+//    ofSetColor(255);
+//    ofDrawRectangle(RM.getRectForScreen(SCREEN_LEFT));
+//    ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
+//    ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
+//    ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
+//    
+//    ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
     
-    ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
+    //float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
     
-    float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
+//    ofPushMatrix();
+//    
+//    ofScale(scale, scale, 1.0);
+//    //RM.blocks.draw();
+//    //RM.drawBuidling();
+//    
+//    ofPopMatrix();
     
-    ofPushMatrix();
+    if (bInSceneChange == true){
+        if (ofGetElapsedTimef() - startSceneChangeTime > sceneChangeTime){
+            bInSceneChange = false;
+        }
+        
+        if (ofGetElapsedTimef() - startSceneChangeTime > sceneChangeTime*0.5 &&
+            bChanged == false){
+            if (bNext == true){
+                keyPressed(OF_KEY_RIGHT);
+            } else {
+                SM.goToScene(whoToGoTo);
+            }
+            bChanged = true;
+            
+        }
+        
+        float pct = ofMap(ofGetElapsedTimef() - startSceneChangeTime, 0, sceneChangeTime, 0, 1);
+        ofSetColor(0,0,0, sin(pct * PI) * 255);
+        ofFill();
+        ofEnableAlphaBlending();
+        ofDrawRectangle(0,0, RM.getWidth(), RM.getHeight());
+    }
+//    startSceneChangeTime = ofGetElapsedTimef();
+//    bChanged == false;
+//    bInSceneChange = true;
     
-    ofScale(scale, scale, 1.0);
-    //RM.blocks.draw();
-    //RM.drawBuidling();
     
-    ofPopMatrix();
+    
+    
     
     ofClearAlpha();
     RM.fbo.end();
@@ -277,6 +312,29 @@ void ofApp::keyPressed(int key){
     } else if (key == 'W') {
         ofSetWindowShape(1920,1980);
         bDrawSmall = false;
+    }
+    
+    if (key == 'n'){
+        
+        startSceneChangeTime = ofGetElapsedTimef();
+        bChanged = false;
+        bInSceneChange = true;
+        bNext = true;
+        
+//        
+//        float sceneChangeTime;
+//        bool bInSceneChange;
+//        float startSceneChangeTime;
+//        bool bChanged;
+        
+    }
+    
+    if (key == '1'){
+        startSceneChangeTime = ofGetElapsedTimef();
+        bChanged = false;
+        bInSceneChange = true;
+        bNext = false;
+        whoToGoTo = 0;
     }
 }
 

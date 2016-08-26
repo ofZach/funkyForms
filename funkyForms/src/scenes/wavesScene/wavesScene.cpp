@@ -216,11 +216,10 @@ void wavesScene::updateInput(){
             }
             if(gradientWaves.isEnabled){
                 ofVec2f vel = cvData[z]->blobs[i].avgVel;
-                for(auto &w: gradientWaves.waves){
-                    for(auto &p: w.points){
-                        if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
-                            w.addForceTo(&p, vel.normalize().y);
-                        }
+                int firstWaveIndex = gradientWaves.waves.size()-1;
+                for(auto &p: gradientWaves.waves[firstWaveIndex].points){
+                    if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                       gradientWaves.waves[firstWaveIndex].addForceTo(&p, vel.normalize().y);
                     }
                 }
             }

@@ -94,6 +94,7 @@ public:
     void setAngle(float _angle){lids.setAngle(_angle);}
     void setAngleSmoothed(float _angle){lids.setAngleSmoothed(_angle);}
     void setScale(float _scale){scale = _scale;}
+    void setScaleSmoothed(float _scale , float s){scale = scale * s + (1-s) * _scale;}
     void setPupulScale(float _scale){pupilScale = _scale;};
     void setEyeLidScale(float _scale){lids.setScale(_scale);}
     void setEyeColor(ofColor color){eyeColor = color;};

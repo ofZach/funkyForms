@@ -21,6 +21,13 @@ void eyeLinkerMode::setupGui(){
     parameters.add(outputScaleRange.set("outputScaleRange", 1.0, 0.5, 5.0));
     parameters.add(scaleClip.set("scaleClip", false));
     parameters.add(isGlow.set("isGlow", true));
+    
+    // particles
+    parameters.add(particleTreshold.set("particleTreshold", 0.5, 0.1, 1));
+    parameters.add(particleForce.set("particleForce", 0.1, 0.1, 1));
+    parameters.add(particleRadius.set("particleRadius", 50, 10, 500));
+    parameters.add(particleSize.set("particleSize", 5, 1, 30));
+
     parameters.add(glowRadius.set("glowRadius", 20, 5, 70));
     parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
     parameters.add(glowResolution.set("glowResolution", 20, 5, 200));
@@ -50,6 +57,7 @@ void eyeLinkerMode::removeEye(int packetId, int id){
     }
 }
 void eyeLinkerMode::fadeIn(){
+    eyeLinkers.clear();
     for(auto &e : eyeLinkers ){
         for(auto &ee: e.eyes){
             ee.open();
@@ -109,6 +117,10 @@ void eyeLinkerMode::updateParameters(){
         e.glowOpacity = glowOpacity;
         e.glowResolution = glowResolution;
         e.velSmooth = velSmooth;
+        e.particleTreshold = particleTreshold;
+        e.particleForce = particleForce;
+        e.particleRadius = particleRadius;
+        e.particleSize = particleSize;
     }
 }
 void eyeLinkerMode::updateEye(){

@@ -25,6 +25,21 @@ public:
     float radius = 2;
     ofColor color;
 };
+class particleShape : public particle {
+public:
+    float radius = 2;
+    ofVec2f shapePos;
+    ofColor color;
+    ofMesh mesh;
+    float age = 0;
+    float ageMax;
+    int lifeTime = 0;
+    int lifeTimeMax;
+    
+    void drawSpikes(){
+        mesh.draw();
+    }
+};
 
 class FishWave: public wave {
 public:
@@ -44,16 +59,7 @@ public:
     int spikeCountMax = 30;
     float floatAge = 500;
 
-    
-    
-    struct SpikeShape {
-        ofVec2f pos;
-        ofPath path;
-    };
-    vector <particleWithAge> particlesBouey;
-    
-    // shapes
-    vector<SpikeShape> shapes;
+    vector <particleShape> particlesBouey;
     
     ofImage img;
     ofMesh m;

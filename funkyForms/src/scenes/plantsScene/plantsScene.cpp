@@ -518,7 +518,9 @@ void plantsScene::drawPeople(){
             
             ofRectangle bounds = line.getBoundingBox();
             
+
             float div = 20 * RENDER_SCALE_FACTOR; //(float)max(ofGetMouseX(), 3);
+
             //cout << div << endl;
             int divisions = ceil(bounds.width / div);
             
