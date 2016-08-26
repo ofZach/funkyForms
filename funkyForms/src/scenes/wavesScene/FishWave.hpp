@@ -47,6 +47,7 @@ public:
     
     
     struct SpikeShape {
+        bool isDead = false;
         ofVec2f pos;
         ofMesh mesh;
     };

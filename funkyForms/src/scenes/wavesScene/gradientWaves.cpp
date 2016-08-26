@@ -93,9 +93,26 @@ void gradientWaves::update(){
     updateFade();
     updateWaveParameters();
     if(isEnabled){
-        for (int i = 0; i < waves.size(); i++) {
+        for (int i = waves.size()-1; i > 0; i--) {
             waves[i].update();
             waves[i].updateFishWave();
+            int i_1 = waves.size()-1;
+            int i_p = i+1;
+
+            // add force to other waves
+            // ~~~~~~~~~~ 0
+            // ~~~~~~~~~~ 1
+            // ~~~~~~~~~~ 2
+            
+            if(i != i_1){
+                for(int j = 0; j < waves[i].points.size(); j++){
+                    ofVec2f p1 = waves[i_p].points[j].p;
+                    ofVec2f &p2 = waves[i].points[j].p;
+                    if(fabs(p1.y - p2.y)<10){
+                        waves[i].addForceTo(&waves[i].points[j], -2);
+                    }
+                }
+            }
         }
     }
 }

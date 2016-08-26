@@ -120,11 +120,6 @@ void FishWave::updateFishParticles(){
     fishGravity += 0.06;
 }
 void FishWave::updateFishRemoval(){
-    for (int i = 0; i < particlesBouey.size(); i++) {
-        if(particlesBouey[i].pos.y < 0){
-            shapes.erase(shapes.begin()+i);
-        }
-    }
     particlesBouey.erase(std::remove_if(
                                      particlesBouey.begin(),
                                      particlesBouey.end(),
@@ -135,6 +130,16 @@ void FishWave::updateFishRemoval(){
                                      ),
                       particlesBouey.end()
                       );
+    shapes.erase(std::remove_if(
+                                        shapes.begin(),
+                                        shapes.end(),
+                                        
+                                        [&](SpikeShape & s){
+                                            return (s.pos.y < 0);
+                                        }
+                                        ),
+                         shapes.end()
+                         );
 }
 void FishWave::updateMesh(){
     m.clear();

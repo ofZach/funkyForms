@@ -37,7 +37,7 @@
 	<particleTreshold>0.857653</particleTreshold>
 		<particleForce>0.265306</particleForce>
 		<particleRadius>390</particleRadius>
-	<particleSize>11.2092</particleSize>
+	<particleSize>30</particleSize>
 	</eyeLinkerParameters>
 <eyePairParameters>
 		<eyeDistance>517.857</eyeDistance>
