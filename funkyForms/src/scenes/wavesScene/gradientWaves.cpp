@@ -172,7 +172,6 @@ void gradientWaves::onFadeOutEnd(){
     isWaveRelax = false;
     isEnabled = false;
     for(auto &w : waves){
-        w.shapes.clear();
         w.particlesBouey.clear();
     }
 }

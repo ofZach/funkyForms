@@ -36,8 +36,20 @@ void FishWave::addFish(){
     addShape();
 }
 void FishWave::addShape(){
-    SpikeShape spikeShape;
+
+}
+void FishWave::addFishParticle(){
+    particleShape myParticle;
+    myParticle.setInitialCondition(fishPos.x, fishPos.y, 0, ofRandom(-0.7, -0.8));
+    myParticle.ageMax = ofRandom(floatAge, floatAge*1.5);
+    myParticle.lifeTimeMax = ofRandom(2200, 3600);
+    fishGravity = ofRandom(-3, -0.8);
+    fishDirection = ofRandom(-0.7, 0.7);
+    
+    // create shape
     ofMesh mesh;
+    myParticle.shapePos = myParticle.pos;
+    
     mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     int numSides = ofRandom(spikeCountMin, spikeCountMax);
     ofVec2f p1(0, ofRandom(shapeInRadius, shapeInRadius/2));
@@ -56,16 +68,8 @@ void FishWave::addShape(){
             mesh.addVertex(firstPoint);
         }
     }
-    spikeShape.mesh = mesh;
-    spikeShape.pos = fishPos;
-    shapes.push_back(spikeShape);
-}
-void FishWave::addFishParticle(){
-    particleWithAge myParticle;
-    myParticle.setInitialCondition(fishPos.x, fishPos.y, 0, ofRandom(-0.7, -0.8));
-    myParticle.ageMax = ofRandom(floatAge, floatAge*1.5);
-    fishGravity = ofRandom(-3, -0.8);
-    fishDirection = ofRandom(-0.7, 0.7);
+    myParticle.mesh = mesh;
+    
     particlesBouey.push_back(myParticle);
 }
 // ------- update
@@ -84,25 +88,31 @@ void FishWave::updateFishParticles(){
     for (int i = 0; i < particlesBouey.size(); i++){
         particlesBouey[i].resetForce();
         particlesBouey[i].age++;
+        particlesBouey[i].lifeTime++;
     }
     
     int time = ofGetFrameNum();
     
     for (int i = 0; i < particlesBouey.size(); i++){
         // gravity
-        if(particlesBouey[i].age > particlesBouey[i].ageMax){
-            // gravity up
-            particlesBouey[i].addForce(0, -0.2);
-        }else{
-            // gravity down
+
+        if(particlesBouey[i].lifeTime > particlesBouey[i].lifeTimeMax-220){
+            // they die
             particlesBouey[i].addForce(0, 0.2);
-        }
-        
-        // attraction
-        ofVec2f pPos = particlesBouey[i].pos; // particle pos
-        for (int k = 0; k < points.size(); k++){
-            ofVec2f wPos = points[k].p;
-            particlesBouey[i].addAttractionForce(wPos.x, wPos.y, 50, 0.5);
+        }else{
+            if(particlesBouey[i].age > particlesBouey[i].ageMax){
+                // gravity up
+                particlesBouey[i].addForce(0, -0.2);
+            }else{
+                // gravity down
+                particlesBouey[i].addForce(0, 0.2);
+            }
+            // attraction
+            ofVec2f pPos = particlesBouey[i].pos; // particle pos
+            for (int k = 0; k < points.size(); k++){
+                ofVec2f wPos = points[k].p;
+                particlesBouey[i].addAttractionForce(wPos.x, wPos.y, 50, 0.5);
+            }
         }
         
         // add noise
@@ -124,22 +134,12 @@ void FishWave::updateFishRemoval(){
                                      particlesBouey.begin(),
                                      particlesBouey.end(),
                                      
-                                     [&](particleWithAge & p){
-                                         return (p.pos.y < 0);
+                                     [&](particleShape & p){
+                                         return (p.pos.y < 0 || p.lifeTime > p.lifeTimeMax);
                                      }
                                      ),
                       particlesBouey.end()
                       );
-    shapes.erase(std::remove_if(
-                                        shapes.begin(),
-                                        shapes.end(),
-                                        
-                                        [&](SpikeShape & s){
-                                            return (s.pos.y < 0);
-                                        }
-                                        ),
-                         shapes.end()
-                         );
 }
 void FishWave::updateMesh(){
     m.clear();
@@ -212,21 +212,18 @@ void FishWave::draw(){
         ofSetColor(0, shadowOpacity);
         img.draw(p-ofVec2f(shadowRadius * sf, shadowRadius * sf ), shadowRadius * sf * 2, shadowRadius * sf * 2);
     }
-//    drawSplashes();
     float opacity = ofMap(fadeAnimator.getValue(), 0, 1, 0, 255);
     ofSetColor(opacity);
     drawShapes();
     m.draw();
-    //    strokeMesh.draw();
 }
 void FishWave::drawShapes(){
-    for (int i = 0; i < shapes.size(); i++){
-        shapes[i].pos =  shapes[i].pos * 0.9 + 0.1 *particlesBouey[i].pos;
+    for (int i = 0; i < particlesBouey.size(); i++){
+        particlesBouey[i].shapePos =  particlesBouey[i].shapePos * 0.9 + 0.1 *particlesBouey[i].pos;
         ofPushMatrix();
-        ofTranslate(shapes[i].pos);
-//        ofRotateZ(particlesBouey[i].vel.normalize().x/2*ofGetFrameNum());
+        ofTranslate(particlesBouey[i].shapePos);
         ofSetColor(ofColor(255, shapeOpacity));
-        shapes[i].mesh.draw();
+        particlesBouey[i].drawSpikes();
         ofPopMatrix();
     }
 }
