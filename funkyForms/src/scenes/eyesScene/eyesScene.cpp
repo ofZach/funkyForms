@@ -270,19 +270,19 @@ void eyesScene::drawEyes(){
 }
 void eyesScene::drawPeople(){
     
-    // glow
-    for (int z = 0; z < 2; z++){
-        for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline line = cvData[z]->blobs[i].blob.getResampledBySpacing(glowSpacing * sf);
-            
-            for (auto & p : line.getVertices()){
-                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
-                ofSetColor(255, glowOpacity);
-                glow.draw(p.x - glowRadius, p.y - glowRadius, glowRadius*2, glowRadius*2);
-            }
-        }
-    }
-    
+//    // glow
+//    for (int z = 0; z < 2; z++){
+//        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+//            ofPolyline line = cvData[z]->blobs[i].blob.getResampledBySpacing(glowSpacing * sf);
+//            
+//            for (auto & p : line.getVertices()){
+//                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+//                ofSetColor(255, glowOpacity);
+//                glow.draw(p.x - glowRadius * sf, p.y - glowRadius * sf , glowRadius * 2 * sf, glowRadius * 2 * sf );
+//            }
+//        }
+//    }
+//    
     // people
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {

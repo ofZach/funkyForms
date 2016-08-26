@@ -37,18 +37,26 @@ void FishWave::addFish(){
 }
 void FishWave::addShape(){
     SpikeShape spikeShape;
-    ofPath path;
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
     int numSides = ofRandom(spikeCountMin, spikeCountMax);
     ofVec2f p1(0, ofRandom(shapeInRadius, shapeInRadius/2));
     ofVec2f p2(0, ofRandom(shapeOutRadius, shapeOutRadius/2));
     p2.rotate((360.0/numSides)/2);
+    ofVec2f firstPoint = p1;
+    firstPoint.rotate((360.0/numSides));
     for(int i = 0; i < numSides; i++){
         p1.rotate(360.0/numSides);
         p2.rotate(360.0/numSides);
-        path.lineTo(p1);
-        path.lineTo(p2);
+        mesh.addVertex(p1);
+        mesh.addVertex(ofVec2f(0, 0));
+        mesh.addVertex(p2);
+        mesh.addVertex(ofVec2f(0, 0));
+        if(i == numSides-1){
+            mesh.addVertex(firstPoint);
+        }
     }
-    spikeShape.path = path;
+    spikeShape.mesh = mesh;
     spikeShape.pos = fishPos;
     shapes.push_back(spikeShape);
 }
@@ -212,8 +220,8 @@ void FishWave::drawShapes(){
         ofPushMatrix();
         ofTranslate(shapes[i].pos);
 //        ofRotateZ(particlesBouey[i].vel.normalize().x/2*ofGetFrameNum());
-        shapes[i].path.setFillColor(ofColor(shapes[i].path.getFillColor(), shapeOpacity));
-        shapes[i].path.draw();
+        ofSetColor(ofColor(255, shapeOpacity));
+        shapes[i].mesh.draw();
         ofPopMatrix();
     }
 }

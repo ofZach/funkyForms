@@ -48,7 +48,7 @@ public:
     
     struct SpikeShape {
         ofVec2f pos;
-        ofPath path;
+        ofMesh mesh;
     };
     vector <particleWithAge> particlesBouey;
     

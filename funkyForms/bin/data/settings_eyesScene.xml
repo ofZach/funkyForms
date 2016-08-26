@@ -3,7 +3,7 @@
 		<isEyePairMode>0</isEyePairMode>
 		<isEyeParticleMode>0</isEyeParticleMode>
 		<isEyeLinkerMode>1</isEyeLinkerMode>
-	<changeMode>0</changeMode>
+	<changeMode>1</changeMode>
 		<isAutoChangeMode>0</isAutoChangeMode>
 	<glowRadius>136.327</glowRadius>
 		<glowOpacity>115.791</glowOpacity>
@@ -34,6 +34,10 @@
 		<glowOpacity>89.7704</glowOpacity>
 		<glowResolution>38</glowResolution>
 	<velSmooth>0.946204</velSmooth>
+	<particleTreshold>0.857653</particleTreshold>
+		<particleForce>0.265306</particleForce>
+		<particleRadius>390</particleRadius>
+	<particleSize>11.2092</particleSize>
 	</eyeLinkerParameters>
 <eyePairParameters>
 		<eyeDistance>517.857</eyeDistance>
