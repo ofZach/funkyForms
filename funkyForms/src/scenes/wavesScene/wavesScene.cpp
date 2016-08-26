@@ -203,7 +203,10 @@ void wavesScene::updateInput(){
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
     
             ofVec2f vel = cvData[z]->blobs[i].avgVel;
-
+            
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            }
             if(stencilWaves.isEnabled){
                 stencilWaves.addPath(line);
                 for(auto &w: stencilWaves.waves){
@@ -215,11 +218,10 @@ void wavesScene::updateInput(){
                 }
             }
             if(gradientWaves.isEnabled){
-                for (auto & p : line.getResampledBySpacing(10 * sf)){
-                    ofVec2f point = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+                for (auto & linePoint : line.getResampledBySpacing(10 * sf)){
                     int firstWaveIndex = gradientWaves.waves.size()-1;
                     for(auto &p: gradientWaves.waves[firstWaveIndex].points){
-                        if(p.p.distance(point)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                        if(p.p.distance(linePoint)<100 && vel.dot(ofVec2f(0, -1)) > 0){
                             gradientWaves.waves[firstWaveIndex].addForceTo(&p, vel.normalize().y);
                         }
                     }
