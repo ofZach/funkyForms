@@ -126,6 +126,7 @@ void inputManager::setup(){
     group.add(threshold3.set("threshold3", 150, 0, 255));
     group.add(bTrackTable.set("bTrackTable", false));
     group.add(needsFlow.set("needsFlow", true));
+    group.add(bDrawBuilding.set("bDrawBuilding", false));
     
     
     

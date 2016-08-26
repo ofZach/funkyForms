@@ -6,7 +6,7 @@
 #include "BVH.h"
 #include "lineSeg.h"
 
-class simpleScene : public baseScene {
+class tableScene : public baseScene {
     
 public:
     
@@ -30,6 +30,9 @@ public:
     vector<Object*> objects;
     vector<lineSeg*> segs;
     BVH * bvh;
+    
+    
+    
 };
 
 

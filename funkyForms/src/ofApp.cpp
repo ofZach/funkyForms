@@ -25,17 +25,17 @@ void ofApp::setup(){
     ofRectangle bounds;
 
     
-    SM.scenes.push_back(new simpleScene());
+    SM.scenes.push_back(new tableScene());
     SM.scenes.push_back(new paintScene());
-    SM.scenes.push_back(new particleScene());
-    SM.scenes.push_back(new light2dScene());
-    SM.scenes.push_back(new box2dScene());
+    //SM.scenes.push_back(new particleScene());
+    //SM.scenes.push_back(new light2dScene());
+   // SM.scenes.push_back(new box2dScene());
 
-    SM.scenes.push_back(new buildingScene());
-    SM.scenes.push_back(new costumeScene2());
+    //SM.scenes.push_back(new buildingScene());
+    //SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
-    SM.scenes.push_back(new simpleScene2());
+    //SM.scenes.push_back(new simpleScene2());
     
     SM.scenes.push_back(new MonsterScene());
     SM.scenes.push_back(new eyesScene());
@@ -147,13 +147,18 @@ void ofApp::update(){
     ofClear(0,0,0,255);
     SM.draw();
     ofNoFill();
-//    ofSetColor(255);
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_LEFT));
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
-//    
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
+    
+    if (IM.bDrawBuilding == true){
+        
+        ofSetColor(255);
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_LEFT));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
+    
+    }
+
     
     //float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
     

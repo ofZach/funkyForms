@@ -63,6 +63,6 @@ public:
     ofParameter <int> threshold3;
     ofParameter <bool> bTrackTable;
     ofParameter <bool> needsFlow;
-    
+    ofParameter <bool> bDrawBuilding;
     
 };

@@ -1,15 +1,15 @@
-#include "simpleScene.h"
+#include "tableScene2.h"
 #include "boundsHelp.h"
 #include "reflectionUseful.h"
 
-void simpleScene::setup(){
-    sceneName = "simpleScene";
+void tableScene2::setup(){
+    sceneName = "tableScene2";
 }
 
 
 
 
-void reflection(int L, int R, int tid, reflectionPacket * packet){
+void reflection2(int L, int R, int tid, reflectionPacket * packet){
     
     for (int i = L; i < R; i++){
         ofPoint pos = packet->pos[tid][i];
@@ -53,7 +53,7 @@ void reflection(int L, int R, int tid, reflectionPacket * packet){
 }
 
 
-void simpleScene::update(){
+void tableScene2::update(){
     
     
     
@@ -65,7 +65,7 @@ void simpleScene::update(){
 }
 
 
-void simpleScene::draw(){
+void tableScene2::draw(){
     
     
     for (int i = 0; i < cvData[2]->blobs.size(); i++){
@@ -96,7 +96,7 @@ void simpleScene::draw(){
         
         ofPolyline line = cvData[2]->blobs[i].blob;
         for (auto & pt : line){
-            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt);
+            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt, false);
         }
         
         line = line.getResampledBySpacing(3);
@@ -157,7 +157,7 @@ void simpleScene::draw(){
     //Launch nr_threads threads:
     for (int i = 0; i < nr_threads; ++i) {
         
-        threads.push_back(std::thread(reflection, limits[i], limits[i+1], i, &packet));
+        threads.push_back(std::thread(reflection2, limits[i], limits[i+1], i, &packet));
     }
     
     
@@ -188,20 +188,20 @@ void simpleScene::draw(){
 }
 
 
-void simpleScene::blobBorn(int packetId, int id){
+void tableScene2::blobBorn(int packetId, int id){
  
 }
 
-void simpleScene::blobDied(int packetId, int id){
+void tableScene2::blobDied(int packetId, int id){
  
   
 }
 
 
-void simpleScene::start(){
+void tableScene2::start(){
     // I am starting, show a gui
 }
 
-void simpleScene::stop(){
+void tableScene2::stop(){
     // I am stopping, hide a gui
 }
