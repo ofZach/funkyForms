@@ -433,7 +433,7 @@ void TreeScene::draw() {
 	ofEnableAlphaBlending();
 	glPushMatrix();
 	glTranslatef(0, 0, 0);
-	
+    ofFill();
 	// the big trees - funky style
 	glPushMatrix();
 	glTranslatef(0, treeBottomOffset /*panel.getValueF("TREE_OFF")*/, 0);

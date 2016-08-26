@@ -1,11 +1,16 @@
 #include "ofApp.h"
-//#include <Cocoa/Cocoa.h>
+
+#ifdef OVER_MAD_MAPPER
+#include <Cocoa/Cocoa.h>
+#endif
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 
     
     RM.setup();
     
+    bDrawSmall = false;
     
 //    cout << "OpenCV version : " << CV_VERSION << endl;
 //    cout << "Major version : " << CV_MAJOR_VERSION << endl;
@@ -20,7 +25,7 @@ void ofApp::setup(){
     ofRectangle bounds;
     
     
-    SM.scenes.push_back(new qinziTestScene());
+    SM.scenes.push_back(new paintScene());
     SM.scenes.push_back(new buildingScene());
     SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
@@ -74,14 +79,18 @@ void ofApp::update(){
     // maybe we can go small in the corner of the tower projection and have a
     // way to move back to a good monitor for adjusting preferences...
     
-//    if (ofGetFrameNum() % 100 == 0){
-//        NSWindow * window = (NSWindow *)ofGetCocoaWindow();
-//        if(window) {
-//            // make your obj-c calls here
-//            //[window setLevel:NSScreenSaverWindowLevel];
-//            [window setLevel:NSScreenSaverWindowLevel + ofGetFrameNum()];
-//        }
-//    }
+    
+    #ifdef OVER_MAD_MAPPER
+    if (ofGetFrameNum() % 100 == 0){
+        NSWindow * window = (NSWindow *)ofGetCocoaWindow();
+        if(window) {
+            // make your obj-c calls here
+            //[window setLevel:NSScreenSaverWindowLevel];
+            [window setLevel:NSScreenSaverWindowLevel + ofGetFrameNum()];
+        }
+    }
+    #endif
+    
     
     IM.update();
     
@@ -128,7 +137,7 @@ void ofApp::update(){
     
     ofScale(scale, scale, 1.0);
     //RM.blocks.draw();
-    //RM.drawBuidling();
+    RM.drawBuidling();
     
     ofPopMatrix();
     
@@ -150,7 +159,8 @@ void ofApp::draw(){
 
     ofSetColor(255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 20);
-
+    
+    if (!bDrawSmall){
     if (currentView == VIEW_DEBUG){
         IM.draw();
     } else if (currentView == VIEW_OVERVIEW) {
@@ -203,7 +213,7 @@ void ofApp::draw(){
         ofPopMatrix();
         ofNoFill();
     } 
-    
+    }
     SM.drawGui();       // draw the gui outside of the RM
     
     
@@ -238,6 +248,14 @@ void ofApp::keyPressed(int key){
         SM.advanceScene();
     } else if (key == OF_KEY_LEFT){
         SM.reverseScene();
+    }
+    
+    if (key == 'w'){
+        ofSetWindowShape(200,200);
+        bDrawSmall = true;
+    } else if (key == 'W') {
+        ofSetWindowShape(1920,1980);
+        bDrawSmall = false;
     }
 }
 

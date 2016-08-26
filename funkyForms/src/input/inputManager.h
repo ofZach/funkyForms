@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "cvManager.h"
 #include "cvSettings.h"
+#include "appSettings.h"
 
 #ifdef USE_LIVE_VIDEO
 #include "ofxBlackmagic.h"

@@ -37,6 +37,12 @@ public:
     ofShader    shader;
     ofImage     noiseImage;
     
+    ofImage     opticalFlowImage;
+    
+    
+    
+    
+    
     
     map < string, ofColor > colorNameMap;
     
@@ -45,8 +51,13 @@ public:
     ofImage simplexImage;
     ofImage simplexImage2;
     
+    ofImage colorPalette[3];
+    
+    
     
     vector < ofVboMesh > meshes;
+    vector < ofColor > colors;
+    
     //paint/stone_rocky_surface_texture.jpg
 };
 

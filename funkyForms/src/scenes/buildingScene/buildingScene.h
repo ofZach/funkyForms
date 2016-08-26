@@ -10,7 +10,7 @@
 class buildingPiece {
     
 public:
-    
+
     ofPolyline line;
     ofRectangle bounds;
     bool bIsLoop;

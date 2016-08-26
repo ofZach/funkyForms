@@ -57,6 +57,8 @@ class ofApp : public ofBaseApp{
         sceneManager SM;
         renderManager RM;
     
+    bool bDrawSmall;
+    
         vector < string > viewNames;
         int currentView;
     
