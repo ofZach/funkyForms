@@ -10,20 +10,46 @@
 void eyePairMode::setup(){
     for (int i = 0; i < 2; i++) {
         eye eye;
-        eye.setup(ofVec2f(100, 100), 200, 200);
+        eye.setup(ofVec2f(100, 100), eyeSize * sf, eyeSize * sf);
         eye.setEyeColor(ofColor::lightSkyBlue);
         eyes.push_back(eye);
     }
     eyes[1].setSyncEye(&eyes[0]);
+
 }
 void eyePairMode::setupGui(){
     parameters.setName("eyePairParameters");
     parameters.add(eyeDistance.set("eyeDistance", 200, 10, 800));
     parameters.add(posOffsetY.set("posOffsetY", 200, -500, 500));
+    parameters.add(posOffsetX.set("posOffsetX", 200, -500, 500));
+    parameters.add(minScale.set("minScale", 0.5, 0.1, 7));
+    parameters.add(maxScale.set("maxScale", 2, 0.1, 7));
+    parameters.add(scaleSmooth.set("scaleSmooth", 0.9, 0.5, 0.99));
     parameters.add(energyRange.set("energyRange", 20, 5, 300));
+    parameters.add(eyeSize.set("eyeSize", 200, 50, 300));
     parameters.add(smooth.set("smooth", 0.98, 0.5, 0.99));
+    parameters.add(rewLineLength.set("rewLineLength", 100, 30, 2000));
+    parameters.add(rewLineRadius.set("rewLineRadius", 100, 30, 500));
+    parameters.add(rewTreshold.set("rewTreshold", 5, 0.5, 20));
+    parameters.add(rewAmount.set("rewAmount", 20, 1, 100));
+    eyeSize.addListener(this, &eyePairMode::triggerInit);
+}
+void eyePairMode::triggerInit(float &val){
+    init();
+}
+void eyePairMode::init(){
+    eyes.clear();
+    for (int i = 0; i < 2; i++) {
+        eye eye;
+        eye.setup(ofVec2f(0, 0), eyeSize * sf, eyeSize * sf);
+        eye.setEyeColor(ofColor::lightSkyBlue);
+        eyes.push_back(eye);
+    }
+    eyes[1].setSyncEye(&eyes[0]);
 }
 void eyePairMode::fadeIn(){
+    reward.clear();
+    isFadeFinished = false;
     for(auto &e : eyes){
         e.open();
     }
@@ -51,7 +77,7 @@ void eyePairMode::addScaleForce(){
 
     if(scaleL>mid){
         // left is bigger
-        angleR = angleR*s + (1-s)*angle;
+        angleR = angleR * s + (1-s)*angle;
         float eyeLidScale = ofMap(scaleL, scaleMax, mid, 1, 0.2, true);
         eyes[1].getLids()->setTopLidPos(eyeLidScale);
         float pupilScale = ofMap(scaleL, mid, scaleMax, 1.0, 2.0);
@@ -75,24 +101,41 @@ void eyePairMode::addScaleForce(){
     eyes[1].setAngle(angleR);
 }
 
-void eyePairMode::update(ofVec2f _pos){
+void eyePairMode::update(ofVec2f posL, ofVec2f posR){
     updateFadeCheck();
-    eyes[0].update(_pos-ofVec2f(eyeDistance, posOffsetY));
-    eyes[1].update(_pos+ofVec2f(eyeDistance, -posOffsetY));
-    addScaleForce();
+    eyes[0].update(posL + ofVec2f(posOffsetX * sf, posOffsetY * sf));//_pos-ofVec2f(eyeDistance * sf, posOffsetY * sf));
+    eyes[1].update(posR + ofVec2f(posOffsetX * sf, posOffsetY * sf));//_pos+ofVec2f(eyeDistance * sf, -posOffsetY * sf));
+//    addScaleForce();
+    updateScale();
+    if(isEnabled) updateReward();
 }
-void eyePairMode::updateFadeCheck(){
-    bool isFin = true;
-    for(auto &eye: eyes){
-        if(!eye.isCloseFinished()){
-            isFin = false;
-            break;
+void eyePairMode::updateReward(){
+    reward.update();
+
+    float s =  maxScale-(maxScale - minScale)/rewTreshold;
+    
+    for(auto &e : eyes){
+        if(e.getScale() > s && ofGetFrameNum()%rewAmount == 0 ){
+            reward.lineLength = rewLineLength * sf;
+            reward.lineRadius = rewLineRadius * sf;
+            reward.reward(e.getPos());
         }
     }
-    if(isFin){
-        isFadeFinished = true;
-    }else{
-        isFadeFinished = false;
+}
+void eyePairMode::updateScale(){
+    float sL = ofMap(leftEnergy, 0, 20, minScale, maxScale, true);
+    float sR = ofMap(rightEnergy, 0, 20, minScale, maxScale, true);
+    eyes[0].setScaleSmoothed(sL, scaleSmooth);
+    eyes[1].setScaleSmoothed(sR, scaleSmooth);
+//        e.setScale(s);
+
+}
+void eyePairMode::updateFadeCheck(){
+    for(auto &eye: eyes){
+        if(eye.isCloseFinished()){
+            ofLog() << "fin";
+            isFadeFinished = true;
+        }
     }
 }
 void eyePairMode::setLookAt(ofVec2f _pos){
@@ -102,6 +145,8 @@ void eyePairMode::setLookAt(ofVec2f _pos){
 }
 
 void eyePairMode::draw(){
+    ofSetColor(255, 255);
+    reward.draw();
     for(auto &e: eyes){
         e.draw();
     }

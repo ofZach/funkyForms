@@ -41,12 +41,17 @@ void eyesScene::setup(){
     modes.push_back(&eyeParticlesMode);
     modes.push_back(&eyePairMode);
     
+    glow.load("assets/glow.png");
+    
     advanceMode();
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
     parameters.add(changeMode.set("changeMode", true));
     parameters.add(isAutoChangeMode.set("isAutoChangeMode", false));
+    parameters.add(glowRadius.set("glowRadius", 20, 5, 200));
+    parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
+    parameters.add(glowSpacing.set("glowSpacing", 5, 0, 100));
     gui.setup("settings_eyesScene", "settings_eyesScene.xml");
     gui.add(parameters);
     gui.add(eyePairMode.parameters);
@@ -90,10 +95,8 @@ void eyesScene::update(){
 //    updateEyeLinker();
 }
 void eyesScene::updatePeopleEnergy(){
-    if(leftEnergy>100 && rightEnergy>100){
         leftEnergy = 0;
-        rightEnergy =0;
-    }
+        rightEnergy = 0;
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
             ofVec2f vel = cvData[z]->blobs[i].avgVel;
@@ -143,9 +146,14 @@ void eyesScene::updateTargets(){
 void eyesScene::updateEyes(){
     if(getMode("eyePairMode")->isEnabled){
         eyePairMode.setEnergy(leftEnergy, rightEnergy);
-        float x = RM->getRectForScreen(SCREEN_CENTER).getCenter().x;
-        eyePairMode.update(ofVec2f(averagePos.x+x, averagePos.y));
+        float x = RM->getRectForScreen(SCREEN_LEFT).getCenter().x + averagePosL.x;
+        float y = RM->getRectForScreen(SCREEN_LEFT).getTop() + averagePosL.y;
+        float x2 = RM->getRectForScreen(SCREEN_RIGHT).getCenter().x + averagePosL.x;
+        float y2 = RM->getRectForScreen(SCREEN_RIGHT).getTop() + averagePosL.y;
+
+        eyePairMode.update(ofVec2f(x, y) , ofVec2f(x2, y2));
         eyePairMode.lookAtSmart(fastestPos);
+        
     }
     if(getMode("eyeParticlesMode")->isEnabled){
         eyeParticlesMode.update();
@@ -176,25 +184,33 @@ void eyesScene::updateAveragePos(){
     ofPoint p;
     float posYmax = ofGetHeight();
 
-    int size = 0;
+    ofPoint p2;
+    float posYmax2 = ofGetHeight();
     
     for (int z = 0; z < 2; z++){
-        for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            
-            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
-            pt = cvData[z]->remapForScreen(SCREEN_LEFT , pt);
-            size++;
-            ofVec2f curVel = cvData[z]->blobs[i].avgVel;
-            
-            if(pt.y < posYmax){
-                posYmax = pt.y;
+        for(auto &id : cvData[z]->idsThisFrame){
+            ofVec2f pt = cvData[z]->getCentoidAt(id);
+            if(z==0){
+                p.x += pt.x;
+                if(pt.y < posYmax){
+                    posYmax = pt.y;
+                }
+            }else{
+                p2.x += pt.x;
+                if(pt.y < posYmax2){
+                    posYmax2 = pt.y;
+                }
             }
+
         }
     }
     
-    p = ofPoint(p.x/(size+1), posYmax);
     float s = 0.9;
-    averagePos = averagePos*s + (1-s)*p;
+    p = ofPoint(p.x/(cvData[0]->idsThisFrame.size()+1), posYmax);
+    averagePosL = averagePosL*s + (1-s)*p;
+    
+    p2 = ofPoint(p2.x/(cvData[0]->idsThisFrame.size()+1), posYmax2);
+    averagePosR = averagePosR*s + (1-s)*p2;
 }
 void eyesScene::updateFastestPos(){
     
@@ -229,6 +245,9 @@ void eyesScene::updateFastestPos(){
 void eyesScene::draw(){
     drawPeople();
     drawEyes();
+    ofFill();
+    ofSetColor(100, 100, 100);
+//    ofDrawCircle(averagePos, 20);
 }
 void eyesScene::drawGui(){
     gui.draw();
@@ -250,6 +269,21 @@ void eyesScene::drawEyes(){
     }
 }
 void eyesScene::drawPeople(){
+    
+    // glow
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            ofPolyline line = cvData[z]->blobs[i].blob.getResampledBySpacing(glowSpacing * sf);
+            
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+                ofSetColor(255, glowOpacity);
+                glow.draw(p.x - glowRadius, p.y - glowRadius, glowRadius*2, glowRadius*2);
+            }
+        }
+    }
+    
+    // people
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
             ofPolyline &line = cvData[z]->blobs[i].blob;
@@ -265,7 +299,7 @@ void eyesScene::drawPeople(){
             for(auto &p : line){
                 path.lineTo(p);
             }
-            path.setFillColor(255);
+            path.setFillColor(0);
             path.draw();
         }
     }

@@ -12,10 +12,16 @@
 #include "ofMain.h"
 #include "eye.hpp"
 #include "modeBase.hpp"
+#include "renderManager.h"
+#include "rewardLines.hpp"
 
 class eyePairMode : public modeBase {
 private:
 public:
+    
+    // Input
+    float sf = RENDER_SCALE_FACTOR;
+    
     ofVec2f pos;
     vector<eye> eyes;
     bool isEyeBig;
@@ -36,6 +42,15 @@ public:
     ofParameter<float> eyeDistance = 200;
     ofParameterGroup parameters;
     ofParameter<float> posOffsetY;
+    ofParameter<float> maxScale;
+    ofParameter<float> minScale;
+    ofParameter<float> posOffsetX;
+    ofParameter<float> eyeSize;
+    ofParameter<float> scaleSmooth;
+    ofParameter<float> rewLineLength;
+    ofParameter<float> rewLineRadius;
+    ofParameter<float> rewTreshold;
+    ofParameter<int> rewAmount;
 
     
     // Input
@@ -44,8 +59,12 @@ public:
     ofParameter<float> energyRange = 20;
     ofParameter<float> smooth = 0.98;
     
+    // Effects
+    rewardLines reward;
     
     void setup();
+    void triggerInit(float &v);
+    void init();
     void setupGui();
     void setEnergy(float left, float right){ leftEnergy = left; rightEnergy = right; };
     
@@ -58,7 +77,9 @@ public:
     void hitEnd(){isHit = false;}
     void lookAtSmart(ofVec2f _pos){for(auto &e: eyes){ e.lookAtSmart(_pos);}};
     
-    void update(ofVec2f _pos);
+    void updateScale();
+    void updateReward();
+    void update(ofVec2f posL, ofVec2f posR);
     void updateFadeCheck();
 
     void draw();

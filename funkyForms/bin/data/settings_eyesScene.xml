@@ -3,8 +3,11 @@
 		<isEyePairMode>0</isEyePairMode>
 		<isEyeParticleMode>0</isEyeParticleMode>
 		<isEyeLinkerMode>1</isEyeLinkerMode>
-	<changeMode>1</changeMode>
+	<changeMode>0</changeMode>
 		<isAutoChangeMode>0</isAutoChangeMode>
+	<glowRadius>136.327</glowRadius>
+		<glowOpacity>115.791</glowOpacity>
+	<glowSpacing>20.9184</glowSpacing>
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
 		<behaviorMode>0</behaviorMode>
@@ -29,14 +32,23 @@
 	<isGlow>1</isGlow>
 		<glowRadius>39.1582</glowRadius>
 		<glowOpacity>89.7704</glowOpacity>
-		<glowResolution>20</glowResolution>
+		<glowResolution>38</glowResolution>
 	<velSmooth>0.946204</velSmooth>
 	</eyeLinkerParameters>
 <eyePairParameters>
 		<eyeDistance>517.857</eyeDistance>
 		<energyRange>51.6582</energyRange>
-		<smooth>0.98</smooth>
-	<posOffsetY>-188.776</posOffsetY>
+		<smooth>0.99</smooth>
+	<posOffsetY>-5.10205</posOffsetY>
+	<posOffsetX>-311.224</posOffsetX>
+		<eyeSize>200</eyeSize>
+	<minScale>0.733674</minScale>
+		<maxScale>3.33878</maxScale>
+		<scaleSmooth>0.935</scaleSmooth>
+	<rewLineLength>1306.48</rewLineLength>
+		<rewLineRadius>377.704</rewLineRadius>
+	<rewTreshold>2.4898</rewTreshold>
+		<rewAmount>20</rewAmount>
 	</eyePairParameters>
 	<eyeParticlesModeParameters>
 		<behaviorMode>0</behaviorMode>
