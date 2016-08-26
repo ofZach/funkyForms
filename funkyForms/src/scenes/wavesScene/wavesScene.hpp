@@ -30,6 +30,12 @@ public:
     ofParameter<float> velLength;
     ofParameter<float> dotValue;
     
+    // People
+    ofParameter<float> glowRadius;
+    ofParameter<float> glowOpacity;
+    ofParameter<float> glowSpacing;
+    
+
     // Waves
     StencilWaves stencilWaves;
     gradientWaves gradientWaves;

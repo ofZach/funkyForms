@@ -27,7 +27,8 @@ public:
     
     // Waves
     vector<FishWave> waves;
-    
+    ofParameter<float> wavesTreshold;
+    ofParameter<float> wavesForce;
     // Shader
     ofxRipple bumpmap;
     

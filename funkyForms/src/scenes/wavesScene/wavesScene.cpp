@@ -43,6 +43,9 @@ void wavesScene::setup(){
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
     parameters.add(changeMode.set("changeMode", true));
+    parameters.add(glowRadius.set("glowRadius", 20, 5, 200));
+    parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
+    parameters.add(glowSpacing.set("glowSpacing", 5, 0, 100));
     parameters.add(isStencilWaveMode.set("isStencilWaveMode", true));
     parameters.add(isGradientWavesMode.set("isGradientWavesMode", false));
     parameters.add(mapVelmin.set("mapVelmin", -1, -1, -0.2));
@@ -199,13 +202,10 @@ void wavesScene::updateInput(){
             ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
     
-            for (auto & p : line.getVertices()){
-                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
-            }
+            ofVec2f vel = cvData[z]->blobs[i].avgVel;
+
             if(stencilWaves.isEnabled){
                 stencilWaves.addPath(line);
-    
-                ofVec2f vel = cvData[z]->blobs[i].avgVel;
                 for(auto &w: stencilWaves.waves){
                     for(auto &p: w.points){
                         if(p.p.distance(pt)<100 && vel.length()> 1.1 && vel.dot(ofVec2f(0, -1)) > 0){
@@ -215,11 +215,13 @@ void wavesScene::updateInput(){
                 }
             }
             if(gradientWaves.isEnabled){
-                ofVec2f vel = cvData[z]->blobs[i].avgVel;
-                int firstWaveIndex = gradientWaves.waves.size()-1;
-                for(auto &p: gradientWaves.waves[firstWaveIndex].points){
-                    if(p.p.distance(pt)<100 && vel.dot(ofVec2f(0, -1)) > 0){
-                       gradientWaves.waves[firstWaveIndex].addForceTo(&p, vel.normalize().y);
+                for (auto & p : line.getResampledBySpacing(10 * sf)){
+                    ofVec2f point = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+                    int firstWaveIndex = gradientWaves.waves.size()-1;
+                    for(auto &p: gradientWaves.waves[firstWaveIndex].points){
+                        if(p.p.distance(point)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                            gradientWaves.waves[firstWaveIndex].addForceTo(&p, vel.normalize().y);
+                        }
                     }
                 }
             }
@@ -228,11 +230,13 @@ void wavesScene::updateInput(){
 }
 // ------------ Draw
 void wavesScene::draw(){
-   if(gradientWaves.isEnabled) gradientWaves.draw();
-   if(stencilWaves.isEnabled) stencilWaves.draw();
+    if(gradientWaves.isEnabled) {
+        gradientWaves.draw();
+        drawPeople();
+    }
+    if(stencilWaves.isEnabled) stencilWaves.draw();
     ofEnableAlphaBlending();
     if(stencilWaves.isEnabled) drawParticles();
-//    drawPeople();
 }
 void wavesScene::drawParticles(){
 //      glPointSize(100);
@@ -275,14 +279,42 @@ void wavesScene::drawGui(){
      gui.draw();
 }
 void wavesScene::drawPeople(){
-    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-        ofSetColor(255);
-        ofPolyline line = cvData[0]->blobs[i].blob;
-        for (auto & pt : line){
-            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
+    float fadeVal = gradientWaves.fadeAnimator.getValue();
+    float opacity = ofMap(fadeVal, 0, 1, 0, 255);
+    // glow
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            ofPolyline line = cvData[z]->blobs[i].blob.getResampledBySpacing(glowSpacing * sf);
+            
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+                float op = min(opacity*1.0, glowOpacity*1.0);
+                ofSetColor(255, op);
+                glow.draw(p.x - glowRadius * sf, p.y - glowRadius * sf , glowRadius * 2 * sf, glowRadius * 2 * sf );
+            }
         }
-        line.draw();
     }
+    // people
+    for (int z = 0; z < 2; z++){
+        for(int i=0; i< cvData[z]->blobs.size(); i++) {
+            ofPolyline &line = cvData[z]->blobs[i].blob;
+            
+            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
+            pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
+            
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            }
+            ofVec2f vel = cvData[z]->blobs[i].avgVel;
+            ofPath path;
+            for(auto &p : line){
+                path.lineTo(p);
+            }
+            path.setFillColor(ofColor(0, opacity));
+            path.draw();
+        }
+    }
+
 }
 // ------------ Events
 void wavesScene::start(){

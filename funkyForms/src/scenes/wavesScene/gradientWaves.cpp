@@ -20,6 +20,8 @@ void gradientWaves::setup(int w, int h){
 void gradientWaves::setupGui(){
     bumpmap.setupParameters();
     parameters.setName("gradientWavesParameters");
+    parameters.add(wavesTreshold.set("wavesTreshold", 10, 10, 300)) ;
+    parameters.add(wavesForce.set("wavesForce", 2, 0, 20)) ;
     parameters.add(shapeInRadius.set("shapeInRadius", 100, 0, 600)) ;
     parameters.add(shapeOutRadius.set("shapeOutRadius", 20, 0, 600)) ;
     parameters.add(spikeCountMin.set("spikeCountMin", 10, 1, 100)) ;
@@ -31,7 +33,7 @@ void gradientWaves::setupGui(){
     parameters.add(strength.set("strength", 0.55, 0.001, 1));
     parameters.add(restLength.set("restLength", 16.92, 0, 18));
     parameters.add(invMass.set("invMass", 0.375, 0.1, 3));
-    parameters.add(force.set("force", 4, 0.1, 20));
+    parameters.add(force.set("force", 0.1, 0.01, 0.1));
     parameters.add(shadowRadius.set("shadowRadius", 100, 0, 500));
     parameters.add(energyHighlightSize.set("energyHighlightSize", 100, 0, 500));
     parameters.add(shadowOpacity.set("shadowOpacity", 100, 0, 255));
@@ -96,9 +98,10 @@ void gradientWaves::update(){
         for (int i = waves.size()-1; i > 0; i--) {
             waves[i].update();
             waves[i].updateFishWave();
+            
             int i_1 = waves.size()-1;
             int i_p = i+1;
-
+            
             // add force to other waves
             // ~~~~~~~~~~ 0
             // ~~~~~~~~~~ 1
@@ -108,8 +111,8 @@ void gradientWaves::update(){
                 for(int j = 0; j < waves[i].points.size(); j++){
                     ofVec2f p1 = waves[i_p].points[j].p;
                     ofVec2f &p2 = waves[i].points[j].p;
-                    if(fabs(p1.y - p2.y)<10){
-                        waves[i].addForceTo(&waves[i].points[j], -2);
+                    if(fabs(p1.y - p2.y) < wavesTreshold * sf){
+                        waves[i].addForceTo(&waves[i].points[j], - wavesForce);
                     }
                 }
             }

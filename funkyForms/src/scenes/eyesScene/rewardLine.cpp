@@ -20,8 +20,10 @@ void rewardLine::update(){
 void rewardLine::draw(){
     ofSetLineWidth(lineWidth);
     drawLine();
+    ofSetLineWidth(1);
 //    drawCircle();
 }
+
 // fade
 void rewardLine::fadeIn(){
     lineAnim.in();
