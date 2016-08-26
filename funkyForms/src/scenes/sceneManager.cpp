@@ -9,6 +9,7 @@ sceneManager::sceneManager(){
 
 void sceneManager::setup(){
     for (int i = 0; i < scenes.size(); i++){
+        scenes[i]->registerVideoSettings();
         scenes[i]->setup();
     }
 }

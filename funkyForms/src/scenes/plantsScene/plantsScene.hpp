@@ -136,6 +136,9 @@ public:
     void drawBgPlants();
     void drawShadow();
     void drawGui();
+    
+    ofImage paletteImg;
+    
 };
 
 #endif /* PlantManager_hpp */

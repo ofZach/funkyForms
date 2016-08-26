@@ -18,6 +18,7 @@ void plantsScene::setup(){
         randSwatchIndex.push_back((int)ofRandom(4));
     }
     glow.load("assets/glow.png");
+    paletteImg.load("assets/8 2.png");
 }
 void plantsScene::setupBackground(){
     skyImage.load("sceneAssets/plants/sky.png");
@@ -55,8 +56,15 @@ void plantsScene::addBgPlant(ofVec2f _pos){
     bgPlants[i].rig.pos = _pos;
     
     ofFloatColor col = swatch[(int)ofRandom(4)];
-    col.setBrightness(col.getBrightness()/2);
-    bgPlants[i].color = col;
+   
+    
+    int randomX = ofRandom(paletteImg.getWidth()-1);
+    int randomY = ofRandom(paletteImg.getHeight()-1);
+    
+    
+    ofColor c2 = ofColor(ofRandom(100,150));
+    
+    bgPlants[i].color = c2;
     
     bgPlants[i].setup();
     bgPlants[i].ageMax = ofRandom(600, 1000);
@@ -407,9 +415,9 @@ void plantsScene::draw(){
     drawBgPlants();
     drawHills();
     
-    ofFill();
-    ofSetColor(0,0,0, 230);
-    ofRect(0,0,RM->getWidth(), RM->getHeight());
+//    ofFill();
+//    ofSetColor(0,0,0, 230);
+//    ofRect(0,0,RM->getWidth(), RM->getHeight());
     
     drawPlants();
     drawPeople();
@@ -489,7 +497,15 @@ void plantsScene::drawPeople(){
             
             auto inThere = colorMap[packetId].find(id);
             if (inThere ==colorMap[packetId].end()){
-                colorMap[packetId][id] = ofColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), 0);
+                
+                int randomX = ofRandom(paletteImg.getWidth()-1);
+                int randomY = ofRandom(paletteImg.getHeight()-1);
+                
+                
+                colorMap[packetId][id] = paletteImg.getColor(randomX, randomY);//ofColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), 0);
+                
+                colorMap[packetId][id].setHue(colorMap[packetId][id].getHue() + ofRandom(-8,8));
+                colorMap[packetId][id].setBrightness(colorMap[packetId][id].getBrightness() + ofRandom(0,15));
             }
             
             
@@ -502,7 +518,9 @@ void plantsScene::drawPeople(){
             
             ofRectangle bounds = line.getBoundingBox();
             
-            float div = 15*sf; //(float)max(ofGetMouseX(), 3);
+
+            float div = 20 * RENDER_SCALE_FACTOR; //(float)max(ofGetMouseX(), 3);
+
             //cout << div << endl;
             int divisions = ceil(bounds.width / div);
             
@@ -615,7 +633,7 @@ void plantsScene::drawPeople(){
             
             line = line.getSmoothed(5);
             
-            if (age > 0.8){
+            if (age > 0.6){
                 
                 colorMap[packetId][id].a = 0.9f * colorMap[packetId][id].a + 0.1 * 255;
                 ofSetColor(colorMap[packetId][id]);
@@ -637,7 +655,7 @@ void plantsScene::drawPeople(){
                 ofEndShape();
                 
                 
-                if (age > 1.3){
+                if (age > 1.8){
                 for (int j = 0; j < plants.size(); j++){
                     if(plants[j].id == id &&
                        plants[j].packetId == packetId){

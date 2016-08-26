@@ -23,7 +23,7 @@ public:
 		eb.set(0,0);
 		p.set(0,0); v.set(0,0); a.set(0,0);
 		ev.set(0,0);
-		size = ofRandom(20, 30);
+		size = ofRandom(20*1.5, 30*1.5);
         pos.set(0,0);
         
       //  cout << "eye cons" << p << " " << pos << endl;

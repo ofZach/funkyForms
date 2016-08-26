@@ -27,6 +27,13 @@ public:
     
     int currentScene;
     
+    void goToScene(int scene){
+        scenes[currentScene]->stop();
+        currentScene = scene;
+        currentScene %= scenes.size();
+        scenes[currentScene]->start();
+    }
+    
     void advanceScene(){
         scenes[currentScene]->stop();   // hide gui,etc
         currentScene ++;

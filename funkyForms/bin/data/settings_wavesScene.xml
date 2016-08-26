@@ -7,18 +7,18 @@
 		<mapVelmax>-3</mapVelmax>
 		<dotValue>0.44</dotValue>
 		<velLength>4.44</velLength>
-	<glowRadius>43.801</glowRadius>
-		<glowOpacity>83.2653</glowOpacity>
-		<glowSpacing>9.69388</glowSpacing>
+	<glowRadius>20</glowRadius>
+		<glowOpacity>120</glowOpacity>
+		<glowSpacing>5</glowSpacing>
 	</wavesSceneParameters>
 	<gradientWavesParameters>
 		<waveCount>6</waveCount>
-		<waveDistance>200</waveDistance>
+		<waveDistance>194.031</waveDistance>
 		<amount>44</amount>
 		<strength>0.770638</strength>
-		<restLength>6.61225</restLength>
+		<restLength>6.2449</restLength>
 		<invMass>0.375</invMass>
-		<force>0.042602</force>
+		<force>0.0582143</force>
 		<shadowRadius>100</shadowRadius>
 		<energyHighlightSize>153.061</energyHighlightSize>
 		<shadowOpacity>157.423</shadowOpacity>
@@ -31,8 +31,8 @@
 		<spikeCountMin>18</spikeCountMin>
 		<spikeCountMax>30</spikeCountMax>
 		<floatAge>633.163</floatAge>
-	<wavesTreshold>135.765</wavesTreshold>
-		<wavesForce>6.22449</wavesForce>
+	<wavesTreshold>46.9898</wavesTreshold>
+		<wavesForce>8.77551</wavesForce>
 	</gradientWavesParameters>
 	<stencilWavesParameters>
 		<amount>30.3571</amount>

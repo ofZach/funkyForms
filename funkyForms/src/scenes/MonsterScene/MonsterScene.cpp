@@ -57,6 +57,8 @@ void MonsterScene::setup(){
 
 	// load all the svg parts
 	dotImage.loadImage("sceneAssets/monsters/dot.png");
+    
+    createBuildingContour();
 }
 
 //-------------------------------------------------------------- update
@@ -81,7 +83,7 @@ void MonsterScene::update(){
 
 
 	// add some balls
-    if(ballCounter >= 20) {
+    if(ballCounter >= 20 && ofGetFrameRate() > 30) {
 
 
 		// Add Ball every 20 times
@@ -194,7 +196,8 @@ void MonsterScene::update(){
 			
 		}
 		
-		if(ps.y > RM->getHeight() || balls[i]->color.a <= 0.0) {
+		if(ps.y > RM->getHeight() || balls[i]->color.a <= 0.0 ||
+           ps.x < 0 || ps.x >= RM->getWidth()) {
 
 			balls[i]->destroy();
 			balls.erase(balls.begin() + i);
@@ -607,17 +610,43 @@ void MonsterScene::draw() {
 //	}
 	ofDisableAlphaBlending();
 	ofPopStyle();
+    
+    
+    for (int i=0; i<edges.size(); i++) {
+        //edges[i].get()->draw();
+    }
 }
 
 
 //--------------------------------------------------------------
 void MonsterScene::createBuildingContour() {
 
+    float scale = RM->getWidth() / 2100.0; //(float)RM->windows.getWidth();
+    
+     for (int j=0; j< RM->innerWindows.size(); j++) {
+         shared_ptr <ofxBox2dEdge> edge = shared_ptr<ofxBox2dEdge>(new ofxBox2dEdge);
+         
+        ofPolyline line = RM->innerWindows[j];
+        for (int k = 0; k < 2; k++){
+            edge.get()->addVertex(line[k] * scale);
+        }
+        edge.get()->setClosed(true);
+        edge.get()->create(box2d.getWorld());
+        edges.push_back(edge);
+    }
+   
+    
+    shared_ptr <ofxBox2dEdge> edge = shared_ptr<ofxBox2dEdge>(new ofxBox2dEdge);
+    edge.get()->addVertex(ofPoint(0, RM->getHeight()));
+    edge.get()->addVertex(ofPoint(RM->getWidth(), RM->getWidth()));
+    edge.get()->create(box2d.getWorld());
+    edges.push_back(edge);
+    
 //	for(int i=0; i<box2dBuilding.size(); i++) {
 //		box2dBuilding[i].destroyShape();
 //	}
 //	box2dBuilding.clear();
-
+    
 
     // 2016
 //	// build the building for box2d

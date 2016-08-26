@@ -20,6 +20,7 @@ void Plant::setup(){
 }
 void Plant::setupAnimators(){
     fadeAnimator.setup(0, 1);
+    fadeAnimator.pctSpeed = 0.2;
     fadeAnimator.setIn();
     
     mbGrowAnimator.setup(0, 1);

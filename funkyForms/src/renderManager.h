@@ -14,7 +14,8 @@ enum screenName {
     SCREEN_LEFT,
     SCREEN_RIGHT,
     SCREEN_CENTER,
-    SCREEN_TOP
+    SCREEN_TOP,
+    SCREEN_TABLE
 };
 
 class renderManager {

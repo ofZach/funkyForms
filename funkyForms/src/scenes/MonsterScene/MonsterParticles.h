@@ -34,21 +34,21 @@ public:
 	ofImage *img;
     
     
-         void addAttractionPoint(ofPoint pt, float amt, float minDis=NULL) {
-            if(body != NULL) {
-                b2Vec2 P(pt.x/OFX_BOX2D_SCALE, pt.y/OFX_BOX2D_SCALE);
-                b2Vec2 D = P - body->GetPosition();
-                if(D.LengthSquared() < minDis) {;
-                    P.Normalize();
-                    b2Vec2 F = amt * D;
-                    body->ApplyForce(F, P, true);
-
-                }
-            }
-        }
-         void addAttractionPoint(float x, float y, float amt, float minDis=NULL) {
-            addAttractionPoint(ofPoint(x, y), amt, minDis);
-        }
+//         void addAttractionPoint(ofPoint pt, float amt, float minDis=NULL) {
+//            if(body != NULL) {
+//                b2Vec2 P(pt.x/OFX_BOX2D_SCALE, pt.y/OFX_BOX2D_SCALE);
+//                b2Vec2 D = P - body->GetPosition();
+//                if(D.LengthSquared() < minDis) {;
+//                    P.Normalize();
+//                    b2Vec2 F = amt * D;
+//                    body->ApplyForce(F, P, true);
+//
+//                }
+//            }
+//        }
+//         void addAttractionPoint(float x, float y, float amt, float minDis=NULL) {
+//            addAttractionPoint(ofPoint(x, y), amt, minDis);
+//        }
     
     
     
@@ -152,7 +152,7 @@ public:
 		
 		
 		// monster farts fly up duhh
-		addAttractionPoint(ofPoint(0, 0), 1.0, 100);
+		//addAttractionPoint(ofPoint(0, 0), 1.0, 100);
 		
 //        //------------------------------------------------
 

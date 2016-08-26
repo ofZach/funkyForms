@@ -16,7 +16,7 @@
 //#include "ofxDaito.h"
 #include "MonsterConst.h"
 #include "MonsterData.h"
-//#include "MonsterLine.h"
+#include "MonsterLine.h"
 #include "ofxXmlSettings.h"
 #include "MonsterWindow.h"
 #include "MonsterDust.h"
@@ -61,7 +61,12 @@
 
 class MonsterScene : public baseScene , public b2ContactListener{
 	
-public: 
+public:
+    
+    void registerVideoSettings(){
+        vidSettings = STAGE_VIDEO;
+       
+    }
 	
 	// ---------------------- 
 	void setup();
@@ -88,9 +93,14 @@ public:
 //	void blobOn( int x, int y, int bid, int order );
 //    void blobMoved( int x, int y, int bid, int order );     // blob moved??????
 //    void blobOff( int x, int y, int bid, int order );
-//	
+//
+    void start(){
+        //ofSetFrameRate(30);
+        
+    }
     void stop(){
         cleanUpScene();
+        //ofSetFrameRate(60);
     }
 	// ---------------------- box2d bump ---- !a bit of a hack
 //	void Add(const b2ContactPoint* point);  // 2016
@@ -127,8 +137,10 @@ public:
 	// ---------------------- 
 	// Ferry Building
 //	FerryBuilding				ferryBuilding;/
-//	vector <MonsterLine>		box2dBuilding;
+    //vector <MonsterLine>		box2dBuilding;
 	
+    vector <shared_ptr<ofxBox2dEdge> >   edges;
+    
 	
 	// tracking
 	int							lastFrameRendered;

@@ -10,6 +10,18 @@
 #endif
 
 
+#include "ofxGui.h"
+
+
+// gui
+// pipeline
+// set pts via xml
+
+
+
+
+
+
 class inputManager {
     
 public:
@@ -18,22 +30,39 @@ public:
     void update();
     void draw();
     
-    cvManager CVM[2];
+    cvManager CVM[3];
     
     ofVideoPlayer player;
     ofVideoPlayer player2;
+    ofVideoPlayer player3;
     
+    
+    ofImage inputAsGray;
+    ofImage inputAsGray2;
+    ofImage inputAsGray3;
     
     vector < cv::Point2f > inputQuad;
 
     ofImage inputWarped;
+    ofImage inputWarped2;
+    ofImage inputWarped3;
+    
+    ofImage tempImg;
+    
 
-    ofParameterGroup inputParams;
-    ofParameter < int > inputTargetWidth;
-    ofParameter < int > inputTargetHeight;
+
     
 #ifdef USE_LIVE_VIDEO
     vector<shared_ptr<ofxBlackmagic::Input> > inputs;
 #endif
+    
+    ofxPanel gui;
+    ofParameterGroup group;
+    ofParameter <int> threshold1;
+    ofParameter <int> threshold2;
+    ofParameter <int> threshold3;
+    ofParameter <bool> bTrackTable;
+    ofParameter <bool> needsFlow;
+    
     
 };

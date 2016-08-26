@@ -1,368 +1,200 @@
 #include "simpleScene.h"
-
+#include "boundsHelp.h"
+#include "reflectionUseful.h"
 
 void simpleScene::setup(){
     sceneName = "simpleScene";
 }
 
+
+
+
+void reflection(int L, int R, int tid, reflectionPacket * packet){
+    
+    for (int i = L; i < R; i++){
+        ofPoint pos = packet->pos[tid][i];
+        ofPoint dir = packet->dir[tid][i];
+        
+        for (int j = 0; j < 10; j++){
+            Ray ray( Vector3(pos.x, pos.y, 0),  Vector3(dir.x, dir.y, 0));
+            IntersectionInfo I;
+            bool hit = packet->bvh->getIntersection(ray, &I, false);
+            
+            if (hit){
+                
+                Vector3 normal = ((lineSeg*)I.object)->getNormal(I);;
+                
+                float angle = atan2(dir.y, dir.x);
+                ofColor c;
+                c.setHsb(ofMap(angle, -PI, PI, 0, 255), 255,255);
+                packet->meshes[tid].addColor(ofColor(c.r,c.g,c.b,40));
+                packet->meshes[tid].addVertex(pos);
+                packet->meshes[tid].addColor(ofColor(c.r,c.g,c.b,40));
+                packet->meshes[tid].addVertex(ofPoint(I.hit.x, I.hit.y));
+                
+                pos.set(I.hit.x, I.hit.y);
+                dir.set(normal.x, normal.y);
+                pos += dir * 0.001;                     // so we don't collide with the wall we just bounced off of
+                
+            } else {
+                ofColor c;
+                float angle = atan2(dir.y, dir.x);
+                c.setHsb(ofMap(angle, -PI, PI, 0, 255), 255,255);
+                packet->meshes[tid].addColor(ofColor(c.r,c.g,c.b,40));
+                packet->meshes[tid].addVertex(pos);
+                packet->meshes[tid].addColor(ofColor(c.r,c.g,c.b,40));
+                packet->meshes[tid].addVertex(pos + dir*3000);
+                
+                break;
+            }
+        }
+    }
+    
+}
+
+
 void simpleScene::update(){
     
     
     
-    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-        
-        ofPoint avgVelSmoothed = cvData[0]->blobs[i].avgVelSmoothed;
-        
-        
-        ofPolyline & line = cvData[0]->blobs[i].blob;
-        
-        // different ways to use it...
-        //if (avgVelSmoothed.getNormalized().dot(ofPoint(0,-1)) > 0.7){
-        if (avgVelSmoothed.y < -1){
-        
-            float mapMe = ofMap(avgVelSmoothed.y, -1, -3, 0.99, 0.9);
-        for (int j = 0; j < line.size(); j++){
-            ofPoint pt = line[j];
-            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-            ofPoint vel = cvData[0]->blobs[i].vel[j];
-            ofPoint velNorm = vel.getNormalized();
-            float dot = velNorm.dot(ofPoint(0,-1)); // up
-            if (dot > 0.44 && vel.length() > 1.1 && ofRandom(0,1) > mapMe){
-                
-                // is this FACING up ?
-                ofPoint tan = cvData[0]->blobs[i].blob.getTangentAtIndex(j).rotate(90, ofPoint(0,0,1));
-                if (tan.dot(ofPoint(0,-1)) > 0.1){
-                
-                    particleWithAge temp;
-                    temp.age = ofGetElapsedTimef();
-                    temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*0.5); // reduce the x vel
-                    temp.damping = 0.01;
-                    particles.push_back(temp);
-                    if (particles.size() > 4000){
-                        particles.erase(particles.begin());
-                    }
-                }
-            }
-        }
-        }
-        
-        //line.draw();
-    }
+    
+    //ofPopMatrix();
+    
 
-    
-    
-    ofRectangle target = cvData[0]->getScreenRemapRectangle(SCREEN_LEFT);
-    
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].resetForce();
-        particles[i].addDampingForce();
-        
-        
-      //  particles[i].addAttractionForce(target.getCenter().x, target.getCenter().y, 10000, 0.02);
-    }
-    
-    // add some noise!
-    
-    float time = ofGetElapsedTimef();
-    
-    for (int i = 0; i < particles.size(); i++){
-        ofPoint pos = particles[i].pos;
-        float speed = ofMap(time-particles[i].age, 1, 5, 1, 0, true);
-        float xNoise = ofSignedNoise(pos.x * 0.1, pos.y * 0.1, i, time * 0.1);
-        float yNoise = ofSignedNoise(pos.x * 0.1, pos.y * 0.1, i, time * 0.1 + 100000);
-        
-        particles[i].addForce(xNoise*0.2 * speed, -fabs(yNoise) * 0.2 * speed);
-    }
-    
-    
-    // get flow from the field:
-    for (int i = 0; i < particles.size(); i++){
-        ofPoint vel = cvData[0]->getFlowAtScreenPos(SCREEN_LEFT, particles[i].pos);
-        particles[i].addForce(vel.x*0.03, vel.y*0.03);
-    }
-    
-    // alternatively search for the closest pt...  we can simplify things by looking in a thin way:
-    
-//    vector < ofPolyline > blobsRemapped;
-//    for (auto & blob : cvData[0]->blobs){
-//        ofPolyline temp;
-//        for (auto & pt : blob.blob){
-//            ofPoint newPt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-//            temp.addVertex(newPt);
-//        }
-//        blobsRemapped.push_back(temp);
-//    }
-//    
-//    
-//     for (int i = 0; i < particles.size(); i++){
-//         ofPoint pos = particles[i].pos;
-//         ofPoint closestVel;
-//         float minDistance = 1000000;
-//         for (int j = 0; j < blobsRemapped.size(); j++){ // : blobsRemapped){
-//             for (int k = 0; k < blobsRemapped[j].size(); k+=10){
-//                 float dist = (    blobsRemapped[j][k] - pos).length();
-//                 if (dist < minDistance){
-//                     minDistance = dist;
-//                     closestVel = cvData[0]->blobs[j].vel[k];
-//                 }
-//             }
-//             
-//         }
-//         float invScale = ofMap(minDistance, 0, 50, 1, 0, true);
-//         //cout << closestVel << endl;
-//         particles[i].addForce(closestVel.x*0.3 * invScale, closestVel.y*0.3 * invScale);
-//    
-//     }
-
-
-    
-    
-    
-    for (int i = 0; i < particles.size(); i++){
-        particles[i].update();
-    }
-    
-    // erase particles that are 1 second old...
-    
-    
-//    particles.erase(
-//                    std::remove_if(
-//                                   particles.begin(),
-//                                   particles.end(),
-//                                   [&](bornParticle & i){return ((ofGetElapsedTimef() - i.age) > 1.0);}),
-//                    particles.end());
+   
 }
+
 
 void simpleScene::draw(){
     
     
-    float time = ofGetElapsedTimef();
-    
-    for (int i = 0; i < particles.size(); i++){
+    for (int i = 0; i < cvData[2]->blobs.size(); i++){
         
-        float alpha = ofMap(time - particles[i].age, 0,4, 1, 0, true);
-        if (alpha > 0){
-            ofSetColor(255,255, 255, powf(alpha, 5)*255);
-            
-            float startScale = ofMap(time-particles[i].age, 0, 1, 0, 1, true);
-            
-            ofLine(particles[i].pos, particles[i].pos - particles[i].vel * 3 * startScale);
-            //ofFill();
-            //ofCircle(particles[i].pos, 2); //draw();
+        ofPolyline line = cvData[2]->blobs[i].blob;
+        for (auto & pt : line){
+            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt);
         }
-    }
-    
-    ofSetColor(255,255,255);
-    
-    for (int i = 0; i < cvData[0]->blobs.size(); i++){
         
-        ofPoint avgVelSmoothed = cvData[0]->blobs[i].avgVelSmoothed;
+        line = line.getResampledBySpacing(3);
+        line = line.getSmoothed(3);
+        //line.draw();
         
-        ofPolyline line = cvData[0]->blobs[i].blob;
-        for (auto & pt : line.getVertices()){
-            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-        }
-        line.draw();
-        
-        ofPoint centroid = cvData[0]->blobs[i].blob.getCentroid2D();
-        centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
-        
-        ofLine(centroid, centroid + avgVelSmoothed * 10);
     }
     
     
-//    ofDrawRectangle(0,0,100,100);
-//    
-//    ofSetColor(255);
-//    
-//    
-//
-//    
-//    for (int i = 0; i < cvData[0]->blobs.size(); i++){
-//        ofPolyline line = cvData[0]->blobs[i].blob;
-//        for (auto & pt : line.getVertices()){
-//            pt = cvData[0]->remapForScreen(SCREEN_LEFT, pt);
-//        }
-//        
-//        ofSetColor(255,255,255, 50);
-//        line.draw();
-//        
-//        
-//        ofRectangle bounds = line.getBoundingBox();
-//        
-//        float div = 15; //(float)max(ofGetMouseX(), 3);
-//        //cout << div << endl;
-//        int divisions = ceil(bounds.width / div);
-//        
-//        vector < ofPoint > pts;
-//        
-//        ofPolyline tempLine = line.getResampledBySpacing(1);
-//        
-//        float w = div; //bounds.getWidth()/(float)divisions;
-//        
-//        
-//        float startX = bounds.x;
-//        
-//        
-//        vector < ofPoint > circlePositions;
-//        for (int j = 0; j < divisions; j++){
-//            
-//            
-//            ofRectangle tempRect(startX + j * w, bounds.y, w, bounds.height);
-//            bool bAny = false;
-//            float minY = bounds.y + bounds.height;
-//            for (auto & pt : tempLine){
-//                if (tempRect.inside(pt)){
-//                    if (pt.y < minY){
-//                        minY = pt.y;
-//                        bAny= true;
-//                    }
-//                }
-//            }
-//            if (!bAny){
-//                //minY = bounds.y;
-//            }
-//            
-//            minY -= 10;
-//            
-//            ofFill();
-//            ofRectangle tempRect2(startX + j * w, minY, w, bounds.height - (minY- bounds.y));
-//            
-//            //ofCircle(ofPoint(bounds.x + j * w + w/2, minY), w/2);
-//            //ofRect(tempRect2);
-//            
-//            ofPoint circlePos = ofPoint(startX + j * w + w/2, minY);
-//           
-//            
-//            circlePositions.push_back(circlePos);
-//
-//            
-//            //pts.push_back( ofPoint(bounds.x + j * w + w/2, minY));
-//        }
-//        
-//        
-//        
-//        ofPolyline hmm;
-//        bool bSkip = false;
-//        
-//        for (int j = 0; j < circlePositions.size(); j++){
-//            
-//            if (bSkip == true){
-//                bSkip = false;
-//                continue;
-//            }
-//            ofPoint circlePos = circlePositions[j];
-//            float angle = PI;
-//            float angleStep = PI/9.0;
-//            float width = w/2;
-//            
-//            float flipMe = 1;
-//            
-//            
-//            if (j < circlePositions.size()-1){
-//                if ( fabs(circlePositions[j+1].y - circlePositions[j].y) < 10){
-//                    bSkip = true;
-//                    circlePos = (circlePositions[j] + circlePositions[j+1])/2;
-//                    width = w;
-//                }
-//            }
-//            
-//            if (j > 0 && j < circlePositions.size()-1 && bSkip != true){
-//                
-//                if (circlePositions[j-1].y < circlePositions[j].y &&
-//                    circlePositions[j+1].y < circlePositions[j].y){
-//                    flipMe = -1;
-//                    
-//                }
-//            }
-//            
-//            for (int k = 0; k < 10; k++){
-//                ofPoint pt = circlePos + width * ofPoint(cos(angle), sin(angle));
-//                angle += angleStep * flipMe;
-//                hmm.addVertex(pt);
-//            }
-//        }
-//        
-//        
-//        ofSetColor(255);
-//        ofPolyline lineTemp(pts);
-//        
-//        hmm.addVertex( hmm[hmm.size()-1].x, bounds.y + bounds.height);
-//        hmm.addVertex( hmm[0].x, bounds.y + bounds.height);
-//        
-//        
-//        ofPoint centroid = hmm.getCentroid2D();
-//        for (auto & pp : hmm){
-//            pp = (pp - centroid) * ofPoint(1.1, 1.2) + centroid;
-//        }
-//        
-//        line = line.getSmoothed(11);
-//        
-//        ofBeginShape();
-//        for (auto & pp : hmm){
-//            ofVertex(pp);
-//        }
-//        ofNextContour();
-//        for (auto & pp : line){
-//            ofVertex(pp);
-//        }
-//        ofEndShape();
-//        
-//        //hmm.draw();
-//        
-//        //lineTemp.draw();
-//        
-//        
+    if (objects.size() > 0){
+        for (int i = 0; i < objects.size(); i++){
+            delete objects[i];
+        }
+        objects.clear();
+        delete bvh;
+    }
+    
+    vector < ofPolyline > lineSegsToShootRaysFrom[8];
+    
+    for (int i = 0; i < cvData[2]->blobs.size(); i++){
+        
+        ofPolyline line = cvData[2]->blobs[i].blob;
+        for (auto & pt : line){
+            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt);
+        }
+        
+        line = line.getResampledBySpacing(3);
+        line = line.getSmoothed(3);
+        //line.draw();
+        for (int j = 0; j < line.size(); j++){
+            ofPoint a = line[j];
+            ofPoint b = line[(j+1) % line.size()];;
+            lineSeg * temp = new lineSeg( a,b);
+            objects.push_back(temp);
+        }
+    }
+    
+    
+    lineSeg * temp = new lineSeg( ofPoint(-1,-1), ofPoint(-2,-2));
+    objects.push_back(temp);
+    
+    bvh = new BVH(&objects);
+//    if (objects.size() > 0){
+//        bvh = new BVH(&objects);
+//    } else {
+//        // no lines no light
+//        //return;
 //        
 //    }
-//    
-//    
-//    
-//    
-//    
-//    
-////    for (int i = 0; i < particles.size(); i++){
-////        int id = particles[i].id;
-////        float age = ofGetElapsedTimef() - particles[i].age;
-////        
-////        int whichBlob = cvData[0]->idToBlobPos[id];
-////        
-////        ofPoint centroid = cvData[0]->blobs[whichBlob].blob.getCentroid2D();
-////        
-////        centroid = cvData[0]->remapForScreen(SCREEN_LEFT, centroid);
-////        
-////        ofNoFill();
-////        
-////        ofDrawBitmapStringHighlight( ofToString(id) + " " +  ofToString(age), centroid);
-////        
-////        ofCircle(centroid, age * 100);
-////    }
-//    
-//    
     
+    
+    
+    reflectionPacket packet;
+    
+    float timeff = ofGetElapsedTimef();
+    
+    packet.nLightRays = 10000;
+    vector < ofPoint > positions;
+    vector < ofPoint > directions;
+    
+    for (int i = 0; i < packet.nLightRays; i++){
+        ofPoint pos(ofGetMouseX()*2 + sin(timeff) * 300, ofGetMouseY()*2);
+        ofPoint dir(cos(timeff + i*0.001), sin(timeff + i*0.001));
+        dir.normalize();
+        positions.push_back(pos);
+        directions.push_back(dir);
+    }
+    
+    for (int i = 0; i < 16; i++){
+        packet.pos[i] = positions;
+        packet.dir[i] = directions;
+        packet.meshes[i].setMode(OF_PRIMITIVE_LINES);
+    }
+    
+    
+    packet.bvh = bvh;
+    
+    int nr_threads = 16;
+    std::vector<std::thread> threads;
+    std::vector<int> limits = bounds(nr_threads,  packet.nLightRays );
+    
+    //Launch nr_threads threads:
+    for (int i = 0; i < nr_threads; ++i) {
+        
+        threads.push_back(std::thread(reflection, limits[i], limits[i+1], i, &packet));
+    }
+    
+    
+    for(auto &t : threads){
+        t.join();
+    }
+    
+    
+    
+    //float scale = RM->getWidth() / 2100.0; //(float)RM->windows.getWidth();
+    
+    //ofPushMatrix();
+    
+    //ofScale(scale, scale, 1.0);
+    //RM.blocks.draw();
+    //RM.drawBuidling();
+    
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    for (int i = 0; i < 16; i++){
+        cout << packet.meshes[i].getNumVertices() << endl;
+        
+        packet.meshes[i].draw();
+    }
+    
+    ofEnableAlphaBlending();
     
     
 }
 
 
 void simpleScene::blobBorn(int packetId, int id){
-    
-//    bornParticle p;
-//    p.id = id;
-//    p.age = ofGetElapsedTimef();
-//    particles.push_back(p);
+ 
 }
 
 void simpleScene::blobDied(int packetId, int id){
  
-    
-    
-//    particles.erase(
-//                   std::remove_if(
-//                                  particles.begin(),
-//                                  particles.end(),
-//                                  [&](bornParticle & i){return i.id == id;}),
-//                   particles.end());
+  
 }
 
 
