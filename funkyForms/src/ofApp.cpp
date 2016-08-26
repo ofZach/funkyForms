@@ -24,6 +24,8 @@ void ofApp::setup(){
     
     ofRectangle bounds;
 
+    
+    SM.scenes.push_back(new simpleScene());
     SM.scenes.push_back(new paintScene());
     SM.scenes.push_back(new particleScene());
     SM.scenes.push_back(new light2dScene());
@@ -33,7 +35,6 @@ void ofApp::setup(){
     SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
-    SM.scenes.push_back(new simpleScene());
     SM.scenes.push_back(new simpleScene2());
     
     SM.scenes.push_back(new MonsterScene());
@@ -44,10 +45,12 @@ void ofApp::setup(){
     
     IM.CVM[0].packet.RM = &RM;
     IM.CVM[1].packet.RM = &RM;
+    IM.CVM[2].packet.RM = &RM;
 
     for (int i = 0; i < SM.scenes.size(); i++){
         SM.scenes[i]->cvData[0] = &IM.CVM[0].packet;
         SM.scenes[i]->cvData[1] = &IM.CVM[1].packet;
+        SM.scenes[i]->cvData[2] = &IM.CVM[2].packet;
         //SM.scenes[i]->cvData[0]
         SM.scenes[i]->RM = &RM;
     }
@@ -61,9 +64,10 @@ void ofApp::setup(){
     
     IM.CVM[0].RM = &RM;
     IM.CVM[1].RM = &RM;
+    IM.CVM[2].RM = &RM;
     IM.CVM[0].packet.cacheRects();
     IM.CVM[1].packet.cacheRects();
-    
+    IM.CVM[2].packet.cacheRects();
 
     
 #ifdef USE_SYPHON
@@ -77,6 +81,16 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
+    
+    if (SM.scenes[SM.currentScene]->vidSettings == TABLE_VIDEO){
+        IM.bTrackTable = true;
+    } else {
+        IM.bTrackTable = false;
+    }
+    
+  
+    
+    
     // this helps get us "ABOVE" mad mapper....
     // https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/WinPanel/Concepts/WindowLevel.html
     // maybe we can go small in the corner of the tower projection and have a
@@ -134,13 +148,15 @@ void ofApp::update(){
     ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
     ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
     
+    ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
+    
     float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
     
     ofPushMatrix();
     
     ofScale(scale, scale, 1.0);
     //RM.blocks.draw();
-    RM.drawBuidling();
+    //RM.drawBuidling();
     
     ofPopMatrix();
     
@@ -217,9 +233,11 @@ void ofApp::draw(){
         ofNoFill();
     } 
     }
-    SM.drawGui();       // draw the gui outside of the RM
     
-    
+    if (currentView != VIEW_DEBUG){
+        SM.drawGui();       // draw the gui outside of the RM
+    }
+
     
     ofDrawBitmapStringHighlight("current view " + viewNames[currentView] +  " : " + ofToString(ofGetFrameRate(),3), ofGetWidth()-400, 20);
     
@@ -279,7 +297,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    
+    cout << x * 3 << "," << y * 3 << endl;
     
 }
 

@@ -3,22 +3,16 @@
 
 #include "ofMain.h"
 #include "baseScene.h"
-#include "particleWithAge.hpp"
-
-
-//typedef struct {
-//  
-//    float age;
-//    int id;
-//    
-//} bornParticle;
-
-
-
+#include "BVH.h"
+#include "lineSeg.h"
 
 class simpleScene : public baseScene {
     
 public:
+    
+    void registerVideoSettings(){
+        vidSettings = TABLE_VIDEO;
+    }
     
     void setup();
     void update();
@@ -31,10 +25,11 @@ public:
     void blobDied(int packetId, int id);
     
     
-    vector < particleWithAge > particles;
-    
-//   vector < bornParticle > particles;
-    
+    //---------------
+    // reflection!
+    vector<Object*> objects;
+    vector<lineSeg*> segs;
+    BVH * bvh;
 };
 
 

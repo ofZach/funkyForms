@@ -184,13 +184,13 @@ void ParticleNoise::addNoise(){
 
 //------------------------------------------------------------
 void ParticleNoise::draw(){
-    ofSetColor(color);
+    ofSetColor(255,255,255);
     
     float size;
     float distV = ofDist(0,0, vel.x, vel.y);
     size = ofMap(distV, 1.0,0, 1, 0.1, true);
     
-    ofDrawCircle(pos.x, pos.y, size);
+    ofDrawCircle(pos.x, pos.y, size*1.1);
     
 }
 

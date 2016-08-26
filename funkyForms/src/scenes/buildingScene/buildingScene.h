@@ -5,6 +5,7 @@
 #include "baseScene.h"
 #include "BVH.h"
 #include "lineSeg.h"
+#include "reflectionUseful.h"
 
 
 class buildingPiece {
@@ -21,16 +22,7 @@ public:
 };
 
 
-typedef struct {
-    
-    //-------------------------------------
-    BVH * bvh;
-    ofMesh meshes[16];
-    vector < ofPoint > pos[16];
-    vector < ofPoint > dir[16];
-    int nLightRays;
-    
-} reflectionPacket;
+
 
 
 

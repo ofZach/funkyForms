@@ -52,23 +52,29 @@ void cvManager::blobOff( int x, int y, int bid, int order ) {
 
 
 
-void cvManager::update(ofPixels & pixels){
+void cvManager::update(ofPixels & pixels, int threshold, bool bNeedsFlow){
 
     
    // why do we have color here?
     //frame.currentFrame = pixels;
     frame.currentFrame = pixels;
-    frame.currentFrame.setImageType(OF_IMAGE_GRAYSCALE);
+    //frame.currentFrame.setImageType(OF_IMAGE_GRAYSCALE);
     
-    if (OFT.bInSomething == false){
-        OFT.analyze(frame);
+    if (bNeedsFlow == true){
+        if (OFT.bInSomething == false){
+            OFT.analyze(frame);
+        }
+        OFT.update();
+        
+        if (OFT.resultSmooth.flow.size() > 0){
+            packet.opticalFlow = OFT.resultSmooth.flow;  // this has a bit of temporal smoothing...
+        }
+    } else {
+        for (int i = 0; i < OFT.resultSmooth.flow.size(); i++){
+            OFT.resultSmooth.flow[i].set(0,0);
+        }
     }
-    OFT.update();
     
-    
-    if (OFT.resultSmooth.flow.size() > 0){
-        packet.opticalFlow = OFT.resultSmooth.flow;  // this has a bit of temporal smoothing...
-    }
     
     bornThisFrame.clear();
     diedThisFrame.clear();
@@ -88,20 +94,20 @@ void cvManager::update(ofPixels & pixels){
 
 
     if (imgColor.getWidth() != pixels.getWidth()){
-        imgColor.allocate(pixels.getWidth(), pixels.getHeight());
+       // imgColor.allocate(pixels.getWidth(), pixels.getHeight());
         imgGray.allocate(pixels.getWidth(), pixels.getHeight());
     }
     
-    imgColor.setUseTexture(false);
-    imgColor.setFromPixels(pixels);
-    imgColor.flagImageChanged();
+    //imgColor.setUseTexture(false);
+    //imgColor.setFromPixels(pixels);
+    //imgColor.flagImageChanged();
     
     imgGray.setUseTexture(false);
-    imgGray = imgColor;
+    imgGray.setFromPixels(pixels); // = imgColor;
     imgGray.flagImageChanged();
     
     imgGray.invert();
-    imgGray.threshold(255-115);
+    imgGray.threshold(threshold);
    // cout << ofGetMouseX() << endl;
     
     

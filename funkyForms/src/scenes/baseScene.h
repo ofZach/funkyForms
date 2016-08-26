@@ -8,12 +8,22 @@
 #include "ofCvBlobTracker.h"
 #include "renderManager.h"
 
+typedef enum {
+    STAGE_VIDEO,
+    TABLE_VIDEO,
+    NO_VIDEO
+} videoSettings;
+
+
 class baseScene {
-    
-    
+
 public:
     
     string sceneName = "";
+    
+    virtual void registerVideoSettings(){
+        vidSettings = STAGE_VIDEO;
+    }
     virtual void setup(){}
     virtual void update(){}
     virtual void draw(){}
@@ -26,10 +36,10 @@ public:
     virtual void blobBorn(int packetId, int id){}
     virtual void blobDied(int packetId, int id){}
     
-    cvPacket * cvData[2];       // 0 = left, 1 = right...
+    cvPacket * cvData[3];       // 0 = left, 1 = right, 2 = table;
     renderManager * RM;
     
-    
+    videoSettings vidSettings;
 
 };
 

@@ -331,6 +331,7 @@
 		2F3914241D6F7064008CAE49 /* boundsHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boundsHelp.h; path = common/boundsHelp.h; sourceTree = "<group>"; };
 		2F3914261D6F8F18008CAE49 /* shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.frag; sourceTree = "<group>"; };
 		2F3914271D6F8F18008CAE49 /* shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.vert; sourceTree = "<group>"; };
+		2F6AA0D21D70A4B000B3CE65 /* reflectionUseful.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = reflectionUseful.h; sourceTree = "<group>"; };
 		2FA660EC700471E58D45DFF7 /* b2ChainAndPolygonContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndPolygonContact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp; sourceTree = SOURCE_ROOT; };
 		30884ECD9C171AB1B1BDFC3F /* cv.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cv.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv/cv.hpp; sourceTree = SOURCE_ROOT; };
 		30DDE82FC43BD63C2F1765AC /* svgtiny_list.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = svgtiny_list.cpp; path = ../localAddons/ofxSVG/libs/svgTiny/src/svgtiny_list.cpp; sourceTree = SOURCE_ROOT; };
@@ -1642,6 +1643,7 @@
 			children = (
 				E6DDFD5B7C4B51EA98A52D32 /* buildingScene.cpp */,
 				93987468325DAFE05C8D7ECA /* buildingScene.h */,
+				2F6AA0D21D70A4B000B3CE65 /* reflectionUseful.h */,
 			);
 			name = buildingScene;
 			sourceTree = "<group>";

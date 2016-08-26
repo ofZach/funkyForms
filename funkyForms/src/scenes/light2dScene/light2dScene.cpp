@@ -1,5 +1,6 @@
 #include "light2dScene.h"
 
+#define SCALAR 0.5
 
 void light2dScene::setup(){
     sceneName = "light2dScene";
@@ -8,7 +9,7 @@ void light2dScene::setup(){
     h = RM->getHeight();
     
     
-    lightSystem.setup(w,h);
+    lightSystem.setup(w*SCALAR,h*SCALAR);
     
     for (auto & window : RM->innerWindows){
         ofPolyline copy = window;
@@ -17,7 +18,7 @@ void light2dScene::setup(){
         float scale = RM->getWidth() / 2100;
         
         for (auto & pt : copy){
-            pt *= scale;
+            pt *= scale * SCALAR;
         }
         
         copy.flagHasChanged();
@@ -41,16 +42,20 @@ void light2dScene::update(){
 
 void light2dScene::draw(){
     
+    ofPushMatrix();
+    ofScale(1.0/SCALAR, 1.0/SCALAR);
     lightSystem.draw();
+    ofPopMatrix();
+    
 }
 
 
 void light2dScene::updateLights(){
     for(int i = 0; i<lights.size(); i++){
-        lights[i].addSinMove(h, amplitude, angleVel, xVel,
-                             (RM->getRectForScreen(SCREEN_CENTER).y + RM->getRectForScreen(SCREEN_CENTER).height/2)
+        lights[i].addSinMove(h*SCALAR, amplitude, angleVel, xVel,
+                             (RM->getRectForScreen(SCREEN_CENTER).y*SCALAR + SCALAR*RM->getRectForScreen(SCREEN_CENTER).height/2)
                              );
-        lights[i].addBoundary(w,h,80);
+        lights[i].addBoundary(w*SCALAR,h*SCALAR,80);
         lights[i].update();
         
         if(!mouseLight){

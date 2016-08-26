@@ -361,7 +361,7 @@ void buildingScene::draw(){
         vector < ofPoint > directions;
     
         for (int i = 0; i < packet.nLightRays; i++){
-            ofPoint pos(ofGetMouseX()*2 + i*0.1, ofGetMouseY()*2);
+            ofPoint pos(ofGetMouseX()*2 + sin(timeff) * 300 + i*0.01, ofGetMouseY()*2);
             ofPoint dir(cos(timeff), sin(timeff));
             dir.normalize();
             positions.push_back(pos);

@@ -6,7 +6,7 @@
 
 
 #define RENDER_ASPECT 0.68095
-#define RENDER_WIDTH ((1920*3)*0.6)                               // not sure!
+#define RENDER_WIDTH ((1920*3)*0.5)                               // not sure!
 #define RENDER_HEIGHT (RENDER_WIDTH * RENDER_ASPECT)
 #define RENDER_SCALE_FACTOR (RENDER_WIDTH / ((1920*3)*0.3))
 
@@ -14,7 +14,8 @@ enum screenName {
     SCREEN_LEFT,
     SCREEN_RIGHT,
     SCREEN_CENTER,
-    SCREEN_TOP
+    SCREEN_TOP,
+    SCREEN_TABLE
 };
 
 class renderManager {

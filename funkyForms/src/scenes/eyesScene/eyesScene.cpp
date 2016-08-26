@@ -275,6 +275,8 @@ void eyesScene::start(){
     
 }
 void eyesScene::stop(){
+    eyeParticlesMode.init();
+    
     eyeLinkerMode.clear();
 }
 void eyesScene::blobBorn(int packetId, int id){

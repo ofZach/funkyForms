@@ -163,22 +163,45 @@ ofRectangle renderManager::getRectForScreen( screenName name ){
         case SCREEN_TOP:
             which = 3;
             break;
+        case SCREEN_TABLE:
+            which = 4;
+            break;
     }
     
-    float width = 2100; //blocks.getWidth();
-    float scale = RENDER_WIDTH / width;
+    if (which != 4){
+        float width = 2100; //blocks.getWidth();
+        float scale = RENDER_WIDTH / width;
+        
+        //ofPath p = blocks2.getPathAt(which);
+        ofPolyline pp = blocks2[which];
+        ofRectangle rect = pp.getBoundingBox();
+        
+        rect.x *= scale;
+        rect.y *= scale;
+        rect.width *= scale;
+        rect.height *= scale;
+        
+        return rect;
+    } else {
+        
+        float width = 2100; //blocks.getWidth();
+        float scale = RENDER_WIDTH / width;
+        
+        ofRectangle table(0,0,500,200);
+        ofRectangle myBounds(0,0,2100, 2100*(RENDER_ASPECT));
+        
+        myBounds.x *= scale;
+        myBounds.y *= scale;
+        myBounds.width *= scale;
+        myBounds.height *= scale;
+        
+        table.scaleTo(myBounds);
+        table.y = myBounds.getHeight() - table.height;
     
-    //ofPath p = blocks2.getPathAt(which);
-    ofPolyline pp = blocks2[which];
-    ofRectangle rect = pp.getBoundingBox();
-    
-    rect.x *= scale;
-    rect.y *= scale;
-    rect.width *= scale;
-    rect.height *= scale;
-    
-    return rect;
-    
+        table.scaleFromCenter(0.95);
+        
+        return table;
+    }
 }
 
 void renderManager::drawBuidling(){
