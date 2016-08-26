@@ -15,9 +15,13 @@
 #include "StencilWaves.hpp"
 #include "ofxGui.h"
 #include "particleWithAge.hpp"
+#include "renderManager.h"
 
 class wavesScene : public baseScene {
 public:
+    // Input
+    float sf = RENDER_SCALE_FACTOR;
+    
     // Particles
     vector<particleWithAge> particles;
     ofMesh particlesMesh;

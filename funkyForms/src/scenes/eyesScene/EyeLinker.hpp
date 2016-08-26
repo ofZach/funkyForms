@@ -15,6 +15,8 @@
 #include "spring.h"
 #include "cvManager.h"
 #include "gParticle.hpp"
+#include "renderManager.h"
+
 
 class EyeLinker {
 public:
@@ -32,6 +34,7 @@ public:
     int counter = 0;
     
     // Input
+    float sf = RENDER_SCALE_FACTOR;
     cvPacket * cvData;
     
     // Eyes

@@ -105,7 +105,7 @@ void wavesScene::updateParticles(){
                             
                             particleWithAge temp;
                             temp.age = ofGetElapsedTimef();
-                            temp.radius = ofRandom(1, 30);
+                            temp.radius = ofRandom(1 * sf, 30 * sf);
                             temp.setInitialCondition(pt.x, pt.y, vel.x * 0.1, vel.y*0.5); // reduce the x vel
                             temp.damping = 0.01;
                             particles.push_back(temp);

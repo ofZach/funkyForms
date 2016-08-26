@@ -42,16 +42,16 @@ void plantsScene::addBgPlant(ofVec2f _pos){
     bgPlants[i].rig.mbCount = ofRandom(bgMainBranchCountMin, bgMainBranchCountMax) ;
     
     bgPlants[i].rig.dir = ofVec2f(0, -1);
-    bgPlants[i].rig.mbWidth = bgmainBranchWidth ;
-    bgPlants[i].rig.mbHeight = bgmainBranchHeight ;
-    bgPlants[i].rig.cbHeight = bgchildBranchHeight ;
-    bgPlants[i].rig.cbWidth = bgchildBranchWidth ;
+    bgPlants[i].rig.mbWidth = bgmainBranchWidth  * sf;
+    bgPlants[i].rig.mbHeight = bgmainBranchHeight * sf ;
+    bgPlants[i].rig.cbHeight = bgchildBranchHeight * sf ;
+    bgPlants[i].rig.cbWidth = bgchildBranchWidth * sf ;
     bgPlants[i].rig.lengthVariation = branchLengthVariation;
     
     bgPlants[i].rig.timeSpeed = 0.01;
     
-    bgPlants[i].mbWidth = bgmainBranchStrokeWidth;
-    bgPlants[i].cbWidth = bgchildBranchStrokeWidth;
+    bgPlants[i].mbWidth = bgmainBranchStrokeWidth * sf;
+    bgPlants[i].cbWidth = bgchildBranchStrokeWidth * sf;
     bgPlants[i].rig.pos = _pos;
     
     ofFloatColor col = swatch[(int)ofRandom(4)];
@@ -117,14 +117,14 @@ void plantsScene::addPlant(ofVec2f _pos, int packetId, int id, bool bLeftSide){
     plants[i].rig.cbCount = ofRandom(childBranchCountMin, childBranchCountMax);
     plants[i].rig.mbCount = ofRandom(mainBranchCountMin, mainBranchCountMax) ;
     
-    plants[i].rig.mbWidth = mainBranchWidth ;
-    plants[i].rig.mbHeight = mainBranchHeight ;
-    plants[i].rig.cbWidth = childBranchWidth ;
-    plants[i].rig.cbHeight = childBranchHeight ;
-    plants[i].rig.lengthVariation = branchLengthVariation ;
+    plants[i].rig.mbWidth = mainBranchWidth  * sf;
+    plants[i].rig.mbHeight = mainBranchHeight  * sf;
+    plants[i].rig.cbWidth = childBranchWidth  * sf;
+    plants[i].rig.cbHeight = childBranchHeight * sf ;
+    plants[i].rig.lengthVariation = branchLengthVariation  * sf;
     
-    plants[i].mbWidth = mainBranchStrokeWidth;
-    plants[i].cbWidth = childBranchStrokeWidth;
+    plants[i].mbWidth = mainBranchStrokeWidth * sf;
+    plants[i].cbWidth = childBranchStrokeWidth * sf;
     plants[i].rig.pos = _pos;
     
     plants[i].color = swatch[(int)ofRandom(4)];
@@ -342,8 +342,8 @@ void plantsScene::updateBgPlantsRemoval(){
 void plantsScene::updatePlantsParameters(){
     for(auto &p: plants){
         p.scale = plantScale;
-        p.shadowRadius = shadowRadius;
-        p.shadowOpacity = shadowOpacity;
+        p.shadowRadius = shadowRadius * sf;
+        p.shadowOpacity = shadowOpacity * sf;
     }
 }
 void plantsScene::updatePlantCreation(){

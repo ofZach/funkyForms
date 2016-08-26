@@ -36,6 +36,17 @@
 		29F78096700554423C57FEBB /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F0B94BC85670557187F7518 /* b2BroadPhase.cpp */; };
 		2C4A31FA375B3AEB6B0D045D /* ofxBox2dEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB63825E320A2F4B4ED50F6F /* ofxBox2dEdge.cpp */; };
 		2CB478BE3130A3C448835802 /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBC34AEE91EECF9B1B2477EA /* Frame.cpp */; };
+		2F15B0321D6FD2E1006B1435 /* box2dScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B0201D6FD2E1006B1435 /* box2dScene.cpp */; };
+		2F15B0331D6FD2E1006B1435 /* CustomParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B0221D6FD2E1006B1435 /* CustomParticle.cpp */; };
+		2F15B0341D6FD2E1006B1435 /* forceSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B0241D6FD2E1006B1435 /* forceSource.cpp */; };
+		2F15B0351D6FD2E1006B1435 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B0271D6FD2E1006B1435 /* Light.cpp */; };
+		2F15B0361D6FD2E1006B1435 /* light2dScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B0291D6FD2E1006B1435 /* light2dScene.cpp */; };
+		2F15B0371D6FD2E1006B1435 /* lightSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B02C1D6FD2E1006B1435 /* lightSource.cpp */; };
+		2F15B0381D6FD2E1006B1435 /* ParticleNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B02E1D6FD2E1006B1435 /* ParticleNoise.cpp */; };
+		2F15B0391D6FD2E1006B1435 /* particleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B0301D6FD2E1006B1435 /* particleScene.cpp */; };
+		2F15B0541D6FD31B006B1435 /* Light2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B04A1D6FD31B006B1435 /* Light2D.cpp */; };
+		2F15B0551D6FD31B006B1435 /* LightSystem2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B04C1D6FD31B006B1435 /* LightSystem2D.cpp */; };
+		2F15B0561D6FD31B006B1435 /* Shape2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F15B04E1D6FD31B006B1435 /* Shape2D.cpp */; };
 		2F39141F1D6F654B008CAE49 /* springyShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F39141D1D6F654B008CAE49 /* springyShape.cpp */; };
 		2F3914231D6F7054008CAE49 /* boundsHelp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F3914221D6F7054008CAE49 /* boundsHelp.cpp */; };
 		2F48651BC9D96056D41EE52C /* ofxSVG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B21B8F03D48E93A9834BB722 /* ofxSVG.cpp */; };
@@ -292,6 +303,28 @@
 		2BCC2DE82ECEFD04DF8B25D0 /* b2EdgeAndCircleContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2EdgeAndCircleContact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp; sourceTree = SOURCE_ROOT; };
 		2E411F99E3AB7154484B4F96 /* kmeans_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = kmeans_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/kmeans_index.h; sourceTree = SOURCE_ROOT; };
 		2F07085D2B6B375A276E0033 /* libiomp5.dylib */ = {isa = PBXFileReference; explicitFileType = file; fileEncoding = 30; name = libiomp5.dylib; path = src/utils/openmp/libiomp5.dylib; sourceTree = SOURCE_ROOT; };
+		2F15B0201D6FD2E1006B1435 /* box2dScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = box2dScene.cpp; sourceTree = "<group>"; };
+		2F15B0211D6FD2E1006B1435 /* box2dScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = box2dScene.h; sourceTree = "<group>"; };
+		2F15B0221D6FD2E1006B1435 /* CustomParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CustomParticle.cpp; sourceTree = "<group>"; };
+		2F15B0231D6FD2E1006B1435 /* CustomParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CustomParticle.hpp; sourceTree = "<group>"; };
+		2F15B0241D6FD2E1006B1435 /* forceSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = forceSource.cpp; sourceTree = "<group>"; };
+		2F15B0251D6FD2E1006B1435 /* forceSource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = forceSource.hpp; sourceTree = "<group>"; };
+		2F15B0271D6FD2E1006B1435 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		2F15B0281D6FD2E1006B1435 /* Light.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
+		2F15B0291D6FD2E1006B1435 /* light2dScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light2dScene.cpp; sourceTree = "<group>"; };
+		2F15B02A1D6FD2E1006B1435 /* light2dScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light2dScene.h; sourceTree = "<group>"; };
+		2F15B02C1D6FD2E1006B1435 /* lightSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lightSource.cpp; sourceTree = "<group>"; };
+		2F15B02D1D6FD2E1006B1435 /* lightSource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lightSource.hpp; sourceTree = "<group>"; };
+		2F15B02E1D6FD2E1006B1435 /* ParticleNoise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleNoise.cpp; sourceTree = "<group>"; };
+		2F15B02F1D6FD2E1006B1435 /* ParticleNoise.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParticleNoise.hpp; sourceTree = "<group>"; };
+		2F15B0301D6FD2E1006B1435 /* particleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleScene.cpp; sourceTree = "<group>"; };
+		2F15B0311D6FD2E1006B1435 /* particleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = particleScene.h; sourceTree = "<group>"; };
+		2F15B04A1D6FD31B006B1435 /* Light2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light2D.cpp; sourceTree = "<group>"; };
+		2F15B04B1D6FD31B006B1435 /* Light2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light2D.h; sourceTree = "<group>"; };
+		2F15B04C1D6FD31B006B1435 /* LightSystem2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LightSystem2D.cpp; sourceTree = "<group>"; };
+		2F15B04D1D6FD31B006B1435 /* LightSystem2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightSystem2D.h; sourceTree = "<group>"; };
+		2F15B04E1D6FD31B006B1435 /* Shape2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shape2D.cpp; sourceTree = "<group>"; };
+		2F15B04F1D6FD31B006B1435 /* Shape2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shape2D.h; sourceTree = "<group>"; };
 		2F39141D1D6F654B008CAE49 /* springyShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = springyShape.cpp; path = scenes/costumeScene/springyShape.cpp; sourceTree = "<group>"; };
 		2F39141E1D6F654B008CAE49 /* springyShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = springyShape.h; path = scenes/costumeScene/springyShape.h; sourceTree = "<group>"; };
 		2F3914221D6F7054008CAE49 /* boundsHelp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boundsHelp.cpp; path = common/boundsHelp.cpp; sourceTree = "<group>"; };
@@ -1081,6 +1114,68 @@
 			name = svgTiny;
 			sourceTree = "<group>";
 		};
+		2F15B01F1D6FD2E1006B1435 /* box2dScene */ = {
+			isa = PBXGroup;
+			children = (
+				2F15B0201D6FD2E1006B1435 /* box2dScene.cpp */,
+				2F15B0211D6FD2E1006B1435 /* box2dScene.h */,
+				2F15B0221D6FD2E1006B1435 /* CustomParticle.cpp */,
+				2F15B0231D6FD2E1006B1435 /* CustomParticle.hpp */,
+				2F15B0241D6FD2E1006B1435 /* forceSource.cpp */,
+				2F15B0251D6FD2E1006B1435 /* forceSource.hpp */,
+			);
+			name = box2dScene;
+			path = scenes/box2dScene;
+			sourceTree = "<group>";
+		};
+		2F15B0261D6FD2E1006B1435 /* light2dScene */ = {
+			isa = PBXGroup;
+			children = (
+				2F15B0271D6FD2E1006B1435 /* Light.cpp */,
+				2F15B0281D6FD2E1006B1435 /* Light.hpp */,
+				2F15B0291D6FD2E1006B1435 /* light2dScene.cpp */,
+				2F15B02A1D6FD2E1006B1435 /* light2dScene.h */,
+			);
+			name = light2dScene;
+			path = scenes/light2dScene;
+			sourceTree = "<group>";
+		};
+		2F15B02B1D6FD2E1006B1435 /* particleScene */ = {
+			isa = PBXGroup;
+			children = (
+				2F15B02C1D6FD2E1006B1435 /* lightSource.cpp */,
+				2F15B02D1D6FD2E1006B1435 /* lightSource.hpp */,
+				2F15B02E1D6FD2E1006B1435 /* ParticleNoise.cpp */,
+				2F15B02F1D6FD2E1006B1435 /* ParticleNoise.hpp */,
+				2F15B0301D6FD2E1006B1435 /* particleScene.cpp */,
+				2F15B0311D6FD2E1006B1435 /* particleScene.h */,
+			);
+			name = particleScene;
+			path = scenes/particleScene;
+			sourceTree = "<group>";
+		};
+		2F15B03A1D6FD31B006B1435 /* ofxLight2D */ = {
+			isa = PBXGroup;
+			children = (
+				2F15B0491D6FD31B006B1435 /* src */,
+			);
+			name = ofxLight2D;
+			path = ../localAddons/ofxLight2D;
+			sourceTree = "<group>";
+		};
+		2F15B0491D6FD31B006B1435 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2F15B04A1D6FD31B006B1435 /* Light2D.cpp */,
+				2F15B04B1D6FD31B006B1435 /* Light2D.h */,
+				2F15B04C1D6FD31B006B1435 /* LightSystem2D.cpp */,
+				2F15B04D1D6FD31B006B1435 /* LightSystem2D.h */,
+				2F15B04E1D6FD31B006B1435 /* Shape2D.cpp */,
+				2F15B04F1D6FD31B006B1435 /* Shape2D.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		2F3914251D6F8F18008CAE49 /* shader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1139,6 +1234,9 @@
 			children = (
 				10E77EFB672AD13F3F3639CB /* baseScene.cpp */,
 				3123FC43CDB08480B2226A91 /* baseScene.h */,
+				2F15B01F1D6FD2E1006B1435 /* box2dScene */,
+				2F15B0261D6FD2E1006B1435 /* light2dScene */,
+				2F15B02B1D6FD2E1006B1435 /* particleScene */,
 				88EA353DFEF93D69C8A7F24F /* buildingScene */,
 				BB595BC3B3D61D9E7EEF5ED4 /* costumeScene */,
 				B7B8C098EC5EDDDCB007E3E1 /* costumeScene2 */,
@@ -1793,6 +1891,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				2F15B03A1D6FD31B006B1435 /* ofxLight2D */,
 				6025FAF6414C2CA589764D26 /* ofxCv */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
@@ -2336,12 +2435,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F15B0321D6FD2E1006B1435 /* box2dScene.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				4DA3ECD8E7CF0C198ABC5CA9 /* particle3f.cpp in Sources */,
 				774731A554D98D5C29A8D2E8 /* spring3f.cpp in Sources */,
 				E6502CCCE653C30CDE4A29E6 /* particle.cpp in Sources */,
 				DC077633B547079770F42682 /* particleWithAge.cpp in Sources */,
+				2F15B0551D6FD31B006B1435 /* LightSystem2D.cpp in Sources */,
 				3C8216E79EA541FC690A3C80 /* spring.cpp in Sources */,
 				A3D0908123D1116461DB7201 /* BBox.cpp in Sources */,
 				04A0BF2FE0EE60C86979DAC3 /* BVH.cpp in Sources */,
@@ -2361,6 +2462,7 @@
 				F301DE945AE4298EB4022D51 /* eye.cpp in Sources */,
 				D6995E01980D57C3DCB67E1B /* EyeLinker.cpp in Sources */,
 				A1C2C383AB59FB0B5120E059 /* eyeLinkerMode.cpp in Sources */,
+				2F15B0541D6FD31B006B1435 /* Light2D.cpp in Sources */,
 				E940BB7C262B8B218321A777 /* eyePairMode.cpp in Sources */,
 				963AE2A0697B92D3B1C86D73 /* eyeParticle.cpp in Sources */,
 				0BFBA65C9FE980D66EDA7EC4 /* eyeParticlesMode.cpp in Sources */,
@@ -2390,6 +2492,7 @@
 				89C5468CD79E4BCBC86C8E32 /* gradientWaves.cpp in Sources */,
 				0C5922BDE22724E1F07901F7 /* ofxRipple.cpp in Sources */,
 				B3A081F94CCAAF941085356B /* Shapes.cpp in Sources */,
+				2F15B0371D6FD2E1006B1435 /* lightSource.cpp in Sources */,
 				C329AEF01223174F8602D131 /* Spring.cpp in Sources */,
 				22A0B57FF1C551D719B3202B /* StencilWaves.cpp in Sources */,
 				89B4F1C4B07004E2E4A4D37A /* wave.cpp in Sources */,
@@ -2409,11 +2512,14 @@
 				A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */,
 				DBCB84A37F9AECC254870D79 /* Wrappers.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
+				2F15B0331D6FD2E1006B1435 /* CustomParticle.cpp in Sources */,
+				2F15B0351D6FD2E1006B1435 /* Light.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
+				2F15B0341D6FD2E1006B1435 /* forceSource.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
@@ -2441,6 +2547,7 @@
 				9D0385A72E9273760E0AA141 /* b2CollideEdge.cpp in Sources */,
 				BCC07F2C63D48FA3B6D01E0B /* b2CollidePolygon.cpp in Sources */,
 				94222B52DE5A22ADFE77F863 /* b2Collision.cpp in Sources */,
+				2F15B0391D6FD2E1006B1435 /* particleScene.cpp in Sources */,
 				561C25C14D3B7856D04EFFD4 /* b2Distance.cpp in Sources */,
 				76FB9AEEC937544F851C5DF4 /* b2DynamicTree.cpp in Sources */,
 				14D715EC25EF106FFC32575B /* b2TimeOfImpact.cpp in Sources */,
@@ -2449,6 +2556,7 @@
 				2F7A5BB37F6323BBC240F555 /* b2EdgeShape.cpp in Sources */,
 				3035C36BE2BDA284D6E0CE9D /* b2PolygonShape.cpp in Sources */,
 				0F37CE4043DAB9FC31F12619 /* b2BlockAllocator.cpp in Sources */,
+				2F15B0381D6FD2E1006B1435 /* ParticleNoise.cpp in Sources */,
 				7B18C2018880058B02493051 /* b2Draw.cpp in Sources */,
 				476FF744953DE1EC45247EFD /* b2Math.cpp in Sources */,
 				8EEF819F1864DB3992BD99D1 /* b2Settings.cpp in Sources */,
@@ -2467,6 +2575,7 @@
 				51E49193E9212775CF74638C /* b2ContactSolver.cpp in Sources */,
 				320C4CF58213EE2087458FB8 /* b2EdgeAndCircleContact.cpp in Sources */,
 				8B2A1D0CDF6B0AFF45539D69 /* b2EdgeAndPolygonContact.cpp in Sources */,
+				2F15B0561D6FD31B006B1435 /* Shape2D.cpp in Sources */,
 				148ED85A8ADC57DA164FB91A /* b2PolygonAndCircleContact.cpp in Sources */,
 				EAF0B218896644C8FA4ACB90 /* b2PolygonContact.cpp in Sources */,
 				58C9A021B2EB024271E083D2 /* b2DistanceJoint.cpp in Sources */,
@@ -2481,6 +2590,7 @@
 				58D4E629BE52002C071966E3 /* b2RopeJoint.cpp in Sources */,
 				1449AEA07CE5A4D2B71AD382 /* b2WeldJoint.cpp in Sources */,
 				257EB6FCD68016BEF9F07279 /* b2WheelJoint.cpp in Sources */,
+				2F15B0361D6FD2E1006B1435 /* light2dScene.cpp in Sources */,
 				3FB0E46D5E577C83C2B47C3C /* b2Rope.cpp in Sources */,
 				D4931B8942968A26FCDFDCA7 /* del_impl.cpp in Sources */,
 				2F48651BC9D96056D41EE52C /* ofxSVG.cpp in Sources */,

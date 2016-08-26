@@ -7,3 +7,4 @@ ofxXmlSettings
 ../localAddons/ofxFx
 ../localAddons/ofxSyphon
 ../localAddons/ofxBlackmagic2
+../localAddons/ofxLight2D

@@ -59,33 +59,33 @@ void renderManager::setup(){
     
     
     for (auto & line : edges){
-        ofPolyline lineResample = line.getResampledBySpacing(2);
+        ofPolyline lineResample = line.getResampledBySpacing(5);
         edgesResampled.push_back(lineResample);
     }
 
     for (auto & line : innerWindows){
-        ofPolyline lineResample = line.getResampledBySpacing(2);
+        ofPolyline lineResample = line.getResampledBySpacing(5);
         innerWindowsResampled.push_back(lineResample);
     }
     
     for (auto & line : outerWindows){
-        ofPolyline lineResample = line.getResampledBySpacing(2);
+        ofPolyline lineResample = line.getResampledBySpacing(5);
         outerWindowsResampled.push_back(lineResample);
     }
     
    
     for (auto & line : engraving){
-        ofPolyline lineResample = line.getResampledBySpacing(2);
+        ofPolyline lineResample = line.getResampledBySpacing(5);
         engravingResampled.push_back(lineResample);
     }
     
     for (auto & line : pillar){
-        ofPolyline lineResample = line.getResampledBySpacing(2);
+        ofPolyline lineResample = line.getResampledBySpacing(5);
         pillarResampled.push_back(lineResample);
     }
     
     for (auto & line : blocks2){
-        ofPolyline lineResample = line.getResampledBySpacing(2);
+        ofPolyline lineResample = line.getResampledBySpacing(5);
         blocks2Resampled.push_back(lineResample);
     }
     

@@ -16,11 +16,12 @@
 #include "ofxRipple.hpp"
 #include "cvManager.h"
 #include "Animator.hpp"
-
+#include "renderManager.h"
 
 class gradientWaves{
 public:
     // Input
+    float sf = RENDER_SCALE_FACTOR;
     cvPacket * cvData;
     int screenW, screenH;
     
