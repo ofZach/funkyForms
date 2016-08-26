@@ -50,6 +50,7 @@ void eyePairMode::init(){
 void eyePairMode::fadeIn(){
     reward.clear();
     isFadeFinished = false;
+    init();
     for(auto &e : eyes){
         e.open();
     }

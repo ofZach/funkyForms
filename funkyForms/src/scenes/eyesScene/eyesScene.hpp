@@ -51,6 +51,8 @@ public:
     ofParameter<bool> changeMode;
     ofParameter<bool> isAutoChangeMode;
     vector<modeBase *> modes;
+    int modeChangeCounter = 0;
+    ofParameter<float>  modeChangeMinute = 0;
     int curMode = 0;
     
     void setup();

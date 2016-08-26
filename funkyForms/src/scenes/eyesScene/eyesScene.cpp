@@ -37,9 +37,9 @@ void eyesScene::setup(){
     eyePairMode.isEnabled = false;
     eyeLinkerMode.isEnabled = false;
 
-    modes.push_back(&eyeLinkerMode);
-    modes.push_back(&eyeParticlesMode);
     modes.push_back(&eyePairMode);
+    modes.push_back(&eyeParticlesMode);
+    modes.push_back(&eyeLinkerMode);
     
     glow.load("assets/glow.png");
     
@@ -47,6 +47,7 @@ void eyesScene::setup(){
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
+    parameters.add(modeChangeMinute.set("modeChangeMinute",  1, 0.01, 5));
     parameters.add(changeMode.set("changeMode", true));
     parameters.add(isAutoChangeMode.set("isAutoChangeMode", false));
     parameters.add(glowRadius.set("glowRadius", 20, 5, 200));
@@ -65,9 +66,9 @@ void eyesScene::triggerAdvance(bool &b){
     advanceMode();
 }
 modeBase *eyesScene::getMode(string name){
-    if(name == "eyeLinkerMode") return modes[0];
+    if(name == "eyePairMode") return modes[0];
     if(name == "eyeParticlesMode") return modes[1];
-    if(name == "eyePairMode") return modes[2];
+    if(name == "eyeLinkerMode") return modes[2];
 }
 void eyesScene::advanceMode(){
     // 1. fade out cur mode
@@ -109,7 +110,9 @@ void eyesScene::updatePeopleEnergy(){
     }
 }
 void eyesScene::updateModes(){
-    if(isAutoChangeMode && ofGetFrameNum()%360 == 0){
+    modeChangeCounter++;
+    int k = modeChangeMinute*3600;
+    if( modeChangeCounter%k == 0){
         advanceMode();
     }
     for(auto &m : modes){
@@ -306,11 +309,11 @@ void eyesScene::drawPeople(){
 }
 // ------------ events
 void eyesScene::start(){
-    
+    modeChangeCounter = 0;
 }
 void eyesScene::stop(){
+    modeChangeCounter = 0;
     eyeParticlesMode.init();
-    
     eyeLinkerMode.clear();
 }
 void eyesScene::blobBorn(int packetId, int id){

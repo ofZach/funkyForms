@@ -8,6 +8,7 @@
 	<glowRadius>90.5612</glowRadius>
 		<glowOpacity>76.7602</glowOpacity>
 	<glowSpacing>20.9184</glowSpacing>
+	<modeChangeMinute>0.340969</modeChangeMinute>
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
 		<behaviorMode>0</behaviorMode>
