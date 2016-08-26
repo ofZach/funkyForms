@@ -65,6 +65,7 @@ public:
     void setup();
     void triggerInit(float &v);
     void init();
+    void clear();
     void setupGui();
     void setEnergy(float left, float right){ leftEnergy = left; rightEnergy = right; };
     

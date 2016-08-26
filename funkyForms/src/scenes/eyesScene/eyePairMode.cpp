@@ -55,6 +55,12 @@ void eyePairMode::fadeIn(){
         e.open();
     }
 }
+void eyePairMode::clear(){
+    bool isEnabled = false;
+    bool isFadeFinished = false;
+    bool isFading = false;
+    init();
+}
 void eyePairMode::fadeOut(){
     for(auto &e : eyes){
         e.close();

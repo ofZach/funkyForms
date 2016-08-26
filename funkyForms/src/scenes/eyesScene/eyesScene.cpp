@@ -310,11 +310,16 @@ void eyesScene::drawPeople(){
 // ------------ events
 void eyesScene::start(){
     modeChangeCounter = 0;
+    curMode = 0;
+    advanceMode();
 }
 void eyesScene::stop(){
     modeChangeCounter = 0;
-    eyeParticlesMode.init();
-    eyeLinkerMode.clear();
+    for(auto &m : modes){
+        if(m->isEnabled){
+            m->draw();
+        }
+    }
 }
 void eyesScene::blobBorn(int packetId, int id){
     ofPoint pt = cvData[packetId]->getTopPointAt(id);

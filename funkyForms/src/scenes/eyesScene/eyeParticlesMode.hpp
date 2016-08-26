@@ -76,6 +76,7 @@ public:
     void draw();
     
     void init();
+    void clear();
     
     void reset(bool &i);
     void setBehavior(Behavior b){behavior = b;};

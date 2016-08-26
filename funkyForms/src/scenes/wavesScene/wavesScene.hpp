@@ -40,6 +40,12 @@ public:
     StencilWaves stencilWaves;
     gradientWaves gradientWaves;
     
+    // Mode change
+    int modeChangeCounter = 0;
+    ofParameter<float>  modeChangeMinute = 0;
+    void updateModeChange();
+    void advanceMode();
+    
     // Waves trigger
     
     // Gui

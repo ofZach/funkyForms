@@ -1,4 +1,5 @@
 //
+
 //  wavesScene.cpp
 //  funkyForms
 //
@@ -42,6 +43,7 @@ void wavesScene::setup(){
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
+    parameters.add(modeChangeMinute.set("modeChangeMinute",  1, 0.01, 5));
     parameters.add(changeMode.set("changeMode", true));
     parameters.add(glowRadius.set("glowRadius", 20, 5, 200));
     parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
@@ -61,6 +63,10 @@ void wavesScene::setupGui(){
     changeMode.addListener(this, &wavesScene::triggerChangeMode);
 }
 void wavesScene::triggerChangeMode(bool &b){
+    advanceMode();
+}
+// ------------ Update
+void wavesScene::advanceMode(){
     isFade ^= true;
     if(isFade){
         stencilWaves.fadeIn();
@@ -72,13 +78,20 @@ void wavesScene::triggerChangeMode(bool &b){
         stencilWaves.updateFade();
     }
 }
-// ------------ Update
 void wavesScene::update(){
+    updateModeChange();
     updateParticles();
     updateInput();
     gradientWaves.update();
     stencilWaves.update();
     updateFade();
+}
+void wavesScene::updateModeChange(){
+    modeChangeCounter++;
+    int k = modeChangeMinute*3600;
+    if( modeChangeCounter%k == 0){
+        advanceMode();
+    }
 }
 void wavesScene::updateFade(){
 }
