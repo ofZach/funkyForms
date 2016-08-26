@@ -1,5 +1,12 @@
 #include "costumeScene.h"
 
+void blah(int L, int R, bData * data){ //, vector < springyShape > * tempShapes){
+    
+    for (int i = L; i < R; i++){
+        data->shapes[i].update();
+        //*(tempShapes)[i].update(); // yo
+    }
+}
 
 void costumeScene::setup(){
     
@@ -69,13 +76,7 @@ void costumeScene::update(){
         if (to.TC->data.resampleSmoothed.size() > 0){
             
             ofPolyline line = to.TC->data.resampleSmoothed;
-            ofPoint centroid = line.getCentroid2D();
-            for (auto & pt : line){
-                pt -= centroid;
-                pt *= ofMap(sin(time), -1, 1, 1, 3);
-                pt.y -= ofMap(sin(time), -1, 1, 0, 100);
-                pt += centroid;
-            }
+            
             to.update(line);
         }
     }

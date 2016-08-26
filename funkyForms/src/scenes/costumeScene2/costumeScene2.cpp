@@ -68,12 +68,12 @@ void costumeScene2::draw(){
             //line.draw();
             
             float avgVelSmoothed = cvData[packetId]->blobs[i].avgVelSmoothed.y;
-            if (avgVelSmoothed < 0) avgVelSmoothed = 0;
+            if (avgVelSmoothed > 0) avgVelSmoothed = 0;
             // let's fucking roll.....
             
             ofRectangle bounds = line.getBoundingBox();
             
-            float div = 5.0;
+            float div = 2.0 * RENDER_SCALE_FACTOR;
             bounds.scaleFromCenter(1.2);
             int steps= bounds.height/div;
             
@@ -99,9 +99,10 @@ void costumeScene2::draw(){
                     if (ofLineSegmentIntersection(a, b, toTestA, toTestB, intersection)){
                         intersectionPoint pt;
                         pt.pos = intersection;
-                        pt.avgVel = toTestB- toTestA +
-                            ((cvData[packetId]->blobs[i].vel[j] +
-                                    cvData[packetId]->blobs[i].vel[(j+1)%line.size()])*0.5)*0.01;
+                        pt.avgVel = toTestB- toTestA;
+                        //+
+                        //  ((cvData[packetId]->blobs[i].vel[j] +
+                          //          cvData[packetId]->blobs[i].vel[(j+1)%line.size()])*0.5)*0.001;
                         pt.pct = ofMap(z, steps, 0, 0.0, 1.0);
 
                         intersections.push_back(pt);
@@ -150,27 +151,36 @@ void costumeScene2::draw(){
                     c2.setHsb(ofMap(angle2, -PI, PI, 0, 255), 255, 255);
                     
                     
-                    //aColor.set(c.r/ 255.0, c.g/255.0, c.b/255.0, 1.0);
-                    //bColor.set(c2.r/ 255.0, c2.g/255.0, c2.b/255.0, 1.0);
+                    aColor.set(c.r/ 255.0, c.g/255.0, c.b/255.0, 1.0);
+                    bColor.set(c2.r/ 255.0, c2.g/255.0, c2.b/255.0, 1.0);
                     
                     
-                    
-                   
+                 
                     
                     
                     
                     ofPoint midPt = (aa + bb)/2.0;
                     
-                    //midPt.y -= intersections[i].pct * ofMap(avgVelSmoothed, 1, 3, 0, 300, true);
+               
+                    
+                    midPt.y -= intersections[i].pct * ofMap(avgVelSmoothed, -1, -3, 0, 200, true);
                     float radius = (aa - bb).length() * 0.5;
                     
+//                    if (avgVelSmoothed < -0.5){
+//                        if(ofRandom(0, 1) > 0.998f){
+//                            circleParticle cp;
+//                            cp.pos = midPt;
+//                            cp.radius = radius;
+//                            cp.a = c;
+//                            cp.b = c;
+//                            cp.age = ofGetElapsedTimef();
+//                            cp.vel = avgVelSmoothed;
+//                            particles.push_back(cp);
+//                        }
+//                    }
+//                    
                     
-                    ofFill();
-                    ofSetColor(0);
-                    ofPushMatrix();
-                    ofTranslate(midPt);
-                    ofRotate(ofGetMouseX(), 1,0,0);
-                    ofCircle(ofPoint(0,0,0), radius);
+                    
                     
                     
                     shader.begin();
@@ -183,13 +193,23 @@ void costumeScene2::draw(){
                     shader.setUniform4f("colorB", bColor);
                     
                     
-                    ofNoFill();
-                    ofSetColor(255,255,255,255 );
+                    ofFill();
+                    ofSetColor(0);
+                    ofPushMatrix();
+                    ofTranslate(midPt - ofPoint(0,ofGetMouseX()) );
+                    ofRotate(ofGetMouseX(), 1,0,0);
                     ofCircle(ofPoint(0,0,0), radius);
+                    
+                    shader.end();
+                    
+                    
+                    ofNoFill();
+                    ofSetColor(0,0,0,255 );
+                    //ofCircle(ofPoint(0,0,0), radius);
 
                     ofPopMatrix();
                     
-                    shader.end();
+                    
 
                     
                     //ofCircle(intersections[i], 4);
@@ -204,6 +224,45 @@ void costumeScene2::draw(){
         }
     }
     
+//    for (int i = 0; i < particles.size(); i++){
+//        
+//        particles[i].pos.y += particles[i].vel * 10.0;
+//        particles[i].vel *= 0.99f;
+//        particles[i].radius *= 1.01;
+//        
+//        float alpha = ofMap(ofGetElapsedTimef()-particles[i].age, 0, 2, 1, 0);
+//        ofPoint aa = particles[i].pos - ofPoint(particles[i].radius, 0);
+//        ofPoint bb = particles[i].pos + ofPoint(particles[i].radius, 0);
+//        
+//        shader.begin();
+//        shader.setUniform1f("windowHeight", RM->getHeight() );
+//        
+//        shader.setUniform2f("gradientStartPos", aa);
+//        shader.setUniform2f("gradientEndPos", bb);
+//        shader.setUniform1i("numStops", 2);
+//        shader.setUniform4f("colorA", ofVec4f(1.0, 1.0, 1.0, alpha));
+//        shader.setUniform4f("colorB", ofVec4f(1.0, 1.0, 1.0, 0.0));
+////
+////        
+////        ofFill();
+////        ofSetColor(0);
+//        ofPushMatrix();
+//        ofTranslate(particles[i].pos);
+//        ofRotate(ofGetMouseX(), 1,0,0);
+////        ofCircle(ofPoint(0,0,0), particles[i].radius);
+//        
+////        shader.end();
+////        
+//        //particles[i].radius += 0.9;
+//        ofNoFill();
+//        ofSetColor(255,255,255,255 );
+//        ofCircle(ofPoint(0,0,0), particles[i].radius);
+//        shader.end();
+//        ofPopMatrix();
+//        
+//        
+//    }
+//    
     
     ofSetCircleResolution(20);
     cam.end();

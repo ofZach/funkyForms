@@ -7,22 +7,63 @@
 void inputManager::setup(){
  
 #ifdef USE_LIVE_VIDEO
-    cout << "video " << endl;
+    
     auto deviceList = ofxBlackmagic::Iterator::getDeviceList();
     
     int count = 0;
+//    for(auto device : deviceList) {
+//        
+//        auto input = shared_ptr<ofxBlackmagic::Input>(new ofxBlackmagic::Input());
+//        
+//        
+//        cout << device << " " << input << endl;
+//        
+//        
+//        
+//        static int index = 0;
+//        
+//        if (device.modelName.find("Intensity") != std::string::npos){
+//            
+//            auto mode = bmdModeHD1080p2997; // switch this mode to match the resolution/refresh of your input stream
+//            //            if (count > 0){
+//            //                mode = bmdModeHD1080p2997;
+//            //            }
+//            input->startCapture(device, mode);
+//            this->inputs.push_back(input);
+//            count ++;
+//            
+//            cout << "INTENSITY" << endl;
+//        }
+//        
+//        
+//    }
+    
+    
+    count = 0;
     for(auto device : deviceList) {
         
         auto input = shared_ptr<ofxBlackmagic::Input>(new ofxBlackmagic::Input());
         
-        auto mode = bmdModeHD1080p30; // switch this mode to match the resolution/refresh of your input stream
-        //            if (count > 0){
-        //                mode = bmdModeHD1080p2997;
-        //            }
-        input->startCapture(device, mode);
-        this->inputs.push_back(input);
-        count ++;
-
+        
+        cout << device << " " << input << endl;
+        
+        
+        
+        static int index = 0;
+        
+        if (device.modelName.find("Intensity") == std::string::npos){
+            
+            auto mode = bmdModeHD1080p30; // switch this mode to match the resolution/refresh of your input stream
+            //            if (count > 0){
+            //                mode = bmdModeHD1080p2997;
+            //            }
+            input->startCapture(device, mode);
+            this->inputs.push_back(input);
+            count ++;
+            
+            cout << "INTENSITY" << endl;
+        }
+        
         
     }
 #endif

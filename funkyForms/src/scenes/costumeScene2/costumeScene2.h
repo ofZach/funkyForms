@@ -9,6 +9,19 @@
 #include "particle3f.h"
 
 
+typedef struct  {
+    
+    ofPoint pos;
+    float radius;
+    float age;
+    float vel;
+    
+    ofColor a;
+    ofColor b;
+    
+}circleParticle;
+
+
 class costumeScene2 : public baseScene {
     
 public:
@@ -25,6 +38,9 @@ public:
     
     
     ofShader shader;
+    vector < circleParticle > particles;
+    
+    
     
     
 };

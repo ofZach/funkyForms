@@ -1,6 +1,6 @@
 #include "buildingScene.h"
 #include "parallel.h"
-
+#include "boundsHelp.h"
 
 void buildingScene::setup(){
     
@@ -56,21 +56,7 @@ void buildingScene::update(){
 }
 
 
-std::vector<int> bounds(int parts, int mem) {
-    std::vector<int>bnd;
-    int delta = mem / parts;
-    int reminder = mem % parts;
-    int N1 = 0, N2 = 0;
-    bnd.push_back(N1);
-    for (int i = 0; i < parts; ++i) {
-        N2 = N1 + delta;
-        if (i == parts - 1)
-            N2 += reminder;
-        bnd.push_back(N2);
-        N1 = N2;
-    }
-    return bnd;
-}
+
 
 void dot_product(int L, int R, int tid, reflectionPacket * packet){
 
@@ -376,7 +362,7 @@ void buildingScene::draw(){
     
         for (int i = 0; i < packet.nLightRays; i++){
             ofPoint pos(ofGetMouseX()*2 + i*0.1, ofGetMouseY()*2);
-            ofPoint dir(cos(timeff + i *0.0001), sin(timeff + i * 0.0001));
+            ofPoint dir(cos(timeff), sin(timeff));
             dir.normalize();
             positions.push_back(pos);
             directions.push_back(dir);

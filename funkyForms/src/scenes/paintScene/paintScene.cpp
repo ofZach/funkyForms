@@ -26,6 +26,10 @@ bool compareSaturation( const colorNameMapping& s1, const colorNameMapping& s2 )
 
 void paintScene::setup(){
     
+    colorPalette[0].load("assets/1smooth.png");
+    colorPalette[1].load("assets/3.png");
+    colorPalette[2].load("assets/8.png");
+    
     simplexImage.allocate(256, 256, OF_IMAGE_GRAYSCALE);
     simplexImage2.allocate(256, 256, OF_IMAGE_GRAYSCALE);
     
@@ -40,6 +44,9 @@ void paintScene::setup(){
     lineFbo.begin();
     ofClear(0,0,0,255);
     lineFbo.end();
+    
+    opticalFlowImage.allocate(RM->getWholeRectangle().width/12, RM->getWholeRectangle().height/12, OF_IMAGE_COLOR);
+    
     
     //paint/stone_rocky_surface_texture.jpg
     
@@ -245,6 +252,63 @@ void paintScene::setup(){
 void paintScene::update(){
  
     
+    ofRectangle left = RM->getRectForScreen(SCREEN_LEFT);
+    ofRectangle right = RM->getRectForScreen(SCREEN_RIGHT);
+    
+    
+    for (int i = 0; i < opticalFlowImage.getWidth(); i++){
+        for (int j = 0; j < opticalFlowImage.getHeight(); j++){
+             ofColor c = opticalFlowImage.getColor(i,j);
+            c.r = 0.96 * c.r + 0.04 * 127;
+            c.g = 0.96 * c.g + 0.04 * 127;
+            c.b = 0.96 * c.b + 0.04 * 127;
+            opticalFlowImage.setColor(i,j,c);
+        }
+    }
+    
+    
+    for (int i = 0; i < opticalFlowImage.getWidth(); i++){
+        for (int j = 0; j < opticalFlowImage.getHeight(); j++){
+            
+            ofPoint pos(i,j);
+            pos *= 12;
+            
+            ofPoint flow;
+            bool bInside = false;
+            
+            if (left.inside(pos)){
+                
+                //flow.set(5,0,0);
+                
+                if (ofGetFrameNum() > 100) flow = cvData[0]->getFlowAtScreenPos(SCREEN_LEFT, pos);
+                bInside = true;
+                
+            } else if (right.inside(pos)){
+                bInside = true;
+                if (ofGetFrameNum() > 100) flow = cvData[1]->getFlowAtScreenPos(SCREEN_RIGHT, pos);
+                
+                
+            }
+            if (!bInside) continue;
+            ofColor c = opticalFlowImage.getColor(i,j);
+            ofColor res = c;
+            res.r = ofClamp(res.r + ofMap(flow.x, -5, 5, -20, 20, true), 0, 255);
+            res.g = ofClamp(res.g + ofMap(flow.y, -5, 3, -20, 10, true), 0, 255);
+            res.b = 127;
+            opticalFlowImage.setColor(  i, j,res);
+            //opticalFlowImage.setColor(  i, j, (c.x + ofColor(  ofMap(flow.x, -5, 5, 0, 255, true), ofMap(flow.y, -5, 5, 0, 255, true), 0));
+            
+            
+            //if (
+            
+        }
+    }
+    
+    ofxCv::blur(opticalFlowImage, 5);
+    
+    
+    opticalFlowImage.update();
+    
     
     if (ofGetFrameNum() % 100 == 0){
         shader.load("sceneAssets/paint/shader/shader");
@@ -252,6 +316,7 @@ void paintScene::update(){
     
     
     meshes.clear();
+    colors.clear();
     //fBm( dfBm( ofVec3f(position.x*0.3, position.y*0.3, time*0.1) ) ) * 0.5f + 0.5f;
 }
 
@@ -277,6 +342,8 @@ void paintScene::draw(){
             ofPolyline line = cvData[packetId]->blobs[i].blob;
             
             int id  = cvData[packetId]->blobs[i].id;
+            float age = cvData[packetId]->blobs[i].age;
+            //cout << age << endl;
             
             for (auto & pt : line){
                 pt = cvData[0]->remapForScreen(packetId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
@@ -305,9 +372,16 @@ void paintScene::draw(){
                 ofSetColor(colorNames[ (int)(id) % (int)(colorNames.size()*0.5)].color);
             }
 
-//            ofColor c;
-//            c.setHsb(ofMap(angle, -PI, PI, 0, 255), 255, brightness*0.5 + 127);
-//            ofSetColor(c);
+    ofColor c;
+            
+            int index = ofGetMouseX() % 3;
+            int w = colorPalette[index].getWidth()-2;
+            int pos = (int)(sin(ofMap(angle, -PI, PI, 0, PI)) * (w/2) + w/2);
+            c = colorPalette[index].getColor((int)(age * 400) % w, 30);
+            
+            
+        //c.setHsb((int)ofMap(angle, -PI, PI, 0, 3000) % 255, 255, 255);
+    ofSetColor(c);
             
             ofPath p;
             
@@ -327,6 +401,7 @@ void paintScene::draw(){
             meshes.back() = p.getTessellation();
             meshes.back().draw();
             //ofEndShape();
+            colors.push_back(c);
         }
     }
     
@@ -345,7 +420,7 @@ void paintScene::draw(){
     shader.begin();
     shader.setUniform1f("time", ofGetElapsedTimef());
     shader.setUniformTexture("tex0",lineFbo, 0 );
-    shader.setUniformTexture("tex1",simplexImage.getTextureReference(), 1 );
+    shader.setUniformTexture("tex1",opticalFlowImage.getTextureReference(), 1 );
     shader.setUniformTexture("tex2",simplexImage2.getTextureReference(), 2 );
     shader.setUniformTexture("tex3",rockImage.getTextureReference(), 3 );
     
@@ -360,13 +435,19 @@ void paintScene::draw(){
     lineFbo2.draw(0, 0);
     lineFbo.end();
     
-    simplexImage.draw(0,0);
+    ofSetColor(255);
+    //opticalFlowImage.draw(0,0, opticalFlowImage.getWidth()*8, opticalFlowImage.getHeight()*8);
     
     
     for (int i = 0; i < meshes.size(); i++){
-        ofSetColor(80);
+        ofSetColor(colors[i]);
         meshes[i].draw();
+        
+        ofSetColor(0,0,0,200);
+        //meshes[i].draw();
     }
+    
+    
 }
 
 
