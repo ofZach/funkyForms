@@ -1,27 +1,12 @@
 
 #pragma once
 
-
 #include "ofMain.h"
 #include "baseScene.h"
 #include "BVH.h"
 #include "lineSeg.h"
 
-
-typedef struct {
-    
-    //-------------------------------------
-    BVH * bvh;
-    ofMesh meshes[16];
-    vector < ofPoint > pos[16];
-    vector < ofPoint > dir[16];
-    vector < ofColor > colors[16];
-    int nLightRays;
-    
-} reflectionPacket2;
-
-
-class tableScene2 : public baseScene {
+class tableScene : public baseScene {
     
 public:
     
@@ -49,6 +34,5 @@ public:
     
     
 };
-
 
 

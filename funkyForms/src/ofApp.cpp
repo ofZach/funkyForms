@@ -24,8 +24,8 @@ void ofApp::setup(){
     
     ofRectangle bounds;
 
-    
     SM.scenes.push_back(new tableScene());
+    SM.scenes.push_back(new tableScene2());
     SM.scenes.push_back(new paintScene());
     //SM.scenes.push_back(new particleScene());
     //SM.scenes.push_back(new light2dScene());
@@ -335,12 +335,45 @@ void ofApp::keyPressed(int key){
     }
     
     if (key == '1'){
+        changeScene(0);
+    }
+    if (key == '2'){
+        changeScene(1);
+    }
+    if (key == '3'){
+        changeScene(2);
+    }
+    if (key == '3'){
+        changeScene(3);
+    }
+    if (key == '4'){
+        changeScene(4);
+    }
+    if (key == '5'){
+        changeScene(5);
+    }
+    if (key == '6'){
+        changeScene(6);
+    }
+    if (key == '7'){
+        changeScene(7);
+    }
+    if (key == '8'){
+        changeScene(8);
+    }
+    if (key == '9'){
+        changeScene(9);
+    }
+}
+void ofApp::changeScene(int sceneNum){
+    if(sceneNum < SM.scenes.size()){
         startSceneChangeTime = ofGetElapsedTimef();
         bChanged = false;
         bInSceneChange = true;
         bNext = false;
-        whoToGoTo = 0;
+        whoToGoTo = sceneNum;
     }
+    
 }
 
 //--------------------------------------------------------------

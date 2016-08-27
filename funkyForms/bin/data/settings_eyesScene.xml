@@ -3,7 +3,7 @@
 		<isEyePairMode>0</isEyePairMode>
 		<isEyeParticleMode>0</isEyeParticleMode>
 		<isEyeLinkerMode>1</isEyeLinkerMode>
-	<changeMode>1</changeMode>
+	<changeMode>0</changeMode>
 		<isAutoChangeMode>0</isAutoChangeMode>
 	<glowRadius>90.5612</glowRadius>
 		<glowOpacity>76.7602</glowOpacity>
@@ -41,13 +41,13 @@
 	</eyeLinkerParameters>
 <eyePairParameters>
 		<eyeDistance>517.857</eyeDistance>
-		<energyRange>51.6582</energyRange>
+		<energyRange>96.8112</energyRange>
 		<smooth>0.99</smooth>
 	<posOffsetY>-5.10205</posOffsetY>
-	<posOffsetX>-311.224</posOffsetX>
+	<posOffsetX>-183.673</posOffsetX>
 		<eyeSize>200</eyeSize>
 	<minScale>0.733674</minScale>
-		<maxScale>3.33878</maxScale>
+		<maxScale>4.85255</maxScale>
 		<scaleSmooth>0.935</scaleSmooth>
 	<rewLineLength>1306.48</rewLineLength>
 		<rewLineRadius>377.704</rewLineRadius>
@@ -67,7 +67,7 @@
 		<scaleRadius>200</scaleRadius>
 	<eyeSizeMin>20</eyeSizeMin>
 		<eyeSizeMax>78.0612</eyeSizeMax>
-	<peopleRepRadius>58.7245</peopleRepRadius>
+	<peopleRepRadius>125.383</peopleRepRadius>
 		<peopleRepForce>0.5</peopleRepForce>
 	<rotationConstraint>121.224</rotationConstraint>
 	</eyeParticlesModeParameters>

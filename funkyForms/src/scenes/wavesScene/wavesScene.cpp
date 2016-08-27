@@ -310,7 +310,7 @@ void wavesScene::drawPeople(){
             for(auto &p : line){
                 path.lineTo(p);
             }
-            path.setFillColor(ofColor(0, opacity));
+            path.setFillColor(ofColor(255, opacity));
             path.draw();
         }
     }

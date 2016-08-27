@@ -133,8 +133,9 @@ void tableScene::draw(){
     vector < ofPoint > positions;
     vector < ofPoint > directions;
     
+    ofPoint center = RM->getRectForScreen(SCREEN_CENTER).getCenter();
     for (int i = 0; i < packet.nLightRays; i++){
-        ofPoint pos(ofGetMouseX()*2 + sin(timeff) * 300, ofGetMouseY()*2);
+        ofPoint pos(center.x + sin(timeff) * 300, center.y);
         ofPoint dir(cos(timeff + i*0.001), sin(timeff + i*0.001));
         dir.normalize();
         positions.push_back(pos);

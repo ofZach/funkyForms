@@ -23,7 +23,7 @@
 //#include "particleScene.h"
 //#include "box2dScene.h"
 #include "tableScene.h"
-
+#include "tableScene2.h"
 
 enum view {
     VIEW_DEBUG,
@@ -55,6 +55,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    void changeScene(int i);
     
         inputManager IM;
         sceneManager SM;

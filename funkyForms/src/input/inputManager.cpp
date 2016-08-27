@@ -145,8 +145,16 @@ void inputManager::update(){
     for(int i = 0; i < this->inputs.size(); i++) {
         inputs[i]->update();
         if (i == 0 && inputs[0]->isFrameNew()){
-           
-            ofxCv::copyGray(toCv(inputs[0]->getPixels()), toCv(inputAsGray));
+            
+            
+            
+            
+            cv::Mat from = toCv(inputs[0]->getPixels());
+            cv::Mat to = toCv(inputAsGray);
+            ofxCv::copyGray(from, to);
+            
+            //ofxCv::copyGray(toCv(inputs[0]->getPixels()), toCv(inputAsGray));
+            
             
             ofPoint a(190,275);
             ofPoint b(1715,300);
@@ -161,9 +169,9 @@ void inputManager::update(){
             inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
             inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
             
-            ofxCv::unwarpPerspective(toCv(inputAsGray), inputWarped, inputQuad, CV_INTER_NN);
+            ofxCv::unwarpPerspective(to, inputWarped, inputQuad);
             inputWarped.update();
-            CVM[0].update(inputWarped.getPixels());
+            CVM[0].update(inputWarped.getPixels(), threshold1, needsFlow);
             
 
         } else if (i == 2 && inputs[2]->isFrameNew()){
@@ -174,7 +182,9 @@ void inputManager::update(){
 //            tempImg.setFromPixels(inputs[2]->getPixels());
 //            tempImg.setImageType(OF_IMAGE_COLOR);
             
-            ofxCv::copyGray(toCv(inputs[2]->getPixels()), toCv(inputAsGray));
+            cv::Mat from = toCv(inputs[2]->getPixels());
+            cv::Mat to = toCv(inputAsGray);
+            ofxCv::copyGray(from, to);
             
             
             ofPoint a(3925-1920*2,180);
@@ -188,9 +198,9 @@ void inputManager::update(){
             inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
             inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
             
-            ofxCv::unwarpPerspective(toCv(inputAsGray), inputWarped2, inputQuad, CV_INTER_NN);
+            ofxCv::unwarpPerspective(to, inputWarped2, inputQuad);
             inputWarped2.update();
-            CVM[1].update(inputWarped2.getPixels());
+            CVM[1].update(inputWarped2.getPixels(), threshold2, needsFlow);
 
 
             
