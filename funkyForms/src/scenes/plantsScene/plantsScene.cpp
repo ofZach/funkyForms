@@ -144,15 +144,20 @@ void plantsScene::addPlant(ofVec2f _pos, int packetId, int id, bool bLeftSide){
 }
 void plantsScene::setupGui(){
     parameters.setName("plantsSceneParameters");
+    // bg
+    parameters.add(bgColorTop.set("bgColorTop",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorMid.set("bgColorMid",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorBot.set("bgColorBot",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorRange.set("bgColorRange", 360, 0, 360));
+    parameters.add(bgColorSpeed.set("bgColorSpeed", 2, 1, 200));
+    parameters.add(bgGradOffset.set("bgGradOffset", 0, -500, 500));
+
     // plant
     parameters.add(plantScale.set("plantScale", 1.0, 0.1, 2));
-    
     parameters.add(mainBranchCountMin.set("mainBranchCountMin", 5, 1, 20));
     parameters.add(mainBranchCountMax.set("mainBranchCountMax", 5, 1, 20));
-    
     parameters.add(childBranchCountMin.set("childBranchCountMin", 5, 1, 20));
     parameters.add(childBranchCountMax.set("childBranchCountMax", 5, 1, 20));
-
     parameters.add(bgMainBranchCountMin.set("bgMainBranchCountMin", 5, 1, 20));
     parameters.add(bgMainBranchCountMax.set("bgMainBranchCountMax", 5, 1, 20));
     
@@ -447,8 +452,51 @@ void plantsScene::drawBackground(){
     ofPopMatrix();
     
     ofSetRectMode(OF_RECTMODE_CORNER);
-
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    drawGradBg();
+    ofDisableBlendMode();
+    ofEnableAlphaBlending();
 }
+void plantsScene::drawGradBg(){
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    
+    ofColor colTop = bgColorTop;
+    ofColor colMiddle = bgColorMid;
+    ofColor colBottom = bgColorBot;
+    
+    float pct = cos(ofGetFrameNum()/bgColorSpeed)*0.5 + 0.5;
+    colTop.setHueAngle( bgColorTop.get().getHueAngle() +  pct*bgColorRange );
+    colMiddle.setHueAngle(bgColorMid.get().getHueAngle() +  pct*bgColorRange );
+    colBottom.setHueAngle(bgColorBot.get().getHueAngle() + pct*bgColorRange );
+    
+    ofVec2f topL(RM->getRectForScreen(SCREEN_LEFT).x, RM->getRectForScreen(SCREEN_TOP).y);
+    ofVec2f topR(RM->getRectForScreen(SCREEN_RIGHT).getRight(), RM->getRectForScreen(SCREEN_TOP).y);
+    
+    ofVec2f midL(RM->getRectForScreen(SCREEN_LEFT).x, RM->getRectForScreen(SCREEN_LEFT).y + bgGradOffset * sf);
+    ofVec2f midR(RM->getRectForScreen(SCREEN_RIGHT).getRight(), RM->getRectForScreen(SCREEN_LEFT).y + bgGradOffset * sf);
+    
+    ofVec2f botL(RM->getRectForScreen(SCREEN_LEFT).getBottomLeft());
+    ofVec2f botR(RM->getRectForScreen(SCREEN_RIGHT).getBottomRight());
+    
+    mesh.addVertex(topL);
+    mesh.addColor(colTop);
+    mesh.addVertex(topR);
+    mesh.addColor(colTop);
+    
+    mesh.addVertex(midL);
+    mesh.addColor(colMiddle);
+    mesh.addVertex(midR);
+    mesh.addColor(colMiddle);
+    
+    mesh.addVertex(botL);
+    mesh.addColor(colBottom);
+    mesh.addVertex(botR);
+    mesh.addColor(colBottom);
+    
+    mesh.draw();
+}
+
 void plantsScene::drawHills(){
     ofRectangle rect = RM->getWholeRectangle();
     

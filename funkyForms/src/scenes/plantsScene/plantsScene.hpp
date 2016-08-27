@@ -18,6 +18,14 @@
 
 class plantsScene : public baseScene {
 public:
+    // Background
+    ofParameter<ofColor> bgColorTop;
+    ofParameter<ofColor> bgColorMid;
+    ofParameter<ofColor> bgColorBot;
+    ofParameter<float> bgColorSpeed;
+    ofParameter<float> bgColorRange;
+    ofParameter<float> bgGradOffset;
+    
     // plants
     vector<Plant> plants;
     ofParameter<float> plantScale;
@@ -131,6 +139,7 @@ public:
     void draw();
     void drawHills();
     void drawBackground();
+    void drawGradBg();
     void drawPlants();
     void drawPeople();
     void drawBgPlants();

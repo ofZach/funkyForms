@@ -36,6 +36,12 @@
 		<bgChildBranchCountMax>5</bgChildBranchCountMax>
 		<branchLengthVariation>22.3214</branchLengthVariation>
 	<clearPlants>0</clearPlants>
+	<bgColorTop>255, 255, 255, 255</bgColorTop>
+		<bgColorMid>255, 255, 255, 255</bgColorMid>
+		<bgColorBot>69, 69, 98, 255</bgColorBot>
+		<bgColorRange>56.9388</bgColorRange>
+		<bgColorSpeed>53.7959</bgColorSpeed>
+		<bgGradOffset>-96.9388</bgGradOffset>
 	</plantsSceneParameters>
 <settings_plantsScene/>
 <bgParameters>
