@@ -35,6 +35,21 @@ void light2dScene::setup(){
 
 void light2dScene::update(){
     
+
+    
+    float currentTime = ofGetElapsedTimef() - startTime;
+    float sinTime = ofMap(sin(currentTime),-1,1,-1.7,2);
+    
+        if(radius<600){
+        radius += sinTime;
+        }
+    
+        amplitude += sinTime*1.3;
+        xVel += sinTime*0.003;
+    
+
+
+ 
     updateLights();
     
 }
@@ -76,13 +91,13 @@ void light2dScene::guiDetail(){
     movePanel.setup("Movement PANEL");
     movePanel.setPosition(80, 10);
     movePanel.add(angleVel.set("Angle Vel", 0.0565,0,0.1));
-    movePanel.add(amplitude.set("Amplitude", 120,0,170));
-    movePanel.add(xVel.set("xVel", 1.43,0,2));
+    movePanel.add(amplitude.set("Amplitude", 31,0,170));
+    movePanel.add(xVel.set("xVel", 1.5,0,2));
     movePanel.add(mouseLight.set("Mouse Ligh0t",false));
     
     lightPanel.setup("LIGHT PANEL");
     lightPanel.setPosition(80, 170);
-    lightPanel.add(radius.set("Radius", 400,250,600));
+    lightPanel.add(radius.set("Radius", 290,200,600));
     lightPanel.add(bleed.set("bleed", 0,0,2));
 
 }

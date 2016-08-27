@@ -137,7 +137,7 @@ void ParticleNoise::addColor(bool _addR, ofVec2f _mouse, bool _colorMode, float 
     float brightness;
     
     if (!_colorMode) {
-        brightness = ofMap(distV, _maxDistV, _minDistV, 1, 0.0);
+        brightness = ofMap(distV, _maxDistV, _minDistV, 1, 0.9);
         brightness = powf(brightness, 0.2);
         //brightness = ofMap(distV, 0.15,0, 1, 0, true);
         

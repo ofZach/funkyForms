@@ -22,4 +22,17 @@
 			<createBgPlant>0</createBgPlant>
 		</PlantManager>
 	</plantsSceneParameters>
+<FORCE_PANEL>
+		<Force_Radius>72</Force_Radius>
+		<Spring_Force>0.245</Spring_Force>
+		<Damping>0.02</Damping>
+		<Repulsion_Force>0.16</Repulsion_Force>
+		<Clockwise_R>1</Clockwise_R>
+		<Counterclockwise_R>0</Counterclockwise_R>
+		<Rotation_Speed>33.15</Rotation_Speed>
+		<Line_Mode>0</Line_Mode>
+		<line_Distance>5</line_Distance>
+		<Color_Mode>0</Color_Mode>
+		<Hide_Cursor>0</Hide_Cursor>
+	</FORCE_PANEL>
 </PlantManager>

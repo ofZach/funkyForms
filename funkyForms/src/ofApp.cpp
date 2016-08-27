@@ -24,11 +24,17 @@ void ofApp::setup(){
     
     ofRectangle bounds;
 
+
+    SM.scenes.push_back(new particleScene());
+    SM.scenes.push_back(new light2dScene());
+    
+    SM.scenes.push_back(new tableScene());
+
     SM.scenes.push_back(new tableScene3());
+
     SM.scenes.push_back(new tableScene2());
     SM.scenes.push_back(new paintScene());
-    //SM.scenes.push_back(new particleScene());
-    //SM.scenes.push_back(new light2dScene());
+
    // SM.scenes.push_back(new box2dScene());
 
     //SM.scenes.push_back(new buildingScene());
@@ -384,25 +390,25 @@ void ofApp::keyPressed(int key){
     if (key == '3'){
         changeScene(2);
     }
-    if (key == '3'){
+    if (key == '4'){
         changeScene(3);
     }
-    if (key == '4'){
+    if (key == '5'){
         changeScene(4);
     }
-    if (key == '5'){
+    if (key == '6'){
         changeScene(5);
     }
-    if (key == '6'){
+    if (key == '7'){
         changeScene(6);
     }
-    if (key == '7'){
+    if (key == '8'){
         changeScene(7);
     }
-    if (key == '8'){
+    if (key == '9'){
         changeScene(8);
     }
-    if (key == '9'){
+    if (key == '0'){
         changeScene(9);
     }
 }
