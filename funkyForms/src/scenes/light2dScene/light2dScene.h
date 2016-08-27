@@ -55,7 +55,11 @@ public:
     ofParameter<float> linearizeFactor;
     
     float w,h;
-
+    
+    float startTime;
+    void start(){
+        startTime = ofGetElapsedTimef();
+    }
     
 };
 

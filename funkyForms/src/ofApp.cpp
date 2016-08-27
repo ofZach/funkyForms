@@ -24,11 +24,13 @@ void ofApp::setup(){
     
     ofRectangle bounds;
 
+    SM.scenes.push_back(new particleScene());
+    SM.scenes.push_back(new light2dScene());
+    
     SM.scenes.push_back(new tableScene());
     SM.scenes.push_back(new tableScene2());
     SM.scenes.push_back(new paintScene());
-    //SM.scenes.push_back(new particleScene());
-    //SM.scenes.push_back(new light2dScene());
+
    // SM.scenes.push_back(new box2dScene());
 
     //SM.scenes.push_back(new buildingScene());

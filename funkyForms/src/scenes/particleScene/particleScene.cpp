@@ -36,6 +36,98 @@ void particleScene::setup(){
 
 void particleScene::update(){
     
+    
+    float currentTime = ofGetElapsedTimef() - startTime;
+    float currentTime2 = currentTime - 7;
+    
+    float timePhase1 = ofMap(sin(currentTime*0.9),-1,1,-5,5);
+    
+    if(currentTime>=0 && currentTime<=1){
+        guiDtl();
+    }
+    
+    else if (currentTime >1 && currentTime <=7 ){
+        forceR += timePhase1;
+    }  else if(currentTime>7 && currentTime<8){
+        addNoise = true;
+        indexScale =100;
+        timeScale = 0.8;
+        
+        lightNum = 24;
+        angleVel = 0.06;
+        amplitude = 276;
+        xVel = 8.05;
+    }else if(currentTime>8 && currentTime<13){
+         if(springBack > 0){
+         springBack -= 0.005;
+         } else if(springBack <= 0){
+             springBack = 0;
+         }
+     } else if(currentTime>13 && currentTime<17){
+         
+         if(springBack<0.5){
+         springBack += 0.005;
+         }
+     }
+    
+//    if(currentTime >= 0 && currentTime<=6){
+//        guiDtl();
+//    
+//    } else if(currentTime > 6 && currentTime < 11 ){
+//
+//            forceR = 90;
+//            springBack = 0.4;
+//            lightNum = 28;
+//            angleVel = 0.0375;
+//            amplitude = 387;
+//    }
+//    else if (currentTime >= 11 && currentTime < 16 ){
+//        forceR = 214;
+//        springBack = 0.015;
+//        damping = 0.1845;
+//        force = 0.1135;
+//        addClockWiseRotation = false;
+//        
+//        addNoise = true;
+//        indexScale = 785;
+//        timeScale = 1.8;
+//
+//        
+//        lightNum = 28;
+//        angleVel = 0.0375;
+//        amplitude = 387;
+//        xVel = 8.45;
+//    }
+//    else if (currentTime >= 17 && currentTime < 20 ){
+//        forceR = 214;
+//        springBack = 0.3;
+//        damping = 0.1845;
+//        force = 0.1135;
+//        addClockWiseRotation = false;
+//        
+//        addNoise = true;
+//        indexScale = 785;
+//        timeScale = 1.8;
+//        
+//
+//        lightNum = 28;
+//        angleVel = 0.0375;
+//        amplitude = 387;
+//        xVel = 8.45;
+//    }
+
+    
+
+    
+    //sin(currentTime);
+    //sin(currentTime*0.3);
+    
+//    if(currentTime>6 && currentTime<12){
+//        addNoise = true;
+//        addClockWiseRotation = false;
+//    }
+    
+    
     updateParticle();
     
     if (hideCursor) {
@@ -44,6 +136,7 @@ void particleScene::update(){
         ofShowCursor();
     }
 
+//    forceR+=20;
    
 }
 
@@ -128,38 +221,6 @@ void particleScene::loadWholeBuilding(){
     }
    
 
-}
-
-
-
-
-void particleScene::drawBuilding(){
-    
-    for (int i = 0; i < windowsScaled.size(); i++){
-        windowsScaled[i].draw();
-    }
-    
-    for (int i = 0; i < outerWindowsScaled.size(); i++){
-        outerWindowsScaled[i].draw();
-    }
-    
-    
-    for (int i = 0; i < engravingScaled.size(); i++){
-        engravingScaled[i].draw();
-    }
-    
-    
-    for (int i = 0; i < pillarScaled.size(); i++){
-        pillarScaled[i].draw();
-    }
-    
-    
-    for (int i = 0; i < edgesScaled.size(); i++){
-        edgesScaled[i].draw();
-    }
-    
-
-    
 }
 
 
@@ -343,16 +404,17 @@ void particleScene::drawParticleBuilding(){
 }
 
 void particleScene::guiDtl(){
-  
+
+    
     gui.setup("FORCE PANEL");
     gui.setPosition(80,30);
-    gui.add(forceR.set("Force Radius",20,10,250));
+    gui.add(forceR.set("Force Radius",223,20,350));
     gui.add(springBack.set("Spring Force", 0.245,0,0.5));
     gui.add(damping.set("Damping", 0.02, 0,0.3));
-    gui.add(force.set("Repulsion Force",0.3,0.1,4));
+    gui.add(force.set("Repulsion Force",0.16,0.1,1));
     gui.add(addClockWiseRotation.set("Clockwise R", true));
     gui.add(addCounterClockwiseForce.set("Counterclockwise R", false));
-    gui.add(rotateSpeed.set("Rotation Speed",50,30,135));
+    gui.add(rotateSpeed.set("Rotation Speed",33.15,15,50));
     gui.add(addLine.set("Line Mode", false));
     gui.add(lineNum.set("line Distance",5,3,10));
     gui.add(colorMode.set("Color Mode", false));
@@ -362,18 +424,19 @@ void particleScene::guiDtl(){
     noiseGui.setup("NOISE PANEL");
     noiseGui.setPosition(80,280);
     noiseGui.add(addNoise.set("Add Noise", false));
-    noiseGui.add(indexScale.set("Noise Index",215,0,1000));
-    noiseGui.add(timeScale.set("Noise Scale",0.88,0,2));
+    noiseGui.add(indexScale.set("Noise Index",0,0,1000));
+    noiseGui.add(timeScale.set("Noise Scale",0,0,2));
     
     
     lightPanel.setup("LIGHT PANEL");
     lightPanel.setPosition(80,400);
-    lightPanel.add(lightNum.set("Light Number", 15,1,particleLightN));
-    lightPanel.add(angleVel.set("Angle Vel", 0.05,0,0.5));
-    lightPanel.add(amplitude.set("Amplitude", 80,0,600));
-    lightPanel.add(xVel.set("xVel", 2.3,0,10));
+    lightPanel.add(lightNum.set("Light Number", 18,1,particleLightN));
+    lightPanel.add(angleVel.set("Angle Vel", 0.0875,0,0.5));
+    lightPanel.add(amplitude.set("Amplitude", 165,0,600));
+    lightPanel.add(xVel.set("xVel", 8.45,7,12));
     lightPanel.add(drawLight.set("Draw Light",false));
     lightPanel.add(mouseLight.set("Mouse Light",false));
+
 
 }
 

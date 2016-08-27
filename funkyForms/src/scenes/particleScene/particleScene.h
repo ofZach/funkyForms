@@ -74,6 +74,13 @@ public:
     lightSource light;
     vector<lightSource> lights;
     
+    float startTime;
+    void start(){
+        startTime = ofGetElapsedTimef();
+    }
+    
+    
+    
     
     vector<float> forceRscale;
     
