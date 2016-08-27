@@ -1,15 +1,15 @@
-#include "tableScene.h"
+#include "tableScene3.h"
 #include "boundsHelp.h"
 #include "reflectionUseful.h"
 
-void tableScene::setup(){
-    sceneName = "tableScene";
+void tableScene3::setup(){
+    sceneName = "tableScene3";
 }
 
 
 
 
-void reflection(int L, int R, int tid, reflectionPacket * packet){
+void reflection33(int L, int R, int tid, reflectionPacket3 * packet){
     
     for (int i = L; i < R; i++){
         ofPoint pos = packet->pos[tid][i];
@@ -53,19 +53,19 @@ void reflection(int L, int R, int tid, reflectionPacket * packet){
 }
 
 
-void tableScene::update(){
+void tableScene3::update(){
     
     
     
     
     //ofPopMatrix();
     
-
-   
+    
+    
 }
 
 
-void tableScene::draw(){
+void tableScene3::draw(){
     
     
     for (int i = 0; i < cvData[2]->blobs.size(); i++){
@@ -115,17 +115,17 @@ void tableScene::draw(){
     objects.push_back(temp);
     
     bvh = new BVH(&objects);
-//    if (objects.size() > 0){
-//        bvh = new BVH(&objects);
-//    } else {
-//        // no lines no light
-//        //return;
-//        
-//    }
+    //    if (objects.size() > 0){
+    //        bvh = new BVH(&objects);
+    //    } else {
+    //        // no lines no light
+    //        //return;
+    //
+    //    }
     
     
     
-    reflectionPacket packet;
+    reflectionPacket3 packet;
     
     float timeff = ofGetElapsedTimef();
     
@@ -135,8 +135,8 @@ void tableScene::draw(){
     
     ofPoint center = RM->getRectForScreen(SCREEN_CENTER).getCenter();
     for (int i = 0; i < packet.nLightRays; i++){
-        ofPoint pos(center.x + sin(timeff) * 300, center.y);
-        ofPoint dir(cos(timeff + i*0.001), sin(timeff + i*0.001));
+        ofPoint pos(ofMap(i, 0, 10000, 0, RM->getWidth()), center.y + sin(timeff) * 400);
+        ofPoint dir(cos(timeff), sin(timeff));
         dir.normalize();
         positions.push_back(pos);
         directions.push_back(dir);
@@ -158,7 +158,7 @@ void tableScene::draw(){
     //Launch nr_threads threads:
     for (int i = 0; i < nr_threads; ++i) {
         
-        threads.push_back(std::thread(reflection, limits[i], limits[i+1], i, &packet));
+        threads.push_back(std::thread(reflection33, limits[i], limits[i+1], i, &packet));
     }
     
     
@@ -189,20 +189,20 @@ void tableScene::draw(){
 }
 
 
-void tableScene::blobBorn(int packetId, int id){
- 
+void tableScene3::blobBorn(int packetId, int id){
+    
 }
 
-void tableScene::blobDied(int packetId, int id){
- 
-  
+void tableScene3::blobDied(int packetId, int id){
+    
+    
 }
 
 
-void tableScene::start(){
+void tableScene3::start(){
     // I am starting, show a gui
 }
 
-void tableScene::stop(){
+void tableScene3::stop(){
     // I am stopping, hide a gui
 }

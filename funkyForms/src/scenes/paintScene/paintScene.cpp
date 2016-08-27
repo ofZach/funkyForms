@@ -1,4 +1,5 @@
 #include "paintScene.h"
+#include "ofxCv.h"
 
 #define SIMPLEX_IMPLEMENTATION
 
@@ -25,6 +26,28 @@ bool compareSaturation( const colorNameMapping& s1, const colorNameMapping& s2 )
 
 
 void paintScene::setup(){
+    
+    for (int i = 1; i <= 9; i++){
+        ofImage temp;
+        paletteImgs.push_back(temp);
+        paletteImgs.back().load("assets/palette/" + ofToString(i) + ".png");
+        
+        for (int j = 0; j < 8; j++) ofxCv::blur(paletteImgs.back(), 11);
+        
+    }
+    
+    group.add(personOpacity.set("personOpacity", 0, 0, 255));
+    group.add(palette.set("palette", 0, 0, paletteImgs.size()-1));
+    group.add(paletteMoveSpeed.set("paletteMoveSpeed", 1.0, 0.0, 10.0));
+    group.add(bUseVelForPalette.set("bUseVelForPalette", false));
+    group.add(bDirectVel.set("bDirectVel", false));
+    
+
+    gui.setup("settings_paintScene", "settings_paintScene.xml");
+    gui.add(group);
+    gui.loadFromFile("settings_paintScene.xml");
+    
+    
     
     colorPalette[0].load("assets/1smooth.png");
     colorPalette[1].load("assets/3.png");
@@ -321,19 +344,28 @@ void paintScene::update(){
 }
 
 
-
+void paintScene::drawGui(){
+    gui.draw();
+}
 void paintScene::draw(){
 
     
     
     lineFbo.begin();
     //ofClear(255,255,255,255);
-    ofSetColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), ofRandom(0,200));
+    //ofSetColor(ofRandom(0,255), ofRandom(0,255), ofRandom(0,255), ofRandom(0,200));
     
     
     ofFill();
     
-    ofCircle(ofGetWidth()/2 + 300 * cos(ofGetElapsedTimef()*2), ofGetHeight()/2 + 100 * sin(ofGetElapsedTimef()*4), 100);
+    int ww = (int)ofRandom(paletteImgs[palette].getWidth()) % (int)paletteImgs[palette].getWidth();
+    int hh = (int)ofRandom(paletteImgs[palette].getHeight()) % (int)paletteImgs[palette].getHeight();
+    
+    ofColor cc = paletteImgs[palette].getColor(ww, hh);
+    ofSetColor(cc);
+    
+    
+    ofCircle(RM->getWidth()*0.5 + 300 * cos(ofGetElapsedTimef()*2), RM->getHeight()*0.4 + 300 * sin(ofGetElapsedTimef()*4), 60 + 60 * sin(ofGetElapsedTimef()*0.6));
     
     
     for (int packetId = 0; packetId < 2; packetId++){
@@ -372,16 +404,18 @@ void paintScene::draw(){
                 ofSetColor(colorNames[ (int)(id) % (int)(colorNames.size()*0.5)].color);
             }
 
-    ofColor c;
+            ofColor c;
             
-            int index = ofGetMouseX() % 3;
-            int w = colorPalette[index].getWidth()-2;
+            int index = palette;
+            int w = paletteImgs[palette].getWidth()-2;
             int pos = (int)(sin(ofMap(angle, -PI, PI, 0, PI)) * (w/2) + w/2);
-            c = colorPalette[index].getColor((int)(age * 400) % w, 30);
+            c = paletteImgs[index].getColor((int)(age * 400 * paletteMoveSpeed) % w, paletteImgs[index].getHeight()*0.5);
             
-            
-        //c.setHsb((int)ofMap(angle, -PI, PI, 0, 3000) % 255, 255, 255);
-    ofSetColor(c);
+            if (bDirectVel){
+                c.setHsb((int)ofMap(angle, -PI, PI, 0, 3000) % 255, 255, 255);
+                
+            }
+            ofSetColor(c);
             
             ofPath p;
             
@@ -443,9 +477,14 @@ void paintScene::draw(){
         ofSetColor(colors[i]);
         meshes[i].draw();
         
-        ofSetColor(0,0,0,200);
-        //meshes[i].draw();
+        ofSetColor(0,0,0,personOpacity);
+        meshes[i].draw();
     }
+    
+    
+    ofSetColor(255);
+    
+    paletteImgs[ ofGetMouseX() % paletteImgs.size() ].draw(0,0);
     
     
 }
