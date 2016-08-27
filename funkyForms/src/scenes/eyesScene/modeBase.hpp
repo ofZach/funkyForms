@@ -22,7 +22,8 @@ public:
     virtual void fadeIn() = 0;
     virtual void fadeOut() = 0;
     virtual void draw() = 0;
-    cvPacket * cvData[2];  
+    virtual void clear() = 0;
+    cvPacket * cvData[2];
 };
 
 #endif /* modeBase_hpp */

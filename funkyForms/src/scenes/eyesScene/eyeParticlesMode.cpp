@@ -34,6 +34,12 @@ void eyeParticlesMode::setupGui(){
 void eyeParticlesMode::reset(bool &b){
     init();
 }
+void eyeParticlesMode::clear(){
+    bool isEnabled = false;
+    bool isFadeFinished = false;
+    bool isFading = false;
+    init();
+}
 void eyeParticlesMode::init(){
     eyes.clear();
     particles.clear();

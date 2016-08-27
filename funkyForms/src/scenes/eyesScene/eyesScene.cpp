@@ -37,9 +37,9 @@ void eyesScene::setup(){
     eyePairMode.isEnabled = false;
     eyeLinkerMode.isEnabled = false;
 
-    modes.push_back(&eyeLinkerMode);
-    modes.push_back(&eyeParticlesMode);
     modes.push_back(&eyePairMode);
+    modes.push_back(&eyeParticlesMode);
+    modes.push_back(&eyeLinkerMode);
     
     glow.load("assets/glow.png");
     
@@ -47,6 +47,13 @@ void eyesScene::setup(){
 }
 void eyesScene::setupGui(){
     parameters.setName("eyesSceneParameters");
+    parameters.add(modeChangeMinute.set("modeChangeMinute",  1, 0.01, 5));
+    parameters.add(bgColorTop.set("bgColorTop",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorMid.set("bgColorMid",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorBot.set("bgColorBot",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorRange.set("bgColorRange", 360, 0, 360));
+    parameters.add(bgColorSpeed.set("bgColorSpeed", 2, 1, 200));
+    parameters.add(bgGradOffset.set("bgGradOffset", 0, -500, 500));
     parameters.add(changeMode.set("changeMode", true));
     parameters.add(isAutoChangeMode.set("isAutoChangeMode", false));
     parameters.add(glowRadius.set("glowRadius", 20, 5, 200));
@@ -65,9 +72,9 @@ void eyesScene::triggerAdvance(bool &b){
     advanceMode();
 }
 modeBase *eyesScene::getMode(string name){
-    if(name == "eyeLinkerMode") return modes[0];
+    if(name == "eyePairMode") return modes[0];
     if(name == "eyeParticlesMode") return modes[1];
-    if(name == "eyePairMode") return modes[2];
+    if(name == "eyeLinkerMode") return modes[2];
 }
 void eyesScene::advanceMode(){
     // 1. fade out cur mode
@@ -109,7 +116,9 @@ void eyesScene::updatePeopleEnergy(){
     }
 }
 void eyesScene::updateModes(){
-    if(isAutoChangeMode && ofGetFrameNum()%360 == 0){
+    modeChangeCounter++;
+    int k = modeChangeMinute*3600;
+    if( modeChangeCounter%k == 0){
         advanceMode();
     }
     for(auto &m : modes){
@@ -243,11 +252,51 @@ void eyesScene::updateFastestPos(){
 }
 // ------------ draw
 void eyesScene::draw(){
+    drawBackground();
     drawPeople();
     drawEyes();
     ofFill();
     ofSetColor(100, 100, 100);
 //    ofDrawCircle(averagePos, 20);
+}
+void eyesScene::drawBackground(){
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    
+    ofColor colTop = bgColorTop;
+    ofColor colMiddle = bgColorMid;
+    ofColor colBottom = bgColorBot;
+    
+    float pct = cos(ofGetFrameNum()/bgColorSpeed)*0.5 + 0.5;
+    colTop.setHueAngle( bgColorTop.get().getHueAngle() +  pct*bgColorRange );
+    colMiddle.setHueAngle(bgColorMid.get().getHueAngle() +  pct*bgColorRange );
+    colBottom.setHueAngle(bgColorBot.get().getHueAngle() + pct*bgColorRange );
+    
+    ofVec2f topL(RM->getRectForScreen(SCREEN_LEFT).x, RM->getRectForScreen(SCREEN_TOP).y);
+    ofVec2f topR(RM->getRectForScreen(SCREEN_RIGHT).getRight(), RM->getRectForScreen(SCREEN_TOP).y);
+
+    ofVec2f midL(RM->getRectForScreen(SCREEN_LEFT).x, RM->getRectForScreen(SCREEN_LEFT).y + bgGradOffset * sf);
+    ofVec2f midR(RM->getRectForScreen(SCREEN_RIGHT).getRight(), RM->getRectForScreen(SCREEN_LEFT).y + bgGradOffset * sf);
+
+    ofVec2f botL(RM->getRectForScreen(SCREEN_LEFT).getBottomLeft());
+    ofVec2f botR(RM->getRectForScreen(SCREEN_RIGHT).getBottomRight());
+    
+    mesh.addVertex(topL);
+    mesh.addColor(colTop);
+    mesh.addVertex(topR);
+    mesh.addColor(colTop);
+    
+    mesh.addVertex(midL);
+    mesh.addColor(colMiddle);
+    mesh.addVertex(midR);
+    mesh.addColor(colMiddle);
+    
+    mesh.addVertex(botL);
+    mesh.addColor(colBottom);
+    mesh.addVertex(botR);
+    mesh.addColor(colBottom);
+    
+    mesh.draw();
 }
 void eyesScene::drawGui(){
     gui.draw();
@@ -306,12 +355,15 @@ void eyesScene::drawPeople(){
 }
 // ------------ events
 void eyesScene::start(){
-    
+    modeChangeCounter = 0;
+    curMode = 0;
+    advanceMode();
 }
 void eyesScene::stop(){
-    eyeParticlesMode.init();
-    
-    eyeLinkerMode.clear();
+    modeChangeCounter = 0;
+    for(auto &m : modes){
+        m->clear();
+    }
 }
 void eyesScene::blobBorn(int packetId, int id){
     ofPoint pt = cvData[packetId]->getTopPointAt(id);

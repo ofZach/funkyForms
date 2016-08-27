@@ -19,6 +19,14 @@
 
 class wavesScene : public baseScene {
 public:
+    // Background
+    ofParameter<ofColor> bgColorTop;
+    ofParameter<ofColor> bgColorMid;
+    ofParameter<ofColor> bgColorBot;
+    ofParameter<float> bgColorSpeed;
+    ofParameter<float> bgColorRange;
+    ofParameter<float> bgGradOffset;
+    
     // Input
     float sf = RENDER_SCALE_FACTOR;
     
@@ -39,6 +47,12 @@ public:
     // Waves
     StencilWaves stencilWaves;
     gradientWaves gradientWaves;
+    
+    // Mode change
+    int modeChangeCounter = 0;
+    ofParameter<float>  modeChangeMinute = 0;
+    void updateModeChange();
+    void advanceMode();
     
     // Waves trigger
     
@@ -69,6 +83,7 @@ public:
     void updateInput();
     
     void draw();
+    void drawBackground();
     void drawParticles();
     void drawGui();
     void drawPeople();

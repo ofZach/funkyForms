@@ -21,6 +21,14 @@
 
 class eyesScene : public baseScene{
 public:
+    // Background
+    ofParameter<ofColor> bgColorTop;
+    ofParameter<ofColor> bgColorMid;
+    ofParameter<ofColor> bgColorBot;
+    ofParameter<float> bgColorSpeed;
+    ofParameter<float> bgColorRange;
+    ofParameter<float> bgGradOffset;
+    
     // eyes
     eyeParticlesMode eyeParticlesMode;
     eyeLinkerMode eyeLinkerMode;
@@ -51,6 +59,8 @@ public:
     ofParameter<bool> changeMode;
     ofParameter<bool> isAutoChangeMode;
     vector<modeBase *> modes;
+    int modeChangeCounter = 0;
+    ofParameter<float>  modeChangeMinute = 0;
     int curMode = 0;
     
     void setup();
@@ -70,6 +80,7 @@ public:
     void updateModeSwitch();
     
     void draw();
+    void drawBackground();
     void drawGui();
     void drawEyeLinker();
     void drawPeople();

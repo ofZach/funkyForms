@@ -76,6 +76,9 @@ void eyeLinkerMode::setTargetVel(int packetId, int id, ofVec2f vel){
     targets[packetId][id].vel = vel;
 }
 void eyeLinkerMode::clear(){
+    bool isEnabled = false;
+    bool isFadeFinished = false;
+    bool isFading = false;
     eyeLinkers.clear();
 }
 // ------------------- udpate

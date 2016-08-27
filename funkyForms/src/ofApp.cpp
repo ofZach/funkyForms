@@ -394,7 +394,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     
-    cout << x * 3 << "," << y * 3 << endl;
+    cout << x * 5 << "," << y * 5 << endl;
     
 }
 

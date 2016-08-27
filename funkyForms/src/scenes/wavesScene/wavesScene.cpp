@@ -1,4 +1,5 @@
 //
+
 //  wavesScene.cpp
 //  funkyForms
 //
@@ -42,6 +43,13 @@ void wavesScene::setup(){
 }
 void wavesScene::setupGui(){
     gui.setup("settings_wavesScene", "settings_wavesScene.xml");
+    parameters.add(modeChangeMinute.set("modeChangeMinute",  1, 0.01, 5));
+    parameters.add(bgColorTop.set("bgColorTop",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorMid.set("bgColorMid",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorBot.set("bgColorBot",  ofColor(255, 255, 255, 255), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+    parameters.add(bgColorRange.set("bgColorRange", 360, 0, 360));
+    parameters.add(bgColorSpeed.set("bgColorSpeed", 2, 1, 200));
+    parameters.add(bgGradOffset.set("bgGradOffset", 0, -500, 500));
     parameters.add(changeMode.set("changeMode", true));
     parameters.add(glowRadius.set("glowRadius", 20, 5, 200));
     parameters.add(glowOpacity.set("glowOpacity", 120, 0, 255));
@@ -61,6 +69,10 @@ void wavesScene::setupGui(){
     changeMode.addListener(this, &wavesScene::triggerChangeMode);
 }
 void wavesScene::triggerChangeMode(bool &b){
+    advanceMode();
+}
+// ------------ Update
+void wavesScene::advanceMode(){
     isFade ^= true;
     if(isFade){
         stencilWaves.fadeIn();
@@ -72,13 +84,20 @@ void wavesScene::triggerChangeMode(bool &b){
         stencilWaves.updateFade();
     }
 }
-// ------------ Update
 void wavesScene::update(){
+    updateModeChange();
     updateParticles();
     updateInput();
     gradientWaves.update();
     stencilWaves.update();
     updateFade();
+}
+void wavesScene::updateModeChange(){
+    modeChangeCounter++;
+    int k = modeChangeMinute*3600;
+    if( modeChangeCounter%k == 0){
+        advanceMode();
+    }
 }
 void wavesScene::updateFade(){
 }
@@ -203,7 +222,10 @@ void wavesScene::updateInput(){
             pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
     
             ofVec2f vel = cvData[z]->blobs[i].avgVel;
-
+            
+            for (auto & p : line.getVertices()){
+                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            }
             if(stencilWaves.isEnabled){
                 stencilWaves.addPath(line);
                 for(auto &w: stencilWaves.waves){
@@ -215,11 +237,10 @@ void wavesScene::updateInput(){
                 }
             }
             if(gradientWaves.isEnabled){
-                for (auto & p : line.getResampledBySpacing(10 * sf)){
-                    ofVec2f point = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+                for (auto & linePoint : line.getResampledBySpacing(10 * sf)){
                     int firstWaveIndex = gradientWaves.waves.size()-1;
                     for(auto &p: gradientWaves.waves[firstWaveIndex].points){
-                        if(p.p.distance(point)<100 && vel.dot(ofVec2f(0, -1)) > 0){
+                        if(p.p.distance(linePoint)<100 && vel.dot(ofVec2f(0, -1)) > 0){
                             gradientWaves.waves[firstWaveIndex].addForceTo(&p, vel.normalize().y);
                         }
                     }
@@ -230,13 +251,56 @@ void wavesScene::updateInput(){
 }
 // ------------ Draw
 void wavesScene::draw(){
+    drawBackground();
+
     if(gradientWaves.isEnabled) {
         gradientWaves.draw();
         drawPeople();
     }
     if(stencilWaves.isEnabled) stencilWaves.draw();
     ofEnableAlphaBlending();
-    if(stencilWaves.isEnabled) drawParticles();
+    if(stencilWaves.isEnabled) {
+        drawParticles();
+    }
+}
+void wavesScene::drawBackground(){
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+    
+    ofColor colTop = bgColorTop;
+    ofColor colMiddle = bgColorMid;
+    ofColor colBottom = bgColorBot;
+    
+    float pct = cos(ofGetFrameNum()/bgColorSpeed)*0.5 + 0.5;
+    colTop.setHueAngle( bgColorTop.get().getHueAngle() +  pct*bgColorRange );
+    colMiddle.setHueAngle(bgColorMid.get().getHueAngle() +  pct*bgColorRange );
+    colBottom.setHueAngle(bgColorBot.get().getHueAngle() + pct*bgColorRange );
+    
+    ofVec2f topL(RM->getRectForScreen(SCREEN_LEFT).x, RM->getRectForScreen(SCREEN_TOP).y);
+    ofVec2f topR(RM->getRectForScreen(SCREEN_RIGHT).getRight(), RM->getRectForScreen(SCREEN_TOP).y);
+    
+    ofVec2f midL(RM->getRectForScreen(SCREEN_LEFT).x, RM->getRectForScreen(SCREEN_LEFT).y + bgGradOffset * sf);
+    ofVec2f midR(RM->getRectForScreen(SCREEN_RIGHT).getRight(), RM->getRectForScreen(SCREEN_LEFT).y + bgGradOffset * sf);
+    
+    ofVec2f botL(RM->getRectForScreen(SCREEN_LEFT).getBottomLeft());
+    ofVec2f botR(RM->getRectForScreen(SCREEN_RIGHT).getBottomRight());
+    
+    mesh.addVertex(topL);
+    mesh.addColor(colTop);
+    mesh.addVertex(topR);
+    mesh.addColor(colTop);
+    
+    mesh.addVertex(midL);
+    mesh.addColor(colMiddle);
+    mesh.addVertex(midR);
+    mesh.addColor(colMiddle);
+    
+    mesh.addVertex(botL);
+    mesh.addColor(colBottom);
+    mesh.addVertex(botR);
+    mesh.addColor(colBottom);
+    
+    mesh.draw();
 }
 void wavesScene::drawParticles(){
 //      glPointSize(100);
