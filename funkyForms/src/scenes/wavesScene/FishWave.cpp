@@ -82,7 +82,6 @@ void FishWave::updateFishWave(){
 }
 void FishWave::updateFade(){
     fadeAnimator.update();
-
 }
 void FishWave::updateFishParticles(){    
     for (int i = 0; i < particlesBouey.size(); i++){

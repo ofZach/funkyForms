@@ -8,7 +8,7 @@
 	<glowRadius>90.5612</glowRadius>
 		<glowOpacity>76.7602</glowOpacity>
 	<glowSpacing>20.9184</glowSpacing>
-	<modeChangeMinute>4.38898</modeChangeMinute>
+	<modeChangeMinute>0.340969</modeChangeMinute>
 	<bgColorTop>211, 164, 57, 255</bgColorTop>
 		<bgColorMid>74, 49, 255, 255</bgColorMid>
 		<bgColorBot>47, 47, 35, 0</bgColorBot>
@@ -74,8 +74,8 @@
 		<scaleRadius>200</scaleRadius>
 	<eyeSizeMin>20</eyeSizeMin>
 		<eyeSizeMax>78.0612</eyeSizeMax>
-	<peopleRepRadius>162.194</peopleRepRadius>
-		<peopleRepForce>0.70199</peopleRepForce>
+	<peopleRepRadius>58.7245</peopleRepRadius>
+		<peopleRepForce>0.5</peopleRepForce>
 	<rotationConstraint>121.224</rotationConstraint>
 	</eyeParticlesModeParameters>
 </settings_eyesScene>

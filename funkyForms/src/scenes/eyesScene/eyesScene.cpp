@@ -252,11 +252,10 @@ void eyesScene::updateFastestPos(){
 }
 // ------------ draw
 void eyesScene::draw(){
+    ofFill();
     drawBackground();
     drawPeople();
     drawEyes();
-    ofFill();
-    ofSetColor(100, 100, 100);
 //    ofDrawCircle(averagePos, 20);
 }
 void eyesScene::drawBackground(){
@@ -319,39 +318,42 @@ void eyesScene::drawEyes(){
 }
 void eyesScene::drawPeople(){
     
-    // glow
+    // draw the people
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline line = cvData[z]->blobs[i].blob.getResampledBySpacing(glowSpacing * sf);
-            
-            for (auto & p : line.getVertices()){
-                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
-                ofSetColor(255, glowOpacity);
-                glow.draw(p.x - glowRadius * sf, p.y - glowRadius * sf , glowRadius * 2 * sf, glowRadius * 2 * sf );
+
+            // glow
+            ofEnableAlphaBlending();
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+            for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j+=2) {
+                float x =  cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT,
+                                                     cvData[z]->blobs[i].blob[j]).x;
+                float y =  cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT,
+                                                     cvData[z]->blobs[i].blob[j]).y;  //cvData[z]->blobs[i].blob[j].y * scaley;
+                
+                ofSetRectMode(OF_RECTMODE_CENTER);
+                ofSetColor(255, glowOpacity); //panel.getValueF("PEOPLE_GLOW"));
+                glow.draw(x, y, glowRadius * sf , glowRadius * sf);
+                ofSetRectMode(OF_RECTMODE_CORNER);
             }
+            glDisable(GL_BLEND);
+            ofDisableAlphaBlending();
+            
+            // people
+            ofSetColor(0, 255);
+            ofFill();
+            ofBeginShape();
+            for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j++) {
+                float x =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).x; //cvData[z]->blobs[i].blob[j].x * scalex;
+                float y =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).y; //cvData[0]->blobs[i].blob[j].y * scaley;
+                ofVertex(x, y);
+            }
+            ofEndShape(true);
         }
+        
     }
-//
-    // people
-    for (int z = 0; z < 2; z++){
-        for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline &line = cvData[z]->blobs[i].blob;
-            
-            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
-            pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
-            
-            for (auto & p : line.getVertices()){
-                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
-            }
-            ofVec2f vel = cvData[z]->blobs[i].avgVel;
-            ofPath path;
-            for(auto &p : line){
-                path.lineTo(p);
-            }
-            path.setFillColor(0);
-            path.draw();
-        }
-    }
+
 }
 // ------------ events
 void eyesScene::start(){

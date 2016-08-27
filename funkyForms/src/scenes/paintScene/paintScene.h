@@ -7,7 +7,7 @@
 #include "trackedContour.hpp"
 #include "spring3f.h"
 #include "particle3f.h"
-
+#include "ofxGui.h"
 
 typedef struct {
     string name;
@@ -54,10 +54,22 @@ public:
     
     ofImage colorPalette[3];
     
+    void drawGui();
     
     
     vector < ofVboMesh > meshes;
     vector < ofColor > colors;
+    
+    
+    ofxPanel gui;
+    ofParameterGroup group;
+    ofParameter <float> personOpacity;
+    ofParameter <int> palette;
+    ofParameter <float> paletteMoveSpeed;
+    ofParameter <bool> bUseVelForPalette;
+    ofParameter <bool> bDirectVel;
+    
+    vector < ofImage > paletteImgs;
     
     //paint/stone_rocky_surface_texture.jpg
 };

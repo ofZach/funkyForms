@@ -25,6 +25,7 @@
 #include "tableScene.h"
 #include "tableScene2.h"
 #include "ofxDmx.h"
+#include "tableScene3.h"
 
 enum view {
     VIEW_DEBUG,

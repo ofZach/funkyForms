@@ -184,21 +184,22 @@ ofRectangle renderManager::getRectForScreen( screenName name ){
         return rect;
     } else {
         
-        float width = 2100; //blocks.getWidth();
-        float scale = RENDER_WIDTH / width;
+        //float width = 2100; //blocks.getWidth();
+       // float scale = RENDER_WIDTH / width;
         
-        ofRectangle table(0,0,500,200);
-        ofRectangle myBounds(0,0,2100, 2100*(RENDER_ASPECT));
+        ofRectangle table(0,0,500,100);
+        ofRectangle myBounds = getWholeRectangle(); //(0,0,2100, 2100*(RENDER_ASPECT));
         
-        myBounds.x *= scale;
-        myBounds.y *= scale;
-        myBounds.width *= scale;
-        myBounds.height *= scale;
-        
+      //  myBounds.x *= scale;
+      //  myBounds.y *= scale;
+      //  myBounds.width *= scale;
+      //  myBounds.height *= scale;
+     //
         table.scaleTo(myBounds);
-        table.y = myBounds.getHeight() - table.height;
+        //table.y = myBounds.getHeight() - table.height;
     
-        table.scaleFromCenter(0.95);
+        table.scaleFromCenter(2.5);
+        table.y = myBounds.getHeight() - table.height;
         
         return table;
     }
