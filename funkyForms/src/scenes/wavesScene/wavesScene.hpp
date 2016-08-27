@@ -19,6 +19,14 @@
 
 class wavesScene : public baseScene {
 public:
+    // Background
+    ofParameter<ofColor> bgColorTop;
+    ofParameter<ofColor> bgColorMid;
+    ofParameter<ofColor> bgColorBot;
+    ofParameter<float> bgColorSpeed;
+    ofParameter<float> bgColorRange;
+    ofParameter<float> bgGradOffset;
+    
     // Input
     float sf = RENDER_SCALE_FACTOR;
     
@@ -75,6 +83,7 @@ public:
     void updateInput();
     
     void draw();
+    void drawBackground();
     void drawParticles();
     void drawGui();
     void drawPeople();

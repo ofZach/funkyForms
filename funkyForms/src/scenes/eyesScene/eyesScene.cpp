@@ -362,9 +362,7 @@ void eyesScene::start(){
 void eyesScene::stop(){
     modeChangeCounter = 0;
     for(auto &m : modes){
-        if(m->isEnabled){
-            m->draw();
-        }
+        m->clear();
     }
 }
 void eyesScene::blobBorn(int packetId, int id){

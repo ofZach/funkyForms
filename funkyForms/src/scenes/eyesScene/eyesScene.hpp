@@ -28,6 +28,7 @@ public:
     ofParameter<float> bgColorSpeed;
     ofParameter<float> bgColorRange;
     ofParameter<float> bgGradOffset;
+    
     // eyes
     eyeParticlesMode eyeParticlesMode;
     eyeLinkerMode eyeLinkerMode;

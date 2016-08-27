@@ -2,7 +2,7 @@
 	<wavesSceneParameters>
 		<isStencilWaveMode>0</isStencilWaveMode>
 		<isGradientWavesMode>1</isGradientWavesMode>
-	<changeMode>0</changeMode>
+	<changeMode>1</changeMode>
 		<mapVelmin>-1</mapVelmin>
 		<mapVelmax>-3</mapVelmax>
 		<dotValue>0.44</dotValue>
@@ -10,6 +10,13 @@
 	<glowRadius>20</glowRadius>
 		<glowOpacity>120</glowOpacity>
 		<glowSpacing>5</glowSpacing>
+	<modeChangeMinute>1</modeChangeMinute>
+		<bgColorTop>34, 139, 255, 74</bgColorTop>
+		<bgColorMid>151, 82, 255, 255</bgColorMid>
+		<bgColorBot>244, 79, 34, 255</bgColorBot>
+		<bgColorRange>64.2857</bgColorRange>
+		<bgColorSpeed>37.551</bgColorSpeed>
+		<bgGradOffset>-71.4286</bgGradOffset>
 	</wavesSceneParameters>
 	<gradientWavesParameters>
 		<waveCount>6</waveCount>
