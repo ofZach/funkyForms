@@ -171,26 +171,23 @@ void inputManager::update(){
 
             //ofxCv::copyGray(toCv(inputs[0]->getPixels()), toCv(inputAsGray));
             
-            
-//            110,55
-//            1815,210
-//            1860,805
-//            30,720
-//            2220,460
-//            3600,225
-//            3770,695
-//            2255,980
-//            4070,265
-//            5590,155
-//            5635,690
-//            4110,780
 
+//            125,175
+//            1825,145
+//            1910,735
+//            65,805
+            
+//            2180,270
+//            3620,360
+//            3660,890
+//            2085,790
             
             
-            ofPoint a(110,55);
-            ofPoint b(1815,210);
-            ofPoint c(1860,805);
-            ofPoint d(30,720);
+            
+            ofPoint a(125,175);
+            ofPoint b(1825,145);
+            ofPoint c(1910,735);
+            ofPoint d(65,805);
             
             
             
@@ -227,12 +224,15 @@ void inputManager::update(){
 //            //            2255,980
             
             
-     
+//            2180,270
+//            3620,360
+//            3660,890
+//            2085,790
             
-            ofPoint a( 2220-1920*1,460);
-            ofPoint b(3600-1920*1,205);
-            ofPoint c(3800-1920*1,725);
-            ofPoint d(2215-1920*1,980);
+            ofPoint a( 2180-1920*1,270);
+            ofPoint b(3620-1920*1,360);
+            ofPoint c(3660-1920*1,890);
+            ofPoint d(2085-1920*1,790);
             
             inputQuad.clear();
             inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
@@ -258,7 +258,7 @@ void inputManager::update(){
 //                    ofxCv::copyGray(from, to);
 
                     
-                    cv::Mat from = toCv(inputs[1]->getPixels());
+                    cv::Mat from = toCv(inputs[2]->getPixels());
                     cv::Mat to = toCv(inputAsGray3);
                     ofxCv::copyGray(from, to);
                     
@@ -268,10 +268,16 @@ void inputManager::update(){
                     //            5635,690
                     //            4110,780
                     
-                    ofPoint a( 4070-1920*2,265);
-                    ofPoint b(5590-1920*2,155);
-                    ofPoint c( 5635-1920*2,690);
-                    ofPoint d(4110-1920*2,780);
+//                    4090,310
+//                    5610,220
+//                    5655,770
+//                    4125,870
+//                    
+                    
+                    ofPoint a( 4090-1920*2,310);
+                    ofPoint b(5610-1920*2,220);
+                    ofPoint c( 5655-1920*2,770);
+                    ofPoint d(4125-1920*2,870);
                     
                     inputQuad.clear();
                     inputQuad.push_back( cv::Point2f(  a.x  , a.y ));

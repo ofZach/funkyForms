@@ -122,7 +122,7 @@ void ofApp::update(){
     for (int i = 10*3 + 101; i < 10*3 + 101 + 3; i++){
         dmx.setLevel(i, ofMap(tableBrightness, 0, 1, IM.dmxOffValue, 255));
     }
-
+dmx.update();
    
 #endif
     

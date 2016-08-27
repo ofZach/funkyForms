@@ -66,7 +66,7 @@ void tableScene3::update(){
 
 
 void tableScene3::draw(){
-    
+    return;
     
     for (int i = 0; i < cvData[2]->blobs.size(); i++){
         
@@ -178,7 +178,7 @@ void tableScene3::draw(){
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     for (int i = 0; i < 16; i++){
-        cout << packet.meshes[i].getNumVertices() << endl;
+      //  cout << packet.meshes[i].getNumVertices() << endl;
         
         packet.meshes[i].draw();
     }
