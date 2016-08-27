@@ -24,7 +24,7 @@ void ofApp::setup(){
     
     ofRectangle bounds;
 
-    SM.scenes.push_back(new tableScene());
+    SM.scenes.push_back(new tableScene3());
     SM.scenes.push_back(new tableScene2());
     SM.scenes.push_back(new paintScene());
     //SM.scenes.push_back(new particleScene());

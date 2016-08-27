@@ -68,10 +68,10 @@ void main(void)
     
     
     // 5 = how much displacement, try 50 or 100, etc.  always use decimal nums (10.0, etc)
-    vec2 st2 = stOrig + vec2(fx-0.5 + sin(time*0.7 + gl_FragCoord.y*0.01)*0.05, fy-0.3)*8.0 + (3.0) *  vec2(col.x-0.45, col2.x-0.35);
-    st2.x -= (flowAmount.x-0.5) * 30.1;
-    st2.y -= (flowAmount.y-0.5) * 30.1;
-    
+    vec2 st2 = stOrig + vec2(fx-0.5 + sin(time*0.7 + gl_FragCoord.y*0.01)*0.05, fy-0.1)*8.0 + (4.0 + 4.0 * sin(time)) *  vec2(col.x-0.50, col2.x-0.25);
+    st2.x -= (flowAmount.x-0.5) * 20.1;
+    st2.y -= (flowAmount.y-0.5) * 20.1;
+    st2.y *= 0.998;
     vec4 color2 = texture2DRect(tex0, st2);
     
 	gl_FragColor = vec4(color2.x, color2.y, color2.z, 1.0);
