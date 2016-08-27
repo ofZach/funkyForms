@@ -2,13 +2,13 @@
 	<wavesSceneParameters>
 		<isStencilWaveMode>0</isStencilWaveMode>
 		<isGradientWavesMode>1</isGradientWavesMode>
-	<changeMode>1</changeMode>
+	<changeMode>0</changeMode>
 		<mapVelmin>-1</mapVelmin>
 		<mapVelmax>-3</mapVelmax>
 		<dotValue>0.44</dotValue>
 		<velLength>4.44</velLength>
-	<glowRadius>20</glowRadius>
-		<glowOpacity>120</glowOpacity>
+	<glowRadius>105.485</glowRadius>
+		<glowOpacity>9.10714</glowOpacity>
 		<glowSpacing>5</glowSpacing>
 	<modeChangeMinute>1</modeChangeMinute>
 		<bgColorTop>34, 139, 255, 74</bgColorTop>

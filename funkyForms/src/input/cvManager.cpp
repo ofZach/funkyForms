@@ -55,7 +55,7 @@ void cvManager::blobOff( int x, int y, int bid, int order ) {
 void cvManager::update(ofPixels & pixels, int threshold, bool bNeedsFlow){
 
     
-   // why do we have color here?
+    // why do we have color here?
     //frame.currentFrame = pixels;
     frame.currentFrame = pixels;
     //frame.currentFrame.setImageType(OF_IMAGE_GRAYSCALE);
@@ -93,7 +93,7 @@ void cvManager::update(ofPixels & pixels, int threshold, bool bNeedsFlow){
     packet.idToBlobPos.clear();
 
 
-    if (imgColor.getWidth() != pixels.getWidth()){
+    if (imgGray.getWidth() != pixels.getWidth()){
        // imgColor.allocate(pixels.getWidth(), pixels.getHeight());
         imgGray.allocate(pixels.getWidth(), pixels.getHeight());
     }

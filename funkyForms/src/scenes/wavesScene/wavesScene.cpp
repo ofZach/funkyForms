@@ -345,38 +345,43 @@ void wavesScene::drawGui(){
 void wavesScene::drawPeople(){
     float fadeVal = gradientWaves.fadeAnimator.getValue();
     float opacity = ofMap(fadeVal, 0, 1, 0, 255);
-    // glow
+    
+    // draw the people
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline line = cvData[z]->blobs[i].blob.getResampledBySpacing(glowSpacing * sf);
             
-            for (auto & p : line.getVertices()){
-                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            // glow
+            ofEnableAlphaBlending();
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+            for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j+=2) {
+                float x =  cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT,
+                                                     cvData[z]->blobs[i].blob[j]).x;
+                float y =  cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT,
+                                                     cvData[z]->blobs[i].blob[j]).y;  //cvData[z]->blobs[i].blob[j].y * scaley;
+                
                 float op = min(opacity*1.0, glowOpacity*1.0);
-                ofSetColor(255, op);
-                glow.draw(p.x - glowRadius * sf, p.y - glowRadius * sf , glowRadius * 2 * sf, glowRadius * 2 * sf );
+
+                ofSetRectMode(OF_RECTMODE_CENTER);
+                ofSetColor(255, op); //panel.getValueF("PEOPLE_GLOW"));
+                glow.draw(x, y, glowRadius * sf , glowRadius * sf);
+                ofSetRectMode(OF_RECTMODE_CORNER);
             }
-        }
-    }
-    // people
-    for (int z = 0; z < 2; z++){
-        for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            ofPolyline &line = cvData[z]->blobs[i].blob;
+            glDisable(GL_BLEND);
+            ofDisableAlphaBlending();
             
-            ofVec2f pt = cvData[z]->blobs[i].centroidSmoothed;
-            pt = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, pt);
-            
-            for (auto & p : line.getVertices()){
-                p = cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, p);
+            // people
+            ofSetColor(255, opacity);
+            ofFill();
+            ofBeginShape();
+            for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j++) {
+                float x =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).x; //cvData[z]->blobs[i].blob[j].x * scalex;
+                float y =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).y; //cvData[0]->blobs[i].blob[j].y * scaley;
+                ofVertex(x, y);
             }
-            ofVec2f vel = cvData[z]->blobs[i].avgVel;
-            ofPath path;
-            for(auto &p : line){
-                path.lineTo(p);
-            }
-            path.setFillColor(ofColor(0, opacity));
-            path.draw();
+            ofEndShape(true);
         }
+        
     }
 
 }

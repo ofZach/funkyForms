@@ -84,8 +84,18 @@ void inputManager::setup(){
         
     }
     
-    inputAsGray.allocate(1920, 1080, OF_IMAGE_GRAYSCALE);
+    CVM[0].setup();
+    CVM[1].setup();
+    CVM[2].setup();
     
+    inputAsGray.allocate(1920, 1080, OF_IMAGE_GRAYSCALE);
+    inputAsGray2.allocate(1920, 1080, OF_IMAGE_GRAYSCALE);
+    inputAsGray3.allocate(1920, 1080, OF_IMAGE_GRAYSCALE);
+    
+    inputWarped.allocate(INPUT_WARP_TO_W,INPUT_WARP_TO_H, OF_IMAGE_GRAYSCALE);
+    inputWarped2.allocate(INPUT_WARP_TO_W,INPUT_WARP_TO_H, OF_IMAGE_GRAYSCALE);
+    inputWarped3.allocate(INPUT_WARP_TO_W,INPUT_WARP_TO_H, OF_IMAGE_GRAYSCALE);
+
 #else
     
     
@@ -126,6 +136,10 @@ void inputManager::setup(){
     group.add(threshold3.set("threshold3", 150, 0, 255));
     group.add(bTrackTable.set("bTrackTable", false));
     group.add(needsFlow.set("needsFlow", true));
+    group.add(bDrawBuilding.set("bDrawBuilding", false));
+    group.add(dmxOffValue.set("dmxOffValue", 0, 0, 255));
+    
+    
     
     
     
@@ -143,14 +157,40 @@ void inputManager::update(){
     #ifdef USE_LIVE_VIDEO
     for(int i = 0; i < this->inputs.size(); i++) {
         inputs[i]->update();
+        
+        if (!bTrackTable){
         if (i == 0 && inputs[0]->isFrameNew()){
-           
-            ofxCv::copyGray(toCv(inputs[0]->getPixels()), toCv(inputAsGray));
             
-            ofPoint a(190,275);
-            ofPoint b(1715,300);
-            ofPoint c(1810,865);
-            ofPoint d(135,850);
+            
+            
+            
+            cv::Mat from = toCv(inputs[0]->getPixels());
+            cv::Mat to = toCv(inputAsGray);
+            ofxCv::copyGray(from, to);
+            
+
+            //ofxCv::copyGray(toCv(inputs[0]->getPixels()), toCv(inputAsGray));
+            
+            
+//            110,55
+//            1815,210
+//            1860,805
+//            30,720
+//            2220,460
+//            3600,225
+//            3770,695
+//            2255,980
+//            4070,265
+//            5590,155
+//            5635,690
+//            4110,780
+
+            
+            
+            ofPoint a(110,55);
+            ofPoint b(1815,210);
+            ofPoint c(1860,805);
+            ofPoint d(30,720);
             
             
             
@@ -160,21 +200,134 @@ void inputManager::update(){
             inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
             inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
             
-            ofxCv::unwarpPerspective(toCv(inputAsGray), inputWarped, inputQuad, CV_INTER_NN);
+            ofxCv::unwarpPerspective(to, inputWarped, inputQuad);
             inputWarped.update();
-            CVM[0].update(inputWarped.getPixels());
+            CVM[0].update(inputWarped.getPixels(), threshold1, needsFlow);
             
 
-        } else if (i == 2 && inputs[2]->isFrameNew()){
+        } else if (i == 1 && inputs[1]->isFrameNew()){
             
-//            tempImg.setUseTexture(false);
-//            
-//            tempImg.allocate(1920,1080, OF_IMAGE_COLOR_ALPHA);
-//            tempImg.setFromPixels(inputs[2]->getPixels());
-//            tempImg.setImageType(OF_IMAGE_COLOR);
+
+            cv::Mat from = toCv(inputs[1]->getPixels());
+            cv::Mat to = toCv(inputAsGray2);
+            ofxCv::copyGray(from, to);
             
-            ofxCv::copyGray(toCv(inputs[2]->getPixels()), toCv(inputAsGray));
             
+            
+//            for (int j = 0; j < 1920*1080; j++){
+//                inputAsGray.getPixels()[j] = inputs[1]->getPixels()[j*4];
+//            }
+//            //            ofImage img;
+//            //            img.setFromPixels(inputs[0]->getPixels());
+//            //            img.setImageType(OF_IMAGE_GRAYSCALE);
+//            cv::Mat to = toCv(inputAsGray);
+//            //            2220,460
+//            //            3600,225
+//            //            3770,695
+//            //            2255,980
+            
+            
+     
+            
+            ofPoint a( 2220-1920*1,460);
+            ofPoint b(3600-1920*1,205);
+            ofPoint c(3800-1920*1,725);
+            ofPoint d(2215-1920*1,980);
+            
+            inputQuad.clear();
+            inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
+            inputQuad.push_back( cv::Point2f(  b.x  , b.y ));
+            inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
+            inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
+            
+            ofxCv::unwarpPerspective(to, inputWarped2, inputQuad);
+            inputWarped2.update();
+            CVM[1].update(inputWarped2.getPixels(), threshold2, needsFlow);
+
+
+            
+        }
+        }
+        
+            if (bTrackTable){
+                if (i == 2 && inputs[2]->isFrameNew()){
+                    
+                    
+//                    cv::Mat from = toCv(inputs[2]->getPixels());
+//                    cv::Mat to = toCv(inputAsGray);
+//                    ofxCv::copyGray(from, to);
+
+                    
+                    cv::Mat from = toCv(inputs[1]->getPixels());
+                    cv::Mat to = toCv(inputAsGray3);
+                    ofxCv::copyGray(from, to);
+                    
+                    
+                    //            4070,265
+                    //            5590,155
+                    //            5635,690
+                    //            4110,780
+                    
+                    ofPoint a( 4070-1920*2,265);
+                    ofPoint b(5590-1920*2,155);
+                    ofPoint c( 5635-1920*2,690);
+                    ofPoint d(4110-1920*2,780);
+                    
+                    inputQuad.clear();
+                    inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
+                    inputQuad.push_back( cv::Point2f(  b.x  , b.y ));
+                    inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
+                    inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
+                    
+                    ofxCv::unwarpPerspective(to, inputWarped3, inputQuad);
+                    inputWarped3.update();
+                    CVM[2].update(inputWarped3.getPixels(), threshold3, needsFlow);
+                    
+                    
+                    
+                }
+            }
+        
+        //cout << input->isFrameNew() << endl;
+        
+    }
+#else
+    
+
+    player.update();
+    player2.update();
+    player3.update();
+    
+
+    if (!bTrackTable || ofGetFrameNum() < 120){
+        if (player.isFrameNew()){
+            
+            cv::Mat from = toCv(player.getPixels());
+            cv::Mat to = toCv(inputAsGray);
+            ofxCv::copyGray(from, to);
+            
+            ofPoint a(190,275);
+            ofPoint b(1715,300);
+            ofPoint c(1810,865);
+            ofPoint d(135,850);
+
+            inputQuad.clear();
+            inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
+            inputQuad.push_back( cv::Point2f(  b.x  , b.y ));
+            inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
+            inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
+            
+            ofxCv::unwarpPerspective(to, inputWarped, inputQuad);
+            inputWarped.update();
+            CVM[0].update(inputWarped.getPixels(), threshold1, needsFlow);
+        }
+        
+        if (player2.isFrameNew()){
+            
+            
+            cv::Mat from = toCv(player2.getPixels());
+            cv::Mat to = toCv(inputAsGray2);
+            ofxCv::copyGray(from, to);
             
             ofPoint a(3925-1920*2,180);
             ofPoint b(5595-1920*2,280);
@@ -187,79 +340,10 @@ void inputManager::update(){
             inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
             inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
             
-            ofxCv::unwarpPerspective(toCv(inputAsGray), inputWarped2, inputQuad, CV_INTER_NN);
+            ofxCv::unwarpPerspective(to, inputWarped2, inputQuad);
             inputWarped2.update();
-            CVM[1].update(inputWarped2.getPixels());
-
-
-            
+            CVM[1].update(inputWarped2.getPixels(), threshold2, needsFlow);
         }
-        
-        //cout << input->isFrameNew() << endl;
-        
-    }
-#else
-    
-    player.update();
-    player2.update();
-    player3.update();
-    
-    if (!bTrackTable){
-    if (player.isFrameNew()){
-        
-        cv::Mat from = toCv(player.getPixels());
-        cv::Mat to = toCv(inputAsGray);
-        ofxCv::copyGray(from, to);
-        
-        ofPoint a(190,275);
-        ofPoint b(1715,300);
-        ofPoint c(1810,865);
-        ofPoint d(135,850);
-        
-//        ofPoint newA = 0.9*a + 0.1 * b;
-//        ofPoint newB = 0.9*b + 0.1 * a;
-//        ofPoint newC = 0.9*c + 0.1 * d;
-//        ofPoint newD = 0.9*d + 0.1 * c;
-//        
-//
-//        a = newA;
-//        b = newB;
-//        c = newC;
-//        d = newD;
-        
-        inputQuad.clear();
-        inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
-        inputQuad.push_back( cv::Point2f(  b.x  , b.y ));
-        inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
-        inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
-        
-        ofxCv::unwarpPerspective(to, inputWarped, inputQuad);
-        inputWarped.update();
-        CVM[0].update(inputWarped.getPixels(), threshold1, needsFlow);
-    }
-    
-    if (player2.isFrameNew()){
-        
-        
-        cv::Mat from = toCv(player2.getPixels());
-        cv::Mat to = toCv(inputAsGray2);
-        ofxCv::copyGray(from, to);
-        
-        ofPoint a(3925-1920*2,180);
-        ofPoint b(5595-1920*2,280);
-        ofPoint c(5620-1920*2,875);
-        ofPoint d(3865-1920*2,780);
-        
-        inputQuad.clear();
-        inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
-        inputQuad.push_back( cv::Point2f(  b.x  , b.y ));
-        inputQuad.push_back( cv::Point2f(  c.x  , c.y ));
-        inputQuad.push_back( cv::Point2f(  d.x  , d.y ));
-        
-        ofxCv::unwarpPerspective(to, inputWarped2, inputQuad);
-        inputWarped2.update();
-        CVM[1].update(inputWarped2.getPixels(), threshold2, needsFlow);
-    }
     }
     
     if (bTrackTable)
@@ -294,6 +378,7 @@ void inputManager::update(){
 
 #endif
     
+
 }
 
 void inputManager::draw(){
@@ -317,6 +402,8 @@ void inputManager::draw(){
     CVM[0].draw();
     ofTranslate(500,0);
     CVM[1].draw();
+    ofTranslate(1000,0);
+    CVM[2].draw();
     
     if (bTrackTable){
         ofTranslate(1000,0);

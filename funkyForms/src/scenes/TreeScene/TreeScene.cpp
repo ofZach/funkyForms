@@ -445,8 +445,6 @@ void TreeScene::draw() {
 	// draw the people
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
-            
-            
             if(true){ //panel.getValueB("BPEOPLE_GLOW")) {
                 // drop shadow
                 ofEnableAlphaBlending();
@@ -473,10 +471,8 @@ void TreeScene::draw() {
             ofFill();
             ofBeginShape();
             for (int j = 0; j < cvData[z]->blobs[i].blob.size(); j++) {
-                
                 float x =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).x; //cvData[z]->blobs[i].blob[j].x * scalex;
                 float y =cvData[z]->remapForScreen(z == 0 ? SCREEN_LEFT : SCREEN_RIGHT, cvData[z]->blobs[i].blob[j]).y; //cvData[0]->blobs[i].blob[j].y * scaley;
-                
                 ofVertex(x, y);
             }
             ofEndShape(true);

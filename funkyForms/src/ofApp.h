@@ -4,7 +4,7 @@
 #include "appSettings.h"
 #include "inputManager.h"
 #include "sceneManager.h"
-#include "simpleScene.h"
+//#include "simpleScene.h"
 #include "plantsScene.hpp"
 #include "treeScene.h"
 #include "TreeScene.h"
@@ -13,16 +13,18 @@
 #include "renderManager.h"
 #include "eyesScene.hpp"
 #include "wavesScene.hpp"
-#include "simpleScene2.h"
-#include "costumeScene.h"
-#include "costumeScene2.h"
+//#include "simpleScene2.h"
+//#include "costumeScene.h"
+//#include "costumeScene2.h"
 #include "paintScene.h"
-#include "buildingScene.h"
+//#include "buildingScene.h"
 #include "ofxSyphon.h"
-#include "light2dScene.h"
-#include "particleScene.h"
-#include "box2dScene.h"
-
+//#include "light2dScene.h"
+//#include "particleScene.h"
+//#include "box2dScene.h"
+#include "tableScene.h"
+#include "tableScene2.h"
+#include "ofxDmx.h"
 
 enum view {
     VIEW_DEBUG,
@@ -54,6 +56,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    void changeScene(int i);
     
         inputManager IM;
         sceneManager SM;
@@ -76,5 +79,11 @@ class ofApp : public ofBaseApp{
         bool bNext;
         int whoToGoTo;
     
+    
+#ifdef USE_DMX
+    float stageBrightness;
+    float tableBrightness;
+    ofxDmx dmx;
+#endif
     
 };

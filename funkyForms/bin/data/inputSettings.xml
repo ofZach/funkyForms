@@ -1,9 +1,11 @@
 <inputSettings>
 	<group>
-		<threshold1>160</threshold1>
-		<threshold2>183</threshold2>
-		<threshold3>205</threshold3>
-	<bTrackTable>1</bTrackTable>
+		<threshold1>178</threshold1>
+		<threshold2>215</threshold2>
+		<threshold3>182</threshold3>
+	<bTrackTable>0</bTrackTable>
+	<needsFlow>1</needsFlow>
+		<bDrawBuilding>0</bDrawBuilding>
 	</group>
 <inputSettings/>
 </inputSettings>

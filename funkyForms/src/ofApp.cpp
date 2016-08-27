@@ -24,18 +24,18 @@ void ofApp::setup(){
     
     ofRectangle bounds;
 
-    
-    SM.scenes.push_back(new simpleScene());
+    SM.scenes.push_back(new tableScene());
+    SM.scenes.push_back(new tableScene2());
     SM.scenes.push_back(new paintScene());
-    SM.scenes.push_back(new particleScene());
-    SM.scenes.push_back(new light2dScene());
-    SM.scenes.push_back(new box2dScene());
+    //SM.scenes.push_back(new particleScene());
+    //SM.scenes.push_back(new light2dScene());
+   // SM.scenes.push_back(new box2dScene());
 
-    SM.scenes.push_back(new buildingScene());
-    SM.scenes.push_back(new costumeScene2());
+    //SM.scenes.push_back(new buildingScene());
+    //SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
-    SM.scenes.push_back(new simpleScene2());
+    //SM.scenes.push_back(new simpleScene2());
     
     SM.scenes.push_back(new MonsterScene());
     SM.scenes.push_back(new eyesScene());
@@ -79,13 +79,54 @@ void ofApp::setup(){
     bInSceneChange = false;
     bChanged = false;
     
-   
+#ifdef USE_DMX
+    stageBrightness = 1.0;
+    tableBrightness = 1.0;
+    dmx.connect(0); // or use a number
+    dmx.setChannels(512);
+#endif
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 
+    
+#ifdef USE_DMX
+    if (currentView == VIEW_DEBUG){
+        stageBrightness = 0.99f * stageBrightness + 0.01 * 1.0;
+        tableBrightness = 0.99f * tableBrightness + 0.01 * 1.0;
+    } else {
+        if (IM.bTrackTable){
+            stageBrightness = 0.99f * stageBrightness + 0.01 * 0.0;
+            tableBrightness = 0.99f * tableBrightness + 0.01 * 1.0;
+        } else {
+            stageBrightness = 0.99f * stageBrightness + 0.01 * 1.0;
+            tableBrightness = 0.99f * tableBrightness + 0.01 * 0.0;
+        }
+    }
+    
+    
+    for (int i = 1; i < 10*3 + 1; i++){
+        dmx.setLevel(i, ofMap(stageBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+    
+    for (int i = 101; i < 10*3 + 101; i++){
+        dmx.setLevel(i, ofMap(stageBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+    
+    for (int i = 10*3 + 1; i < 10*3 + 1 + 9; i++){
+        dmx.setLevel(i, ofMap(tableBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+    
+    for (int i = 10*3 + 101; i < 10*3 + 101 + 3; i++){
+        dmx.setLevel(i, ofMap(tableBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+
+   
+#endif
+    
+    
     
     if (SM.scenes[SM.currentScene]->vidSettings == TABLE_VIDEO){
         IM.bTrackTable = true;
@@ -147,13 +188,18 @@ void ofApp::update(){
     ofClear(0,0,0,255);
     SM.draw();
     ofNoFill();
-//    ofSetColor(255);
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_LEFT));
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
-//    
-//    ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
+    
+    if (IM.bDrawBuilding == true){
+        
+        ofSetColor(255);
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_LEFT));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_CENTER));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_RIGHT));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_TOP));
+        ofDrawRectangle(RM.getRectForScreen(SCREEN_TABLE));
+    
+    }
+
     
     //float scale = RM.getWidth() / 2100.0; //(float)RM.windows.getWidth();
     
@@ -330,12 +376,45 @@ void ofApp::keyPressed(int key){
     }
     
     if (key == '1'){
+        changeScene(0);
+    }
+    if (key == '2'){
+        changeScene(1);
+    }
+    if (key == '3'){
+        changeScene(2);
+    }
+    if (key == '3'){
+        changeScene(3);
+    }
+    if (key == '4'){
+        changeScene(4);
+    }
+    if (key == '5'){
+        changeScene(5);
+    }
+    if (key == '6'){
+        changeScene(6);
+    }
+    if (key == '7'){
+        changeScene(7);
+    }
+    if (key == '8'){
+        changeScene(8);
+    }
+    if (key == '9'){
+        changeScene(9);
+    }
+}
+void ofApp::changeScene(int sceneNum){
+    if(sceneNum < SM.scenes.size()){
         startSceneChangeTime = ofGetElapsedTimef();
         bChanged = false;
         bInSceneChange = true;
         bNext = false;
-        whoToGoTo = 0;
+        whoToGoTo = sceneNum;
     }
+    
 }
 
 //--------------------------------------------------------------
@@ -356,7 +435,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     
-    cout << x * 3 << "," << y * 3 << endl;
+    cout << x * 5 << "," << y * 5 << endl;
     
 }
 
