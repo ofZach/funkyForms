@@ -79,13 +79,54 @@ void ofApp::setup(){
     bInSceneChange = false;
     bChanged = false;
     
-   
+#ifdef USE_DMX
+    stageBrightness = 1.0;
+    tableBrightness = 1.0;
+    dmx.connect(0); // or use a number
+    dmx.setChannels(512);
+#endif
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 
+    
+#ifdef USE_DMX
+    if (currentView == VIEW_DEBUG){
+        stageBrightness = 0.99f * stageBrightness + 0.01 * 1.0;
+        tableBrightness = 0.99f * tableBrightness + 0.01 * 1.0;
+    } else {
+        if (IM.bTrackTable){
+            stageBrightness = 0.99f * stageBrightness + 0.01 * 0.0;
+            tableBrightness = 0.99f * tableBrightness + 0.01 * 1.0;
+        } else {
+            stageBrightness = 0.99f * stageBrightness + 0.01 * 1.0;
+            tableBrightness = 0.99f * tableBrightness + 0.01 * 0.0;
+        }
+    }
+    
+    
+    for (int i = 1; i < 10*3 + 1; i++){
+        dmx.setLevel(i, ofMap(stageBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+    
+    for (int i = 101; i < 10*3 + 101; i++){
+        dmx.setLevel(i, ofMap(stageBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+    
+    for (int i = 10*3 + 1; i < 10*3 + 1 + 9; i++){
+        dmx.setLevel(i, ofMap(tableBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+    
+    for (int i = 10*3 + 101; i < 10*3 + 101 + 3; i++){
+        dmx.setLevel(i, ofMap(tableBrightness, 0, 1, IM.dmxOffValue, 255));
+    }
+
+   
+#endif
+    
+    
     
     if (SM.scenes[SM.currentScene]->vidSettings == TABLE_VIDEO){
         IM.bTrackTable = true;

@@ -62,6 +62,7 @@
 		2F5E2AE11D70C57600920EE2 /* rewardLines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5E2AD41D70C57600920EE2 /* rewardLines.cpp */; };
 		2F5E2AE51D70D40400920EE2 /* tableScene2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F5E2AE31D70D40400920EE2 /* tableScene2.cpp */; };
 		2F7A5BB37F6323BBC240F555 /* b2EdgeShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B85DD7B27DBED4A183D9AF00 /* b2EdgeShape.cpp */; };
+		2F95AC5B1D71DD8E00818E7D /* ofxDmx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F95AC591D71DD8E00818E7D /* ofxDmx.cpp */; };
 		2F98F5231D70DE26008551AA /* tableScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F98F5211D70DE26008551AA /* tableScene.cpp */; };
 		3035C36BE2BDA284D6E0CE9D /* b2PolygonShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929643B4C251FAB2FB415537 /* b2PolygonShape.cpp */; };
 		311DF864378748129984EA1D /* Kalman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A1A692522820F935B58762 /* Kalman.cpp */; };
@@ -357,6 +358,8 @@
 		2F5E2AE31D70D40400920EE2 /* tableScene2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tableScene2.cpp; sourceTree = "<group>"; };
 		2F5E2AE41D70D40400920EE2 /* tableScene2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tableScene2.h; sourceTree = "<group>"; };
 		2F6AA0D21D70A4B000B3CE65 /* reflectionUseful.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = reflectionUseful.h; sourceTree = "<group>"; };
+		2F95AC591D71DD8E00818E7D /* ofxDmx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDmx.cpp; sourceTree = "<group>"; };
+		2F95AC5A1D71DD8E00818E7D /* ofxDmx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDmx.h; sourceTree = "<group>"; };
 		2F98F5211D70DE26008551AA /* tableScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tableScene.cpp; sourceTree = "<group>"; };
 		2F98F5221D70DE26008551AA /* tableScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tableScene.h; sourceTree = "<group>"; };
 		2FA660EC700471E58D45DFF7 /* b2ChainAndPolygonContact.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = b2ChainAndPolygonContact.cpp; path = ../localAddons/ofxBox2d/libs/Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp; sourceTree = SOURCE_ROOT; };
@@ -1201,6 +1204,24 @@
 			path = scenes/tableScene2;
 			sourceTree = "<group>";
 		};
+		2F95AC561D71DD8E00818E7D /* ofxDmx */ = {
+			isa = PBXGroup;
+			children = (
+				2F95AC581D71DD8E00818E7D /* src */,
+			);
+			name = ofxDmx;
+			path = ../localAddons/ofxDmx;
+			sourceTree = "<group>";
+		};
+		2F95AC581D71DD8E00818E7D /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2F95AC591D71DD8E00818E7D /* ofxDmx.cpp */,
+				2F95AC5A1D71DD8E00818E7D /* ofxDmx.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		2F98F5201D70DE26008551AA /* tableScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -1462,6 +1483,7 @@
 		6948EE371B920CB800B5AC1A /* local_addons */ = {
 			isa = PBXGroup;
 			children = (
+				2F95AC561D71DD8E00818E7D /* ofxDmx */,
 				21A28182DE9A624BBAFFD3D6 /* ofxBox2d */,
 				1E2D1DD3FB2BFCC2CAEA7CCD /* ofxSVG */,
 				EDDB5BB5E0440A86822E6D17 /* ofxFx */,
@@ -2611,6 +2633,7 @@
 				2F5E2AD91D70C57600920EE2 /* eyePairMode.cpp in Sources */,
 				977EF7C28C46FA1B41EA5A57 /* b2MotorJoint.cpp in Sources */,
 				71D96252BF144A83E815606F /* b2MouseJoint.cpp in Sources */,
+				2F95AC5B1D71DD8E00818E7D /* ofxDmx.cpp in Sources */,
 				6EC8DF9CEC743B0CE471E975 /* b2PrismaticJoint.cpp in Sources */,
 				AAEBE36624B263C3B67728B9 /* b2PulleyJoint.cpp in Sources */,
 				2077F33970EDBD77C8EF27D3 /* b2RevoluteJoint.cpp in Sources */,

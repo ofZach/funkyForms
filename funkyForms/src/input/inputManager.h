@@ -64,5 +64,6 @@ public:
     ofParameter <bool> bTrackTable;
     ofParameter <bool> needsFlow;
     ofParameter <bool> bDrawBuilding;
+    ofParameter <int> dmxOffValue;
     
 };

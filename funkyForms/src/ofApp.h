@@ -24,6 +24,7 @@
 //#include "box2dScene.h"
 #include "tableScene.h"
 #include "tableScene2.h"
+#include "ofxDmx.h"
 
 enum view {
     VIEW_DEBUG,
@@ -78,5 +79,11 @@ class ofApp : public ofBaseApp{
         bool bNext;
         int whoToGoTo;
     
+    
+#ifdef USE_DMX
+    float stageBrightness;
+    float tableBrightness;
+    ofxDmx dmx;
+#endif
     
 };

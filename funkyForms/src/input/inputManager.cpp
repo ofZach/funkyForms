@@ -137,6 +137,9 @@ void inputManager::setup(){
     group.add(bTrackTable.set("bTrackTable", false));
     group.add(needsFlow.set("needsFlow", true));
     group.add(bDrawBuilding.set("bDrawBuilding", false));
+    group.add(dmxOffValue.set("dmxOffValue", 0, 0, 255));
+    
+    
     
     
     
@@ -290,12 +293,13 @@ void inputManager::update(){
     }
 #else
     
-    cout << "ere " << endl;
+
     player.update();
     player2.update();
     player3.update();
     
 
+    if (!bTrackTable || ofGetFrameNum() < 120){
         if (player.isFrameNew()){
             
             cv::Mat from = toCv(player.getPixels());
@@ -306,18 +310,7 @@ void inputManager::update(){
             ofPoint b(1715,300);
             ofPoint c(1810,865);
             ofPoint d(135,850);
-            
-    //        ofPoint newA = 0.9*a + 0.1 * b;
-    //        ofPoint newB = 0.9*b + 0.1 * a;
-    //        ofPoint newC = 0.9*c + 0.1 * d;
-    //        ofPoint newD = 0.9*d + 0.1 * c;
-    //        
-    //
-    //        a = newA;
-    //        b = newB;
-    //        c = newC;
-    //        d = newD;
-            
+
             inputQuad.clear();
             inputQuad.push_back( cv::Point2f(  a.x  , a.y ));
             inputQuad.push_back( cv::Point2f(  b.x  , b.y ));
@@ -335,7 +328,6 @@ void inputManager::update(){
             cv::Mat from = toCv(player2.getPixels());
             cv::Mat to = toCv(inputAsGray2);
             ofxCv::copyGray(from, to);
-            
             
             ofPoint a(3925-1920*2,180);
             ofPoint b(5595-1920*2,280);
