@@ -9,6 +9,11 @@
 		<glowOpacity>76.7602</glowOpacity>
 	<glowSpacing>20.9184</glowSpacing>
 	<modeChangeMinute>0.340969</modeChangeMinute>
+	<bgColorTop>211, 164, 57, 255</bgColorTop>
+		<bgColorMid>74, 49, 255, 255</bgColorMid>
+		<bgColorBot>33, 255, 255, 114</bgColorBot>
+		<bgColorSpeed>47.7041</bgColorSpeed>
+		<bgGradOffset>0</bgGradOffset>
 	</eyesSceneParameters>
 	<EyeParticlesParameters>
 		<behaviorMode>0</behaviorMode>
