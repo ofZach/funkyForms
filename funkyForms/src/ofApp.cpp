@@ -27,22 +27,12 @@ void ofApp::setup(){
 
     SM.scenes.push_back(new particleScene());
     SM.scenes.push_back(new light2dScene());
-    
     SM.scenes.push_back(new tableScene());
-
-    SM.scenes.push_back(new tableScene3());
-
     SM.scenes.push_back(new tableScene2());
+    SM.scenes.push_back(new tableScene3());
     SM.scenes.push_back(new paintScene());
-
-   // SM.scenes.push_back(new box2dScene());
-
-    //SM.scenes.push_back(new buildingScene());
-    //SM.scenes.push_back(new costumeScene2());
     SM.scenes.push_back(new TreeScene());
     SM.scenes.push_back(new plantsScene());
-    //SM.scenes.push_back(new simpleScene2());
-    
     SM.scenes.push_back(new MonsterScene());
     SM.scenes.push_back(new eyesScene());
     SM.scenes.push_back(new wavesScene());
@@ -381,36 +371,49 @@ void ofApp::keyPressed(int key){
         
     }
     
-    if (key == '1'){
+    if (key == '0'){
         changeScene(0);
     }
-    if (key == '2'){
+    if (key == '1'){
         changeScene(1);
     }
-    if (key == '3'){
+    if (key == '2'){
         changeScene(2);
     }
-    if (key == '4'){
+    if (key == '3'){
         changeScene(3);
     }
-    if (key == '5'){
+    if (key == '4'){
         changeScene(4);
     }
-    if (key == '6'){
+    if (key == '5'){
         changeScene(5);
     }
-    if (key == '7'){
+    if (key == '6'){
         changeScene(6);
     }
-    if (key == '8'){
+    if (key == '7'){
         changeScene(7);
     }
-    if (key == '9'){
+    if (key == '8'){
         changeScene(8);
     }
-    if (key == '0'){
+    if (key == '9'){
         changeScene(9);
     }
+    if (key == 'a'){
+        changeScene(10);
+    }
+    if (key == 'b'){
+        changeScene(11);
+    }
+    
+//    if (key == 'c'){
+//        changeScene(9);
+//    }
+//    if (key == 'd'){
+//        changeScene(9);
+//    }
 }
 void ofApp::changeScene(int sceneNum){
     if(sceneNum < SM.scenes.size()){

@@ -187,7 +187,7 @@ ofRectangle renderManager::getRectForScreen( screenName name ){
         //float width = 2100; //blocks.getWidth();
        // float scale = RENDER_WIDTH / width;
         
-        ofRectangle table(0,0,500,100);
+        ofRectangle table(0,0,500,50);
         ofRectangle myBounds = getWholeRectangle(); //(0,0,2100, 2100*(RENDER_ASPECT));
         
       //  myBounds.x *= scale;
@@ -198,7 +198,7 @@ ofRectangle renderManager::getRectForScreen( screenName name ){
         table.scaleTo(myBounds);
         //table.y = myBounds.getHeight() - table.height;
     
-        table.scaleFromCenter(2.5);
+        table.scaleFromCenter(3.0);
         table.y = myBounds.getHeight() - table.height;
         
         return table;

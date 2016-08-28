@@ -66,13 +66,15 @@ void tableScene3::update(){
 
 
 void tableScene3::draw(){
-    return;
+    
     
     for (int i = 0; i < cvData[2]->blobs.size(); i++){
         
         ofPolyline line = cvData[2]->blobs[i].blob;
         for (auto & pt : line){
-            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt);
+            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt, false);
+            pt.y *= 0.7;
+            pt.y += 500;
         }
         
         line = line.getResampledBySpacing(3);
@@ -97,6 +99,8 @@ void tableScene3::draw(){
         ofPolyline line = cvData[2]->blobs[i].blob;
         for (auto & pt : line){
             pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt, false);
+            pt.y *= 0.7;
+            pt.y += 500;
         }
         
         line = line.getResampledBySpacing(3);
@@ -135,8 +139,8 @@ void tableScene3::draw(){
     
     ofPoint center = RM->getRectForScreen(SCREEN_CENTER).getCenter();
     for (int i = 0; i < packet.nLightRays; i++){
-        ofPoint pos(ofMap(i, 0, 10000, 0, RM->getWidth()), center.y + sin(timeff) * 400);
-        ofPoint dir(cos(timeff), sin(timeff));
+        ofPoint pos(ofMap(i, 0, 10000, 0, RM->getWidth()), center.y + sin(timeff) * 200);
+        ofPoint dir(cos(timeff*0.8), sin(timeff*0.8));
         dir.normalize();
         positions.push_back(pos);
         directions.push_back(dir);

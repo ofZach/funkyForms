@@ -43,11 +43,34 @@ void particleScene::update(){
     float timePhase1 = ofMap(sin(currentTime*0.9),-1,1,-5,5);
     
     if(currentTime>=0 && currentTime<=1){
-        guiDtl();
+        
+        //guiDtl();
+        
+        forceR= 0;
+        springBack= 0.245;
+       damping =  0.02;
+        force=0.16;
+        addClockWiseRotation=true;
+        addCounterClockwiseForce=false;
+        rotateSpeed=33.15;
+     
+        
+        addNoise=false;
+        indexScale=0;
+        timeScale=0;
+        
+
+        lightNum=18;
+        angleVel=0.0875;
+        amplitude=165;
+        xVel=8.45;
+        drawLight=false;
+        mouseLight=false;
+        
     }
     
     else if (currentTime >1 && currentTime <=7 ){
-        forceR += timePhase1;
+        forceR += timePhase1*2;
     }  else if(currentTime>7 && currentTime<8){
         addNoise = true;
         indexScale =100;
@@ -70,72 +93,11 @@ void particleScene::update(){
          }
      }
     
-//    if(currentTime >= 0 && currentTime<=6){
-//        guiDtl();
-//    
-//    } else if(currentTime > 6 && currentTime < 11 ){
-//
-//            forceR = 90;
-//            springBack = 0.4;
-//            lightNum = 28;
-//            angleVel = 0.0375;
-//            amplitude = 387;
-//    }
-//    else if (currentTime >= 11 && currentTime < 16 ){
-//        forceR = 214;
-//        springBack = 0.015;
-//        damping = 0.1845;
-//        force = 0.1135;
-//        addClockWiseRotation = false;
-//        
-//        addNoise = true;
-//        indexScale = 785;
-//        timeScale = 1.8;
-//
-//        
-//        lightNum = 28;
-//        angleVel = 0.0375;
-//        amplitude = 387;
-//        xVel = 8.45;
-//    }
-//    else if (currentTime >= 17 && currentTime < 20 ){
-//        forceR = 214;
-//        springBack = 0.3;
-//        damping = 0.1845;
-//        force = 0.1135;
-//        addClockWiseRotation = false;
-//        
-//        addNoise = true;
-//        indexScale = 785;
-//        timeScale = 1.8;
-//        
-//
-//        lightNum = 28;
-//        angleVel = 0.0375;
-//        amplitude = 387;
-//        xVel = 8.45;
-//    }
-
-    
-
-    
-    //sin(currentTime);
-    //sin(currentTime*0.3);
-    
-//    if(currentTime>6 && currentTime<12){
-//        addNoise = true;
-//        addClockWiseRotation = false;
-//    }
     
     
     updateParticle();
     
-    if (hideCursor) {
-        ofHideCursor();
-    } else {
-        ofShowCursor();
-    }
-
+   
 //    forceR+=20;
    
 }
@@ -397,10 +359,14 @@ void particleScene::updateParticle(){
 
 
 void particleScene::drawParticleBuilding(){
+    
+    if (bFilledIn) ofFill();
+    else ofNoFill();
     for(auto p = particles.begin(); p!=particles.end();p++){
         p->draw();
     }
 
+    ofFill();
 }
 
 void particleScene::guiDtl(){
@@ -419,7 +385,7 @@ void particleScene::guiDtl(){
     gui.add(lineNum.set("line Distance",5,3,10));
     gui.add(colorMode.set("Color Mode", false));
     gui.add(hideCursor.set("Hide Cursor", false));
-    
+    gui.add(bFilledIn.set("bFilledIn", true));
     
     noiseGui.setup("NOISE PANEL");
     noiseGui.setPosition(80,280);
@@ -436,7 +402,7 @@ void particleScene::guiDtl(){
     lightPanel.add(xVel.set("xVel", 8.45,7,12));
     lightPanel.add(drawLight.set("Draw Light",false));
     lightPanel.add(mouseLight.set("Mouse Light",false));
-
+    
 
 }
 

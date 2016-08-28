@@ -484,7 +484,7 @@ void paintScene::draw(){
     
     ofSetColor(255);
     
-    paletteImgs[ ofGetMouseX() % paletteImgs.size() ].draw(0,0);
+   // paletteImgs[ ofGetMouseX() % paletteImgs.size() ].draw(0,0);
     
     
 }

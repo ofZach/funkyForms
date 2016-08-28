@@ -70,6 +70,7 @@ public:
     ofParameter<bool> drawLight;
     ofParameter<bool> mouseLight;
     ofParameter<int> lightNum;
+    ofParameter<bool> bFilledIn;
     
     lightSource light;
     vector<lightSource> lights;
@@ -77,6 +78,11 @@ public:
     float startTime;
     void start(){
         startTime = ofGetElapsedTimef();
+        
+        for (auto & particle: particles){
+            particle.vel.set(0,0);
+            particle.pos = particle.originalPos;
+        }
     }
     
     

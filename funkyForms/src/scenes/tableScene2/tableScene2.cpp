@@ -69,7 +69,10 @@ void tableScene2::draw(){
         
         ofPolyline line = cvData[2]->blobs[i].blob;
         for (auto & pt : line){
-            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt);
+            pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt, false);
+            pt.y *= 0.7;
+            pt.y += 500;
+       
         }
         
         line = line.getResampledBySpacing(3);
@@ -94,6 +97,8 @@ void tableScene2::draw(){
         ofPolyline line = cvData[2]->blobs[i].blob;
         for (auto & pt : line){
             pt = cvData[2]->remapForScreen(SCREEN_TABLE, pt, false);
+            pt.y *= 0.7;
+            pt.y += 500;
         }
         
         line = line.getResampledBySpacing(3);

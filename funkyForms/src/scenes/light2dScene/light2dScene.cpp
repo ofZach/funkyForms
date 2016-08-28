@@ -37,15 +37,14 @@ void light2dScene::update(){
     
 
     
-    float currentTime = ofGetElapsedTimef() - startTime;
-    float sinTime = ofMap(sin(currentTime),-1,1,-1.7,2);
+    float currentTime = ofGetElapsedTimef() - startTime + PI;
+    radius = 400 + sin(currentTime) * 200;
     
-        if(radius<600){
-        radius += sinTime;
-        }
+    amplitude =  ofMap(sin(currentTime*0.8), -1, 1, 0, 100);
+    xVel =  ofMap(sin(currentTime*0.7), -1, 1, 0, 2);
     
-        amplitude += sinTime*1.3;
-        xVel += sinTime*0.003;
+      //  amplitude += sinTime*1.3;
+      //  xVel += sinTime*0.003;
     
 
 

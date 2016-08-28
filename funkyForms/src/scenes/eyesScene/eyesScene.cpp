@@ -225,11 +225,12 @@ void eyesScene::updateFastestPos(){
     
     // need something better here!
 
-    int targetPacketId = 0;
-    int targetId = 0;
+    int targetPacketId = -1;
+    int targetId = -1;
     
     ofVec2f zero(0, 0);
     ofVec2f vel(0, 0);
+    
 
     for (int z = 0; z < 2; z++){
         for(int i=0; i< cvData[z]->blobs.size(); i++) {
@@ -246,9 +247,11 @@ void eyesScene::updateFastestPos(){
             }
         }
     }
-    
-    fastestPos = cvData[targetPacketId]->blobs[targetId].blob.getCentroid2D();
-    fastestPos = cvData[0]->remapForScreen(targetPacketId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, fastestPos);
+    if (targetPacketId != -1 &&
+        targetId != -1 ){
+            fastestPos = cvData[targetPacketId]->blobs[targetId].blob.getCentroid2D();
+            fastestPos = cvData[0]->remapForScreen(targetPacketId == 0 ? SCREEN_LEFT : SCREEN_RIGHT, fastestPos);
+    }
 }
 // ------------ draw
 void eyesScene::draw(){
